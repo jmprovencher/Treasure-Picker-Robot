@@ -6,7 +6,9 @@ import cv2
 class TraitementImage:
 
     def __init__(self):
-        self.m_image = cv2.imread('noir.png')
+        self.m_image = cv2.imread('Table3/2016-01-24-154511.jpg')
+        #self.m_image = cv2.imread('noir.png')
+
 
     def test(self):
 
@@ -33,6 +35,9 @@ class TraitementImage:
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
         shapeRedMask = cv2.inRange(self.m_image, lower, upper)
 
+        # Affiche l'image en noir et blanc
+        cv2.imshow("MaskRouge", shapeRedMask)
+
         # Trouve les contours a l'aide du masque
         _, contoursRouge, _ = cv2.findContours(shapeRedMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -51,6 +56,9 @@ class TraitementImage:
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
         shapeBlueMask = cv2.inRange(self.m_image, lower, upper)
+
+        # Affiche l'image en noir et blanc
+        cv2.imshow("MaskBleu", shapeBlueMask)
 
         # Trouve les contours a l'aide du masque
         _, contoursBleu, _ = cv2.findContours(shapeBlueMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -71,6 +79,9 @@ class TraitementImage:
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
         shapeYellowMask = cv2.inRange(self.m_image, lower, upper)
 
+        # Affiche l'image en noir et blanc
+        cv2.imshow("MaskJaune", shapeYellowMask)
+
         # Trouve les contours a l'aide du masque
         _, contoursJaune, _ = cv2.findContours(shapeYellowMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -89,6 +100,9 @@ class TraitementImage:
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
         shapeGreenMask = cv2.inRange(self.m_image, lower, upper)
+
+        # Affiche l'image en noir et blanc
+        cv2.imshow("MaskVert", shapeGreenMask)
 
         # Trouve les contours a l'aide du masque
         _, contoursVert, _ = cv2.findContours(shapeGreenMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

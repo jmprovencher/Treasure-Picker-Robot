@@ -19,6 +19,7 @@ class TraitementImage:
         self.findBlue()
         self.findYellow()
         self.findGreen()
+        self.findTreasure()
 
         # Affiche l'image avec les contours en plus
         cv2.imshow("Image2", self.m_image)
@@ -51,8 +52,9 @@ class TraitementImage:
     def findBlue(self):
 
         # Debut et fin de l'intervale de couleur bleu
-        upper = np.array([255, 65, 65])
-        lower = np.array([200, 0, 0])
+        #different cyan avec eclairage : [020,126,140], [027, 123, 140], [021, 128, 148], [017, 122,140]
+        upper = np.array([180, 140, 30])
+        lower = np.array([139, 120, 15])
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
         shapeBlueMask = cv2.inRange(self.m_image, lower, upper)
@@ -68,7 +70,7 @@ class TraitementImage:
 
         # dessine par dessus les contours
         for c in contoursBleu:
-            cv2.drawContours(self.m_image, [c], -1, (255, 0, 0), 50)
+            cv2.drawContours(self.m_image, [c], -1, (140, 126, 20), 30)
 
     def findYellow(self):
 
@@ -113,6 +115,28 @@ class TraitementImage:
         # dessine par dessus les contours
         for c in contoursVert:
             cv2.drawContours(self.m_image, [c], -1, (0, 255, 0), 50)
+
+    def findTreasure(self):
+
+        # Debut et fin de l'intervale de couleur jaune
+        upper = np.array([30, 140, 150])
+        lower = np.array([10, 120, 140])
+        # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
+        # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
+        shapeTreasureMask = cv2.inRange(self.m_image, lower, upper)
+
+        # Affiche l'image en noir et blanc
+        cv2.imshow("MaskTreasure", shapeTreasureMask)
+
+        # Trouve les contours a l'aide du masque
+        _, contoursTreasure, _ = cv2.findContours(shapeTreasureMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        # print le nombre de forme trouver
+        print "I found %d treasures" % (len(contoursTreasure))
+
+        # dessine par dessus les contours
+        for c in contoursTreasure:
+            cv2.drawContours(self.m_image, [c], -1, (30, 121, 140), 20)
 
 # Debut et fin de l'intervale de couleur
 # lower = np.array([0, 0, 0])

@@ -53,7 +53,7 @@ class TraitementImage:
 
         # Debut et fin de l'intervale de couleur bleu
         #different cyan avec eclairage : [020,126,140], [027, 123, 140], [021, 128, 148], [017, 122,140]
-        upper = np.array([180, 140, 30])
+        upper = np.array([170, 140, 30])
         lower = np.array([139, 120, 15])
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
@@ -70,7 +70,7 @@ class TraitementImage:
 
         # dessine par dessus les contours
         for c in contoursBleu:
-            cv2.drawContours(self.m_image, [c], -1, (140, 126, 20), 30)
+            cv2.drawContours(self.m_image, [c], -1, (140, 126, 20), 20)
 
     def findYellow(self):
 

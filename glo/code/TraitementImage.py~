@@ -15,52 +15,17 @@ class TraitementImage:
         # Affiche l'image initiale
         cv2.imshow("Image", self.m_image)
 
-        self.cropPicture()
-        self.m_image = cv2.imread('Cropped.png')
-
-        self.findTreasure()
-        self.findBlue()
         #self.findRed()
+        #self.findBlue()
         #self.findYellow()
         #self.findGreen()
+        self.findTreasure()
 
-
-        # Affiche l'image apres detection
+        # Affiche l'image avec les contours en plus
         cv2.imshow("Image2", self.m_image)
 
         # Permet de garder les images ouvertes
         cv2.waitKey(0)
-
-    def cropPicture(self):
-
-        # Debut et fin de l'intervale de couleur blanche
-        upper = np.array([255, 255, 255]) #FFFFFF
-        lower = np.array([96, 96, 96]) #606060
-        # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
-        # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        shapewhiteMask = cv2.inRange(self.m_image, lower, upper)
-
-        # Affiche l'image en noir et blanc
-        cv2.imshow("MaskBlanc", shapewhiteMask)
-
-        # Trouve les contours a l'aide du masque
-        _, contoursTable, _ = cv2.findContours(shapewhiteMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        # print la fonction
-        print "Picture cropped"
-
-        # Trouve le plus grand contour
-        airMax = 0
-        temp = contoursTable[0]
-        for c in contoursTable:
-            if (cv2.contourArea(c) > airMax):
-                temp = c
-                airMax = cv2.contourArea(c)
-
-        x,y,w,h = cv2.boundingRect(temp)
-
-        crop = self.m_image[y:y+h+10,x:x+w]
-        cv2.imwrite('Cropped.png',crop)
 
     def findRed(self):
 
@@ -87,8 +52,8 @@ class TraitementImage:
     def findBlue(self):
 
         #different cyan avec eclairage : [020,126,140], [027, 123, 140], [021, 128, 148], [017, 122,140]
-        upper = np.array([255, 255, 102]) #66FFFF
-        lower = np.array([102, 102, 0]) #006666
+        upper = np.array([170, 140, 30])
+        lower = np.array([139, 120, 15])
 
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
@@ -99,13 +64,6 @@ class TraitementImage:
 
         # Trouve les contours a l'aide du masque
         _, contoursBleu, _ = cv2.findContours(shapeBlueMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        # supprime les contours negligeable
-        index = []
-        for c in range(len(contoursBleu)):
-            if (cv2.contourArea(contoursBleu[c]) < 1000): # TODO: trouver la bonne valeur pour comparer
-                index += [c]
-        contoursBleu = np.delete(contoursBleu,index)
 
         # print le nombre de forme trouver
         print "I found %d blue shapes" % (len(contoursBleu))
@@ -179,8 +137,6 @@ class TraitementImage:
         # dessine par dessus les contours
         for c in contoursTreasure:
             cv2.drawContours(self.m_image, [c], -1, (30, 121, 140), 20)
-
-
 
 # Debut et fin de l'intervale de couleur
 # lower = np.array([0, 0, 0])

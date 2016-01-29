@@ -15,10 +15,10 @@ class TraitementImage:
         # Affiche l'image initiale
         cv2.imshow("Image", self.m_image)
 
-        self.findRed()
+        #self.findRed()
         self.findBlue()
-        self.findYellow()
-        self.findGreen()
+        #self.findYellow()
+        #self.findGreen()
 
         # Affiche l'image avec les contours en plus
         cv2.imshow("Image2", self.m_image)
@@ -51,8 +51,8 @@ class TraitementImage:
     def findBlue(self):
 
         # Debut et fin de l'intervale de couleur bleu
-        upper = np.array([255, 65, 65])
-        lower = np.array([200, 0, 0])
+        upper = np.array([125, 255, 212])
+        lower = np.array([128, 0, 0])
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
         shapeBlueMask = cv2.inRange(self.m_image, lower, upper)

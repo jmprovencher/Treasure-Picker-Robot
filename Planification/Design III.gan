@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-01-10" view-index="0" gantt-divider-location="388" resource-divider-location="423" version="2.7" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-01-27" view-index="0" gantt-divider-location="388" resource-divider-location="423" version="2.7" locale="en_US">
     <description/>
-    <view zooming-state="default:4" id="gantt-chart">
+    <view zooming-state="default:1" id="gantt-chart">
         <field id="tpd3" name="Name" width="54" order="0"/>
         <field id="tpd4" name="Begin date" width="22" order="1"/>
         <field id="tpd5" name="End date" width="22" order="2"/>
@@ -12,8 +12,8 @@
         <option id="color.recent"><![CDATA[#00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00]]></option>
     </view>
     <view id="resource-table">
-        <field id="0" name="Name" width="33" order="0"/>
-        <field id="1" name="Default role" width="33" order="1"/>
+        <field id="0" name="Name" width="37" order="0"/>
+        <field id="1" name="Default role" width="29" order="1"/>
         <field id="tpc0" name="Role" width="33" order="2"/>
     </view>
     <!-- -->
@@ -40,23 +40,46 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="0" name="Livrable 1" color="#8cb6ce" meeting="false" start="2016-01-14" duration="17" complete="50" expand="true">
+        <task id="0" name="Livrable 1" color="#8cb6ce" meeting="false" start="2016-01-14" duration="17" complete="34" expand="false">
             <depend id="5" type="2" difference="0" hardness="Strong"/>
             <task id="56" name="Première rencontre" color="#00ff00" meeting="true" start="2016-01-14" duration="0" complete="100" expand="true"/>
             <task id="54" name="Réunion 1" color="#00ff00" meeting="false" start="2016-01-19" duration="1" complete="100" expand="true">
                 <notes><![CDATA[Réunion PLT-1122
-Ébauche du diagramme de context et fonctionnalités]]></notes>
+Ébauche du diagramme de context et fonctionnalités
+Absents :
+]]></notes>
             </task>
-            <task id="58" name="Réunion 2" color="#00ff00" meeting="false" start="2016-01-26" duration="1" complete="0" expand="true"/>
+            <task id="58" name="Réunion 2" color="#00ff00" meeting="false" start="2016-01-26" duration="1" complete="100" expand="true">
+                <notes><![CDATA[Réunion PLT-3105
+Ébauches d'idées et avancement du projet]]></notes>
+            </task>
+            <task id="104" name="DPF" color="#8cb6ce" meeting="false" start="2016-01-19" duration="12" complete="100" expand="true"/>
+            <task id="106" name="Diagramme de contexte" color="#8cb6ce" meeting="false" start="2016-01-19" duration="12" complete="0" expand="true"/>
+            <task id="110" name="Cas d'utilisation" color="#8cb6ce" meeting="false" start="2016-01-26" duration="5" complete="0" expand="true"/>
+            <task id="115" name="Diagramme de classes" color="#8cb6ce" meeting="false" start="2016-01-19" duration="12" complete="0" expand="true"/>
+            <task id="114" name="Diagramme de séquences" color="#8cb6ce" meeting="false" start="2016-01-26" duration="5" complete="0" expand="true"/>
+            <task id="118" name="Familiarisation &amp; Expériences" color="#8cb6ce" meeting="false" start="2016-01-19" duration="12" complete="0" expand="true"/>
+            <task id="151" name="Achat de matériel &amp; recherches" color="#8cb6ce" meeting="false" start="2016-01-19" duration="10" complete="100" expand="true"/>
+            <task id="128" name="Réunion pré-remise" color="#00ff00" meeting="false" start="2016-01-30" duration="1" complete="0" expand="true">
+                <notes><![CDATA[PLT-0103 & 3105
+Répartition des dernières petits tâches, mise en forme de la remise]]></notes>
+            </task>
             <task id="43" name="Remise livrable 1" color="#cc0000" meeting="true" start="2016-01-31" duration="0" complete="0" expand="true">
                 <depend id="5" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="5" name="Livrable 2" color="#8cb6ce" meeting="false" start="2016-02-01" duration="20" complete="0" expand="true">
+        <task id="5" name="Livrable 2" color="#8cb6ce" meeting="false" start="2016-01-31" duration="21" complete="0" expand="true">
             <depend id="12" type="2" difference="0" hardness="Strong"/>
             <task id="67" name="Début livrable 2" color="#00ff00" meeting="true" start="2016-02-01" duration="0" complete="0" expand="true"/>
             <task id="65" name="Réunion 3" color="#00ff00" meeting="false" start="2016-02-02" duration="1" complete="0" expand="true"/>
+            <task id="132" name="Correction DPF" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
+            <task id="135" name="Diagramme des fonctionnalités" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
+            <task id="140" name="Diagramme physique" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
+            <task id="143" name="Plan de test" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
+            <task id="146" name="Corrections diagrammes GLO" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
             <task id="70" name="Réunion 4" color="#00ff00" meeting="false" start="2016-02-09" duration="1" complete="0" expand="true"/>
+            <task id="154" name="Développement logiciel &amp; tests unitaires" color="#8cb6ce" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true"/>
+            <task id="156" name="Analyse de risques" color="#8cb6ce" meeting="false" start="2016-02-09" duration="8" complete="0" expand="true"/>
             <task id="73" name="Réunion 5" color="#00ff00" meeting="false" start="2016-02-16" duration="1" complete="0" expand="true"/>
             <task id="7" name="Remise livrable 2" color="#cc0000" meeting="true" start="2016-02-21" duration="0" complete="0" expand="true">
                 <depend id="12" type="2" difference="0" hardness="Strong"/>
@@ -110,13 +133,29 @@
         </resource>
     </resources>
     <allocations>
-        <allocation task-id="54" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
-        <allocation task-id="54" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="54" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="54" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="54" resource-id="4" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="54" resource-id="5" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="54" resource-id="6" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="118" resource-id="0" function="Default:1" responsible="true" load="70.0"/>
+        <allocation task-id="140" resource-id="0" function="Default:1" responsible="true" load="50.0"/>
+        <allocation task-id="151" resource-id="0" function="Default:1" responsible="true" load="30.0"/>
+        <allocation task-id="156" resource-id="0" function="Default:1" responsible="true" load="50.0"/>
+        <allocation task-id="118" resource-id="1" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="151" resource-id="1" function="Default:0" responsible="false" load="30.0"/>
+        <allocation task-id="118" resource-id="2" function="Default:0" responsible="false" load="70.0"/>
+        <allocation task-id="143" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="151" resource-id="2" function="Default:0" responsible="false" load="30.0"/>
+        <allocation task-id="118" resource-id="3" function="Default:0" responsible="false" load="70.0"/>
+        <allocation task-id="135" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="104" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="118" resource-id="4" function="Default:0" responsible="false" load="20.0"/>
+        <allocation task-id="132" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="115" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="118" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="146" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="115" resource-id="6" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="118" resource-id="6" function="Default:0" responsible="false" load="10.0"/>
+        <allocation task-id="146" resource-id="6" function="Default:0" responsible="true" load="50.0"/>
+        <allocation task-id="114" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="118" resource-id="7" function="Default:0" responsible="false" load="10.0"/>
+        <allocation task-id="146" resource-id="7" function="Default:0" responsible="false" load="50.0"/>
     </allocations>
     <vacations/>
     <taskdisplaycolumns>
@@ -130,7 +169,7 @@
         <displaycolumn property-id="tpd9" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd1" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd0" order="-1" width="75" visible="false"/>
-        <displaycolumn property-id="tpd3" order="0" width="211" visible="true"/>
+        <displaycolumn property-id="tpd3" order="0" width="210" visible="true"/>
         <displaycolumn property-id="tpd4" order="1" width="87" visible="true"/>
         <displaycolumn property-id="tpd5" order="2" width="87" visible="true"/>
     </taskdisplaycolumns>

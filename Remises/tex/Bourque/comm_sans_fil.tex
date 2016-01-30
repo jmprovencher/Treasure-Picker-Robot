@@ -1,9 +1,17 @@
-La transmission sans-fil du code Manchester est assuré par une combinaison DEL-photorécepteur. La DEL est situé sur le dessus de la station de recharge et le photorécepteur est situé sur le dessus du robot. Ce système de communication sans-fil est limité à des distances relativement faibles, mais le robot étant en contact physique avec la station de recharge, cette contrainte ne pose pas de problème.
+La transmission sans-fil du code Manchester est assuré par une combinaison LED-photorécepteur. La LED est situé sur le dessus de la station de recharge et le photorécepteur est situé sur le dessus du robot. Ce système de communication sans-fil est limité à des distances relativement faibles, mais le robot étant en contact physique avec la station de recharge, cette contrainte ne pose pas de problème.
 
 \medbreak
 
-La DEL est modulé par un microcontrôleur situé sur la station de recharge. Le modèle du microcontrôleur reste à déterminer. Ce système de communication est illustré sur le schéma XXXXXX.
+La LED est modulé par un microcontrôleur situé sur la station de recharge. Le modèle du microcontrôleur reste à déterminer. Ce système de communication est illustré sur le schéma \ref{f:led_robot}.
 
 \medbreak
 
 Le document XXXXXX explique brièvement comment réaliser un tel système et est utilisé comme référence pour réaliser notre système.
+
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[scale = 0.4]{fig/led_robot.png}
+	\caption{Communication sans-fil entre la station de recharge et le robot}
+	\label{f:led_robot}
+\end{figure}

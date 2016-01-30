@@ -22,7 +22,7 @@ class TraitementImage:
         self.findBlue()
         #self.findRed()
         #self.findYellow()
-        #self.findGreen()
+        self.findGreen()
 
 
         # Affiche l'image apres detection
@@ -110,9 +110,26 @@ class TraitementImage:
         # print le nombre de forme trouver
         print "I found %d blue shapes" % (len(contoursBleu))
 
-        # dessine par dessus les contours
+        # Trouver la forme
         for c in contoursBleu:
-            cv2.drawContours(self.m_image, [c], -1, (140, 126, 20), 20)
+            approx = cv2.approxPolyDP(c,0.01*cv2.arcLength(c,True),True)
+            print len(approx)
+            if len(approx)==3:
+                print "Triangle"
+                cv2.drawContours(self.m_image,[c],(255,0,0),2)
+            elif len(approx)==4:
+                print "Carre"
+                cv2.drawContours(self.m_image,[c],0,(255,0,0),2)
+            elif len(approx)==5:
+                print "Pentagone"
+                cv2.drawContours(self.m_image,[c],0,(255,0,0),2)
+            elif len(approx) > 5:
+                print "cercle"
+                cv2.drawContours(self.m_image,[c],0,(255,0,0),2)
+
+        # dessine par dessus les contours
+        #for c in contoursBleu:
+            #cv2.drawContours(self.m_image, [c], -1, (140, 126, 20), 20)
 
     def findYellow(self):
 
@@ -139,8 +156,8 @@ class TraitementImage:
     def findGreen(self):
 
         # Debut et fin de l'intervale de couleur vert
-        upper = np.array([65, 255, 65])
-        lower = np.array([0, 200, 0])
+        upper = np.array([102, 255, 102]) #66FF66
+        lower = np.array([0, 102, 0]) #006600
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
         shapeGreenMask = cv2.inRange(self.m_image, lower, upper)
@@ -151,12 +168,32 @@ class TraitementImage:
         # Trouve les contours a l'aide du masque
         _, contoursVert, _ = cv2.findContours(shapeGreenMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+        # supprime les contours negligeable
+        index = []
+        for c in range(len(contoursVert)):
+            if (cv2.contourArea(contoursVert[c]) < 1000): # TODO: trouver la bonne valeur pour comparer
+                index += [c]
+        contoursVert = np.delete(contoursVert,index)
+
         # print le nombre de forme trouver
         print "I found %d green shapes" % (len(contoursVert))
 
-        # dessine par dessus les contours
+        # Trouver la forme
         for c in contoursVert:
-            cv2.drawContours(self.m_image, [c], -1, (0, 255, 0), 50)
+            approx = cv2.approxPolyDP(c,0.01*cv2.arcLength(c,True),True)
+            print len(approx)
+            if len(approx)==3:
+                print "Triangle"
+                cv2.drawContours(self.m_image,[c],(255,255,0),2)
+            elif len(approx)==4:
+                print "Carre"
+                cv2.drawContours(self.m_image,[c],0,(255,255,0),2)
+            elif len(approx)==5:
+                print "Pentagone"
+                cv2.drawContours(self.m_image,[c],0,(255,255,0),2)
+            elif len(approx) > 5:
+                print "cercle"
+                cv2.drawContours(self.m_image,[c],0,(255,255,0),2)
 
     def findTreasure(self):
 
@@ -173,6 +210,14 @@ class TraitementImage:
         # Trouve les contours a l'aide du masque
         _, contoursTreasure, _ = cv2.findContours(shapeTreasureMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+        # supprime les contours negligeable
+        index = []
+        for c in range(len(contoursTreasure)):
+            if (cv2.contourArea(contoursTreasure[c]) < 100): # TODO: trouver la bonne valeur pour comparer
+                if (cv2.contourArea(contoursTreasure[c]) > 1000): # TODO: trouver la bonne valeur pour comparer
+                    index += [c]
+        contoursTreasure = np.delete(contoursTreasure,index)
+
         # print le nombre de forme trouver
         print "I found %d treasures" % (len(contoursTreasure))
 
@@ -182,44 +227,3 @@ class TraitementImage:
 
 
 
-# Debut et fin de l'intervale de couleur
-# lower = np.array([0, 0, 0])
-# upper = np.array([15, 15, 15])
-# Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est 
-# dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-# shapeMask2 = cv2.inRange(image, lower, upper)
-
-# Trouve les contours a l'aide du masque
-# _, contours2, _ = cv2.findContours(shapeMask2.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-
-# print le nombre de forme trouver
-# print "I found %d black shapes" % (len(contours2))
-
-# Affiche l'image en noir et blanc
-# cv2.imshow("Mask", shapeMask2)
-
-# Affiche l'image avec les contours en plus
-# cv2.imshow("Image2", image)
-
-# reload l'image
-# image2 = cv2.imread('findColors.png')
-
-# for c in contours:
-#    approx = cv2.approxPolyDP(c,0.01*cv2.arcLength(c,True),True)
-#    print len(approx)
-#    if len(approx)==3:
-#        print "Triangle"
-#        cv2.drawContours(image2,[c],0,255,2)
-#    elif len(approx)==4:
-#        print "Carre"
-#        cv2.drawContours(image2,[c],0,(0,255,0),2)
-#    elif len(approx)==5:
-#        print "Pentagone"
-#        cv2.drawContours(image2,[c],0,(0,0,255),2)
-#    elif len(approx) > 5:
-#        print "cercle"
-#        cv2.drawContours(image2,[c],0,(255,255,0),2)
-#
-# Affiche l'image avec les contours en plus
-# cv2.imshow("Image2", image2)
-#

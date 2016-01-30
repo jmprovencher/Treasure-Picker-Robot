@@ -1,2 +1,81 @@
 \chapter{Description des cas d'utilisation}
 \label{s:Description_Utilisation}
+\section{Diagramme des cas d'utilisation}
+\begin{figure}[h!]
+\caption{Diagramme des cas d'utilisation}
+\begin{center}
+\includegraphics[scale = 0.8]{/casutilisation.pdf}
+\end{center}
+\label{fig:Cas_Utilisation}
+\end{figure}
+
+
+\section{Scénarios des cas d'utilisation}
+%%%%%%%%%%%%%%% CAS UTILISATION 1 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%% Identifier les éléments cartographiques  %%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: A COMPLETER %%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[!ht]
+    \caption{Cas d'utilisation - Identifier les éléments cartographiques}
+    \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
+    \hline
+    Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Identifier les éléments cartographiques} \\ \hline
+    Système & \multicolumn{2}{p{9.5cm} |}{Système de reconnaissance visuelle}\\ \hline
+    Acteurs & \multicolumn{2}{p{9.5cm} |}{Robot, caméra world, station de base}\\ \hline
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Station de base : Vouloir identifier les éléments présents sur la carte afin que le robot puisse remplir son mandat.}\\ 
+    \hline
+    Préconditions & \multicolumn{2}{p{9.5cm} |}{Le robot et la caméra world doivent fournir des images à la station de base}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{Les éléments cartographiques sont affichés sur la carte de la station de base}\\ \hline
+    
+    \multirow{4}{*}{Scénario principal} 
+    
+    & 1. Big show baby & \\
+    & & 2. Big show 2 baby \\
+    & & 3.  Showtime \\
+    & 4. Uiuuu & \\
+    
+    \hline
+    
+    \multirow{1}{*}{Scénarios alternatifs} 
+    
+    & Aucun scénario alternatif & \\
+    
+    \hline
+    \end{tabular}
+    \label{tab:identifier_elements_cartes}
+    \end{table}
+    
+    
+%%%%%%%%%%%%%%% CAS UTILISATION 2 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%% Trouver station de recharge  %%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: A COMPLETER %%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[!ht]
+    \caption{Cas d'utilisation - Trouver la station de recharge}
+    \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
+    \hline
+    Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Trouver station de recharge} \\ \hline
+    Système & \multicolumn{2}{p{9.5cm} |}{Système de reconnaissance visuelle}\\ \hline
+    Acteurs & \multicolumn{2}{p{9.5cm} |}{Robot, caméra world, station de base}\\ \hline
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Robot : Faire le plein d'énergie et recevoir le code Manchester}\\ 
+    \hline
+    Préconditions & \multicolumn{2}{p{9.5cm} |}{La station de base a identifié la position de la station de recharge et une trajectoire a été calculée}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{La trajectoire menant le robot jusqu'à la station de recharge est affichée sur la station de base. Le robot se déplace vers la station de recharge sans toucher à aucun obstacle.}\\ \hline
+    
+    \multirow{4}{*}{Scénario principal} 
+    
+    & 1. Big show baby & \\
+    & & 2. Big show 2 baby \\
+    & & 3.  Showtime \\
+    & 4. Uiuuu & \\
+    
+    \hline
+    
+    \multirow{1}{*}{Scénarios alternatifs} 
+    
+    & Aucun scénario alternatif & \\
+    
+    \hline
+    \end{tabular}
+    \label{tab:trouver_station_recharge}
+    \end{table}
+
+    

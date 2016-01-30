@@ -1,22 +1,20 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.1.28)  30 JAN 2016 12:42
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.9.14)  30 JAN 2016 14:50
 entering extended mode
-**Rapport*de*developpement.tex
-("C:\Users\embou132\Desktop\design 3\design3\Remises\Rapport de developpement.tex"
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**"Rapport de developpement.tex"
+(./Rapport de developpement.tex
 LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, arabic, armenian, assamese, basque, bengali
-, bokmal, bulgarian, catalan, coptic, croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, galic
-ian, german, german-x-2013-05-26, greek, gujarati, hindi, hungarian, icelandic, indonesian, interlingua, irish, italian,
- kannada, kurmanji, latin, latvian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, ngerman
--x-2013-05-26, nynorsk, oriya, panjabi, pinyin, polish, portuguese, romanian, russian, sanskrit, serbian, slovak, sloven
-ian, spanish, swedish, swissgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usenglishmax, w
-elsh, loaded.
-("C:\Users\embou132\Desktop\design 3\design3\Remises\ULrapport.cls"
-Document Class: ULrapport 2008/03/28 v1.1g Classe de rapport technique - Universite Laval
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Babel <3.9h> and hyphenation patterns for 78 languages loaded.
+(./ULrapport.cls
+Document Class: ULrapport 2008/03/28 v1.1g Classe de rapport technique - Univer
+site Laval
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\base\report.cls"
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
 Document Class: report 2007/10/19 v1.4h Standard LaTeX document class
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\size12.clo"
+(/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
 File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
@@ -31,21 +29,23 @@ File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
+)
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
- ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
 Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
 Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 \Gm@cnth=\count88
@@ -60,8 +60,8 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layouthoffset=\dimen109
 \Gm@layoutvoffset=\dimen110
 \Gm@dimlist=\toks15
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.cfg")) ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\lmodern.sty"
+)
+(/usr/share/texmf/tex/latex/lm/lmodern.sty
 Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -95,51 +95,49 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
- ("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.def"
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.def
 File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
 ))
-("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.sty"
-Package: babel 2008/07/08 v3.8m The Babel package
+(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2013/12/03 3.9h The Babel package
 
-*************************************
-* Local config file bblopts.cfg used
-*
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\bblopts.cfg"
-File: bblopts.cfg 2006/07/31 v1.0 MiKTeX 'babel' configuration
-)
-("C:\Program Files\MiKTeX 2.9\tex\generic\babel\english.ldf"
-Language: english 2005/03/30 v3.3o English support from the babel system
- ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.def"
-File: babel.def 2008/07/08 v3.8m Babel common definitions
+(/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
+Language: english 2012/08/20 v3.3p English support from the babel system
+
+(/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2013/12/03 3.9h Babel common definitions
 \babel@savecnt=\count91
 \U@D=\dimen111
 )
 \l@canadian = a dialect from \language\l@american 
 \l@australian = a dialect from \language\l@british 
 \l@newzealand = a dialect from \language\l@british 
-) ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\frenchb.ldf"
-Language: frenchb 2009/03/16 v2.3d French support from the babel system
-Package babel Info: Making : an active character on input line 120.
-Package babel Info: Making ; an active character on input line 121.
-Package babel Info: Making ! an active character on input line 122.
-Package babel Info: Making ? an active character on input line 123.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/babel-french/frenchb.ldf
+Language: frenchb 2013/12/30 v2.6g French support from the babel system
+\FB@interchartokenstateORI=\count92
+Package babel Info: Making : an active character on input line 244.
+Package babel Info: Making ; an active character on input line 245.
+Package babel Info: Making ! an active character on input line 246.
+Package babel Info: Making ? an active character on input line 247.
 \FB@Mht=\dimen112
-\std@mcc=\count92
-\dec@mcc=\count93
+\std@mcc=\count93
+\dec@mcc=\count94
+\listindentFB=\skip43
+\labelwidthFB=\skip44
+\leftmarginFB=\skip45
 \parindentFFN=\dimen113
-
-*************************************
-* Local config file frenchb.cfg used
-*
-("C:\Program Files\MiKTeX 2.9\tex\generic\babel\frenchb.cfg")))
-("C:\Program Files\MiKTeX 2.9\tex\latex\carlisle\scalefnt.sty")
-(C:\Users\embou132\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption.sty
+))
+(/usr/share/texlive/texmf-dist/tex/latex/carlisle/scalefnt.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
 
-(C:\Users\embou132\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption3.sty
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 57.
 \captionmargin=\dimen114
@@ -150,9 +148,9 @@ Package caption3 Info: TeX engine: e-TeX on input line 57.
 \caption@parindent=\dimen119
 \caption@hangindent=\dimen120
 )
-\c@ContinuedFloat=\count94
+\c@ContinuedFloat=\count95
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\textcomp.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
@@ -166,7 +164,8 @@ Package textcomp Info: Sub-encoding information:
 (textcomp)             Family '?' is the default used for unknown fonts.
 (textcomp)             See the documentation for details.
 Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 71.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1enc.def"
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 )
 LaTeX Info: Redefining \oldstylenums on input line 266.
@@ -194,6 +193,7 @@ Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 301.
 Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 302.
 Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 303.
 Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 304.
+
 Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 305.
 Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 306.
 Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 307.
@@ -231,106 +231,114 @@ Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 338.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 339.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 340.
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\tools\array.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen121
 \extrarowheight=\dimen122
 \NC@list=\toks16
-\extratabsurround=\skip43
-\backup@length=\skip44
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+\extratabsurround=\skip46
+\backup@length=\skip47
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks17
 \ex@=\dimen123
-)) ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\tabularx.sty"
+))
+(/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
 \TX@col@width=\dimen124
 \TX@old@table=\dimen125
 \TX@old@col=\dimen126
 \TX@target=\dimen127
 \TX@delta=\dimen128
-\TX@cols=\count95
+\TX@cols=\count96
 \TX@ftn=\toks18
-) (C:\Users\embou132\AppData\Roaming\MiKTeX\2.9\tex\latex\colortbl\colortbl.sty
+)
+(/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
- ("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: pdftex.def on input line 130.
-("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
 Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
-\Gread@gobject=\count96
+\Gread@gobject=\count97
 ))
 \everycr=\toks19
-\minrowclearance=\skip45
+\minrowclearance=\skip48
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\tools\longtable.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2004/02/01 v4.11 Multi-page Table package (DPC)
-\LTleft=\skip46
-\LTright=\skip47
-\LTpre=\skip48
-\LTpost=\skip49
-\LTchunksize=\count97
+\LTleft=\skip49
+\LTright=\skip50
+\LTpre=\skip51
+\LTpost=\skip52
+\LTchunksize=\count98
 \LTcapwidth=\dimen129
 \LT@head=\box26
 \LT@firsthead=\box27
 \LT@foot=\box28
 \LT@lastfoot=\box29
-\LT@cols=\count98
-\LT@rows=\count99
-\c@LT@tables=\count100
-\c@LT@chunks=\count101
+\LT@cols=\count99
+\LT@rows=\count100
+\c@LT@tables=\count101
+\c@LT@chunks=\count102
 \LT@p@ftn=\toks20
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
- ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
-File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
 Package graphics Info: Driver file: pdftex.def on input line 91.
 )
 \Gin@req@height=\dimen130
 \Gin@req@width=\dimen131
 )
-(C:\Users\embou132\AppData\Roaming\MiKTeX\2.9\tex\latex\rotating\rotating.sty
+(/usr/share/texlive/texmf-dist/tex/latex/rotating/rotating.sty
 Package: rotating 2009/03/28 v2.16a rotated objects in LaTeX
-\c@r@tfl@t=\count102
-\rotFPtop=\skip50
-\rotFPbot=\skip51
+\c@r@tfl@t=\count103
+\rotFPtop=\skip53
+\rotFPbot=\skip54
 \rot@float@box=\box30
 \rot@mess@toks=\toks21
 )
-(C:\Users\embou132\AppData\Roaming\MiKTeX\2.9\tex\latex\url\url.sty
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
-Package: hobsub-hyperref 2012/04/25 v1.12 Bundle oberdiek, subset hyperref (HO)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
-Package: hobsub-generic 2012/04/25 v1.12 Bundle oberdiek, subset generic (HO)
-Package: hobsub 2012/04/25 v1.12 Construct package bundles (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
 Package hobsub Info: Skipping package `ltxcmds' (already loaded).
 Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
@@ -345,19 +353,21 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
 Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
-Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO)
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
 Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
-Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO)
+Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
+)
 Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
 Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
 )
 Package hobsub Info: Skipping package `hobsub' (already loaded).
 Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
-Package: hopatch 2011/06/24 v1.1 Wrapper for package hooks (HO)
+Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
 Package: xcolor-patch 2011/01/30 xcolor patch
 Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
 Package atveryend Info: \enddocument detected (standard20110627).
@@ -365,22 +375,22 @@ Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
 Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
 Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty
 Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 )
 \@linkdim=\dimen132
-\Hy@linkcounter=\count103
-\Hy@pagecounter=\count104
+\Hy@linkcounter=\count104
+\Hy@pagecounter=\count105
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
 )
-\Hy@SavedSpaceFactor=\count105
+\Hy@SavedSpaceFactor=\count106
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
 Package hyperref Info: Hyper figures OFF on input line 4443.
@@ -390,10 +400,10 @@ Package hyperref Info: Plain pages OFF on input line 4458.
 Package hyperref Info: Backreferencing OFF on input line 4463.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4688.
-\c@Hy@tempcnt=\count106
+\c@Hy@tempcnt=\count107
 LaTeX Info: Redefining \url on input line 5041.
 \XeTeXLinkMargin=\dimen133
-\Fld@menulength=\count107
+\Fld@menulength=\count108
 \Field@Width=\dimen134
 \Fld@charsize=\dimen135
 Package hyperref Info: Hyper figures OFF on input line 6295.
@@ -405,101 +415,107 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6320.
 Package hyperref Info: PDF/A mode OFF on input line 6325.
 LaTeX Info: Redefining \ref on input line 6365.
 LaTeX Info: Redefining \pageref on input line 6369.
-\Hy@abspage=\count108
-\c@Item=\count109
-\c@Hfootnote=\count110
+\Hy@abspage=\count109
+\c@Item=\count110
+\c@Hfootnote=\count111
 )
 
 Package hyperref Message: Driver (autodetected): hpdftex.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
-\Fld@listcount=\count111
-\c@bookmark@seq@number=\count112
+\Fld@listcount=\count112
+\c@bookmark@seq@number=\count113
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 282.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
 )
-\Hy@SectionHShift=\skip52
+\Hy@SectionHShift=\skip55
 )
 Package hyperref Info: Option `plainpages' set `false' on input line 67.
 Package hyperref Info: Option `breaklinks' set `false' on input line 67.
 Package hyperref Info: Option `colorlinks' set `true' on input line 67.
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\inputenc.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2008/03/30 v1.1d Input encoding file
 \inpenc@prehook=\toks22
 \inpenc@posthook=\toks23
- ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ansinew.def"
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\float\float.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count113
+\c@float@type=\count114
 \float@exts=\toks24
 \float@box=\box31
 \@float@everytoks=\toks25
 \@floatcapt=\box32
 )
 \@float@every@table=\toks26
- ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\hhline.sty"
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/hhline.sty
 Package: hhline 1994/05/23 v2.03 Table rule package (DPC)
 )
-(C:\Users\embou132\AppData\Roaming\MiKTeX\2.9\tex\latex\pdfpages\pdfpages.sty
-Package: pdfpages 2015/09/18 v0.5d Insert pages of external PDF documents (AM)
+(/usr/share/texlive/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+Package: pdfpages 2013/08/25 v0.4v Insert pages of external PDF documents (AM)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\tools\calc.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count114
-\calc@Bcount=\count115
+\calc@Acount=\count115
+\calc@Bcount=\count116
 \calc@Adimen=\dimen136
 \calc@Bdimen=\dimen137
-\calc@Askip=\skip53
-\calc@Bskip=\skip54
+\calc@Askip=\skip56
+\calc@Bskip=\skip57
 LaTeX Info: Redefining \setlength on input line 76.
 LaTeX Info: Redefining \addtolength on input line 77.
-\calc@Ccount=\count116
-\calc@Cskip=\skip55
+\calc@Ccount=\count117
+\calc@Cskip=\skip58
 )
-(C:\Users\embou132\AppData\Roaming\MiKTeX\2.9\tex\latex\eso-pic\eso-pic.sty
-Package: eso-pic 2015/07/21 v2.0g eso-pic (RN)
+(/usr/share/texlive/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+Package: eso-pic 2013/10/06 v2.0d eso-pic (RN)
 )
-\AM@pagewidth=\dimen138
-\AM@pageheight=\dimen139
-
-(C:\Users\embou132\AppData\Roaming\MiKTeX\2.9\tex\latex\pdfpages\pppdftex.def
-File: pppdftex.def 2015/09/18 v0.5d Pdfpages driver for pdfTeX (AM)
+(/usr/share/texlive/texmf-dist/tex/latex/pdfpages/pppdftex.def
+File: pppdftex.def 2013/08/25 v0.4v Pdfpages driver for pdfTeX (AM)
 )
 \AM@pagebox=\box33
 \AM@toc@title=\toks27
-\c@AM@survey=\count117
+\c@AM@survey=\count118
 \AM@templatesizebox=\box34
 )
-("C:\Users\embou132\Desktop\design 3\design3\Remises\Rapport de developpement.aux")
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 41.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 41.
+(/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen138
+)
+(./Rapport de developpement.aux)
+\openout1 = `"Rapport de developpement.aux"'.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 42.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 42.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 41.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\t1lmr.fd"
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 42.
+
+(/usr/share/texmf/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 *geometry* driver: auto-detecting
@@ -538,10 +554,10 @@ File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \degres on input line 41.
-LaTeX Info: Redefining \dots on input line 41.
-LaTeX Info: Redefining \up on input line 41.
-("C:\Program Files\MiKTeX 2.9\tex\latex\tools\hhline.sty"
+LaTeX Info: Redefining \degres on input line 42.
+LaTeX Info: Redefining \dots on input line 42.
+LaTeX Info: Redefining \up on input line 42.
+(/usr/share/texlive/texmf-dist/tex/latex/tools/hhline.sty
 Package: hhline 1994/05/23 v2.03 Table rule package (DPC)
 )
 Package caption Info: Begin \AtBeginDocument code.
@@ -549,105 +565,117 @@ Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: longtable package is loaded.
 
-(C:\Users\embou132\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\ltcaption.sty
+(/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty
 Package: ltcaption 2013/02/03 v1.3-62 longtable captions (AR)
 )
 Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
 
-(C:\Users\embou132\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
+(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count118
-\scratchdimen=\dimen140
+\scratchcounter=\count119
+\scratchdimen=\dimen139
 \scratchbox=\box35
-\nofMPsegments=\count119
-\nofMParguments=\count120
+\nofMPsegments=\count120
+\nofMParguments=\count121
 \everyMPshowfont=\toks28
-\MPscratchCnt=\count121
-\MPscratchDim=\dimen141
-\MPnumerator=\count122
-\makeMPintoPDFobject=\count123
+\MPscratchCnt=\count122
+\MPscratchDim=\dimen140
+\MPnumerator=\count123
+\makeMPintoPDFobject=\count124
 \everyMPtoPDFconversion=\toks29
+) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
 )
+Package grfext Info: Graphics extension search list:
+(grfext)             [.jpg,.png,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
 \AtBeginShipoutBox=\box36
-Package hyperref Info: Link coloring ON on input line 41.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+Package hyperref Info: Link coloring ON on input line 42.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count124
+\c@section@level=\count125
 )
-LaTeX Info: Redefining \ref on input line 41.
-LaTeX Info: Redefining \pageref on input line 41.
-LaTeX Info: Redefining \nameref on input line 41.
+LaTeX Info: Redefining \ref on input line 42.
+LaTeX Info: Redefining \pageref on input line 42.
+LaTeX Info: Redefining \nameref on input line 42.
 
-("C:\Users\embou132\Desktop\design 3\design3\Remises\Rapport de developpement.out")
-("C:\Users\embou132\Desktop\design 3\design3\Remises\Rapport de developpement.out")
+(./Rapport de developpement.out) (./Rapport de developpement.out)
 \@outlinefile=\write3
+\openout3 = `"Rapport de developpement.out"'.
 
-<./pdf/UL_P.pdf, id=63, 546.54187pt x 229.49742pt>
+
+<./pdf/UL_P.pdf, id=72, 546.54187pt x 229.49742pt>
 File: ./pdf/UL_P.pdf Graphic file (type pdf)
  <use ./pdf/UL_P.pdf>
-Package pdftex.def Info: ./pdf/UL_P.pdf used on input line 41.
+Package pdftex.def Info: ./pdf/UL_P.pdf used on input line 42.
 (pdftex.def)             Requested size: 140.99799pt x 59.20567pt.
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 41.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 42.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ot1lmr.fd"
+(/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 41.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omllmm.fd"
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 42.
+
+(/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 41.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 42.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omslmsy.fd"
+
+(/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 41.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omxlmex.fd"
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 42.
+
+
+(/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 41.
+(Font)              <12> on input line 42.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 41.
+(Font)              <8> on input line 42.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 41.
+(Font)              <6> on input line 42.
  [999
 
-{C:/Users/embou132/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <C:/Users/embou132/Desktop/design 3/design3/Remise
-s/pdf/UL_P.pdf>] ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\t1lmss.fd") [0
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./pdf/UL_P.pdf>] (/usr/sha
+re/texmf/tex/latex/lm/t1lmss.fd) [0
 
-]
-("C:\Users\embou132\Desktop\design 3\design3\Remises\Rapport de developpement.toc")
+] (./Rapport de developpement.toc)
 \tf@toc=\write4
+\openout4 = `"Rapport de developpement.toc"'.
+
  [1
 
 
-]
-("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\pdflscape.sty"
-Package: pdflscape 2008/08/11 v0.10 Display of landscape pages in PDF (HO)
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\lscape.sty"
-Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
-)
-Package pdflscape Info: Auto-detected driver: pdftex on input line 80.
-)
-("C:\Users\embou132\Desktop\design 3\design3\Remises\tex/Main/Diagrammes.tex"
+] (./tex/Main/Diagrammes.tex
 Chapitre 1.
-<fig/contextDiagram.jpg, id=99, 1718.42pt x 715.67375pt>
+<fig/contextDiagram.jpg, id=110, 1718.42pt x 715.67375pt>
 File: fig/contextDiagram.jpg Graphic file (type jpg)
- <use fig/contextDiagram.jpg>
+
+<use fig/contextDiagram.jpg>
 Package pdftex.def Info: fig/contextDiagram.jpg used on input line 10.
 (pdftex.def)             Requested size: 472.03123pt x 196.58702pt.
 
 
-pdfTeX warning: pdflatex.exe (file C:/Users/embou132/Desktop/design 3/design3/Remises/pdf/DPF.pdf): PDF inclusion: found
- PDF version <1.7>, but at most version <1.5> allowed
-<pdf/DPF.pdf, id=100, 794.97pt x 614.295pt>
+pdfTeX warning: pdflatex (file ./pdf/DPF.pdf): PDF inclusion: found PDF version
+ <1.7>, but at most version <1.5> allowed
+<pdf/DPF.pdf, id=111, 794.97pt x 614.295pt>
 File: pdf/DPF.pdf Graphic file (type pdf)
  <use pdf/DPF.pdf>
 Package pdftex.def Info: pdf/DPF.pdf used on input line 19.
@@ -660,59 +688,98 @@ Overfull \hbox (2.15842pt too wide) in paragraph at lines 19--20
 
 LaTeX Warning: Float too large for page by 17.14203pt on input line 22.
 
-) ("C:\Users\embou132\Desktop\design 3\design3\Remises\tex/Main/Description_Utilisation.tex" [1
+<fig/ClassDiagram.jpg, id=112, 3130.69624pt x 1284.8pt>
+File: fig/ClassDiagram.jpg Graphic file (type jpg)
+
+<use fig/ClassDiagram.jpg>
+Package pdftex.def Info: fig/ClassDiagram.jpg used on input line 31.
+(pdftex.def)             Requested size: 613.64204pt x 251.81908pt.
 
 
- <C:/Users/embou132/Desktop/design 3/design3/Remises/fig/contextDiagram.jpg>] [2 <C:/Users/embou132/Desktop/design 3/des
-ign3/Remises/pdf/DPF.pdf>]
+LaTeX Warning: Float too large for page by 17.14203pt on input line 34.
+
+(./tex/Garvin/DiagrammeClasses.tex [1
+
+
+ <./fig/contextDiagram.jpg>] [2 <./pdf/DPF.pdf>] [3 <./fig/ClassDiagram.jpg>]))
+ (./tex/Main/Description_Utilisation.tex
+[4]
 Chapitre 2.
-) ("C:\Users\embou132\Desktop\design 3\design3\Remises\tex/Main/Familiarisation_Experiences.tex" [3
+<./pdf//casutilisation.pdf, id=145, 597.23125pt x 845.1575pt>
+File: ./pdf//casutilisation.pdf Graphic file (type pdf)
 
-]
-Chapitre 3.
-("C:\Users\embou132\Desktop\design 3\design3\Remises\tex/Bourque/SourcesEmiiile.tex")
-("C:\Users\embou132\Desktop\design 3\design3\Remises\tex/Magnan/Asservissement_Moteurs.tex"
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 1.
+<use ./pdf//casutilisation.pdf>
+Package pdftex.def Info: ./pdf//casutilisation.pdf used on input line 7.
+(pdftex.def)             Requested size: 477.78564pt x 676.12692pt.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
-File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)) [4
-
-])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 52.
-
-Overfull \hbox (55.57497pt too wide) has occurred while \output is active
-\T1/lmr/m/sl/12 CHAPITRE 3.  FAMILIARISATION AVEC ÉQUIPEMENTS ET EXPÉRIENCES PRÉLIMINAIRES \T1/lmr/m/n/12 5
+Overfull \hbox (5.75441pt too wide) in paragraph at lines 7--8
+ [] 
  []
 
-[5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 52.
- ("C:\Users\embou132\Desktop\design 3\design3\Remises\Rapport de developpement.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 52.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 52.
-Package rerunfilecheck Info: File `Rapport*de*developpement.out' has not changed.
-(rerunfilecheck)             Checksum: <no file>.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 52.
+
+LaTeX Warning: Float too large for page by 106.6269pt on input line 10.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+) (./tex/Main/Familiarisation_Experiences.tex [5
+
+] [6] [7 <./pdf//casutilisation.pdf>]
+Chapitre 3.
+(./tex/Bourque/prehenseur.tex) (./tex/Magnan/Asservissement_Moteurs.tex
+[8
+
+]) (./tex/Provencher/Tresors_et_Recharge.tex
+Overfull \hbox (55.57497pt too wide) has occurred while \output is active
+\T1/lmr/m/sl/12 CHAPITRE 3.  FAMILIARISATION AVEC ÉQUIPEMENTS ET EXPÉRIENCES PR
+ÉLIMINAIRES \T1/lmr/m/n/12 9
+ []
+
+[9]) (./tex/Bourque/comm_sans_fil.tex
+Overfull \hbox (34.83849pt too wide) in paragraph at lines 1--2
+[]\T1/lmr/m/n/12 La trans-mis-sion sans-fil du code Man-ches-ter est as-suré pa
+r une com-bi-nai-son DEL-photorécepteur.
+ []
+
+))
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 53.
+
+Overfull \hbox (61.44995pt too wide) has occurred while \output is active
+\T1/lmr/m/sl/12 CHAPITRE 3.  FAMILIARISATION AVEC ÉQUIPEMENTS ET EXPÉRIENCES PR
+ÉLIMINAIRES \T1/lmr/m/n/12 10
+ []
+
+[10]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 53.
+ (./Rapport de developpement.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 53.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 53.
+Package rerunfilecheck Info: File `"Rapport de developpement".out' has not chan
+ged.
+(rerunfilecheck)             Checksum: 3C48A71EEA8B3E6713DFC92759587727;1300.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 53.
  ) 
 Here is how much of TeX's memory you used:
- 9197 strings out of 493921
- 142179 string characters out of 3147273
- 231636 words of memory out of 3000000
- 12270 multiletter control sequences out of 15000+200000
- 52993 words of font info for 39 fonts, out of 3000000 for 9000
- 841 hyphenation exceptions out of 8191
- 43i,10n,40p,804b,402s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ts1.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{
-C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.e
-nc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmbx12.p
-fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmcsc10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmm
-i12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/
-lmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmri12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/l
-m/lmro12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmss12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
-ic/lm/lmsy10.pfb>
-Output written on "Rapport de developpement.pdf" (8 pages, 442078 bytes).
+ 9467 strings out of 493304
+ 144837 string characters out of 6139871
+ 242428 words of memory out of 5000000
+ 12682 multiletter control sequences out of 15000+600000
+ 52618 words of font info for 38 fonts, out of 8000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 43i,11n,40p,1500b,412s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dv
+ips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/s
+hare/texmf/fonts/enc/dvips/lm/lm-ec.enc}</usr/share/texmf/fonts/type1/public/lm
+/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmcsc10.pfb></usr/share/tex
+mf/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr
+12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts
+/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmro12.pfb>
+</usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fonts/type
+1/public/lm/lmsy10.pfb>
+Output written on "Rapport de developpement.pdf" (13 pages, 935455 bytes).
 PDF statistics:
- 184 PDF objects out of 1000 (max. 8388607)
- 27 named destinations out of 1000 (max. 500000)
- 136 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 228 PDF objects out of 1000 (max. 8388607)
+ 195 compressed objects within 2 object streams
+ 38 named destinations out of 1000 (max. 500000)
+ 162 words of extra memory for PDF output out of 10000 (max. 10000000)
 

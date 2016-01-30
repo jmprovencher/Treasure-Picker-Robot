@@ -5,7 +5,7 @@ La section de gauche du diagramme sera implémentée sur la station de base tandis
 
 En ce qui conscerne la station de base, le contrôleur du système est représenté par la classe StationBase. La classe AnalyseImageWorld analyse les images reçu de la CameraMonde et génère une carte shématique de la table (Carte) à l'aide d'imagerie. La carte est composée de diverses éléments qui hérite tous de la classe Position. Les trajectoires du robot seront calculé dans la classe TrajetStation à l'aide des informations de la classe Carte.  \par
 
-Pour ce qui est du robot, il est aussi composé d'un contrôleur (Robot). Les mouvements que devra effectuer le robot passerons tous par la classe Action qui les acheminera au microcontroleur et au polulu si nescessaire. Lorsque le robot est près de la destination, TrajetRobot calculera les trajets (à l'aide de Destination et d'imagerie effectué dans AnalyseImageEmbarquer).
+Pour ce qui est du robot, il est aussi composé d'un contrôleur (Robot). Les mouvements que devra effectuer le robot passerons tous par la classe Action qui les acheminera au microcontroleur et au polulu si nescessaire. Lorsque le robot est près de la destination, TrajetRobot calculera les trajets (à l'aide de Destination et d'imagerie effectué dans AnalyseImageEmbarquer). 
 
     
    

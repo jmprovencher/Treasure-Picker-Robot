@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 Remises/Rapport\ de\ developpement.aux
 Remises/Rapport\ de\ developpement.log
@@ -7,3 +8,9 @@ Remises/Rapport\ de\ developpement.synctex.gz
 Remises/Rapport\ de\ developpement.toc
 *.log
 
+=======
+*.pyc
+*.pyc
+*.pyc
+Remises/Rapport de developpement.toc
+>>>>>>> 515109291e1c418225daad1e67d537926ad8d1dc

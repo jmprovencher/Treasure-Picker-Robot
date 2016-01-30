@@ -1,4 +1,18 @@
-\section{Sources Emiiile}
-\label{SourcesEmile}
+Afin de rendre le préhenseur le plus simple possible mécaniquement, nous choisissons de le faire en forme d'équerre. Aux deux extrémités de l'équerre sont situés l'électroaimant et le secondaire du transformateur qui permet de charger le condensateur d'alimentation de l'électroaimant. Il devient donc très aisé d'enligner le système de recharge avec la station de recharge ainsi que de soulever les trésors en faisant tourner l'équerre de 90 degrés dans un sens ou dans l'autre. Cette rotation est assurée par un servomoteur situé au centre de l'équerre. INSERT CAD HERE permet de comprendre facilement la mécanique du préhenseur.
 
-... De fichier combiné. Chacun son dossier et tout va bien aller.
+\medbreak
+
+L'électroaimant est un modèle pré-fait acheté sur Internet. Il s'agit du modèle \textit{Grove} de la compagnie \textit{seeed} VOIR SOURCE XXXXXX. Cet aimant peut soulever une charge de 1kg pour un courant de 400mA. En assumant que la force générée par l'aimant dépend quadratiquement du courant le parcourant et en sachant que le poids des trésors est de 30g l'unité, on estime le courant nécessaire pour soulever les trésors autour de 5mA. Pour avoir une marge de sécurité ainsi que de pouvoir attirer les trésors <<à distance>>, on augmente ce courant à 20mA. Le courant dans l'électroaimant est contrôllée par une source de courant à diode Zener (voir figure XXXXXX).
+
+\medbreak
+
+L'énergie nécessaire pour soulever un trésor pendant 10 minutes par l'électroaimant est de 60J ($U = 5V * 20mA * 10min * 60sec / min$). Un condensateur de 0.5F à 5V contient 62.5J d'énergie ($U = 0.5C*V^2$). C'est donc cette valeur de condensateur qui est choisie pour alimenté l'électroaimant.
+
+\medbreak
+
+Afin de permettre de faire des tests ainsi que de s'assurer un degré de sûreté, un condensateur de 1F est également considéré dans le design de ce système
+
+
+
+
+source aimant : http://www.seeedstudio.com/depot/Grove-Electromagnet-p-1820.html

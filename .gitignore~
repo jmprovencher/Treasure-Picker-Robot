@@ -1,12 +1,10 @@
 
-Remises/Rapport\ de\ developpement.aux
-Remises/Rapport\ de\ developpement.log
-Remises/Rapport\ de\ developpement.out
-Remises/Rapport\ de\ developpement.pdf
-Remises/Rapport\ de\ developpement.synctex.gz
-Remises/Rapport\ de\ developpement.toc
+*.gz
 *.log
 *.aux
 *.out
 *.toc
+*.bbl
+*.blg
+Remises/Rapport\ de\ developpement.pdf
 

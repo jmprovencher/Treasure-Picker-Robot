@@ -1,13 +1,12 @@
 
-La figure \ref{f:Diagramme_Classes} représente le diagramme de classes suite à la première itération. La structure est suseptible de changer suite aux prochaine itérations, mais voici une brève description de la structure sur laquelle nous nous entendons présentement. \par
+La figure \ref{f:Diagramme_Classes} représente le diagramme de classes suite à la première itération. La structure est susceptible de changer suite aux prochaines itérations, mais voici une brève description de l'architecture actuelle de l'aspect logiciel du projet. \par
+\medbreak
+La section de gauche du diagramme sera implémentée sur la station de base tandis que la section droite sera implémentée sur le robot. Ces deux système pourront communiquer entre eux à l'aide des classes CommunicationRobot et CommunicationStationBase. \par
+\medbreak
+En ce qui concerne la station de base, le contrôleur du système est représenté par la classe StationBase. La classe AnalyseImageWorld analyse les images reçues de la CameraMonde et génère une carte schématique de la table (Carte) à l'aide d'imagerie. La carte est composée de diverses éléments qui hérite tous de la classe Position. Les trajectoires du robot seront calculé dans la classe TrajetStation à l'aide des informations de la classe Carte.  \par
+\medbreak
+Pour ce qui est du robot, il est aussi composé d'un contrôleur (Robot). Les demandes de mouvement que devra effectuer le robot passerons tous par la classe Action qui les acheminera au microcontrôleur Arduino Mega 2560. Lorsque le robot est près de la destination, TrajetRobot calculera les trajets (à l'aide de Destination et d'imagerie effectué dans AnalyseImageEmbarquer). 
 
-La section de gauche du diagramme sera implémentée sur la station de base tandis que la section droite sera implémentée sur le robot. Ces deux système pouront communiquer entre eux à l'aide des classes CommunicationRobot et CommunicationStationBase. \par
-
-En ce qui conscerne la station de base, le contrôleur du système est représenté par la classe StationBase. La classe AnalyseImageWorld analyse les images reçu de la CameraMonde et génère une carte shématique de la table (Carte) à l'aide d'imagerie. La carte est composée de diverses éléments qui hérite tous de la classe Position. Les trajectoires du robot seront calculé dans la classe TrajetStation à l'aide des informations de la classe Carte.  \par
-
-Pour ce qui est du robot, il est aussi composé d'un contrôleur (Robot). Les mouvements que devra effectuer le robot passerons tous par la classe Action qui les acheminera au microcontroleur et au polulu si nescessaire. Lorsque le robot est près de la destination, TrajetRobot calculera les trajets (à l'aide de Destination et d'imagerie effectué dans AnalyseImageEmbarquer). 
-
-Correction et reformulation demain matin.  
 
     
    

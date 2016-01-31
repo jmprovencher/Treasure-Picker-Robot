@@ -1,8 +1,8 @@
-Afin de rendre le préhenseur le plus simple possible mécaniquement, nous choisissons de le faire en forme d'équerre. Aux deux extrémités de l'équerre sont situés l'électroaimant et le secondaire du transformateur qui permet de charger le condensateur d'alimentation de l'électroaimant. Il devient donc très aisé d'enligner le système de recharge avec la station de recharge ainsi que de soulever les trésors en faisant tourner l'équerre de 90 degrés dans un sens ou dans l'autre. Cette rotation est assurée par un servomoteur situé au centre de l'équerre. INSERT CAD HERE permet de comprendre facilement la mécanique du préhenseur.
+Afin de rendre le préhenseur le plus simple possible mécaniquement, nous choisissons de le faire en forme d'équerre. Aux deux extrémités de l'équerre sont situés l'électroaimant et le secondaire du transformateur qui permet de charger le condensateur d'alimentation de l'électroaimant. Il devient donc très aisé d'enligner le système de recharge avec la station de recharge ainsi que de soulever les trésors en faisant tourner l'équerre de 90 degrés dans un sens ou dans l'autre. Cette rotation est assurée par un servomoteur situé au centre de l'équerre. La figure \ref{f:CAD} permet de comprendre facilement la mécanique du préhenseur. Le dessin 3D permet donc de se faire une bonne idée des dimensions du bras du préhenseur de manière à ce qu'il soit efficace. Un servomoteur présentant suffisamment de couple (6.4Kg/cm à 6V) permet d'actionner le préhenseur.
 
 \medbreak
 
-L'électroaimant est un modèle pré-fait acheté sur Internet. Il s'agit du modèle \textit{Grove} de la compagnie \textit{seeed} (voir section \ref{liste_pieces}). Cet aimant peut soulever une charge de 1kg pour un courant de 400mA. En assumant que la force générée par l'aimant dépend quadratiquement du courant le parcourant et en sachant que le poids des trésors est de 30g l'unité, on estime le courant nécessaire pour soulever les trésors autour de 5mA. Pour avoir une marge de sécurité ainsi que de pouvoir attirer les trésors <<à distance>>, on augmente ce courant à 20mA. Le courant dans l'électroaimant est contrôllée par une source de courant à diode Zener (voir figure \ref{f:source_courant}).
+L'électroaimant est un modèle pré-fait acheté en ligne. Il s'agit du modèle \textit{Grove} de la compagnie \textit{seeed} (voir section \ref{liste_pieces}). Cet aimant peut soulever une charge de 1kg pour un courant de 400mA. En assumant que la force générée par l'aimant dépend quadratiquement du courant le parcourant et en sachant que le poids des trésors est de 30g l'unité, on estime le courant nécessaire pour soulever les trésors autour de 5mA. Pour avoir une marge de sécurité ainsi que de pouvoir attirer les trésors <<à distance>>, on augmente ce courant à 20mA. Le courant dans l'électroaimant est contrôlé par une source de courant à diode Zener (voir figure \ref{f:source_courant}).
 
 \medbreak
 
@@ -14,7 +14,7 @@ Afin de permettre de faire des tests ainsi que de s'assurer un degré de sûreté, 
 
 \begin{figure}[htp]
 	\centering
-	\includegraphics[scale = 0.4]{fig/source_courant.png}
+	\includegraphics[scale = 0.25]{fig/source_courant.png}
 	\caption{Source courant à diode Zener}
 	\label{f:source_courant}
 \end{figure}

@@ -1,11 +1,11 @@
 
 La figure \ref{f:Diagramme_Classes} représente le diagramme de classes suite à la première itération. La structure est susceptible de changer suite aux prochaines itérations, mais voici une brève description de l'architecture actuelle de l'aspect logiciel du projet. \par
 \medbreak
-La section de gauche du diagramme sera implémentée sur la station de base tandis que la section droite sera implémentée sur le robot. Ces deux système pourront communiquer entre eux à l'aide des classes CommunicationRobot et CommunicationStationBase. \par
+La section de gauche du diagramme sera implémentée sur la station de base, tandis que la section de droite sera implémentée sur le robot. Ces deux système pourront communiquer entre eux à l'aide des classes CommunicationRobot et CommunicationStationBase. \par
 \medbreak
-En ce qui concerne la station de base, le contrôleur du système est représenté par la classe StationBase. La classe AnalyseImageWorld analyse les images reçues de la CameraMonde et génère une carte schématique de la table (Carte) à l'aide d'imagerie. La carte est composée de diverses éléments qui hérite tous de la classe Position. Les trajectoires du robot seront calculé dans la classe TrajetStation à l'aide des informations de la classe Carte.  \par
+En ce qui concerne la station de base, le contrôleur du système est représenté par la classe StationBase. La classe AnalyseImageWorld analyse les images reçues de la CameraMonde et génère une carte schématique de la table (Carte) à l'aide d'imagerie. La carte est composée de divers éléments qui héritent tous de la classe Position. Les trajectoires du robot seront calculées dans la classe TrajetStation à l'aide des informations de la classe Carte.  \par
 \medbreak
-Pour ce qui est du robot, il est aussi composé d'un contrôleur (Robot). Les demandes de mouvement que devra effectuer le robot passerons tous par la classe Action qui les acheminera au microcontrôleur Arduino Mega 2560. Lorsque le robot est près de la destination, TrajetRobot calculera les trajets (à l'aide de Destination et d'imagerie effectué dans AnalyseImageEmbarquer). 
+Pour ce qui est du robot, il est aussi composé d'un contrôleur (Robot). Les demandes de mouvement que devra effectuer le robot passeront toutes par la classe Action, qui les acheminera au microcontrôleur Arduino Mega 2560. Lorsque le robot sera près de la destination, TrajetRobot calculera les trajets (à l'aide de Destination et d'imagerie effectuée dans AnalyseImageEmbarquer). 
 
 
     

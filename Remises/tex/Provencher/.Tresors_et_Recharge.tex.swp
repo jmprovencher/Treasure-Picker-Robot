@@ -1,0 +1,37 @@
+La caméra Logitech C905 située sur le robot permet de repérer les différents trésors ainsi que la station de recharge. Celle-ci est reliée directement à l'ordinateur embarquée afin d'être alimentée et de fournir les images captées. La fréquence de captation des images reste à déterminer puisqu'il faudra décider à quel intervalle nous devons mettre à jour la vision du robot. L'envoi des commandes afin de contrôler la prise d'image par la caméra sera effectuée par la librairie Pygame en Python.
+\medbreak
+Afin de détecter les trésors, une première approximation de leur position est effectuée par la caméra monde qui, à l'aide de la librairie cv2 de OpenCV, permet de localiser dans une image un intervalle de couleur BGR. Le choix de la librairie d'OpenCV est justifié par le fait qu'elle possède toutes les fonctions nécessaires à un programme de vision complet et qu'elle s'intègre facilement au reste du code en Python. Les tests préliminaires effectuées avec la caméra monde ont permis de venir à la conclusion que la détection des trésors s'effectuent très bien. Par contre, le premier test de la prise de photo a également permis de constater que la caméra monde ne voit pas le fond de la table et donc, certains trésors ne seront pas détecter par la caméra monde, justifiant également la détection des trésors par la caméra embarquée.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.75\textwidth]{fig/testCameraMonde.jpg}
+	\caption{Photo test de la caméra monde}
+	\label{f:testCameraMonde}
+\end{figure}
+
+Comme mentionné précédemment, les premiers tests effectués afin de détecter les trésors ont démontré qu'il était possible de bien repérer les trésors à partir de la caméra monde comme la figure \ref{f:testDetectionCouleur} le montre.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.75\textwidth]{fig/testDetectionCouleur.jpg}
+	\caption{Photo test après l'application des masques de détection}
+	\label{f:testDetectionCouleur}
+\end{figure}
+
+
+ Par la suite, les différents pixels correspondant à la couleur des trésors sont placés dans un masque des trésors. Grâce à la position relative de ces points dans le masque des trésors, il est possible d'avoir une position approximative de ces trésors dans la carte virtuelle. Afin de confirmer la détection de ces trésors ou pour repérer les trésors qui seront hors du champ de vision du robot, la même opération de détection des couleurs est effectuée ensuite par la caméra embarquée autour des coordonnées approximative détectée par la caméra monde. 
+\medbreak
+La station de recharge, quant à elle, est marquée d'une couleur caractéristique lui permettant de se distinguer du reste du décor. Comme la position et l'orientation du robot est connue en tout temps et que la station de recharge est toujours situé au même endroit, la détection de celle-ci est assez simple. Comme le robot peut être placé à n'importe quel endroit au départ sur la table, la caméra monde est chargée à l'initialisation du programme de détecter la position et l'orientation de celui-ci. Afin de réaliser cette tâche, un drapeau pirate est placé sur le dessus du robot afin d'indiquer l'orientation ainsi que la position de celui-ci et sera détecter par notre programme de vision. Le robot peut ensuite se diriger vers les coordonnées fixes de la station de recharge et la repérer facilement par la suite.
+input</keyword>
+                    <keyword>include</keyword>
+                    <keyword>includeonly</keyword>
+                    <keyword>usepackage</keyword>
+                </context>
+
+                <context ref="common-commands"/>
+                <context ref="specials-symbol"/>
+                <context ref="command"/>
+            </include>
+        </context>
+  </definitions>
+</language>

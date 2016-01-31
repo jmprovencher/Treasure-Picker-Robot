@@ -1,0 +1,9 @@
+La caméra embarquée est contrôlée par les servomoteurs fournis qui permettront à la caméra un déplacement sur son axe horizontal et vertical afin d'augmenter le champ de vision du robot. De manière à contrôler le \textit{Polulu Maestro}, des commandes sont envoyées par USB à partir de l'ordinateur embarqué situé sur le robot. Le Pololu est facilement contrôlable par du code en langage \textit{C} géré par l'ordinateur embarqué. De manière à se familiariser avec le fonctionnement de ce système nous utilisons le \textit{Maestro Control Center} afin de voir quelles sont les limites du champ de vision de cette caméra. Sur la figure \ref{f:cam_embarquee} on voit que le robot peut facilement voir le sol directement devant lui, ceci est utile afin de repérer les trésors, les îles et même la station de recharge à des distances très courtes. On remarque aussi qu'il est possible de fixer des limites logicielles de mouvement pour les différents servomoteurs, une fonctionnalité qui facilitera l'implantation du contrôle de la caméra.
+
+
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=0.95\textwidth]{fig/cam_embarquee.jpg}
+   \caption{Vision au sol du robot à partir de la caméra embarquée}
+   \label{f:cam_embarquee}
+\end{figure}

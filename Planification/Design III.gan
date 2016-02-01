@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-01-25" view-index="0" gantt-divider-location="316" resource-divider-location="423" version="2.7" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-01-11" view-index="0" gantt-divider-location="316" resource-divider-location="423" version="2.7" locale="en_US">
     <description/>
-    <view zooming-state="default:0" id="gantt-chart">
+    <view zooming-state="default:3" id="gantt-chart">
         <field id="tpd3" name="Name" width="59" order="0"/>
         <field id="tpd4" name="Begin date" width="20" order="1"/>
         <field id="tpd5" name="End date" width="19" order="2"/>
@@ -12,8 +12,8 @@
         <option id="color.recent"><![CDATA[#00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00]]></option>
     </view>
     <view id="resource-table">
-        <field id="0" name="Name" width="34" order="0"/>
-        <field id="1" name="Default role" width="32" order="1"/>
+        <field id="0" name="Name" width="33" order="0"/>
+        <field id="1" name="Default role" width="33" order="1"/>
         <field id="tpc0" name="Role" width="33" order="2"/>
     </view>
     <!-- -->
@@ -40,7 +40,9 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="0" name="Livrable 1" color="#8cb6ce" meeting="false" start="2016-01-14" duration="17" complete="97" expand="false">
+        <task id="0" name="Livrable 1" color="#8cb6ce" meeting="false" start="2016-01-14" duration="17" complete="100" expand="false">
+            <depend id="5" type="2" difference="0" hardness="Strong"/>
+            <depend id="67" type="2" difference="0" hardness="Strong"/>
             <task id="56" name="Première rencontre" color="#00ff00" meeting="true" start="2016-01-14" duration="0" complete="100" expand="true"/>
             <task id="54" name="Réunion 1" color="#00ff00" meeting="false" start="2016-01-19" duration="1" complete="100" expand="true">
                 <notes><![CDATA[Réunion PLT-1122
@@ -52,21 +54,36 @@ Absents :
                 <notes><![CDATA[Réunion PLT-3105
 Ébauches d'idées et avancement du projet]]></notes>
             </task>
-            <task id="104" name="DPF" color="#8cb6ce" meeting="false" start="2016-01-19" duration="12" complete="100" expand="true"/>
-            <task id="106" name="Diagramme de contexte" color="#8cb6ce" meeting="false" start="2016-01-19" duration="12" complete="100" expand="true"/>
-            <task id="110" name="Cas d'utilisation" color="#8cb6ce" meeting="false" start="2016-01-26" duration="5" complete="100" expand="true"/>
-            <task id="115" name="Diagramme de classes" color="#8cb6ce" meeting="false" start="2016-01-19" duration="12" complete="100" expand="true"/>
-            <task id="114" name="Diagramme de séquences" color="#8cb6ce" meeting="false" start="2016-01-26" duration="5" complete="100" expand="true"/>
+            <task id="104" name="DPF" color="#8cb6ce" meeting="false" start="2016-01-19" duration="12" complete="100" expand="true">
+                <depend id="132" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="106" name="Diagramme de contexte" color="#8cb6ce" meeting="false" start="2016-01-19" duration="12" complete="100" expand="true">
+                <depend id="146" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="110" name="Cas d'utilisation" color="#8cb6ce" meeting="false" start="2016-01-26" duration="5" complete="100" expand="true">
+                <depend id="146" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="115" name="Diagramme de classes" color="#8cb6ce" meeting="false" start="2016-01-19" duration="12" complete="100" expand="true">
+                <depend id="146" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="114" name="Diagramme de séquences" color="#8cb6ce" meeting="false" start="2016-01-26" duration="5" complete="100" expand="true">
+                <depend id="146" type="2" difference="0" hardness="Strong"/>
+            </task>
             <task id="118" name="Familiarisation &amp; Expériences" color="#8cb6ce" meeting="false" start="2016-01-19" duration="12" complete="100" expand="true"/>
             <task id="151" name="Achat de matériel &amp; recherches" color="#8cb6ce" meeting="false" start="2016-01-19" duration="10" complete="100" expand="true"/>
-            <task id="128" name="Réunion pré-remise" color="#00ff00" meeting="false" start="2016-01-30" duration="1" complete="0" expand="true">
+            <task id="128" name="Réunion pré-remise" color="#00ff00" meeting="false" start="2016-01-30" duration="1" complete="100" expand="true">
                 <notes><![CDATA[PLT-0103 & 3105
 Répartition des dernières petits tâches, mise en forme de la remise]]></notes>
             </task>
-            <task id="43" name="Remise livrable 1" color="#cc0000" meeting="true" start="2016-01-31" duration="0" complete="0" expand="true"/>
+            <task id="159" name="CAD robot" color="#8cb6ce" meeting="false" start="2016-01-30" duration="1" complete="100" expand="true"/>
+            <task id="43" name="Remise livrable 1" color="#cc0000" meeting="true" start="2016-01-31" duration="0" complete="100" expand="true">
+                <depend id="5" type="2" difference="0" hardness="Strong"/>
+            </task>
         </task>
-        <task id="5" name="Livrable 2" color="#8cb6ce" meeting="false" start="2016-01-31" duration="21" complete="0" expand="true">
-            <task id="67" name="Début livrable 2" color="#00ff00" meeting="true" start="2016-02-01" duration="0" complete="0" expand="true"/>
+        <task id="5" name="Livrable 2" color="#8cb6ce" meeting="false" start="2016-01-31" duration="21" complete="0" expand="false">
+            <depend id="12" type="2" difference="0" hardness="Strong"/>
+            <depend id="78" type="2" difference="0" hardness="Strong"/>
+            <task id="67" name="Début livrable 2" color="#00ff00" meeting="true" start="2016-01-31" duration="0" complete="0" expand="true"/>
             <task id="65" name="Réunion 3" color="#00ff00" meeting="false" start="2016-02-02" duration="1" complete="0" expand="true"/>
             <task id="132" name="Correction DPF" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
             <task id="135" name="Diagramme des fonctionnalités" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
@@ -77,20 +94,26 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
             <task id="154" name="Développement logiciel &amp; tests unitaires" color="#8cb6ce" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true"/>
             <task id="156" name="Analyse de risques" color="#8cb6ce" meeting="false" start="2016-02-09" duration="8" complete="0" expand="true"/>
             <task id="73" name="Réunion 5" color="#00ff00" meeting="false" start="2016-02-16" duration="1" complete="0" expand="true"/>
-            <task id="7" name="Remise livrable 2" color="#cc0000" meeting="true" start="2016-02-21" duration="0" complete="0" expand="true"/>
+            <task id="7" name="Remise livrable 2" color="#cc0000" meeting="true" start="2016-02-21" duration="0" complete="0" expand="true">
+                <depend id="12" type="2" difference="0" hardness="Strong"/>
+            </task>
         </task>
-        <task id="12" name="Livrable 3" color="#8cb6ce" meeting="false" start="2016-02-22" duration="41" complete="0" expand="false">
-            <task id="78" name="Début livrable 3" color="#00ff00" meeting="true" start="2016-02-22" duration="0" complete="0" expand="true"/>
+        <task id="12" name="Livrable 3" color="#8cb6ce" meeting="false" start="2016-02-21" duration="42" complete="0" expand="false">
+            <depend id="97" type="2" difference="0" hardness="Strong"/>
+            <depend id="98" type="2" difference="0" hardness="Strong"/>
+            <task id="78" name="Début livrable 3" color="#00ff00" meeting="true" start="2016-02-21" duration="0" complete="0" expand="true"/>
             <task id="75" name="Réunion 6" color="#00ff00" meeting="false" start="2016-02-23" duration="1" complete="0" expand="true"/>
             <task id="85" name="Réunion 7" color="#00ff00" meeting="false" start="2016-03-01" duration="1" complete="0" expand="true"/>
             <task id="88" name="Réunion 8" color="#00ff00" meeting="false" start="2016-03-08" duration="1" complete="0" expand="true"/>
             <task id="90" name="Réunion 9" color="#00ff00" meeting="false" start="2016-03-15" duration="1" complete="0" expand="true"/>
             <task id="92" name="Réunion 10" color="#00ff00" meeting="false" start="2016-03-22" duration="1" complete="0" expand="true"/>
             <task id="95" name="Réunion 11" color="#00ff00" meeting="false" start="2016-03-29" duration="1" complete="0" expand="true"/>
-            <task id="15" name="Remise livrable 3" color="#cc0000" meeting="true" start="2016-04-03" duration="0" complete="0" expand="true"/>
+            <task id="15" name="Remise livrable 3" color="#cc0000" meeting="true" start="2016-04-03" duration="0" complete="0" expand="true">
+                <depend id="98" type="2" difference="0" hardness="Strong"/>
+            </task>
         </task>
-        <task id="98" name="Livrable 4" color="#8cb6ce" meeting="false" start="2016-04-04" duration="13" complete="0" expand="false">
-            <task id="97" name="Début livrable 4" color="#00ff00" meeting="true" start="2016-04-04" duration="0" complete="0" expand="true"/>
+        <task id="98" name="Livrable 4" color="#8cb6ce" meeting="false" start="2016-04-03" duration="14" complete="0" expand="false">
+            <task id="97" name="Début livrable 4" color="#00ff00" meeting="true" start="2016-04-03" duration="0" complete="0" expand="true"/>
             <task id="99" name="Réunion 12" color="#00ff00" meeting="false" start="2016-04-05" duration="1" complete="0" expand="true"/>
             <task id="102" name="Réunion 13" color="#00ff00" meeting="false" start="2016-04-12" duration="1" complete="0" expand="true"/>
             <task id="19" name="Remise livrable 4" color="#cc0000" meeting="true" start="2016-04-17" duration="0" complete="0" expand="true"/>
@@ -128,47 +151,25 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
         <allocation task-id="140" resource-id="0" function="Default:1" responsible="true" load="50.0"/>
         <allocation task-id="151" resource-id="0" function="Default:1" responsible="true" load="30.0"/>
         <allocation task-id="156" resource-id="0" function="Default:1" responsible="true" load="50.0"/>
-        <allocation task-id="166" resource-id="0" function="Default:1" responsible="true" load="70.0"/>
-        <allocation task-id="167" resource-id="0" function="Default:1" responsible="true" load="30.0"/>
-        <allocation task-id="175" resource-id="0" function="Default:1" responsible="true" load="50.0"/>
-        <allocation task-id="180" resource-id="0" function="Default:1" responsible="true" load="50.0"/>
+        <allocation task-id="159" resource-id="0" function="Default:1" responsible="true" load="50.0"/>
         <allocation task-id="118" resource-id="1" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="151" resource-id="1" function="Default:0" responsible="false" load="30.0"/>
-        <allocation task-id="166" resource-id="1" function="Default:0" responsible="false" load="50.0"/>
-        <allocation task-id="167" resource-id="1" function="Default:0" responsible="false" load="30.0"/>
         <allocation task-id="118" resource-id="2" function="Default:0" responsible="false" load="70.0"/>
         <allocation task-id="143" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="151" resource-id="2" function="Default:0" responsible="false" load="30.0"/>
-        <allocation task-id="166" resource-id="2" function="Default:0" responsible="false" load="70.0"/>
-        <allocation task-id="167" resource-id="2" function="Default:0" responsible="false" load="30.0"/>
-        <allocation task-id="176" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="118" resource-id="3" function="Default:0" responsible="false" load="70.0"/>
         <allocation task-id="135" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="166" resource-id="3" function="Default:0" responsible="false" load="70.0"/>
-        <allocation task-id="174" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="104" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="118" resource-id="4" function="Default:0" responsible="false" load="20.0"/>
         <allocation task-id="132" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="161" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="166" resource-id="4" function="Default:0" responsible="false" load="20.0"/>
-        <allocation task-id="173" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="106" resource-id="4" function="Default:0" responsible="true" load="50.0"/>
         <allocation task-id="114" resource-id="4" function="Default:0" responsible="false" load="20.0"/>
         <allocation task-id="115" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="118" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="146" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
-        <allocation task-id="164" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
-        <allocation task-id="166" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
-        <allocation task-id="177" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="115" resource-id="6" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="118" resource-id="6" function="Default:0" responsible="false" load="10.0"/>
-        <allocation task-id="164" resource-id="6" function="Default:0" responsible="false" load="50.0"/>
-        <allocation task-id="166" resource-id="6" function="Default:0" responsible="false" load="10.0"/>
-        <allocation task-id="177" resource-id="6" function="Default:0" responsible="true" load="50.0"/>
         <allocation task-id="110" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="165" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="166" resource-id="7" function="Default:0" responsible="false" load="10.0"/>
-        <allocation task-id="177" resource-id="7" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="114" resource-id="7" function="Default:0" responsible="true" load="50.0"/>
     </allocations>
     <vacations/>

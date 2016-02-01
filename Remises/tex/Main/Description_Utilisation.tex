@@ -17,9 +17,9 @@
 
 
 \section{Scénarios des cas d'utilisation}
-%%%%%%%%%%%%%%% CAS UTILISATION 1 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%% CAS UTILISATION 1 %%%%%%%%%%%%%%%%%
 	%%%%%%%%%%% Identifier les éléments cartographiques  %%%%%%%%%%%%%
-	%%%%%%%%%%%%% ETAT: A COMPLETER %%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: COMPLET %%%%%%%%%%%%%%%%%%%%%%
     \begin{table}[!ht]
     \caption{Cas d'utilisation - Identifier les éléments cartographiques}
     \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
@@ -27,17 +27,17 @@
     Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Identifier les éléments cartographiques} \\ \hline
     Système & \multicolumn{2}{p{9.5cm} |}{Système de reconnaissance visuelle}\\ \hline
     Acteurs & \multicolumn{2}{p{9.5cm} |}{Robot, caméra world, station de base}\\ \hline
-    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Station de base : Vouloir identifier les éléments présents sur la carte afin que le robot puisse remplir son mandat.}\\ 
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Station de base : Vouloir identifier les éléments présents sur la carte afin que le robot puisse remplir son mandat sans entrer en collision avec quoi que ce soit.}\\ 
     \hline
     Préconditions & \multicolumn{2}{p{9.5cm} |}{Le robot et la caméra world doivent fournir des images à la station de base}\\ \hline
     Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{Les éléments cartographiques sont affichés sur la carte de la station de base}\\ \hline
     
     \multirow{4}{*}{Scénario principal} 
     
-    & 1. Big show baby & \\
-    & & 2. Big show 2 baby \\
-    & & 3.  Showtime \\
-    & 4. Uiuuu & \\
+    & 1. La caméra world envoie des images à la station de base & \\
+    & & 2. La surface de jeu, les îles, le robot, ainsi que les trésors visibles sont identifiés par le système de reconnaissance visuelle \\
+    & 3. Le robot envoie des images à la station de base & \\
+    & & 4. Le système de reconnaissance visuelle analyse ces images pour valider les positions des trésors\\
     
     \hline
     
@@ -51,9 +51,9 @@
     \end{table}
     
     
-%%%%%%%%%%%%%%% CAS UTILISATION 2 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%% CAS UTILISATION 2 %%%%%%%%%%%%%%%%%
 	%%%%%%%%%%% Trouver station de recharge  %%%%%%%%%%%%%
-	%%%%%%%%%%%%% ETAT: A COMPLETER %%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: COMPLET %%%%%%%%%%%%%%%%%%%%%%
     \begin{table}[!ht]
     \caption{Cas d'utilisation - Trouver la station de recharge}
     \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
@@ -64,14 +64,80 @@
     Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Robot : Faire le plein d'énergie et recevoir le code Manchester}\\ 
     \hline
     Préconditions & \multicolumn{2}{p{9.5cm} |}{La station de base a identifié la position de la station de recharge et une trajectoire a été calculée}\\ \hline
-    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{La trajectoire menant le robot jusqu'à la station de recharge est affichée sur la station de base. Le robot se déplace vers la station de recharge sans toucher à aucun obstacle.}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{La trajectoire menant le robot jusqu'à la station de recharge est affichée sur la carte de la station de base. Le robot se déplace vers la station de recharge sans toucher à aucun obstacle.}\\ \hline
     
     \multirow{4}{*}{Scénario principal} 
     
-    & 1. Big show baby & \\
-    & & 2. Big show 2 baby \\
-    & & 3.  Showtime \\
-    & 4. Uiuuu & \\
+    & 1. La caméra world et le robot envoient des images à la station de base & \\
+    & & 3. Le système de reconnaissance visuelle analyse ces images et determine l'emplacement de la station de recharge\\
+    & & 4. Un itinéraire vers la station de recharge peut être calculé\\
+    
+    \hline
+    
+    \multirow{1}{*}{Scénarios alternatifs} 
+    
+    & & 3-1. Le système de reconnaissance visuelle analyse ces images et ne peut determiner l'emplacement de la station de recharge\\
+    & & 4. La station de base ordonne un déplacement aléatoire au robot\\
+    & 5. Le robot se déplace et renvoie des images à la station de base & \\
+        
+    \hline
+    \end{tabular}
+    \label{tab:trouver_station_recharge}
+    \end{table}
+    
+	%%%%%%%%%%%%%%% CAS UTILISATION 3 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%% Identifier la position des trésors  %%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: COMPLET %%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[!ht]
+    \caption{Cas d'utilisation - Identifier la position des trésors}
+    \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
+    \hline
+    Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Identifier la position des trésors} \\ \hline
+    Système & \multicolumn{2}{p{9.5cm} |}{Système de reconnaissance visuelle}\\ \hline
+    Acteurs & \multicolumn{2}{p{9.5cm} |}{Robot, caméra world, station de base}\\ \hline
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Robot : Identifier les positions des trésors cachés sur la table de jeu, afin de se déplacer jusqu'à l'un d'eux et le rapatrier sur l'île cible.}\\ 
+    \hline
+    Préconditions & \multicolumn{2}{p{9.5cm} |}{La station de base reçoit des images venant de la caméra world ainsi que celle du robot}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{Les trésors sont identifiés sur la carte de la station de base et un trésor cible est choisit parmi ceux-ci. Le robot se dirigera vers ce trésor cible pour le déplacer jusqu'à l'île cible.}\\ \hline
+    
+    \multirow{4}{*}{Scénario principal} 
+    
+    & 1. La caméra world et le robot envoient des images à la station de base & \\
+    & & 2. Les trésors visibles sont identifiés et une trajectoire est calculée \\
+    & 3. Le robot se déplace jusqu'au trésor & \\
+    
+    \hline
+    
+    \multirow{1}{*}{Scénarios alternatifs} 
+    
+    & & 2-1. Aucun trésor n'est identifié \\
+    & & 3. La station de base ordonne un déplacement aléatoire au robot\\
+    & 4. Le robot se déplace et renvoie des images à la station de base & \\
+    
+    \hline
+    \end{tabular}
+    \label{tab:identifier_tresor}
+    \end{table}
+
+	%%%%%%%%%%%%%%% CAS UTILISATION 4 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%% Identifier les attributs des îles %%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: COMPLET %%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[!ht]
+    \caption{Cas d'utilisation - Identifier les attributs des îles}
+    \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
+    \hline
+    Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Identifier les attributs des îles} \\ \hline
+    Système & \multicolumn{2}{p{9.5cm} |}{Système de reconnaissance visuelle}\\ \hline
+    Acteurs & \multicolumn{2}{p{9.5cm} |}{Robot, caméra world, station de base}\\ \hline
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Robot : Identifier la couleur, la forme ainsi que la position des îles pour calculer une trajectoire valide. }\\ 
+    \hline
+    Préconditions & \multicolumn{2}{p{9.5cm} |}{La station de base reçoit des images venant de la caméra world}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{La couleur, la forme ainsi que la position des îles sont affichées sur la carte de la station de base. Une trajectoire vers un trésor peut par la suite être calculée.}\\ \hline
+    
+    \multirow{4}{*}{Scénario principal} 
+    
+    & 1. La caméra world envoie des images à la station de base & \\
+    & & 2. La couleur, la forme et la position des îles sont identifiées par le système de reconnaissance visuelle \\   
     
     \hline
     
@@ -81,7 +147,237 @@
     
     \hline
     \end{tabular}
-    \label{tab:trouver_station_recharge}
+    \label{tab:identifier_iles}
+    \end{table}
+
+	%%%%%%%%%%%%%%% CAS UTILISATION 5 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%% Identifier la position de l'île cible %%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: COMPLET %%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[!ht]
+    \caption{Cas d'utilisation - Identifier la position de l'île cible}
+    \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
+    \hline
+    Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Identifier la position de l'île cible} \\ \hline
+    Système & \multicolumn{2}{p{9.5cm} |}{Système de reconnaissance visuelle}\\ \hline
+    Acteurs & \multicolumn{2}{p{9.5cm} |}{Robot, caméra world, station de base}\\ \hline
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Robot : Une fois en possession d'un trésor, le robot déplacera le trésor jusqu'à l'île cible et déposera le trésor sur celle-ci.}\\ 
+    \hline
+    Préconditions & \multicolumn{2}{p{9.5cm} |}{Le code Manchester contenant l'information sur l'île cible a été décodé et transmis à la station de base. Les attributs des îles ont été identifiés avec succès.}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{Une fois la récupération d'un trésor terminée, une trajectoire vers l'île cible peut être calculée.}\\ \hline
+    
+    \multirow{4}{*}{Scénario principal} 
+    
+    & 1. L'information envoyé par le serveur des îles est transmise à la station de base par le robot & \\
+    & & 2. L'emplacement de l'île cible est identifié par le système de reconnaissance visuelle \\
+    
+    \hline
+    
+    \multirow{1}{*}{Scénarios alternatifs} 
+    
+    & Aucun scénario alternatif, l'identification de l'île cible doit toujours être réussie & \\
+    
+    \hline
+    \end{tabular}
+    \label{tab:identifier_iles_cible}
+    \end{table}
+    
+    %%%%%%%%%%%%%%% CAS UTILISATION 6 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%% Décoder le code Manchester %%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: COMPLET %%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[!ht]
+    \caption{Cas d'utilisation - Décoder le code Manchester}
+    \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
+    \hline
+    Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Décoder le code Manchester} \\ \hline
+    Système & \multicolumn{2}{p{9.5cm} |}{Ordinateur embarqué}\\ \hline
+    Acteurs & \multicolumn{2}{p{9.5cm} |}{Robot, caméra world, station de base}\\ \hline
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Robot : Une fois le code reçu, il sera décodé et une requête au serveur des îles sera effectuée.}\\ 
+    \hline
+    Préconditions & \multicolumn{2}{p{9.5cm} |}{Le robot doit s'être rendu à la station de recharge, où le transfert du code Manchester a lieu.}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{Le message contenant l'information sur l'île cible sera par la suite envoyé à la station de base pour déterminer l'itinéraire à emprunter une fois en possession d'un trésor.}\\ \hline
+    
+    \multirow{4}{*}{Scénario principal} 
+    
+    & 1. Le robot se déplace jusqu'à la station de base en suivant l'itinéraire calculé par la station de base & \\
+    & & 2. Le code Manchester est transmis au robot pendant la recharge du condensateur \\
+    & 3. Le robot décode le signal reçu & \\
+    & & 4. Le robot effectue une requête au serveur des îles \\
+    
+    \hline
+    
+    \multirow{1}{*}{Scénarios alternatifs} 
+    
+    & Aucun scénario alternatif, le décodage du code Manchester doit toujours être réussi & \\    
+    
+    \hline
+    \end{tabular}
+    \label{tab:decoder_code}
+    \end{table}
+   
+    %%%%%%%%%%%%%%% CAS UTILISATION 7 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%% Communiquer avec le serveur des îles %%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: COMPLET %%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[!ht]
+    \caption{Cas d'utilisation - Communiquer avec le serveur des îles}
+    \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
+    \hline
+    Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Communiquer avec le serveur des îles} \\ \hline
+    Système & \multicolumn{2}{p{9.5cm} |}{Ordinateur embarqué}\\ \hline
+    Acteurs & \multicolumn{2}{p{9.5cm} |}{Robot}\\ \hline
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Robot : Une fois la requête effectuée, l'information sur l'île cible est transmise à la station de base.}\\ 
+    \hline
+    Préconditions & \multicolumn{2}{p{9.5cm} |}{Le code Manchester doit avoir été décodé.}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{La station de base est en mesure de déterminer la position de l'île cible et une fois la récupération d'un trésor terminée, une trajectoire vers l'île cible peut être calculée.}\\ \hline
+    
+    \multirow{4}{*}{Scénario principal} 
+    
+    & 1. Le robot effectue une requête au serveur des îles en utilisant le message décodé & \\
+    & & 2. Le serveur renvoie un message contenant l'information sur l'île cible \\
+    & 3.  Cette information est transmise à la station de base \\
+    
+    \hline
+    
+    \multirow{1}{*}{Scénarios alternatifs} 
+    
+    & Aucun scénario alternatif & \\
+    
+    \hline
+    \end{tabular}
+    \label{tab:requete_serveur}
+    \end{table}
+    
+%%%%%%%%%%%%%%% CAS UTILISATION 8 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%% Déplacer le trésor %%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: COMPLET %%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[!ht]
+    \caption{Cas d'utilisation - Déplacer le trésor}
+    \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
+    \hline
+    Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Déplacer le trésor} \\ \hline
+    Système & \multicolumn{2}{p{9.5cm} |}{Système de reconnaissance visuelle}\\ \hline
+    Acteurs & \multicolumn{2}{p{9.5cm} |}{Robot}\\ \hline
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Robot : Se déplacer vers un trésor, le récupérer et le déposer sur une île cible afin de respecter le but du projet.}\\ 
+    \hline
+    Préconditions & \multicolumn{2}{p{9.5cm} |}{Le robot doit avoir fait le plein d'énergie à la station de recharge afin de soulever le trésor. L'île cible doit avoir été identifiée et une trajectoire valide doit être calculée pour se rendre jusqu'au trésor. Par la suite, une seconde trajectoire est calculée pour déposer le trésor sur l'île cible.}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{La station de base est en mesure de déterminer la position de l'île cible et une fois la récupération d'un trésor terminée, une trajectoire vers l'île cible peut être calculée.}\\ \hline
+    
+    \multirow{4}{*}{Scénario principal} 
+    
+    & 1. Le robot se déplace jusqu'à un trésor en suivant une trajectoire préalablement définie & \\
+    & & 2. Le robot se positionne et soulève le trésor \\
+    & 3. Le robot se déplace jusqu'à l'île cible & \\
+    & & 4. Le robot se positionne et dépose le trésor au centre de l'île cible \\
+    
+    \hline
+    
+    \multirow{1}{*}{Scénarios alternatifs} 
+    
+    & & 2-1. Le robot se positionne, mais ne peut soulever le trésor \\
+    & 3. Le robot se déplace jusqu'à la station de recharge & \\
+    & & Le robot recharge le condensateur \\
+    
+    \hline
+    \end{tabular}
+    \label{tab:deplacer_tresor}
+    \end{table}
+    
+ 
+%%%%%%%%%%%%%%% CAS UTILISATION 9 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%% Afficher les informations sur l'état du robot %%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: COMPLET %%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[!ht]
+    \caption{Cas d'utilisation - Afficher les informations sur l'état du robot}
+    \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
+    \hline
+    Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Afficher les informations sur l'état du robot} \\ \hline
+    Système & \multicolumn{2}{p{9.5cm} |}{Station de base}\\ \hline
+    Acteurs & \multicolumn{2}{p{9.5cm} |}{Station de base}\\ \hline
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Station de base : Les informations critiques du robot peuvent être étudiées en temps réel.}\\ 
+    \hline
+    Préconditions & \multicolumn{2}{p{9.5cm} |}{Une communication doit être établie entre le robot et la station de base afin d'échanger ces informations.}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{Divers informations sont affichées sur la station de base.}\\ \hline
+    
+    \multirow{4}{*}{Scénario principal} 
+    
+    & 1. Le robot se déplace et communique avec la station de base & \\
+    & & 2. La tension du condensateur est affichée sur la station de base \\
+    & & 3. La vitesse de chaque moteur est affichée sur la station de base\\
+    
+    \hline
+    
+    \multirow{1}{*}{Scénarios alternatifs} 
+    
+    & 1-1. Le robot décode le code Manchester & \\
+    & & 2. La lettre ASCII décodée est affichée sur la station de base \\
+    & 3. Une requête est envoyée au serveur des îles \\
+    & & 4. La forme et la couleur de l'île cible sont affichées sur la station de base \\
+    
+    \hline
+    \end{tabular}
+    \label{tab:info_robot}
+    \end{table}
+    
+    
+    %%%%%%%%%%%%%%% CAS UTILISATION 10 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%% Afficher la carte de jeu %%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: COMPLET %%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[!ht]
+    \caption{Cas d'utilisation - Afficher la carte de jeu}
+    \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
+    \hline
+    Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Afficher la carte de jeu} \\ \hline
+    Système & \multicolumn{2}{p{9.5cm} |}{Système de reconnaissance visuelle}\\ \hline
+    Acteurs & \multicolumn{2}{p{9.5cm} |}{Robot, caméra world, station de base}\\ \hline
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Étudiants : Permet d'avoir une rétroaction rapide des résultats calculés par le système de reconnaissance visuelle.}\\ 
+    \hline
+    Préconditions & \multicolumn{2}{p{9.5cm} |}{La station de base doit recevoir des images provenant de la caméra world et celle du robot.}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{Les îles, les trésors, le robot ainsi que les itinéraires sont affichés sur la carte en temps réel.}\\ \hline
+    
+    \multirow{4}{*}{Scénario principal} 
+    
+    & 1. La caméra world envoie des images à la station de base & \\
+    & & 2. La surface de jeu, les îles, le robot, ainsi que les trésors visibles sont affichés sur la carte de jeu en temps réel \\    
+    \hline
+    
+    \multirow{1}{*}{Scénarios alternatifs} 
+    
+    & Aucun scénario alternatif & \\
+    
+    \hline
+    \end{tabular}
+    \label{tab:afficher_carte}
     \end{table}
 
 
+	%%%%%%%%%%%%%%% CAS UTILISATION 11 %%%%%%%%%%%%%%%%%
+	%%%%%%%%%%% Calculer les trajectoires %%%%%%%%%%%%%
+	%%%%%%%%%%%%% ETAT: COMPLET %%%%%%%%%%%%%%%%%%%%%%
+    \begin{table}[!ht]
+    \caption{Cas d'utilisation - Calculer les trajectoires}
+    \begin{tabular}{| l | p{4.75cm} p{4.75cm} |}
+    \hline
+    Cas d'utilisation & \multicolumn{2}{p{9.5cm} |}{Calculer les trajectoires} \\ \hline
+    Système & \multicolumn{2}{p{9.5cm} |}{Système de reconnaissance visuelle}\\ \hline
+    Acteurs & \multicolumn{2}{p{9.5cm} |}{Robot, caméra world, station de base}\\ \hline
+    Partie prenante et intérêt & \multicolumn{2}{p{9.5cm} |}{Robot : Le robot doit se diriger en suivant une trajectoire prédéfinie, sans jamais entrer en contact avec quoi que ce soit.}\\ 
+    \hline
+    Préconditions & \multicolumn{2}{p{9.5cm} |}{La station de base doit recevoir des images provenant de la caméra world et celle du robot. La position de la destination doit être connue. Les destinations possibles sont la station de recharge, un trésor ou l'île cible.}\\ \hline
+    Garantie en cas de succès & \multicolumn{2}{p{9.5cm} |}{Le robot se déplace en suivant l'itinéraire sans touché à un obstacle.}\\ \hline
+    
+    \multirow{4}{*}{Scénario principal} 
+    
+    & 1. Une destination est choisie & \\
+    & & 2. Le système de reconnaissance visuelle analyse la carte de jeu et repère le robot \\
+    & 3. Le système analyse les obstacles présents sur la carte & \\
+    & & 4. Une trajectoire est calculée et transmise au robot \\    
+    
+    \hline
+    
+    \multirow{1}{*}{Scénarios alternatifs} 
+    
+    & Aucun scénario alternatif & \\
+    
+    \hline
+    \end{tabular}
+    \label{tab:calculer_trajectoire}
+    \end{table}

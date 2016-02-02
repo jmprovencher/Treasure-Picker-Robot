@@ -6,7 +6,7 @@ import cv2
 class TraitementImage:
 
     def __init__(self):
-        self.m_image = cv2.imread('Image/test_image3.png')
+        self.m_image = cv2.imread('Image/test_image2.png')
 
     def test(self):
 
@@ -30,34 +30,9 @@ class TraitementImage:
         cv2.waitKey(0)
 
     def cropPicture(self):
-
-        # Debut et fin de l'intervale de couleur blanche
-        upper = np.array([255, 255, 255]) #FFFFFF
-        lower = np.array([96, 96, 96]) #606060
-        # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
-        # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        shapewhiteMask = cv2.inRange(self.m_image, lower, upper)
-
-        # Affiche l'image en noir et blanc
-        cv2.imshow("MaskBlanc", shapewhiteMask)
-
-        # Trouve les contours a l'aide du masque
-        _, contoursTable, _ = cv2.findContours(shapewhiteMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        # print la fonction
-        print "Picture cropped"
-
-        # Trouve le plus grand contour
-        airMax = 0
-        temp = contoursTable[0]
-        for c in contoursTable:
-            if (cv2.contourArea(c) > airMax):
-                temp = c
-                airMax = cv2.contourArea(c)
-
-        x,y,w,h = cv2.boundingRect(temp)
-
-        crop = self.m_image[y:y+h+10,x:x+w]
+	
+	# Hardcodage du crop #TODO: a verifier sur toute les tables
+        crop = self.m_image[90:440,0:640]
         cv2.imwrite('Cropped.png',crop)
 
     def findRed(self): 
@@ -95,7 +70,7 @@ class TraitementImage:
             centroid_y = int(M['m01']/M['m00'])
 
 	    # Trouver le nb de sommet
-            approx = cv2.approxPolyDP(c,int(0.025*cv2.arcLength(c,True)),True)
+            approx = cv2.approxPolyDP(c,int(0.04*cv2.arcLength(c,True)),True)
 
 	    # Identifier selon le nb de sommet
 	    font = cv2.FONT_HERSHEY_SIMPLEX
@@ -148,7 +123,7 @@ class TraitementImage:
             centroid_y = int(M['m01']/M['m00'])
 
 	    # Trouver le nb de sommet
-            approx = cv2.approxPolyDP(c,int(0.025*cv2.arcLength(c,True)),True)
+            approx = cv2.approxPolyDP(c,int(0.04*cv2.arcLength(c,True)),True)
 
 	    # Identifier selon le nb de sommet
 	    font = cv2.FONT_HERSHEY_SIMPLEX
@@ -201,7 +176,7 @@ class TraitementImage:
             centroid_y = int(M['m01']/M['m00'])
 
 	    # Trouver le nb de sommet
-            approx = cv2.approxPolyDP(c,int(0.025*cv2.arcLength(c,True)),True)
+            approx = cv2.approxPolyDP(c,int(0.04*cv2.arcLength(c,True)),True)
 
 	    # Identifier selon le nb de sommet
 	    font = cv2.FONT_HERSHEY_SIMPLEX
@@ -253,7 +228,7 @@ class TraitementImage:
             centroid_y = int(M['m01']/M['m00'])
 
 	    # Trouver le nb de sommet
-            approx = cv2.approxPolyDP(c,int(0.025*cv2.arcLength(c,True)),True)
+            approx = cv2.approxPolyDP(c,int(0.04*cv2.arcLength(c,True)),True)
 
 	    # Identifier selon le nb de sommet
 	    font = cv2.FONT_HERSHEY_SIMPLEX

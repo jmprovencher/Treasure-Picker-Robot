@@ -6,9 +6,7 @@ import cv2
 class TraitementImage:
 
     def __init__(self):
-        self.m_image = cv2.imread('Table3/2016-01-24-154511.jpg')
-        #self.m_image = cv2.imread('noir.png')
-
+        self.m_image = cv2.imread('Image/test_image3.png')
 
     def test(self):
 
@@ -20,8 +18,8 @@ class TraitementImage:
 
         self.findTreasure()
         self.findBlue()
-        #self.findRed()
-        #self.findYellow()
+        self.findRed()
+        self.findYellow()
         self.findGreen()
 
 
@@ -62,11 +60,12 @@ class TraitementImage:
         crop = self.m_image[y:y+h+10,x:x+w]
         cv2.imwrite('Cropped.png',crop)
 
-    def findRed(self):
+    def findRed(self): 
 
-        # Debut et fin de l'intervale de couleur rouge
-        upper = np.array([65, 65, 255])
-        lower = np.array([0, 0, 200])
+	# Debut et fin de l'intervale de couleur rouge # TODO: trouver un meilleur intervale
+        lower = np.array([36, 0, 129]) #970028
+        upper = np.array([108, 40, 240]) #FF0044
+
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
         shapeRedMask = cv2.inRange(self.m_image, lower, upper)
@@ -77,16 +76,46 @@ class TraitementImage:
         # Trouve les contours a l'aide du masque
         _, contoursRouge, _ = cv2.findContours(shapeRedMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+        # supprime les contours negligeable
+        index = []
+        for c in range(len(contoursRouge)):
+            if (cv2.contourArea(contoursRouge[c]) < 100): # TODO: trouver la bonne valeur pour comparer
+                index += [c]
+        contoursRouge = np.delete(contoursRouge,index)
+
         # print le nombre de forme trouver
         print "I found %d red shapes" % (len(contoursRouge))
 
-        # dessine par dessus les contours
+        # Identifier la forme
         for c in contoursRouge:
-            cv2.drawContours(self.m_image, [c], -1, (0, 0, 255), 50)
+
+	    # Trouver le centre
+	    M = cv2.moments(c)
+            centroid_x = int(M['m10']/M['m00'])
+            centroid_y = int(M['m01']/M['m00'])
+
+	    # Trouver le nb de sommet
+            approx = cv2.approxPolyDP(c,int(0.025*cv2.arcLength(c,True)),True)
+
+	    # Identifier selon le nb de sommet
+	    font = cv2.FONT_HERSHEY_SIMPLEX
+            if len(approx)==3:
+	        text = 'Triangle rouge'
+            elif len(approx)==4:
+                text = 'Carre rouge'
+            elif len(approx)==5:
+                text = 'Pentagone rouge'
+            elif len(approx) > 5:
+                text = 'Cercle rouge'
+	    else:
+		text = 'Erreur!'
+
+	    # Afficher identification sur la photo 
+	    cv2.putText(self.m_image,text,(centroid_x,centroid_y), font, 0.5,(0,0,0),1,cv2.LINE_AA)
 
     def findBlue(self):
 
-        #different cyan avec eclairage : [020,126,140], [027, 123, 140], [021, 128, 148], [017, 122,140]
+	# Debut et fin de l'intervale de couleur bleu
         upper = np.array([255, 255, 102]) #66FFFF
         lower = np.array([102, 102, 0]) #006666
 
@@ -103,39 +132,46 @@ class TraitementImage:
         # supprime les contours negligeable
         index = []
         for c in range(len(contoursBleu)):
-            if (cv2.contourArea(contoursBleu[c]) < 1000): # TODO: trouver la bonne valeur pour comparer
+            if (cv2.contourArea(contoursBleu[c]) < 100): # TODO: trouver la bonne valeur pour comparer
                 index += [c]
         contoursBleu = np.delete(contoursBleu,index)
 
         # print le nombre de forme trouver
         print "I found %d blue shapes" % (len(contoursBleu))
 
-        # Trouver la forme
+        # Identifier la forme
         for c in contoursBleu:
-            approx = cv2.approxPolyDP(c,0.01*cv2.arcLength(c,True),True)
-            print len(approx)
+
+	    # Trouver le centre
+	    M = cv2.moments(c)
+            centroid_x = int(M['m10']/M['m00'])
+            centroid_y = int(M['m01']/M['m00'])
+
+	    # Trouver le nb de sommet
+            approx = cv2.approxPolyDP(c,int(0.025*cv2.arcLength(c,True)),True)
+
+	    # Identifier selon le nb de sommet
+	    font = cv2.FONT_HERSHEY_SIMPLEX
             if len(approx)==3:
-                print "Triangle"
-                cv2.drawContours(self.m_image,[c],(255,0,0),2)
+	        text = 'Triangle bleu'
             elif len(approx)==4:
-                print "Carre"
-                cv2.drawContours(self.m_image,[c],0,(255,0,0),2)
+                text = 'Carre bleu'
             elif len(approx)==5:
-                print "Pentagone"
-                cv2.drawContours(self.m_image,[c],0,(255,0,0),2)
+                text = 'Pentagone bleu'
             elif len(approx) > 5:
-                print "cercle"
-                cv2.drawContours(self.m_image,[c],0,(255,0,0),2)
+                text = 'Cercle bleu'
+	    else:
+		text = 'Erreur!'
 
-        # dessine par dessus les contours
-        #for c in contoursBleu:
-            #cv2.drawContours(self.m_image, [c], -1, (140, 126, 20), 20)
+	    # Afficher identification sur la photo 
+	    cv2.putText(self.m_image,text,(centroid_x,centroid_y), font, 0.5,(0,0,0),1,cv2.LINE_AA)
 
-    def findYellow(self):
+    def findYellow(self):  
+	
+	# Debut et fin de l'intervale de couleur jaune
+        upper = np.array([51, 216, 242]) #F2D833
+        lower = np.array([10, 120, 140]) #8C780A
 
-        # Debut et fin de l'intervale de couleur jaune
-        upper = np.array([65, 255, 255])
-        lower = np.array([0, 200, 200])
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
         shapeYellowMask = cv2.inRange(self.m_image, lower, upper)
@@ -146,12 +182,42 @@ class TraitementImage:
         # Trouve les contours a l'aide du masque
         _, contoursJaune, _ = cv2.findContours(shapeYellowMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+        # supprime les contours negligeable
+        index = []
+        for c in range(len(contoursJaune)):
+            if (cv2.contourArea(contoursJaune[c]) < 100): # TODO: trouver la bonne valeur pour comparer
+                index += [c]
+        contoursJaune = np.delete(contoursJaune,index)
+
         # print le nombre de forme trouver
         print "I found %d yellow shapes" % (len(contoursJaune))
 
-        # dessine par dessus les contours
+        # Identifier la forme
         for c in contoursJaune:
-            cv2.drawContours(self.m_image, [c], -1, (0, 255, 255), 50)
+
+	    # Trouver le centre
+	    M = cv2.moments(c)
+            centroid_x = int(M['m10']/M['m00'])
+            centroid_y = int(M['m01']/M['m00'])
+
+	    # Trouver le nb de sommet
+            approx = cv2.approxPolyDP(c,int(0.025*cv2.arcLength(c,True)),True)
+
+	    # Identifier selon le nb de sommet
+	    font = cv2.FONT_HERSHEY_SIMPLEX
+            if len(approx)==3:
+	        text = 'Triangle jaune'
+            elif len(approx)==4:
+                text = 'Carre jaune'
+            elif len(approx)==5:
+                text = 'Pentagone jaune'
+            elif len(approx) > 5:
+                text = 'Cercle jaune'
+	    else:
+		text = 'Erreur!'
+
+	    # Afficher identification sur la photo 
+	    cv2.putText(self.m_image,text,(centroid_x,centroid_y), font, 0.5,(0,0,0),1,cv2.LINE_AA)
 
     def findGreen(self):
 
@@ -171,29 +237,39 @@ class TraitementImage:
         # supprime les contours negligeable
         index = []
         for c in range(len(contoursVert)):
-            if (cv2.contourArea(contoursVert[c]) < 1000): # TODO: trouver la bonne valeur pour comparer
+            if (cv2.contourArea(contoursVert[c]) < 100): # TODO: trouver la bonne valeur pour comparer
                 index += [c]
         contoursVert = np.delete(contoursVert,index)
 
         # print le nombre de forme trouver
         print "I found %d green shapes" % (len(contoursVert))
 
-        # Trouver la forme
+        # Identifier la forme
         for c in contoursVert:
-            approx = cv2.approxPolyDP(c,0.01*cv2.arcLength(c,True),True)
-            print len(approx)
+
+	    # Trouver le centre
+	    M = cv2.moments(c)
+            centroid_x = int(M['m10']/M['m00'])
+            centroid_y = int(M['m01']/M['m00'])
+
+	    # Trouver le nb de sommet
+            approx = cv2.approxPolyDP(c,int(0.025*cv2.arcLength(c,True)),True)
+
+	    # Identifier selon le nb de sommet
+	    font = cv2.FONT_HERSHEY_SIMPLEX
             if len(approx)==3:
-                print "Triangle"
-                cv2.drawContours(self.m_image,[c],(255,255,0),2)
+	        text = 'Triangle vert'
             elif len(approx)==4:
-                print "Carre"
-                cv2.drawContours(self.m_image,[c],0,(255,255,0),2)
+                text = 'Carre vert'
             elif len(approx)==5:
-                print "Pentagone"
-                cv2.drawContours(self.m_image,[c],0,(255,255,0),2)
+                text = 'Pentagone vert'
             elif len(approx) > 5:
-                print "cercle"
-                cv2.drawContours(self.m_image,[c],0,(255,255,0),2)
+                text = 'Cercle vert'
+	    else:
+		text = 'Erreur!'
+
+	    # Afficher identification sur la photo 
+	    cv2.putText(self.m_image,text,(centroid_x,centroid_y), font, 0.5,(0,0,0),1,cv2.LINE_AA)
 
     def findTreasure(self):
 
@@ -213,8 +289,7 @@ class TraitementImage:
         # supprime les contours negligeable
         index = []
         for c in range(len(contoursTreasure)):
-            if (cv2.contourArea(contoursTreasure[c]) < 100): # TODO: trouver la bonne valeur pour comparer
-                if (cv2.contourArea(contoursTreasure[c]) > 1000): # TODO: trouver la bonne valeur pour comparer
+            if ((cv2.contourArea(contoursTreasure[c]) < 10) or (cv2.contourArea(contoursTreasure[c]) > 200)): # TODO: trouver la bonne valeur pour comparer
                     index += [c]
         contoursTreasure = np.delete(contoursTreasure,index)
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-02-05" view-index="0" gantt-divider-location="316" resource-divider-location="423" version="2.7" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-02-12" view-index="0" gantt-divider-location="316" resource-divider-location="423" version="2.7" locale="en_US">
     <description/>
     <view zooming-state="default:1" id="gantt-chart">
         <field id="tpd3" name="Name" width="59" order="0"/>
@@ -9,7 +9,7 @@
         <option id="taskLabelLeft" value="resources"/>
         <option id="taskLabelRight" value="advancement"/>
         <timeline><![CDATA[54]]></timeline>
-        <option id="color.recent"><![CDATA[#ffff00 #ffff00 #ffff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00]]></option>
+        <option id="color.recent"><![CDATA[#00ff00 #00ff00 #ffff00 #ffff00 #ffff00 #00ff00 #00ff00 #00ff00 #00ff00 #00ff00]]></option>
     </view>
     <view id="resource-table">
         <field id="0" name="Name" width="33" order="0"/>
@@ -80,46 +80,45 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
                 <depend id="5" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="5" name="Livrable 2" color="#8cb6ce" meeting="false" start="2016-01-31" duration="21" complete="2" expand="true">
+        <task id="5" name="Livrable 2" color="#8cb6ce" meeting="false" start="2016-01-31" duration="28" complete="1" expand="true">
             <depend id="12" type="2" difference="0" hardness="Strong"/>
-            <depend id="78" type="2" difference="0" hardness="Strong"/>
             <task id="67" name="Début livrable 2" color="#00ff00" meeting="true" start="2016-01-31" duration="0" complete="0" expand="true"/>
             <task id="65" name="Réunion 3" color="#00ff00" meeting="false" start="2016-02-02" duration="1" complete="100" expand="true"/>
             <task id="70" name="Réunion 4" color="#00ff00" meeting="false" start="2016-02-09" duration="1" complete="0" expand="true"/>
             <task id="73" name="Réunion 5" color="#00ff00" meeting="false" start="2016-02-16" duration="1" complete="0" expand="true"/>
-            <task id="168" name="Tâches pour remise" color="#ffff00" meeting="false" start="2016-01-31" duration="17" complete="0" expand="false">
-                <task id="132" name="Correction DPF" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
-                <task id="167" name="Plan de test" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
-                <task id="135" name="Diagramme des fonctionnalités" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
-                <task id="174" name="Analyse de risques" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
-                <task id="140" name="Diagramme physique" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
-                <task id="146" name="Corrections diagrammes GLO" color="#8cb6ce" meeting="false" start="2016-01-31" duration="10" complete="0" expand="true"/>
-                <task id="154" name="Développement logiciel &amp; tests unitaires (qualité du code)" color="#8cb6ce" meeting="false" start="2016-01-31" duration="17" complete="0" expand="true"/>
+            <task id="219" name="Réunion 6" color="#00ff00" meeting="false" start="2016-02-23" duration="1" complete="0" expand="true"/>
+            <task id="168" name="Tâches pour remise" color="#ffff00" meeting="false" start="2016-01-31" duration="20" complete="0" expand="false">
+                <task id="132" name="Correction DPF" color="#8cb6ce" meeting="false" start="2016-01-31" duration="14" complete="0" expand="true"/>
+                <task id="167" name="Plan de test" color="#8cb6ce" meeting="false" start="2016-01-31" duration="14" complete="0" expand="true"/>
+                <task id="135" name="Diagramme des fonctionnalités" color="#8cb6ce" meeting="false" start="2016-01-31" duration="14" complete="0" expand="true"/>
+                <task id="174" name="Analyse de risques" color="#8cb6ce" meeting="false" start="2016-01-31" duration="14" complete="0" expand="true"/>
+                <task id="140" name="Diagramme physique" color="#8cb6ce" meeting="false" start="2016-01-31" duration="14" complete="0" expand="true"/>
+                <task id="146" name="Corrections diagrammes GLO" color="#8cb6ce" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true"/>
+                <task id="154" name="Développement logiciel &amp; tests unitaires (qualité du code)" color="#8cb6ce" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true"/>
             </task>
-            <task id="184" name="Conception" color="#ffff00" meeting="false" start="2016-01-31" duration="20" complete="0" expand="false">
-                <task id="173" name="Détection des formes &amp; robot" color="#8cb6ce" meeting="false" start="2016-01-31" duration="17" complete="0" expand="true"/>
+            <task id="184" name="Conception" color="#ffff00" meeting="false" start="2016-01-31" duration="26" complete="0" expand="false">
+                <task id="173" name="Détection des formes &amp; robot" color="#8cb6ce" meeting="false" start="2016-01-31" duration="18" complete="0" expand="true"/>
                 <task id="187" name="PCB alimentation" color="#8cb6ce" meeting="false" start="2016-01-31" duration="13" complete="0" expand="true"/>
-                <task id="199" name="Calcul de la trajectoire" color="#8cb6ce" meeting="false" start="2016-01-31" duration="15" complete="0" expand="true"/>
-                <task id="190" name="Conception préhenseur" color="#8cb6ce" meeting="false" start="2016-01-31" duration="13" complete="0" expand="true"/>
-                <task id="193" name="Communication code Manchester" color="#8cb6ce" meeting="false" start="2016-01-31" duration="13" complete="0" expand="true"/>
-                <task id="196" name="Asservissement moteurs (Tests)" color="#8cb6ce" meeting="false" start="2016-02-07" duration="13" complete="0" expand="true">
+                <task id="199" name="Calcul de la trajectoire" color="#8cb6ce" meeting="false" start="2016-01-31" duration="26" complete="0" expand="true"/>
+                <task id="190" name="Conception préhenseur" color="#8cb6ce" meeting="false" start="2016-01-31" duration="18" complete="0" expand="true"/>
+                <task id="193" name="Communication code Manchester" color="#8cb6ce" meeting="false" start="2016-01-31" duration="18" complete="0" expand="true"/>
+                <task id="196" name="Asservissement moteurs (Tests)" color="#8cb6ce" meeting="false" start="2016-02-07" duration="19" complete="0" expand="true">
                     <notes><![CDATA[Communication arduino-moteur par série aussi]]></notes>
                 </task>
-                <task id="202" name="Communication sans fil" color="#8cb6ce" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true"/>
-                <task id="205" name="Contrôle Pololu" color="#8cb6ce" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true">
+                <task id="202" name="Communication sans fil" color="#8cb6ce" meeting="false" start="2016-01-31" duration="26" complete="0" expand="true"/>
+                <task id="205" name="Contrôle Pololu" color="#8cb6ce" meeting="false" start="2016-01-31" duration="26" complete="0" expand="true">
                     <notes><![CDATA[Contrôler Pololu à partir de l'ordi embarqué de façon automatisée, (drivers ?)]]></notes>
                 </task>
-                <task id="208" name="Station de recharge" color="#8cb6ce" meeting="false" start="2016-02-08" duration="12" complete="0" expand="true"/>
-                <task id="214" name="Détection station recharge et trésors avec caméra embarquée" color="#8cb6ce" meeting="false" start="2016-02-08" duration="12" complete="0" expand="true"/>
+                <task id="208" name="Station de recharge" color="#8cb6ce" meeting="false" start="2016-02-08" duration="18" complete="0" expand="true"/>
+                <task id="214" name="Détection station recharge et trésors avec caméra embarquée" color="#8cb6ce" meeting="false" start="2016-02-08" duration="18" complete="0" expand="true"/>
             </task>
-            <task id="7" name="Remise livrable 2" color="#cc0000" meeting="true" start="2016-02-21" duration="0" complete="0" expand="true">
+            <task id="7" name="Remise livrable 2" color="#cc0000" meeting="true" start="2016-02-28" duration="0" complete="0" expand="true">
                 <depend id="12" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="12" name="Livrable 3" color="#8cb6ce" meeting="false" start="2016-02-21" duration="42" complete="0" expand="false">
+        <task id="12" name="Livrable 3" color="#8cb6ce" meeting="false" start="2016-02-29" duration="34" complete="0" expand="false">
             <depend id="98" type="2" difference="0" hardness="Strong"/>
-            <task id="78" name="Début livrable 3" color="#00ff00" meeting="true" start="2016-02-21" duration="0" complete="0" expand="true"/>
-            <task id="75" name="Réunion 6" color="#00ff00" meeting="false" start="2016-02-23" duration="1" complete="0" expand="true"/>
+            <task id="221" name="Début livrable 3" color="#00ff00" meeting="true" start="2016-02-29" duration="0" complete="0" expand="true"/>
             <task id="85" name="Réunion 7" color="#00ff00" meeting="false" start="2016-03-01" duration="1" complete="0" expand="true"/>
             <task id="88" name="Réunion 8" color="#00ff00" meeting="false" start="2016-03-08" duration="1" complete="0" expand="true"/>
             <task id="90" name="Réunion 9" color="#00ff00" meeting="false" start="2016-03-15" duration="1" complete="0" expand="true"/>

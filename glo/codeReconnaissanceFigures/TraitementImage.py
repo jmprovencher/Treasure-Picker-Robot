@@ -7,6 +7,7 @@ class TraitementImage:
 
     def __init__(self):
         self.m_image = cv2.imread('Image/test_image2.png')
+        self.m_triangle = cv2.imread('Image/trianble.jpg')
 
     def test(self):
 

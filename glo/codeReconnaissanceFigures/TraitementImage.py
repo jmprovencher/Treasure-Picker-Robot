@@ -77,7 +77,7 @@ class TraitementImage:
         self.identifierForme(formeTrouvee)
         classement.remove(formeTrouvee)
         deuxiemeTrouvee = min(classement)
-        ret2, c2 , text2 = deuxiemeTrouvee
+        ret2, _ , text2 = deuxiemeTrouvee
         ret, c , text = formeTrouvee
         print "1er %s | Match %f" % (text, ret)
         print "2e %s | Match %f" % (text2, ret2)
@@ -85,7 +85,7 @@ class TraitementImage:
 
     def identifierForme(self, formeTrouvee):
         font = cv2.FONT_HERSHEY_SIMPLEX
-        ratio, c , text = formeTrouvee
+        _, c , text = formeTrouvee
 
         #Trouver centre de la forme
         M = cv2.moments(c)

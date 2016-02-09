@@ -52,6 +52,7 @@ void loop() {
                     lcd.setCursor(1,0);
                     Serial.print(action);
                     Serial.println(incomingByte - i, DEC);
+                    delay(10);
                   }
                   mode = !mode;
                 }

@@ -20,8 +20,7 @@ class TraitementImage:
         cv2.imshow("Image", self.m_image)
 
         self.cropPicture()
-        self.m_image = cv2.imread('Cropped.png')
-
+        self.blur()
         self.findTreasure()
         self.findBlue()
         self.findRed()
@@ -38,7 +37,12 @@ class TraitementImage:
 	# Hardcodage du crop #TODO: a verifier sur toute les tables
         crop = self.m_image[90:440,0:640]
         cv2.imwrite('Cropped.png',crop)
+        self.m_image = cv2.imread('Cropped.png')
 
+    def blur(self):
+       blur = cv2.GaussianBlur(self.m_image,(5,5),0)
+       cv2.imwrite('Cropped.png',blur)
+       self.m_image = cv2.imread('Cropped.png')
 
     #Pour chaque forme, on definit un contour parfait qui sera compare aux contours trouves
     def definirFormesConnues(self):
@@ -74,7 +78,13 @@ class TraitementImage:
         classement.append((cv2.matchShapes(c,self.cntCarre,1,0.0), c,  "Carre"))
         classement.append((cv2.matchShapes(c,self.cntPentagone,1,0.0), c ,"Pentagone"))
         formeTrouvee = min(classement)
-        self.identifierForme(formeTrouvee)
+        precision, _, _ = formeTrouvee
+        if (precision < 0.5):
+            self.identifierForme(formeTrouvee)
+        else:
+            print "Forme non conforme detectee"
+
+
         classement.remove(formeTrouvee)
         deuxiemeTrouvee = min(classement)
         ret2, _ , text2 = deuxiemeTrouvee

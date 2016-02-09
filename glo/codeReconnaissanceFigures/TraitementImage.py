@@ -5,7 +5,7 @@ import cv2
 class TraitementImage:
 
     def __init__(self):
-        self.m_image = cv2.imread('Image/test_image6.png')
+        self.m_image = cv2.imread('Image/res++/test_image20.png')
         self.m_triangle = cv2.imread('Image/triangle.png', 0)
         self.m_triangle2 = cv2.imread('Image/triangle2.png', 0)
         self.m_cercle = cv2.imread('Image/cercle.png', 0)
@@ -35,7 +35,7 @@ class TraitementImage:
 
     def cropPicture(self):
 	# Hardcodage du crop #TODO: a verifier sur toute les tables
-        crop = self.m_image[90:440,0:640]
+        crop = self.m_image[220:1100,0:1600]
         cv2.imwrite('Cropped.png',crop)
         self.m_image = cv2.imread('Cropped.png')
 
@@ -236,8 +236,8 @@ class TraitementImage:
     def findTreasure(self):
 
         # Debut et fin de l'intervale de couleur jaune
-        upper = np.array([30, 140, 150]) #Jimmy
-        lower = np.array([10, 120, 140]) #Jimmy
+        upper = np.array([37,145,145]) #Jimmy
+        lower = np.array([6,100,100]) #Jimmy
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
         shapeTreasureMask = cv2.inRange(self.m_image, lower, upper)
@@ -251,21 +251,11 @@ class TraitementImage:
         # supprime les contours negligeable
         index = []
         for c in range(len(contoursTreasure)):
-            if ((cv2.contourArea(contoursTreasure[c]) < 10) or (cv2.contourArea(contoursTreasure[c]) > 200)): # TODO: trouver la bonne valeur pour comparer
-                    index += [c]
+            aire = cv2.contourArea(contoursTreasure[c])
+            if (aire < 10 or aire > 200): # TODO: trouver la bonne valeur pour comparer
+                index += [c]
         contoursTreasure = np.delete(contoursTreasure,index)
-
-        # print le nombre de forme trouver
-        print "\n%d TRESORS" % (len(contoursTreasure))
-
         # dessine par dessus les contours
         print "NOMBRE CONTOUR: %d " % (len(contoursTreasure))
 
-        #Trouver centre de la forme
-        M = cv2.moments(contoursTreasure)
-        centroid_x = int(M['m10']/M['m00'])
-        centroid_y = int(M['m01']/M['m00'])
 
-        # Afficher identification sur la photo
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(self.m_image,"TRESOR",(centroid_x,centroid_y), font, 0.5,(0,0,0),1,cv2.LINE_AA)

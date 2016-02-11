@@ -5,15 +5,21 @@ from ElementCartographique import ElementCartographique
 class Ile(ElementCartographique):
 
     def __init__(self,x,y,couleur,forme):
-        m_x = x
-        m_y = y
-        m_couleur = couleur
-        m_forme = forme
+        self.m_x = x
+        self.m_y = y
+        self.m_couleur = couleur
+        self.m_forme = forme
 
     def getForme(self):
         return self.m_forme
 
     def getCouleur(self):
         return self.m_couleur
+
+    def afficher(self):
+        print "ILE"
+        print self.m_forme + self.m_forme
+        print "Position x : %d",self.m_x
+        print "Position y : %d",self.m_y
 
 

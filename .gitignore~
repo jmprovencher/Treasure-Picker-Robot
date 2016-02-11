@@ -1,4 +1,3 @@
-
 *.gz
 *.log
 *.aux
@@ -7,4 +6,5 @@
 *.bbl
 *.blg
 Remises/Rapport\ de\ developpement.pdf
-
+**/.idea/workspace.xml
+**/.idea/tasks.xml

@@ -3,8 +3,8 @@ import socket                   # Import socket module
 s = socket.socket()             # Create a socket object
 host = socket.gethostname()     # Get local machine name
 port = 60000                    # Reserve a port for your service.
-
-s.connect((host, port))
+print host
+s.connect(('DESKTOP-5KTTE0G', port))
 s.send("Hello server!")
 
 with open('received_file.json', 'wb') as f:

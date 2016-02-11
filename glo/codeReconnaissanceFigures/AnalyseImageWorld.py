@@ -113,10 +113,10 @@ class AnalyseImageWorld(object):
 
         if (couleur == "TRESOR"):
             tresor = Tresor(centroid_x,centroid_y)
-            self.m_elementCartographiques += tresor
+            self.m_elementCartographiques.append(tresor)
         else:
             ile = Ile(centroid_x,centroid_y,couleur,text)
-            self.m_elementCartographiques += ile
+            self.m_elementCartographiques.append(ile)
 
 
     def findRed(self):
@@ -153,7 +153,6 @@ class AnalyseImageWorld(object):
         for c in contoursRouge:
             print cv2.contourArea(c)
             self.trouverForme(c,"ROUGE")
-            ile = Ile()
 
     def findBlue(self):
 

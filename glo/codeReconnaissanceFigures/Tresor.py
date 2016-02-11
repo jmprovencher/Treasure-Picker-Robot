@@ -5,7 +5,11 @@ from ElementCartographique import ElementCartographique
 class Tresor(ElementCartographique):
 
     def __init__(self,x,y):
-        m_x = x
-        m_y = y
+        self.m_x = x
+        self.m_y = y
 
+    def afficher(self):
+        print "TRESOR"
+        print "Position x : %d",self.m_x
+        print "Position y : %d",self.m_y
 

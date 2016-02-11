@@ -13,11 +13,15 @@ class StationBase():
         self.m_carte = Carte()
         self.main()
 
-    def initCarte(self):
-        elementCartographiques = self.m_analyseImageWorld.getElementCartographiques()
-        self.m_carte = self.m_carte.ajouterElementCarto(elementCartographiques)
-
     def main(self):
+        print "\n******************************************************************************"
+        print "Details de detection"
+        print "******************************************************************************\n"
         self.m_analyseImageWorld.trouverElement()
-        self.initCarte()
-        self.afficherCarte()
+        elementCarto = self.m_analyseImageWorld.getElementCartographiques()
+        self.m_carte.ajouterElementCarto(elementCarto)
+        print "\n******************************************************************************"
+        print "Carte virtuelle"
+        print "******************************************************************************\n"
+        self.m_carte.afficherCarte()
+

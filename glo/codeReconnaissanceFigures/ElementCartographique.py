@@ -3,13 +3,12 @@ import numpy as np
 
 class ElementCartographique():
 
-    def __init__(self,x,y):
-        self.m_x = x
-        self.m_y = y
+    def __init__(self,centre):
+        self.centre_x, self.centre_y = centre
 
     def getX(self):
-        return self.m_x
+        return self.centre_x
 
     def getY(self):
-        return self.m_y
+        return self.centre_y
 

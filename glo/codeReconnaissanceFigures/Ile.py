@@ -9,6 +9,9 @@ class Ile(ElementCartographique):
         self.couleur = couleur
         self.forme = forme
 
+    def getX(self):
+        return self.centre_x
+
     def getForme(self):
         return self.forme
 

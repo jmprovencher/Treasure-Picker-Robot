@@ -8,7 +8,7 @@ from Ile import Ile
 class AnalyseImageWorld(object):
 
     def __init__(self):
-        self.imageCamera = cv2.imread('Image/images6_formesParfaites.png')
+        #self.imageCamera = cv2.imread('Image/images6_formesParfaites.png')
         self.patronTriangle = cv2.imread('Image/triangle.png', 0)        
         self.patronCercle = cv2.imread('Image/cercle.png', 0)
         self.patronCarre = cv2.imread('Image/carre.png', 0)
@@ -16,6 +16,10 @@ class AnalyseImageWorld(object):
         self.formesConnues = []
         self.elementsCartographiques = []
         self.definirFormesConnues()
+        self.nombreFormeRouge = 0
+        self.nombreFormeBleue = 0
+        self.nombreFormeVerte = 0
+        self.nombreFormeJaune = 0
         #self.chargerImage('Image/test_image6_formes.png')
 
     def chargerImage(self, url):
@@ -24,7 +28,7 @@ class AnalyseImageWorld(object):
     def trouverElement(self):
 
         # Affiche l'image initiale
-        cv2.imshow("Image", self.imageCamera)
+        #cv2.imshow("Image", self.imageCamera)
 
         self.recadrerImage()
         self.estomperImage()
@@ -35,10 +39,10 @@ class AnalyseImageWorld(object):
         self.detecterVert()
 
         # Affiche l'image apres detection
-        cv2.imshow("Image2", self.imageCamera)
+        #cv2.imshow("Image2", self.imageCamera)
 
         # Permet de garder les images ouvertes
-        cv2.waitKey(0)
+        #cv2.waitKey(0)
 
     def recadrerImage(self):
 	    # Hardcodage du crop
@@ -163,6 +167,8 @@ class AnalyseImageWorld(object):
             print cv2.contourArea(c)
             self.trouverForme(c,"ROUGE")
 
+        self.nombreFormeVerte = len(contoursRouge)
+
     def detecterBleu(self):
 
 	# Debut et fin de l'intervale de couleur bleu
@@ -196,6 +202,8 @@ class AnalyseImageWorld(object):
         for c in contoursBleu:
             print cv2.contourArea(c)
             self.trouverForme(c,"BLEU")
+
+        self.nombreFormeVerte = len(contoursBleu)
 
     def detecterJaune(self):
 
@@ -231,6 +239,8 @@ class AnalyseImageWorld(object):
             print cv2.contourArea(c)
             self.trouverForme(c,"JAUNE")
 
+        self.nombreFormeVerte = len(contoursJaune)
+
     def detecterVert(self):
 
         # Debut et fin de l'intervale de couleur vert
@@ -263,6 +273,7 @@ class AnalyseImageWorld(object):
         for c in contoursVert:
             print cv2.contourArea(c)
             self.trouverForme(c,"VERT")
+        self.nombreFormeVerte = len(contoursVert)
 
     def detecterTresor(self):
 
@@ -305,6 +316,18 @@ class AnalyseImageWorld(object):
 
     def ajouterElementTrouver(self, elementCarto):
         self.elementsCartographiques.append(elementCarto)
+
+    def getNombreFormeRouge(self):
+        return self.nombreFormeRouge
+
+    def getNombreFormeBleue(self):
+        return self.nombreFormeBleue
+
+    def getNombreFormeJaune(self):
+        return self.nombreFormeJaune
+
+    def getNombreFormeVerte(self):
+        return self.nombreFormeVerte
 
 
 

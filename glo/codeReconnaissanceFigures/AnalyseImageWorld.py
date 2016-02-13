@@ -8,7 +8,7 @@ from Ile import Ile
 class AnalyseImageWorld(object):
 
     def __init__(self):
-        #self.imageCamera = cv2.imread('Image/images6_formesParfaites.png')
+        self.imageCamera = cv2.imread('Image/test_image6.png')
         self.patronTriangle = cv2.imread('Image/triangle.png', 0)        
         self.patronCercle = cv2.imread('Image/cercle.png', 0)
         self.patronCarre = cv2.imread('Image/carre.png', 0)
@@ -16,6 +16,7 @@ class AnalyseImageWorld(object):
         self.formesConnues = []
         self.elementsCartographiques = []
         self.definirFormesConnues()
+
         self.nombreFormeRouge = 0
         self.nombreFormeBleue = 0
         self.nombreFormeVerte = 0
@@ -295,7 +296,7 @@ class AnalyseImageWorld(object):
         for c in range(len(contoursTresor)):
             aire = cv2.contourArea(contoursTresor[c])
             if (aire < 10 or aire > 200): # TODO: trouver la bonne valeur pour comparer
-                index += [c]
+                index.append(c)
 
         if (index != []):
             contoursTresor = np.delete(contoursTresor,index)

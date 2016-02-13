@@ -8,54 +8,54 @@ from Ile import Ile
 class AnalyseImageWorld(object):
 
     def __init__(self):
-        self.m_image = cv2.imread('Image/test_imageTresor.png')
-        self.m_triangle = cv2.imread('Image/triangle.png', 0)
-        self.m_triangle2 = cv2.imread('Image/triangle2.png', 0)
-        self.m_cercle = cv2.imread('Image/cercle.png', 0)
-        self.m_carre = cv2.imread('Image/carre.png', 0)
-        self.m_pentagone = cv2.imread('Image/pentagone.png', 0)
+        self.captureImage = cv2.imread('Image/test_imageTresor.png')
+        self.patronTriangle = cv2.imread('Image/triangle.png', 0)        
+        self.patronCercle = cv2.imread('Image/cercle.png', 0)
+        self.patronCarre = cv2.imread('Image/carre.png', 0)
+        self.patronPentagone = cv2.imread('Image/pentagone.png', 0)
         self.formesConnues = []
-        self.m_elementCartographiques = []
+        self.elementsCartographiques = []
         self.definirFormesConnues()
 
     def trouverElement(self):
 
         # Affiche l'image initiale
-        cv2.imshow("Image", self.m_image)
+        cv2.imshow("Image", self.captureImage)
 
-        self.cropPicture()
-        self.blur()
-        self.findTreasure()
-        self.findBlue()
-        self.findRed()
-        self.findYellow()
-        self.findGreen()
+        self.recadrerImage()
+        self.estomperImage()
+        self.detecterTresor()
+        self.detecterBleu()
+        self.detecterRouge()
+        self.detecterJaune()
+        self.detecterVert()
 
         # Affiche l'image apres detection
-        cv2.imshow("Image2", self.m_image)
+        cv2.imshow("Image2", self.captureImage)
 
         # Permet de garder les images ouvertes
         cv2.waitKey(0)
 
-    def cropPicture(self):
-	# Hardcodage du crop #TODO: a verifier sur toute les tables
+    def recadrerImage(self):
+	    # Hardcodage du crop
+        # TODO: a verifier sur toute les tables
         #crop = self.m_image[220:1100,0:1600]
-        crop = self.m_image[90:440,0:640]
+        crop = self.captureImage[90:440, 0:640]
         cv2.imwrite('Cropped.png',crop)
-        self.m_image = cv2.imread('Cropped.png')
+        self.captureImage = cv2.imread('Cropped.png')
 
-    def blur(self):
-       blur = cv2.GaussianBlur(self.m_image,(5,5),0)
+    def estomperImage(self):
+       blur = cv2.GaussianBlur(self.captureImage, (5, 5), 0)
        cv2.imwrite('Cropped.png',blur)
-       self.m_image = cv2.imread('Cropped.png')
+       self.captureImage = cv2.imread('Cropped.png')
 
     #Pour chaque forme, on definit un contour parfait qui sera compare aux contours trouves
     def definirFormesConnues(self):
 
-        ret, threshTriangle = cv2.threshold(self.m_triangle, 127, 255,0)
-        ret, threshCercle = cv2.threshold(self.m_cercle, 127, 255,0)
-        ret, threshCarre = cv2.threshold(self.m_carre, 127, 255,0)
-        ret, threshPentagone = cv2.threshold(self.m_pentagone, 127, 255,0)
+        precision, threshTriangle = cv2.threshold(self.patronTriangle, 127, 255, 0)
+        precision, threshCercle = cv2.threshold(self.patronCercle, 127, 255, 0)
+        precision, threshCarre = cv2.threshold(self.patronCarre, 127, 255,0)
+        precision, threshPentagone = cv2.threshold(self.patronPentagone, 127, 255,0)
 
         #Recherche des contours
         _, contoursTriangle, _ = cv2.findContours(threshTriangle, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -77,63 +77,66 @@ class AnalyseImageWorld(object):
     #identifier la forme, soit la forme avec le meilleur ratio de compatibilite
     def trouverForme(self, c, couleur):
 
-        classement = []
-        classement.append((cv2.matchShapes(c,self.cntTriangle,1,0.0), c , "Triangle"))
-        classement.append((cv2.matchShapes(c,self.cntCercle,1,0.0), c,  "Cercle"))
-        classement.append((cv2.matchShapes(c,self.cntCarre,1,0.0), c,  "Carre"))
-        classement.append((cv2.matchShapes(c,self.cntPentagone,1,0.0), c ,"Pentagone"))
-        formeTrouvee = min(classement)
-        precision, _, _ = formeTrouvee
+        resultatsMatch = []
+        resultatsMatch.append((cv2.matchShapes(c,self.cntTriangle,1,0.0), c , "Triangle"))
+        resultatsMatch.append((cv2.matchShapes(c,self.cntCercle,1,0.0), c,  "Cercle"))
+        resultatsMatch.append((cv2.matchShapes(c,self.cntCarre,1,0.0), c,  "Carre"))
+        resultatsMatch.append((cv2.matchShapes(c,self.cntPentagone,1,0.0), c ,"Pentagone"))
+        meilleurMatch = min(resultatsMatch)
+        precision, _, _ = meilleurMatch
         if (precision < 0.5):
-            self.identifierForme(formeTrouvee, couleur)
+            self.identifierForme(meilleurMatch, couleur)
         else:
+            #On pourrait ici alerter le systeme d'une forme reconnue si jamais on en a besoin une fois le robot en mouvement
+            #self.suspendreMouvement()
             print "Forme non conforme detectee"
 
 
-        classement.remove(formeTrouvee)
-        deuxiemeTrouvee = min(classement)
-        ret2, _ , text2 = deuxiemeTrouvee
-        ret, c , text = formeTrouvee
-        print "1er %s | Match %f" % (text, ret)
-        print "2e %s | Match %f" % (text2, ret2)
+        resultatsMatch.remove(meilleurMatch)
+        precisionMeilleur, c , nomFigure = meilleurMatch
+        deuxiemeMatch= min(resultatsMatch)
+        precisionDeuxieme, _ , nomFigure2 = deuxiemeMatch
+
+        print "1er %s | Match %f" % (nomFigure, precision)
+        print "2e %s | Match %f" % (nomFigure2, precisionDeuxieme)
         print "---------------------------------------------------"
 
 
-    def identifierForme(self, formeTrouvee, couleur):
+    def identifierForme(self, meilleurMatch, couleur):
         font = cv2.FONT_HERSHEY_SIMPLEX
-        _, c , text = formeTrouvee
+        _, contoursForme , nomFigure = meilleurMatch
 
         #Trouver centre de la forme
-        M = cv2.moments(c)
-        centroid_x = int(M['m10']/M['m00'])
-        centroid_y = int(M['m01']/M['m00'])
+        M = cv2.moments(contoursForme)
+        centre_x = int(M['m10']/M['m00'])
+        centre_y = int(M['m01']/M['m00'])
 
         # Afficher identification sur la photo
-        cv2.putText(self.m_image,text,(centroid_x,centroid_y), font, 0.5,(0,0,0),1,cv2.LINE_AA)
+        cv2.putText(self.captureImage, nomFigure, (centre_x, centre_y), font, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
 
         if (couleur == "TRESOR"):
-            tresor = Tresor(centroid_x,centroid_y)
-            self.m_elementCartographiques.append(tresor)
+            tresor = Tresor(centre_x,centre_y)
+            self.elementsCartographiques.append(tresor)
         else:
-            ile = Ile(centroid_x,centroid_y,couleur,text)
-            self.m_elementCartographiques.append(ile)
+            ile = Ile(centre_x,centre_y,couleur,nomFigure)
+            self.elementsCartographiques.append(ile)
 
 
-    def findRed(self):
+    def detecterRouge(self):
 
 	# Debut et fin de l'intervale de couleur rouge # TODO: trouver un meilleur intervale
-        lower = np.array([36, 0, 129]) #970028
-        upper = np.array([108, 40, 240]) #FF0044
+        intervalleFoncer = np.array([36, 0, 129]) #970028
+        intervalleClair = np.array([108, 40, 240]) #FF0044
 
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        shapeRedMask = cv2.inRange(self.m_image, lower, upper)
+        masqueRouge = cv2.inRange(self.captureImage, intervalleFoncer, intervalleClair)
 
         # Affiche l'image en noir et blanc
-        cv2.imshow("MaskRouge", shapeRedMask)
+        cv2.imshow("MaskRouge", masqueRouge)
 
         # Trouve les contours a l'aide du masque
-        _, contoursRouge, _ = cv2.findContours(shapeRedMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursRouge, _ = cv2.findContours(masqueRouge.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         # supprime les contours negligeable
         index = []
@@ -153,21 +156,21 @@ class AnalyseImageWorld(object):
             print cv2.contourArea(c)
             self.trouverForme(c,"ROUGE")
 
-    def findBlue(self):
+    def detecterBleu(self):
 
 	# Debut et fin de l'intervale de couleur bleu
-        upper = np.array([255, 255, 102]) #66FFFF
-        lower = np.array([102, 102, 0]) #006666
+        intervalleClair = np.array([255, 255, 102]) #66FFFF
+        intervalleFoncer = np.array([102, 102, 0]) #006666
 
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        shapeBlueMask = cv2.inRange(self.m_image, lower, upper)
+        masqueBleu = cv2.inRange(self.captureImage, intervalleFoncer, intervalleClair)
 
         # Affiche l'image en noir et blanc
-        cv2.imshow("MaskBleu", shapeBlueMask)
+        cv2.imshow("MaskBleu", masqueBleu)
 
         # Trouve les contours a l'aide du masque
-        _, contoursBleu, _ = cv2.findContours(shapeBlueMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursBleu, _ = cv2.findContours(masqueBleu.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         # supprime les contours negligeable
         index = []
@@ -187,21 +190,21 @@ class AnalyseImageWorld(object):
             print cv2.contourArea(c)
             self.trouverForme(c,"BLEU")
 
-    def findYellow(self):
+    def detecterJaune(self):
 
 	# Debut et fin de l'intervale de couleur jaune
-        upper = np.array([51, 216, 242]) #F2D833
-        lower = np.array([10, 120, 140]) #8C780A
+        intervalleClair = np.array([51, 216, 242]) #F2D833
+        intervalleFoncer = np.array([10, 120, 140]) #8C780A
 
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        shapeYellowMask = cv2.inRange(self.m_image, lower, upper)
+        masqueJaune = cv2.inRange(self.captureImage, intervalleFoncer, intervalleClair)
 
         # Affiche l'image en noir et blanc
-        cv2.imshow("MaskJaune", shapeYellowMask)
+        cv2.imshow("MaskJaune", masqueJaune)
 
         # Trouve les contours a l'aide du masque
-        _, contoursJaune, _ = cv2.findContours(shapeYellowMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursJaune, _ = cv2.findContours(masqueJaune.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         # supprime les contours negligeable
         index = []
@@ -221,20 +224,20 @@ class AnalyseImageWorld(object):
             print cv2.contourArea(c)
             self.trouverForme(c,"JAUNE")
 
-    def findGreen(self):
+    def detecterVert(self):
 
         # Debut et fin de l'intervale de couleur vert
-        upper = np.array([102, 255, 102]) #66FF66
-        lower = np.array([0, 102, 0]) #006600
+        intervalleClair = np.array([102, 255, 102]) #66FF66
+        intervalleFoncer = np.array([0, 102, 0]) #006600
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        shapeGreenMask = cv2.inRange(self.m_image, lower, upper)
+        masqueVert = cv2.inRange(self.captureImage, intervalleFoncer, intervalleClair)
 
         # Affiche l'image en noir et blanc
-        cv2.imshow("MaskVert", shapeGreenMask)
+        cv2.imshow("MaskVert", masqueVert)
 
         # Trouve les contours a l'aide du masque
-        _, contoursVert, _ = cv2.findContours(shapeGreenMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursVert, _ = cv2.findContours(masqueVert.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         # supprime les contours negligeable
         index = []
@@ -254,36 +257,36 @@ class AnalyseImageWorld(object):
             print cv2.contourArea(c)
             self.trouverForme(c,"VERT")
 
-    def findTreasure(self):
+    def detecterTresor(self):
 
         # Debut et fin de l'intervale de couleur jaune
-        upper = np.array([37,145,145]) #Jimmy
-        lower = np.array([6,100,100]) #Jimmy
+        intervalleClair = np.array([37,145,145]) #Jimmy
+        intervalleFoncer = np.array([6,100,100]) #Jimmy
         # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
         # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        shapeTreasureMask = cv2.inRange(self.m_image, lower, upper)
+        shapeTresorMasque = cv2.inRange(self.captureImage, intervalleFoncer, intervalleClair)
 
         # Affiche l'image en noir et blanc
-        cv2.imshow("MaskTreasure", shapeTreasureMask)
+        cv2.imshow("Masque Tresor", shapeTresorMasque)
 
         # Trouve les contours a l'aide du masque
-        _, contoursTreasure, _ = cv2.findContours(shapeTreasureMask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         # supprime les contours negligeable
         index = []
-        for c in range(len(contoursTreasure)):
-            aire = cv2.contourArea(contoursTreasure[c])
+        for c in range(len(contoursTresor)):
+            aire = cv2.contourArea(contoursTresor[c])
             if (aire < 10 or aire > 200): # TODO: trouver la bonne valeur pour comparer
                 index += [c]
 
         if (index != []):
-            contoursTreasure = np.delete(contoursTreasure,index)
+            contoursTresor = np.delete(contoursTresor,index)
 
         # dessine par dessus les contours
-        print "%d TRESORS " % (len(contoursTreasure))
+        print "%d TRESORS " % (len(contoursTresor))
 
         # Identifier tresor
-        for c in contoursTreasure:
+        for c in contoursTresor:
             print cv2.contourArea(c)
             formeTresor = _, c ,"Tresor"
             self.identifierForme(formeTresor,"TRESOR")
@@ -291,10 +294,10 @@ class AnalyseImageWorld(object):
 
 
     def getElementCartographiques(self):
-        return self.m_elementCartographiques
+        return self.elementsCartographiques
 
     def ajouterElementTrouver(self, elementCarto):
-        self.m_elementCartographiques += elementCarto
+        self.elementsCartographiques += elementCarto
 
 
 

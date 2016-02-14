@@ -25,25 +25,21 @@ to make the connection between your Arduino and your Maestro. */
 that port to communicate with the Maestro. For other boards,
 create a SoftwareSerial object using pin 10 to receive (RX) and
 pin 11 to transmit (TX). */
-#ifdef SERIAL_PORT_HARDWARE_OPEN
-  #define maestroSerial SERIAL_PORT_HARDWARE_OPEN
-#else
-  #include <SoftwareSerial.h>
-  SoftwareSerial maestroSerial(10, 11);
-#endif
 
 /* Next, create a Maestro object using the serial port.
 
 Uncomment one of MicroMaestro or MiniMaestro below depending
 on which one you have. */
-MicroMaestro maestro(maestroSerial);
+//MicroMaestro maestro(Serial);
 //MiniMaestro maestro(maestroSerial);
 
 void setup()
 {
   // Set the serial baud rate.
-  maestroSerial.begin(9600);
+  Serial1.begin(9600);
+  Serial.begin(9600);
 }
+MicroMaestro maestro(Serial);
 
 void loop()
 {
@@ -51,7 +47,17 @@ void loop()
      the target position in units of 1/4 microseconds. A typical
      RC hobby servo responds to pulses between 1 ms (4000) and 2
      ms (8000). */
+int incomingByte = 0;   // for incoming serial data
 
+        if (Serial.available() > 0) {
+                // read the incoming byte:
+                incomingByte = Serial.read();
+
+                // say what you got:
+                print("I received: ");
+                print(incomingByte, DEC);
+        }
+  
   // Set the target of channel 0 to 1500 us, and wait 2 seconds.
   //Position droite
   maestro.setTarget(0, 9600);

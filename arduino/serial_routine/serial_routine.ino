@@ -1,18 +1,35 @@
+#include <PID_v1.h>
 #include <LiquidCrystal.h>
 
+
+
 // global value that corresponds to the byte sent by the micro PC by UART.
-int incomingByte = 0; 
+int incomingByte = 0;
+// value that allows a simple switch case
 boolean mode = false;
+// string used to print on the serial
 String action = "";
+
 int pins[6] = {2, 3, 4, 7, 8, 9};
-int spd[7] = {0, 0, 0, 0, 255, 0};
+int spdWheels[7] = {0, 0, 0, 0, 255, 0};
+
+double Setpoint[4], Input[4], Output[4];
+
+PID firstPID(&Input[0], &Output[0], &Setpoint[0], 2, 5, 1, DIRECT);
+PID secondPID(&Input[1], &Output[1], &Setpoint[1], 2, 5, 1, DIRECT);
+PID thirdPID(&Input[2], &Output[2], &Setpoint[2], 2, 5, 1, DIRECT);
+PID fourthPID(&Input[3], &Output[3], &Setpoint[3], 2, 5, 1, DIRECT);
 
 void setup() {
-  // put your setup code here, to run once:
-   Serial.begin(115200);
-   for(int i = 0; i < 6; i++){
-      pinMode(pins[i], OUTPUT);
-   }
+  Serial.begin(115200);
+  
+  for(int i = 0; i < 6; i++){
+     pinMode(pins[i], OUTPUT);
+  }
+  for(int i = 0; i < 4; i++){
+     Input[i] = analogRead(i);
+     Setpoint[i] = spdWheels[i];
+  }
 }
 
 void loop() {
@@ -24,19 +41,19 @@ void loop() {
                 if(!mode){
                   if(incomingByte == 56){
                     action = "Moving forward ";
-                    spd[0] = 122; spd[1] = 122; spd[2] = 0; spd[3] = 0; spd[4] = 255, spd[5] = 0;
+                    spdWheels[0] = 122; spdWheels[1] = 122; spdWheels[2] = 0; spdWheels[3] = 0; spdWheels[4] = 255, spdWheels[5] = 0;
                   }
                   else if(incomingByte == 50){
                     action = "Moving backwards ";
-                    spd[0] = 122; spd[1] = 122; spd[2] = 0; spd[3] = 0; spd[4] = 0, spd[5] = 255;
+                    spdWheels[0] = 122; spdWheels[1] = 122; spdWheels[2] = 0; spdWheels[3] = 0; spdWheels[4] = 0, spdWheels[5] = 255;
                   }
                   else if(incomingByte == 52){
                     action = "Turning left ";
-                    spd[2] = 122; spd[3] = 122; spd[0] = 0; spd[1] = 0; spd[4] = 0, spd[5] = 255;
+                    spdWheels[2] = 122; spdWheels[3] = 122; spdWheels[0] = 0; spdWheels[1] = 0; spdWheels[4] = 0, spdWheels[5] = 255;
                   }
                   else if(incomingByte == 54){
                     action = "Turning right ";
-                    spd[2] = 122; spd[3] = 122; spd[0] = 0; spd[1] = 0; spd[4] = 255, spd[5] = 0;
+                    spdWheels[2] = 122; spdWheels[3] = 122; spdWheels[0] = 0; spdWheels[1] = 0; spdWheels[4] = 255, spdWheels[5] = 0;
                   }
                   else{
                     action = "Invalid action ";
@@ -47,7 +64,7 @@ void loop() {
                 else if(mode){
                   for(int i = 0; i < incomingByte; i++){
                     for(int i = 0; i<6; i++){
-                      analogWrite(pins[i], spd[i]);
+                      analogWrite(pins[i], spdWheels[i]);
                     }
                     if(Serial.available() > 0){
                       mode = !mode;

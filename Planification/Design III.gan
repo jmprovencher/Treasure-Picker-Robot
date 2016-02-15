@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-01-29" view-index="0" gantt-divider-location="316" resource-divider-location="423" version="2.7" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-01-28" view-index="0" gantt-divider-location="316" resource-divider-location="423" version="2.7" locale="en_US">
     <description/>
     <view zooming-state="default:1" id="gantt-chart">
-        <field id="tpd3" name="Name" width="58" order="0"/>
+        <field id="tpd3" name="Name" width="57" order="0"/>
         <field id="tpd4" name="Begin date" width="21" order="1"/>
         <field id="tpd5" name="End date" width="20" order="2"/>
         <option id="taskLabelUp" value="name"/>
@@ -80,14 +80,14 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
                 <depend id="5" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="5" name="Livrable 2" color="#8cb6ce" meeting="false" start="2016-01-31" duration="28" complete="13" expand="true">
+        <task id="5" name="Livrable 2" color="#8cb6ce" meeting="false" start="2016-01-31" duration="28" complete="21" expand="true">
             <depend id="12" type="2" difference="0" hardness="Strong"/>
             <task id="67" name="Début livrable 2" color="#00ff00" meeting="true" start="2016-01-31" duration="0" complete="0" expand="true"/>
             <task id="65" name="Réunion 3" color="#00ff00" meeting="false" start="2016-02-02" duration="1" complete="100" expand="true"/>
             <task id="70" name="Réunion 4" color="#00ff00" meeting="false" start="2016-02-09" duration="1" complete="100" expand="true"/>
             <task id="73" name="Réunion 5" color="#00ff00" meeting="false" start="2016-02-16" duration="1" complete="0" expand="true"/>
             <task id="219" name="Réunion 6" color="#00ff00" meeting="false" start="2016-02-23" duration="1" complete="0" expand="true"/>
-            <task id="168" name="Tâches pour remise" color="#ffff00" meeting="false" start="2016-01-31" duration="20" complete="0" expand="false">
+            <task id="168" name="Tâches pour remise" color="#ffff00" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true">
                 <task id="132" name="Correction DPF" color="#8cb6ce" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true"/>
                 <task id="167" name="Plan de test" color="#8cb6ce" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true"/>
                 <task id="135" name="Diagramme des fonctionnalités" color="#8cb6ce" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true"/>
@@ -97,7 +97,7 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
                 <task id="224" name="Plan d'intégration" color="#8cb6ce" meeting="false" start="2016-02-12" duration="8" complete="0" expand="true"/>
                 <task id="154" name="Développement logiciel &amp; tests unitaires (qualité du code)" color="#8cb6ce" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true"/>
             </task>
-            <task id="184" name="Conception" color="#ffff00" meeting="false" start="2016-01-31" duration="23" complete="20" expand="false">
+            <task id="184" name="Conception" color="#ffff00" meeting="false" start="2016-01-31" duration="23" complete="38" expand="true">
                 <task id="173" name="Détection des formes &amp; robot" color="#8cb6ce" meeting="false" start="2016-01-31" duration="18" complete="100" expand="true"/>
                 <task id="187" name="PCB alimentation" color="#8cb6ce" meeting="false" start="2016-01-31" duration="13" complete="80" expand="true"/>
                 <task id="199" name="Calcul de la trajectoire" color="#8cb6ce" meeting="false" start="2016-01-31" duration="23" complete="0" expand="true"/>
@@ -106,13 +106,13 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
                 <task id="196" name="Asservissement moteurs (Tests)" color="#8cb6ce" meeting="false" start="2016-02-07" duration="16" complete="0" expand="true">
                     <notes><![CDATA[Communication arduino-moteur par série aussi]]></notes>
                 </task>
-                <task id="202" name="Communication sans fil" color="#8cb6ce" meeting="false" start="2016-01-31" duration="23" complete="0" expand="true"/>
-                <task id="205" name="Contrôle Pololu" color="#8cb6ce" meeting="false" start="2016-01-31" duration="23" complete="0" expand="true">
+                <task id="202" name="Communication sans fil" color="#8cb6ce" meeting="false" start="2016-01-31" duration="23" complete="30" expand="true"/>
+                <task id="205" name="Contrôle Pololu" color="#8cb6ce" meeting="false" start="2016-01-31" duration="23" complete="100" expand="true">
                     <notes><![CDATA[Contrôler Pololu à partir de l'ordi embarqué de façon automatisée, (drivers ?)]]></notes>
                 </task>
                 <task id="208" name="Station de recharge" color="#8cb6ce" meeting="false" start="2016-02-08" duration="15" complete="0" expand="true"/>
                 <task id="214" name="Détection station recharge et trésors avec caméra embarquée" color="#8cb6ce" meeting="false" start="2016-02-08" duration="15" complete="0" expand="true"/>
-                <task id="222" name="Communication UART" color="#8cb6ce" meeting="false" start="2016-02-09" duration="14" complete="0" expand="true"/>
+                <task id="222" name="Communication UART" color="#8cb6ce" meeting="false" start="2016-02-09" duration="14" complete="50" expand="true"/>
                 <task id="230" name="Interface station de base" color="#8cb6ce" meeting="false" start="2016-02-12" duration="9" complete="0" expand="true"/>
             </task>
             <task id="7" name="Remise livrable 2" color="#cc0000" meeting="true" start="2016-02-28" duration="0" complete="0" expand="true">
@@ -184,16 +184,18 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
         <allocation task-id="224" resource-id="2" function="Default:0" responsible="true" load="20.0"/>
         <allocation task-id="118" resource-id="3" function="Default:0" responsible="false" load="70.0"/>
         <allocation task-id="135" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="202" resource-id="3" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="202" resource-id="3" function="Default:0" responsible="false" load="30.0"/>
         <allocation task-id="173" resource-id="3" function="Default:0" responsible="false" load="20.0"/>
         <allocation task-id="196" resource-id="3" function="Default:0" responsible="true" load="40.0"/>
         <allocation task-id="140" resource-id="3" function="Default:0" responsible="true" load="20.0"/>
+        <allocation task-id="205" resource-id="3" function="Default:0" responsible="true" load="10.0"/>
+        <allocation task-id="222" resource-id="3" function="Default:0" responsible="false" load="20.0"/>
         <allocation task-id="104" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="118" resource-id="4" function="Default:0" responsible="false" load="20.0"/>
         <allocation task-id="132" resource-id="4" function="Default:0" responsible="true" load="100.02"/>
         <allocation task-id="106" resource-id="4" function="Default:0" responsible="true" load="50.0"/>
         <allocation task-id="114" resource-id="4" function="Default:0" responsible="false" load="20.0"/>
-        <allocation task-id="222" resource-id="4" function="Default:0" responsible="true" load="50.0"/>
+        <allocation task-id="222" resource-id="4" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="196" resource-id="4" function="Default:0" responsible="false" load="40.0"/>
         <allocation task-id="115" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="118" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
@@ -224,9 +226,9 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
         <displaycolumn property-id="tpd9" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd1" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd0" order="-1" width="75" visible="false"/>
-        <displaycolumn property-id="tpd3" order="0" width="181" visible="true"/>
-        <displaycolumn property-id="tpd4" order="1" width="67" visible="true"/>
-        <displaycolumn property-id="tpd5" order="2" width="64" visible="true"/>
+        <displaycolumn property-id="tpd3" order="0" width="172" visible="true"/>
+        <displaycolumn property-id="tpd4" order="1" width="64" visible="true"/>
+        <displaycolumn property-id="tpd5" order="2" width="61" visible="true"/>
     </taskdisplaycolumns>
     <previous/>
     <roles roleset-name="Default"/>

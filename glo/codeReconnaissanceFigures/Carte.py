@@ -12,10 +12,10 @@ class Carte():
 
     def ajouterElementCarto(self,elementCartographiques):
         for elementCarto in elementCartographiques:
-            if (elementCarto is Ile):
-                self.m_iles += elementCarto
-            elif (elementCarto is Tresor):
-                self.m_tresors += elementCarto
+            if (isinstance(elementCarto, Ile)):
+                self.m_iles.append(elementCarto)
+            elif (isinstance(elementCarto, Tresor)):
+                self.m_tresors.append(elementCarto)
 
     def getIles(self):
         return self.m_iles

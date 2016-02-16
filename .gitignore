@@ -6,6 +6,9 @@
 *.bbl
 *.blg
 Remises/Rapport\ de\ developpement.pdf
+<<<<<<< HEAD
+.idea/
+=======
 
 # User-specific stuff:
 .idea/
@@ -14,3 +17,4 @@ Remises/Rapport\ de\ developpement.pdf
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+>>>>>>> 1e1306b6d839dafe5c50563340da107e41ec4426

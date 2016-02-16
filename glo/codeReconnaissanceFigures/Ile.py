@@ -18,8 +18,9 @@ class Ile(ElementCartographique):
 
     def afficher(self):
         print "ILE"
-        print self.m_forme + self.m_forme
-        print "Position x : %d",self.m_x
-        print "Position y : %d",self.m_y
+        print "%s %s" % (self.m_forme, self.m_couleur)
+        print "Position x : %d" % self.m_x
+        print "Position y : %d" % self.m_y
+        print "---------------------------------------------------"
 
 

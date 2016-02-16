@@ -1,6 +1,5 @@
-#include <LCD.h>
-#include <Wire.h>
 #include <LiquidCrystal.h>
+
 
 // select the pins used on the LCD panel
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
@@ -9,10 +8,13 @@ LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 int incomingByte = 0; 
 boolean mode = false;
 String action = "";
+int pins[4] = {2, 3, 4, 7};
+int spd[4] = {0, 0, 0, 0};
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(115200);
+   Serial.begin(115200);
+   
    lcd.begin(16, 2);              // start the library
    lcd.setCursor(0,0);
    lcd.print("Capacitor charge: none"); // print a simple message
@@ -23,7 +25,10 @@ void loop() {
   if (Serial.available() > 0) {
                 // read the incoming byte:
                 incomingByte = Serial.read();
-
+                for(int i = 0; i<4; i++){
+                  analogWrite(spd[i], pins[i]);
+                }
+                
                 if(!mode){
                   if(incomingByte == 56){
                     action = "Moving forward ";

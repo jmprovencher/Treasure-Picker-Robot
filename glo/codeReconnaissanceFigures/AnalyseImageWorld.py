@@ -138,7 +138,6 @@ class AnalyseImageWorld(object):
         # supprime les contours negligeable
         index = []
         for c in range(len(contoursRouge)):
-            print 1
             aire = cv2.contourArea(contoursRouge[c])
             if ((aire < 100) or (aire > 900)): # TODO: trouver la bonne valeur pour comparer
                 index += [c]

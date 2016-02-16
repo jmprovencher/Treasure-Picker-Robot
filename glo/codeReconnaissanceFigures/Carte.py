@@ -7,22 +7,22 @@ from Tresor import Tresor
 class Carte():
 
     def __init__(self):
-        self.m_iles = []
-        self.m_tresors = []
+        self.listeIles = []
+        self.listeTresors = []
 
     def ajouterElementCarto(self,elementCartographiques):
-        for elementCarto in elementCartographiques:
-            if (isinstance(elementCarto, Ile)):
-                self.m_iles.append(elementCarto)
-            elif (isinstance(elementCarto, Tresor)):
-                self.m_tresors.append(elementCarto)
+        for elementCarte in elementCartographiques:
+            if (isinstance(elementCarte, Ile)):
+                self.listeIles.append(elementCarte)
+            elif (isinstance(elementCarte, Tresor)):
+                self.listeTresors.append(elementCarte)
 
     def getIles(self):
-        return self.m_iles
+        return self.listeIles
 
     def getIles(self, couleurOuForme):
         retour = []
-        for ile in self.m_iles:
+        for ile in self.listeIles:
             if (ile.getCouleur() == couleurOuForme):
                 retour += ile
         return retour
@@ -31,7 +31,7 @@ class Carte():
         return self.m_tresor
 
     def afficherCarte(self):
-        for ile in self.m_iles:
+        for ile in self.listeIles:
             ile.afficher()
-        for tresor in self.m_tresors:
+        for tresor in self.listeTresors:
             tresor.afficher()

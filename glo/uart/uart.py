@@ -1,3 +1,4 @@
 import serial
 
-test = serial.Serial('COM3', 115200)
+test = serial.Serial('COM7', 9600)
+test.write(b'front')

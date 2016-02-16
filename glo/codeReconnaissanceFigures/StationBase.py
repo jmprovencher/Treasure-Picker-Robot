@@ -9,19 +9,19 @@ from AnalyseImageWorld import AnalyseImageWorld
 class StationBase():
 
     def __init__(self):
-        self.m_analyseImageWorld = AnalyseImageWorld()
-        self.m_carte = Carte()
+        self.analyseImageWorld = AnalyseImageWorld()
+        self.carte = Carte()
         self.main()
 
     def main(self):
         print "\n******************************************************************************"
         print "Details de detection"
         print "******************************************************************************\n"
-        self.m_analyseImageWorld.trouverElement()
-        elementCarto = self.m_analyseImageWorld.getElementCartographiques()
-        self.m_carte.ajouterElementCarto(elementCarto)
+        self.analyseImageWorld.trouverElement()
+        elementCartographique = self.analyseImageWorld.getElementCartographiques()
+        self.carte.ajouterElementCarto(elementCartographique)
         print "\n******************************************************************************"
         print "Carte virtuelle"
         print "******************************************************************************\n"
-        self.m_carte.afficherCarte()
+        self.carte.afficherCarte()
 

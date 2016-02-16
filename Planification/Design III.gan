@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-02-03" view-index="0" gantt-divider-location="316" resource-divider-location="423" version="2.7" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-01-30" view-index="0" gantt-divider-location="316" resource-divider-location="423" version="2.7" locale="en_US">
     <description/>
-    <view zooming-state="default:0" id="gantt-chart">
+    <view zooming-state="default:1" id="gantt-chart">
         <field id="tpd3" name="Name" width="57" order="0"/>
         <field id="tpd4" name="Begin date" width="21" order="1"/>
         <field id="tpd5" name="End date" width="20" order="2"/>
@@ -80,7 +80,7 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
                 <depend id="5" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="5" name="Livrable 2" color="#8cb6ce" meeting="false" start="2016-01-31" duration="28" complete="26" expand="true">
+        <task id="5" name="Livrable 2" color="#8cb6ce" meeting="false" start="2016-01-31" duration="28" complete="29" expand="true">
             <depend id="12" type="2" difference="0" hardness="Strong"/>
             <task id="67" name="Début livrable 2" color="#00ff00" meeting="true" start="2016-01-31" duration="0" complete="0" expand="true"/>
             <task id="65" name="Réunion 3" color="#00ff00" meeting="false" start="2016-02-02" duration="1" complete="100" expand="true"/>
@@ -97,20 +97,20 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
                 <task id="224" name="Plan d'intégration" color="#8cb6ce" meeting="false" start="2016-02-12" duration="8" complete="0" expand="true"/>
                 <task id="154" name="Développement logiciel &amp; tests unitaires (qualité du code)" color="#8cb6ce" meeting="false" start="2016-01-31" duration="20" complete="0" expand="true"/>
             </task>
-            <task id="184" name="Conception" color="#ffff00" meeting="false" start="2016-01-31" duration="23" complete="39" expand="true">
+            <task id="184" name="Conception" color="#ffff00" meeting="false" start="2016-01-31" duration="23" complete="45" expand="true">
                 <task id="173" name="Détection des formes &amp; robot" color="#8cb6ce" meeting="false" start="2016-01-31" duration="18" complete="100" expand="true"/>
                 <task id="187" name="PCB alimentation" color="#8cb6ce" meeting="false" start="2016-01-31" duration="13" complete="80" expand="true"/>
                 <task id="199" name="Calcul de la trajectoire" color="#8cb6ce" meeting="false" start="2016-01-31" duration="23" complete="0" expand="true"/>
                 <task id="190" name="Conception préhenseur" color="#8cb6ce" meeting="false" start="2016-01-31" duration="18" complete="10" expand="true"/>
                 <task id="193" name="Communication code Manchester" color="#8cb6ce" meeting="false" start="2016-01-31" duration="18" complete="76" expand="true"/>
-                <task id="196" name="Asservissement moteurs (Tests)" color="#8cb6ce" meeting="false" start="2016-02-07" duration="16" complete="0" expand="true">
+                <task id="196" name="Asservissement moteurs (Tests)" color="#8cb6ce" meeting="false" start="2016-02-07" duration="16" complete="20" expand="true">
                     <notes><![CDATA[Communication arduino-moteur par série aussi]]></notes>
                 </task>
                 <task id="202" name="Communication sans fil" color="#8cb6ce" meeting="false" start="2016-01-31" duration="23" complete="30" expand="true"/>
                 <task id="205" name="Contrôle Pololu" color="#8cb6ce" meeting="false" start="2016-01-31" duration="23" complete="100" expand="true">
                     <notes><![CDATA[Contrôler Pololu à partir de l'ordi embarqué de façon automatisée, (drivers ?)]]></notes>
                 </task>
-                <task id="208" name="Station de recharge" color="#8cb6ce" meeting="false" start="2016-02-08" duration="15" complete="0" expand="true"/>
+                <task id="208" name="Station de recharge" color="#8cb6ce" meeting="false" start="2016-02-08" duration="15" complete="60" expand="true"/>
                 <task id="214" name="Détection station recharge et trésors avec caméra embarquée" color="#8cb6ce" meeting="false" start="2016-02-08" duration="15" complete="0" expand="true"/>
                 <task id="222" name="Communication UART" color="#8cb6ce" meeting="false" start="2016-02-09" duration="14" complete="50" expand="true"/>
                 <task id="230" name="Interface station de base" color="#8cb6ce" meeting="false" start="2016-02-12" duration="9" complete="0" expand="true"/>

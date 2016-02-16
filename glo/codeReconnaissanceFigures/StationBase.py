@@ -18,8 +18,8 @@ class StationBase():
         print "Details de detection"
         print "******************************************************************************\n"
         self.analyseImageWorld.trouverElement()
-        elementCarto = self.analyseImageWorld.getElementCartographiques()
-        self.carte.ajouterElementCarto(elementCarto)
+        elementCartographique = self.analyseImageWorld.getElementCartographiques()
+        self.carte.ajouterElementCarto(elementCartographique)
         print "\n******************************************************************************"
         print "Carte virtuelle"
         print "******************************************************************************\n"

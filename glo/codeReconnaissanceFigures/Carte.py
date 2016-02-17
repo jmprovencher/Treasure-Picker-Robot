@@ -3,12 +3,15 @@ import numpy as np
 from ElementCartographique import ElementCartographique
 from Ile import Ile
 from Tresor import Tresor
+from Trajectoire import Trajectoire
 
 
 class Carte():
+
     def __init__(self):
         self.listeIles = []
         self.listeTresors = []
+        self.trajectoire = Trajectoire()
 
     def ajouterElementCarto(self, elementCartographiques):
         for elementCarte in elementCartographiques:

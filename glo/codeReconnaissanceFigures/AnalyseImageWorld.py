@@ -22,7 +22,9 @@ class AnalyseImageWorld(object):
         self.nombreFormeBleue = 0
         self.nombreFormeVerte = 0
         self.nombreFormeJaune = 0
-        self.chargerImage('Image/test_imageTresor.png')
+        self.chargerImage('Image/res++/test_image20.png')
+
+        self.resolution = (480, 640)
 
     def chargerImage(self, url):
         """
@@ -59,8 +61,7 @@ class AnalyseImageWorld(object):
 
         # Hardcodage du crop
         # TODO: a verifier sur toute les tables
-        # crop = self.imageCamera[100:1000,0:1600]
-        crop = self.imageCamera[90:440, 0:640]
+        crop = self.imageCamera[self.resolution[0]*3/16:self.resolution[0]*11/12, 0:self.resolution[1]]
         cv2.imwrite('Cropped.png', crop)
         self.imageCamera = cv2.imread('Cropped.png')
 

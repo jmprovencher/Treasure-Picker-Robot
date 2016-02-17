@@ -1,9 +1,9 @@
 # import the necessary packages
 import numpy as np
 
-class ElementCartographique():
 
-    def __init__(self,centre):
+class ElementCartographique():
+    def __init__(self, centre):
         self.centre_x, self.centre_y = centre
 
     def getX(self):
@@ -11,4 +11,3 @@ class ElementCartographique():
 
     def getY(self):
         return self.centre_y
-

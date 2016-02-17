@@ -4,13 +4,13 @@ from ElementCartographique import ElementCartographique
 from Ile import Ile
 from Tresor import Tresor
 
-class Carte():
 
+class Carte():
     def __init__(self):
         self.listeIles = []
         self.listeTresors = []
 
-    def ajouterElementCarto(self,elementCartographiques):
+    def ajouterElementCarto(self, elementCartographiques):
         for elementCarte in elementCartographiques:
             if (isinstance(elementCarte, Ile)):
                 self.listeIles.append(elementCarte)

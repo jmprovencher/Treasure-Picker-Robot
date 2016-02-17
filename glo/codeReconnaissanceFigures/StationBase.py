@@ -6,8 +6,8 @@ from Tresor import Tresor
 from Carte import Carte
 from AnalyseImageWorld import AnalyseImageWorld
 
-class StationBase():
 
+class StationBase():
     def __init__(self):
         self.analyseImageWorld = AnalyseImageWorld()
         self.carte = Carte()
@@ -24,4 +24,3 @@ class StationBase():
         print "Carte virtuelle"
         print "******************************************************************************\n"
         self.carte.afficherCarte()
-

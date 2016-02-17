@@ -2,8 +2,8 @@
 import numpy as np
 from ElementCartographique import ElementCartographique
 
-class Ile(ElementCartographique):
 
+class Ile(ElementCartographique):
     def __init__(self, centre, couleur, forme):
         self.centre_x, self.centre_y = centre
         self.couleur = couleur
@@ -24,5 +24,3 @@ class Ile(ElementCartographique):
         print "Position x : %d" % self.centre_x
         print "Position y : %d" % self.centre_y
         print "---------------------------------------------------"
-
-

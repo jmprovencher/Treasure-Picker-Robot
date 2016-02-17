@@ -176,7 +176,7 @@ class AnalyseImageWorld(object):
         masqueRouge = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
 
         # Affiche l'image en noir et blanc
-        cv2.imshow("MaskRouge", masqueRouge)
+        #cv2.imshow("MaskRouge", masqueRouge)
 
         # Trouve les contours a l'aide du masque
         _, contoursRouge, _ = cv2.findContours(masqueRouge.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -215,7 +215,7 @@ class AnalyseImageWorld(object):
         masqueBleu = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
 
         # Affiche l'image en noir et blanc
-        cv2.imshow("MaskBleu", masqueBleu)
+        #cv2.imshow("MaskBleu", masqueBleu)
 
         # Trouve les contours a l'aide du masque
         _, contoursBleu, _ = cv2.findContours(masqueBleu.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -254,7 +254,7 @@ class AnalyseImageWorld(object):
         masqueJaune = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
 
         # Affiche l'image en noir et blanc
-        cv2.imshow("MaskJaune", masqueJaune)
+        #cv2.imshow("MaskJaune", masqueJaune)
 
         # Trouve les contours a l'aide du masque
         _, contoursJaune, _ = cv2.findContours(masqueJaune.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -291,7 +291,7 @@ class AnalyseImageWorld(object):
         masqueVert = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
 
         # Affiche l'image en noir et blanc
-        # cv2.imshow("MaskVert", masqueVert)
+        #cv2.imshow("MaskVert", masqueVert)
 
         # Trouve les contours a l'aide du masque
         _, contoursVert, _ = cv2.findContours(masqueVert.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -328,7 +328,7 @@ class AnalyseImageWorld(object):
         shapeTresorMasque = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
 
         # Affiche l'image en noir et blanc
-        cv2.imshow("Masque Tresor", shapeTresorMasque)
+        #cv2.imshow("Masque Tresor", shapeTresorMasque)
 
         # Trouve les contours a l'aide du masque
         _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

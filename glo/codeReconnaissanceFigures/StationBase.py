@@ -8,6 +8,7 @@ from AnalyseImageWorld import AnalyseImageWorld
 
 
 class StationBase():
+
     def __init__(self):
         self.analyseImageWorld = AnalyseImageWorld()
         self.carte = Carte()

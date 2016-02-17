@@ -4,6 +4,7 @@ from ElementCartographique import ElementCartographique
 
 
 class Tresor(ElementCartographique):
+
     def __init__(self, centre):
         self.centre_x, self.centre_y = centre
 

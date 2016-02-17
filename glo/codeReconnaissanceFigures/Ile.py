@@ -4,13 +4,11 @@ from ElementCartographique import ElementCartographique
 
 
 class Ile(ElementCartographique):
+
     def __init__(self, centre, couleur, forme):
         self.centre_x, self.centre_y = centre
         self.couleur = couleur
         self.forme = forme
-
-    def getX(self):
-        return self.centre_x
 
     def getForme(self):
         return self.forme

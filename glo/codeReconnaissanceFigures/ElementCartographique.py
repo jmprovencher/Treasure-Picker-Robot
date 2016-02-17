@@ -3,6 +3,7 @@ import numpy as np
 
 
 class ElementCartographique():
+
     def __init__(self, centre):
         self.centre_x, self.centre_y = centre
 

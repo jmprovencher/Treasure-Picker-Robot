@@ -18,11 +18,12 @@ class DetectionIles(object):
 
         self.formesConnues = []
         self.ilesIdentifiees = []
+        self.tresorIdentifies = []
         self.nombreFormes = 0
         self.nombreIles = 0
 
         #Intervalle clair, intervalle fonce
-        self.intervalleRouge = np.array([108, 40, 240]), np.array([36, 0, 129]), "Rouge"
+        self.intervalleRouge = np.array([100, 65, 200]), np.array([15, 0, 75]), "Rouge"
         self.intervalleBleu = np.array([255, 255, 102]), np.array([102, 102, 0]), "Bleu"
         self.intervalleJaune = np.array([51, 216, 242]), np.array([10, 120, 140]), "Jaune"
         self.intervalleVert = np.array([102, 255, 102]), np.array([0, 102, 0]), "Vert"
@@ -82,10 +83,10 @@ class DetectionIles(object):
         index = []
         for c in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[c])
-            if ((aire < 100) or (aire > 900)):  # TODO: trouver la bonne valeur pour comparer
-                index += [c]
+            if ((aire < 1000) or (aire > 6000)):  # TODO: trouver la bonne valeur pour comparer
+                index.append(c)
 
-        if (index != []):
+        if (len(index) > 0):
             contoursCouleur = np.delete(contoursCouleur, index)
 
         # print le nombre de forme trouver
@@ -152,7 +153,7 @@ class DetectionIles(object):
         index = []
         for c in range(len(contoursTresor)):
             aire = cv2.contourArea(contoursTresor[c])
-            if (aire < 10 or aire > 200):  # TODO: trouver la bonne valeur pour comparer
+            if (aire < 30 or aire > 150):  # TODO: trouver la bonne valeur pour comparer
                 index.append(c)
 
         if (index != []):
@@ -162,10 +163,10 @@ class DetectionIles(object):
         print "%d TRESORS " % (len(contoursTresor))
 
         # Identifier tresor
-        for c in contoursTresor:
-            print cv2.contourArea(c)
-            formeTresor = _, c, "Tresor"
-            self.identifierForme(formeTresor, "TRESOR")
+        for contours in contoursTresor:
+            print cv2.contourArea(contours)
+            formeTresor = contours, "Tresor", "TRESOR"
+            self.tresorIdentifies.append(formeTresor)
             print "---------------------------------------------------"
 
 
@@ -185,3 +186,6 @@ class DetectionIles(object):
 
     def getIlesIdentifiees(self):
         return self.ilesIdentifiees
+
+    def getTresorsIdentifies(self):
+        return self.tresorIdentifies

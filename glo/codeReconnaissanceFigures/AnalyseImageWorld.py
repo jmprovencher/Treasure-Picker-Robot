@@ -11,6 +11,7 @@ class AnalyseImageWorld(object):
     def __init__(self):
         # self.imageCamera = cv2.imread('Image/test_imageTresor.png')
         self.elementsCartographiques = []
+        self.tresorIdentifies = []
         self.chargerImage('Image/table2/detection1.png')
         self.resolution = (1200, 1600)
         self.recadrerImage()
@@ -87,12 +88,18 @@ class AnalyseImageWorld(object):
         self.detectionIles = DetectionIles(self.imageCamera)
         self.detectionIles.definirFormesConnues()
         self.detectionIles.detecterIles()
+        self.detectionIles.detecterTresor()
 
         self.ilesIdentifiees = self.detectionIles.getIlesIdentifiees()
+        self.tresorIdentifies = self.detectionIles.getTresorsIdentifies()
+
         print "Longueur de element: %d" % len(self.ilesIdentifiees)
 
         for element in self.ilesIdentifiees:
             self.identifierForme(element)
+        for tresor in self.tresorIdentifies:
+            self.identifierForme(tresor)
+
         # Affiche l'image apres detection
         cv2.imshow("Image2", self.imageCamera)
 

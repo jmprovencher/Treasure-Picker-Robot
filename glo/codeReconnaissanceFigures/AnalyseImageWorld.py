@@ -49,7 +49,7 @@ class AnalyseImageWorld(object):
         self.detecterVert()
 
         # Affiche l'image apres detection
-        #cv2.imshow("Image2", self.imageCamera)
+        # cv2.imshow("Image2", self.imageCamera)
 
         # Permet de garder les images ouvertes
         cv2.waitKey(0)

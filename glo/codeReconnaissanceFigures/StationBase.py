@@ -31,7 +31,6 @@ class StationBase():
         self.carte.trajectoire.setArriver(350, 160)
         self.carte.trajectoire.trouverTrajet()
         self.carte.trajectoire.simplifierTrajectoire()
-        #self.carte.trajectoire.afficherTrajectoire()
         self.carte.trajectoire.afficherTrajectoireSimplifier()
 
 

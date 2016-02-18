@@ -22,7 +22,7 @@ class AnalyseImageWorld(object):
         self.nombreFormeBleue = 0
         self.nombreFormeVerte = 0
         self.nombreFormeJaune = 0
-        self.chargerImage('Image/res++/test_image20.png')
+        self.chargerImage('Image/test_imageTresor.png')
 
         self.resolution = (480, 640)
 

@@ -16,42 +16,45 @@ class Trajectoire():
         heapq.heapify(self.ouvert)
         self.fermer = set()
         self.resolution = (480, 640)
-        self.dimensionPixel = (self.resolution[0]*3/16, self.resolution[0]*11/12, 0, self.resolution[1])
+        self.dimensionCrop = ((self.resolution[0]*11/12)-(self.resolution[0]*3/16), self.resolution[1])
         self.dimensionReel = (100, 300)
         self.intervalle = 1
         self.depart = Cellule()
         self.arriver = Cellule()
+        self.incX = int(round((self.dimensionCrop[1])/self.dimensionReel[1]/self.intervalle))
+        self.incY = int(round((self.dimensionCrop[0])/self.dimensionReel[0]/self.intervalle))
 
-    def initElement(self, listIles, listTresors):
-        self.listIles = listIles
+    def initElement(self, listeIles, listTresors):
+        self.listeIles = listeIles
         self.listeTresors = listTresors
 
     def initListCellules(self):
-        atteignableX = True
-        atteignableY = True
-        for x in range(self.dimensionPixel[2], self.dimensionPixel[3], round((self.dimensionPixel[4]-self.dimensionPixel[3])/self.dimensionReel[1]/self.intervalle)):
-            if (not self.xEstAtteignable(x)):
-                atteignableX = False
-            for y in range (self.dimensionPixel[0], self.dimensionPixel[1], round((self.dimensionPixel[1]-self.dimensionPixel[0])/self.dimensionReel[0]/self.intervalle)):
-                if (atteignableX):
-                    self.listeCellules.append(Cellule(x, y, True))
-                elif (self.yEstAtteignable(x)):
-                    self.listeCellules.append(Cellule(x, y, True))
-                else:
-                    self.listeCellules.append(Cellule(x, y, False))
-                atteignableY = True
+        if (len(self.listeCellules) == 0):
             atteignableX = True
+            atteignableY = True
+            for x in range(0, self.dimensionCrop[1], self.incX):
+                if (not self.xEstAtteignable(x)):
+                    atteignableX = False
+                for y in range (0, self.dimensionCrop[0], self.incY):
+                    if (atteignableX):
+                        self.listeCellules.append(Cellule(x, y, True))
+                    elif (self.yEstAtteignable(x)):
+                        self.listeCellules.append(Cellule(x, y, True))
+                    else:
+                        self.listeCellules.append(Cellule(x, y, False))
+                    atteignableY = True
+                atteignableX = True
 
     def xEstAtteignable(self, x):
-        nbPixel = round(7.5*(self.dimensionPixel[3]-self.dimensionPixel[2])/self.dimensionReel[1]/self.intervalle)
-        for ile in self.listIles:
+        nbPixel = int(round(7.5*(self.dimensionCrop[1])/self.dimensionReel[1]/self.intervalle))
+        for ile in self.listeIles:
             if ((x > (ile.centre_x-nbPixel)) and (x < (ile.centre_x+nbPixel))):
                 return False
         return True
 
     def yEstAtteignable(self, y):
-        nbPixel = round(7.5*(self.dimensionPixel[1]-self.dimensionPixel[0])/self.dimensionReel[0]/self.intervalle)
-        for ile in self.listIles:
+        nbPixel = int(round(7.5*(self.dimensionCrop[1]-self.dimensionCrop[0])/self.dimensionReel[0]/self.intervalle))
+        for ile in self.listeIles:
             if ((y > (ile.centre_y-nbPixel)) and (y < (ile.centre_y+nbPixel))):
                 return False
         return True
@@ -60,33 +63,34 @@ class Trajectoire():
         return 10 * (abs(cellule.x - self.arriver.x) + abs(cellule.y - self.arriver.y))
 
     def getCellule(self, x, y):
-        return self.listeCellules[x * round((self.dimensionPixel[1]-self.dimensionPixel[0]) * self.dimensionReel[0] * self.intervalle) + y]
+        return self.listeCellules[(x/self.incX) * (self.dimensionCrop[0]/self.incY) + (y/self.incY)]
 
     def getCelluleAdjacente(self, cellule):
         listCellules = []
-        if cellule.x < self.dimensionPixel[3]:
-            listCellules.append(self.get_cell(cellule.x+1, cellule.y))
-        if cellule.y > self.dimensionPixel[0]:
-            listCellules.append(self.get_cell(cellule.x, cellule.y-1))
-        if cellule.x > self.dimensionPixel[2]:
-            listCellules.append(self.get_cell(cellule.x-1, cellule.y))
-        if cellule.y < self.dimensionPixel[1]:
-            listCellules.append(self.get_cell(cellule.x, cellule.y+1))
-        if ((cellule.x < self.dimensionPixel[3]) and (cellule.y < self.dimensionPixel[1])):
-            listCellules.append(self.get_cell(cellule.x+1, cellule.y+1))
-        if ((cellule.x > self.dimensionPixel[2]) and (cellule.y > self.dimensionPixel[0])):
-            listCellules.append(self.get_cell(cellule.x-1, cellule.y-1))
-        if ((cellule.x < self.dimensionPixel[3]) and (cellule.y > self.dimensionPixel[0])):
-            listCellules.append(self.get_cell(cellule.x+1, cellule.y-1))
-        if ((cellule.x > self.dimensionPixel[2]) and (cellule.y < self.dimensionPixel[1])):
-            listCellules.append(self.get_cell(cellule.x-1, cellule.y+11))
+        if cellule.x < self.dimensionCrop[1]:
+            c = self.getCellule(cellule.x+self.incX, cellule.y)
+            listCellules.append(self.getCellule(cellule.x+self.incX, cellule.y))
+        if cellule.y > 0:
+            listCellules.append(self.getCellule(cellule.x, cellule.y-self.incY))
+        if cellule.x > 0:
+            listCellules.append(self.getCellule(cellule.x-self.incX, cellule.y))
+        if cellule.y < self.dimensionCrop[0]:
+            listCellules.append(self.getCellule(cellule.x, cellule.y+self.incY))
+        if ((cellule.x < self.dimensionCrop[1]) and (cellule.y < self.dimensionCrop[0])):
+            listCellules.append(self.getCellule(cellule.x+self.incX, cellule.y+self.incY))
+        if ((cellule.x > 0) and (cellule.y > 0)):
+            listCellules.append(self.getCellule(cellule.x-self.incX, cellule.y-self.incY))
+        if ((cellule.x < self.dimensionCrop[1]) and (cellule.y > 0)):
+            listCellules.append(self.getCellule(cellule.x+self.incX, cellule.y-self.incY))
+        if ((cellule.x > 0) and (cellule.y < self.dimensionCrop[0])):
+            listCellules.append(self.getCellule(cellule.x-self.incX, cellule.y+self.incY))
 	    return listCellules
 
     def afficherTrajectoire(self):
         cellule = self.arriver
-        print "\n--------------------------------------------------"
-        print "\nTrajectoire:"
-        print "\n--------------------------------------------------"
+        print "\n******************************************************************************"
+        print "Trajectoire:"
+        print "******************************************************************************\n"
         while cellule.parent is not self.depart:
             cellule = cellule.parent
             print  "\ncellule: %d,%d" % (cellule.x, cellule.y)
@@ -96,6 +100,20 @@ class Trajectoire():
         adjacent.h = self.getHeuristic(adjacent)
         adjacent.parent = cellule
         adjacent.f = adjacent.h + adjacent.g
+
+    def setDepart(self, x, y):
+        while (not (x%self.incX == 0)):
+            x = x + 1
+        while (not (y%self.incY == 0)):
+            y = y + 1
+        self.depart = Cellule(x, y, True)
+
+    def setArriver(self, x, y):
+        while (not (x%self.incX == 0)):
+            x = x + 1
+        while (not (y%self.incY == 0)):
+            y = y + 1
+        self.arriver = Cellule(x, y, True)
 
     def trouverTrajet(self):
         heapq.heappush(self.ouvert, (self.depart.f, self.depart))
@@ -114,6 +132,7 @@ class Trajectoire():
                         else:
                             self.rafraichirCellule(adj, cellule)
                             heapq.heappush(self.ouvert, (adj.f, adj))
+
 
 
 

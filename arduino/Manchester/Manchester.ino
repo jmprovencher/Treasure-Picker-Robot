@@ -9,6 +9,7 @@ int compteur = 0;
 int nombreDeSuite = 1;
 int compteurCode = 0;
 bool arrayDecode[7] = {0};
+int codeSecret = 0;
 
 
 
@@ -45,6 +46,12 @@ void loop()
                   arrayDecode[compteurCode] = arrayCode[k];
                   compteurCode++;
                 }
+                codeSecret = arrayDecode[0];
+                for (byte u=1; u<8; u++)
+                {
+                  codeSecret= codeSecret*10+arrayDecode[i];
+                }
+                Serial.println(codeSecret);
               }
             }
           }

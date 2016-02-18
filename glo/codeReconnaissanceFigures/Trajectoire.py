@@ -15,7 +15,7 @@ class Trajectoire():
         self.ouvert = []
         heapq.heapify(self.ouvert)
         self.fermer = set()
-        self.resolution = (480, 640)
+        self.resolution = (1200, 1600)
         self.dimensionCrop = ((self.resolution[0]*11/12)-(self.resolution[0]*3/16), self.resolution[1])
         self.dimensionReel = (100, 300)
         self.intervalle = 1

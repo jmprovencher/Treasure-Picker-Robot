@@ -73,7 +73,7 @@ class DetectionIles(object):
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
 
         # Affiche l'image en noir et blanc
-        #cv2.imshow("MaskRouge", masqueRouge)
+        cv2.imshow(couleurForme, masqueCouleur)
 
         # Trouve les contours a l'aide du masque
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

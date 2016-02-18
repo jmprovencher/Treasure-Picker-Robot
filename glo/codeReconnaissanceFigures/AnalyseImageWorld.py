@@ -12,7 +12,7 @@ class AnalyseImageWorld(object):
         # self.imageCamera = cv2.imread('Image/test_imageTresor.png')
         self.elementsCartographiques = []
         self.tresorIdentifies = []
-        self.chargerImage('Image/table2/detection1.png')
+        self.chargerImage('Image/table2/trajet1.png')
         self.resolution = (1200, 1600)
         self.recadrerImage()
         self.estomperImage()
@@ -101,10 +101,23 @@ class AnalyseImageWorld(object):
             self.identifierForme(tresor)
 
         # Affiche l'image apres detection
-        cv2.imshow("Image2", self.imageCamera)
+        #cv2.imshow("Image2", self.imageCamera)
 
         # Permet de garder les images ouvertes
         cv2.waitKey(0)
 
     def getElementCartographiques(self):
         return self.elementsCartographiques
+
+    def ecrireTrajectoire(self, trajet):
+        point1 = None
+        for point2 in trajet:
+            if (point1 == None):
+                point1 = point2
+            else:
+                cv2.arrowedLine(self.imageCamera,point2,point1,(0, 0, 0),5)
+                point1 = point2
+
+    def afficherImage(self):
+        cv2.imshow("Image", self.imageCamera)
+        cv2.waitKey(0)

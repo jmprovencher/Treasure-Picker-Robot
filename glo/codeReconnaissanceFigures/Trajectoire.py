@@ -16,7 +16,7 @@ class Trajectoire():
         heapq.heapify(self.ouvert)
         self.fermer = set()
         self.resolution = (1200, 1600)
-        self.dimensionCrop = ((self.resolution[0]*11/12)-(self.resolution[0]*3/16), self.resolution[1])
+        self.dimensionCrop = (950-100, self.resolution[1])
         self.dimensionReel = (100, 300)
         self.intervalle = 1
         self.depart = Cellule()
@@ -62,7 +62,7 @@ class Trajectoire():
         return 10 * (abs(cellule.x - self.arriver.x) + abs(cellule.y - self.arriver.y))
 
     def getCellule(self, x, y):
-        return self.listeCellules[((x/self.incX)) * ((self.dimensionCrop[0]/self.incY)+1) + ((y/self.incY))]
+        return self.listeCellules[((x/self.incX)) * ((self.dimensionCrop[0]/self.incY+1)) + ((y/self.incY))]
 
     def getCelluleAdjacente(self, cellule):
         listCellules = []
@@ -100,13 +100,12 @@ class Trajectoire():
         print "\n******************************************************************************"
         print "Trajectoire simplifier:"
         print "******************************************************************************\n"
-        print "Arriver: cellule: %d, %d\n" % (self.arriver.x, self.arriver.y)
+        print "Arriver!!"
         for dep in range(len(self.trajetSimplifier)):
             print "cellule: %d, %d" % self.trajetSimplifier[dep]
-        print "\nDepart: cellule: %d, %d" % (self.depart.x, self.depart.y)
-
+        print "Debut!!"
     def simplifierTrajectoire(self):
-        self.trajetSimplifier = []
+        self.trajetSimplifier = [(self.arriver.x, self.arriver.y)]
         cellule = self.getCellule(self.arriver.x, self.arriver.y)
         depX = cellule.x - cellule.parent.x
         depY = cellule.y - cellule.parent.y
@@ -123,6 +122,7 @@ class Trajectoire():
             self.trajetSimplifier.append((tmp.x, tmp.y))
             depX = tmp.x - cellule.x
             depY = tmp.y - cellule.y
+        self.trajetSimplifier.append((self.depart.x, self.depart.y))
 
     def rafraichirCellule(self, adjacent, cellule):
         adjacent.g = cellule.g + 10
@@ -173,6 +173,7 @@ class Trajectoire():
             return True
         else:
             return False
+
 
 
 

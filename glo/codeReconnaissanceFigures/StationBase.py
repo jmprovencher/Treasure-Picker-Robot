@@ -25,12 +25,14 @@ class StationBase():
         print "Carte virtuelle"
         print "******************************************************************************\n"
         self.carte.afficherCarte()
-        #self.carte.trajectoire.initElement(self.carte.listeIles, self.carte.listeTresors)
-        #self.carte.trajectoire.initListCellules()
-        #self.carte.trajectoire.setDepart(0, 0)
-        #self.carte.trajectoire.setArriver(350, 160)
-        #self.carte.trajectoire.trouverTrajet()
-        #self.carte.trajectoire.simplifierTrajectoire()
-        #self.carte.trajectoire.afficherTrajectoireSimplifier()
+        self.carte.trajectoire.initElement(self.carte.listeIles, self.carte.listeTresors)
+        self.carte.trajectoire.initListCellules()
+        self.carte.trajectoire.setDepart(250, 10)
+        self.carte.trajectoire.setArriver(907, 827)
+        self.carte.trajectoire.trouverTrajet()
+        self.carte.trajectoire.simplifierTrajectoire()
+        self.carte.trajectoire.afficherTrajectoireSimplifier()
+        self.analyseImageWorld.ecrireTrajectoire(self.carte.trajectoire.trajetSimplifier)
+        self.analyseImageWorld.afficherImage()
 
 

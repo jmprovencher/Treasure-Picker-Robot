@@ -21,8 +21,9 @@ class Trajectoire():
         self.intervalle = 1
         self.depart = Cellule()
         self.arriver = Cellule()
-        self.incX = int(round((self.dimensionCrop[1])/self.dimensionReel[1]/self.intervalle))
-        self.incY = int(round((self.dimensionCrop[0])/self.dimensionReel[0]/self.intervalle))
+        self.incX = int((self.dimensionCrop[1])/self.dimensionReel[1]/self.intervalle)
+        self.incY = int((self.dimensionCrop[0])/self.dimensionReel[0]/self.intervalle)
+        self.trajetSimplifier = []
 
     def initElement(self, listeIles, listTresors):
         self.listeIles = listeIles
@@ -31,18 +32,16 @@ class Trajectoire():
     def initListCellules(self):
         if (len(self.listeCellules) == 0):
             atteignableX = True
-            atteignableY = True
             for x in range(0, self.dimensionCrop[1], self.incX):
                 if (not self.xEstAtteignable(x)):
                     atteignableX = False
                 for y in range (0, self.dimensionCrop[0], self.incY):
                     if (atteignableX):
                         self.listeCellules.append(Cellule(x, y, True))
-                    elif (self.yEstAtteignable(x)):
+                    elif (self.yEstAtteignable(y)):
                         self.listeCellules.append(Cellule(x, y, True))
                     else:
                         self.listeCellules.append(Cellule(x, y, False))
-                    atteignableY = True
                 atteignableX = True
 
     def xEstAtteignable(self, x):
@@ -63,37 +62,67 @@ class Trajectoire():
         return 10 * (abs(cellule.x - self.arriver.x) + abs(cellule.y - self.arriver.y))
 
     def getCellule(self, x, y):
-        return self.listeCellules[(x/self.incX) * (self.dimensionCrop[0]/self.incY) + (y/self.incY)]
+        return self.listeCellules[((x/self.incX)) * ((self.dimensionCrop[0]/self.incY)+1) + ((y/self.incY))]
 
     def getCelluleAdjacente(self, cellule):
         listCellules = []
-        if cellule.x < self.dimensionCrop[1]:
-            c = self.getCellule(cellule.x+self.incX, cellule.y)
+        if cellule.x < self.dimensionCrop[1]-self.incX:
             listCellules.append(self.getCellule(cellule.x+self.incX, cellule.y))
-        if cellule.y > 0:
+        if cellule.y >= 0+self.incY:
             listCellules.append(self.getCellule(cellule.x, cellule.y-self.incY))
-        if cellule.x > 0:
+        if cellule.x >= 0+self.incX:
             listCellules.append(self.getCellule(cellule.x-self.incX, cellule.y))
-        if cellule.y < self.dimensionCrop[0]:
+        if cellule.y < self.dimensionCrop[0]-self.incY:
             listCellules.append(self.getCellule(cellule.x, cellule.y+self.incY))
-        if ((cellule.x < self.dimensionCrop[1]) and (cellule.y < self.dimensionCrop[0])):
+        if ((cellule.x < self.dimensionCrop[1]-self.incX) and (cellule.y < self.dimensionCrop[0]-self.incY)):
             listCellules.append(self.getCellule(cellule.x+self.incX, cellule.y+self.incY))
-        if ((cellule.x > 0) and (cellule.y > 0)):
+        if ((cellule.x >= 0+self.incX) and (cellule.y >= 0+self.incY)):
             listCellules.append(self.getCellule(cellule.x-self.incX, cellule.y-self.incY))
-        if ((cellule.x < self.dimensionCrop[1]) and (cellule.y > 0)):
+        if ((cellule.x < self.dimensionCrop[1]-self.incX) and (cellule.y >= 0+self.incY)):
             listCellules.append(self.getCellule(cellule.x+self.incX, cellule.y-self.incY))
-        if ((cellule.x > 0) and (cellule.y < self.dimensionCrop[0])):
+        if ((cellule.x >= 0+self.incX) and (cellule.y < self.dimensionCrop[0]-self.incY)):
             listCellules.append(self.getCellule(cellule.x-self.incX, cellule.y+self.incY))
-	    return listCellules
+        return listCellules
 
     def afficherTrajectoire(self):
-        cellule = self.arriver
+        cellule = self.getCellule(self.arriver.x, self.arriver.y)
         print "\n******************************************************************************"
         print "Trajectoire:"
         print "******************************************************************************\n"
-        while cellule.parent is not self.depart:
+        print "Arriver: cellule: %d, %d\n" % (self.arriver.x, self.arriver.y)
+        while not self.estDepart(cellule.parent):
             cellule = cellule.parent
-            print  "\ncellule: %d,%d" % (cellule.x, cellule.y)
+            print  "cellule: %d, %d" % (cellule.x, cellule.y)
+        print "\nDepart: cellule: %d, %d" % (self.depart.x, self.depart.y)
+
+    def afficherTrajectoireSimplifier(self):
+        cellule = self.getCellule(self.arriver.x, self.arriver.y)
+        print "\n******************************************************************************"
+        print "Trajectoire simplifier:"
+        print "******************************************************************************\n"
+        print "Arriver: cellule: %d, %d\n" % (self.arriver.x, self.arriver.y)
+        for dep in range(len(self.trajetSimplifier)):
+            print "cellule: %d, %d" % self.trajetSimplifier[dep]
+        print "\nDepart: cellule: %d, %d" % (self.depart.x, self.depart.y)
+
+    def simplifierTrajectoire(self):
+        self.trajetSimplifier = []
+        cellule = self.getCellule(self.arriver.x, self.arriver.y)
+        depX = cellule.x - cellule.parent.x
+        depY = cellule.y - cellule.parent.y
+        while not self.estDepart(cellule.parent):
+            tmp = cellule
+            cellule = cellule.parent
+            if not ((tmp.x - cellule.x == depX) and (tmp.y - cellule.y == depY)):
+                self.trajetSimplifier.append((tmp.x, tmp.y))
+                depX = tmp.x - cellule.x
+                depY = tmp.y - cellule.y
+        tmp = cellule
+        cellule = cellule.parent
+        if not ((tmp.x - cellule.x == depX) and (tmp.y - cellule.y == depY)):
+            self.trajetSimplifier.append((tmp.x, tmp.y))
+            depX = tmp.x - cellule.x
+            depY = tmp.y - cellule.y
 
     def rafraichirCellule(self, adjacent, cellule):
         adjacent.g = cellule.g + 10
@@ -120,18 +149,34 @@ class Trajectoire():
         while len(self.ouvert):
             f, cellule = heapq.heappop(self.ouvert)
             self.fermer.add(cellule)
-            if cellule is self.arriver:
-                self.afficherTrajectoire()
+            if self.estArriver(cellule):
                 break
+            # print "%d, %d" % (cellule.x, cellule.y)
             adjacents = self.getCelluleAdjacente(cellule)
             for adj in adjacents:
                 if adj.atteignable and adj not in self.fermer:
                     if (adj.f, adj) in self.ouvert:
                         if adj.g > cellule.g + 10:
                             self.rafraichirCellule(adj, cellule)
-                        else:
-                            self.rafraichirCellule(adj, cellule)
-                            heapq.heappush(self.ouvert, (adj.f, adj))
+                    else:
+                        self.rafraichirCellule(adj, cellule)
+                        heapq.heappush(self.ouvert, (adj.f, adj))
+
+    def estArriver(self, cellule):
+        if (cellule.x == self.arriver.x) and (cellule.y == self.arriver.y):
+            return True
+        else:
+            return False
+
+    def estDepart(self, cellule):
+        if (cellule.x == self.depart.x) and (cellule.y == self.depart.y):
+            return True
+        else:
+            return False
+
+
+
+
 
 
 

@@ -12,7 +12,7 @@ class AnalyseImageWorld(object):
         # self.imageCamera = cv2.imread('Image/test_imageTresor.png')
         self.elementsCartographiques = []
         self.tresorIdentifies = []
-        self.chargerImage('Image/table2/trajet1.png')
+        self.chargerImage('Image/table2/trajet2.png')
         self.resolution = (1200, 1600)
         self.recadrerImage()
         self.estomperImage()
@@ -63,15 +63,8 @@ class AnalyseImageWorld(object):
         :param element: Forme identifiee avec le plus haut taux de compatibilite
         """
 
-        font = cv2.FONT_HERSHEY_SIMPLEX
-
         contoursForme, nomForme, couleurForme = element
-
         centreForme = self.trouverCentreForme(contoursForme)
-
-        # Afficher identification sur la photo
-        cv2.putText(self.imageCamera, nomForme, centreForme, font, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
-
         if (couleurForme == "TRESOR"):
             tresor = Tresor(centreForme)
             self.elementsCartographiques.append(tresor)
@@ -79,7 +72,7 @@ class AnalyseImageWorld(object):
             ile = Ile(centreForme, couleurForme, nomForme)
             self.elementsCartographiques.append(ile)
 
-    def trouverElement(self):
+    def trouverElementCartographiques(self):
         """
         Appelle toutes les fonctions de traitement visuel afin de trouver tous les elements
         """
@@ -93,7 +86,7 @@ class AnalyseImageWorld(object):
         self.ilesIdentifiees = self.detectionIles.getIlesIdentifiees()
         self.tresorIdentifies = self.detectionIles.getTresorsIdentifies()
 
-        print "Longueur de element: %d" % len(self.ilesIdentifiees)
+        #print "Longueur de element: %d" % len(self.ilesIdentifiees)
 
         for element in self.ilesIdentifiees:
             self.identifierForme(element)
@@ -106,10 +99,7 @@ class AnalyseImageWorld(object):
         # Permet de garder les images ouvertes
         cv2.waitKey(0)
 
-    def getElementCartographiques(self):
-        return self.elementsCartographiques
-
-    def ecrireTrajectoire(self, trajet):
+    def dessinerTrajet(self, trajet):
         point1 = None
         for point2 in trajet:
             if (point1 == None):
@@ -117,6 +107,10 @@ class AnalyseImageWorld(object):
             else:
                 cv2.arrowedLine(self.imageCamera,point2,point1,(0, 0, 0),5)
                 point1 = point2
+
+    def dessinerElementCartographique(self):
+        for element in self.elementsCartographiques:
+            cv2.putText(self.imageCamera, element.forme, (element.centre_x-25, element.centre_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
 
     def afficherImage(self):
         cv2.imshow("Image", self.imageCamera)

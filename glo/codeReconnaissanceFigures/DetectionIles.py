@@ -90,11 +90,11 @@ class DetectionIles(object):
             contoursCouleur = np.delete(contoursCouleur, index)
 
         # print le nombre de forme trouver
-        print "\nFormes %s : %d" % (couleurForme, len(contoursCouleur))
+        # print "\nFormes %s : %d" % (couleurForme, len(contoursCouleur))
 
         # Identifier la forme
         for contoursForme in contoursCouleur:
-            print cv2.contourArea(contoursForme)
+            #print cv2.contourArea(contoursForme)
             self.trouverForme(contoursForme, couleurForme)
 
     def trouverForme(self, contours, couleur):
@@ -117,17 +117,17 @@ class DetectionIles(object):
             self.ilesIdentifiees.append(formeIdentifiee)
             self.nombreFormes += 1
             #self.identifierForme(meilleurMatch, couleur)
-        else:
-            print "Forme non conforme detectee"
+        #else:
+            #print "Forme non conforme detectee"
 
         resultatsMatch.remove(meilleurMatch)
 
         deuxiemeMatch = min(resultatsMatch)
         precisionDeuxieme, _, nomFigure2 = deuxiemeMatch
 
-        print "1er %s | Match %f" % (nomForme, precision)
-        print "2e %s | Match %f" % (nomFigure2, precisionDeuxieme)
-        print "---------------------------------------------------"
+        #print "1er %s | Match %f" % (nomForme, precision)
+        #print "2e %s | Match %f" % (nomFigure2, precisionDeuxieme)
+        #print "---------------------------------------------------"
 
 
 
@@ -160,14 +160,14 @@ class DetectionIles(object):
             contoursTresor = np.delete(contoursTresor, index)
 
         # dessine par dessus les contours
-        print "%d TRESORS " % (len(contoursTresor))
+        #print "%d TRESORS " % (len(contoursTresor))
 
         # Identifier tresor
         for contours in contoursTresor:
-            print cv2.contourArea(contours)
+            #print cv2.contourArea(contours)
             formeTresor = contours, "Tresor", "TRESOR"
             self.tresorIdentifies.append(formeTresor)
-            print "---------------------------------------------------"
+            #print "---------------------------------------------------"
 
 
     def getNombreFormes(self):

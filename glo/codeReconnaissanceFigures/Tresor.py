@@ -7,6 +7,7 @@ class Tresor(ElementCartographique):
 
     def __init__(self, centre):
         self.centre_x, self.centre_y = centre
+        self.forme = "TRESOR"
 
     def afficher(self):
         print "TRESOR"

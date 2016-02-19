@@ -34,6 +34,9 @@ class Carte():
         return self.m_tresor
 
     def afficherCarte(self):
+        print "\n******************************************************************************"
+        print "Carte virtuelle"
+        print "******************************************************************************\n"
         for ile in self.listeIles:
             ile.afficher()
         for tresor in self.listeTresors:

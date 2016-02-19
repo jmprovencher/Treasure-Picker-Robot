@@ -4,27 +4,18 @@ import cv2
 from ElementCartographique import ElementCartographique
 from Tresor import Tresor
 from Ile import Ile
+from DetectionIles import DetectionIles
 
 
 class AnalyseImageWorld(object):
-
     def __init__(self):
         # self.imageCamera = cv2.imread('Image/test_imageTresor.png')
-        self.patronTriangle = cv2.imread('Image/triangle.png', 0)
-        self.patronCercle = cv2.imread('Image/cercle.png', 0)
-        self.patronCarre = cv2.imread('Image/carre.png', 0)
-        self.patronPentagone = cv2.imread('Image/pentagone.png', 0)
-        self.formesConnues = []
         self.elementsCartographiques = []
-        self.definirFormesConnues()
-
-        self.nombreFormeRouge = 0
-        self.nombreFormeBleue = 0
-        self.nombreFormeVerte = 0
-        self.nombreFormeJaune = 0
-        self.chargerImage('Image/test_imageTresor.png')
-
-        self.resolution = (480, 640)
+        self.tresorIdentifies = []
+        self.chargerImage('Image/table2/trajet2.png')
+        self.resolution = (1200, 1600)
+        self.recadrerImage()
+        self.estomperImage()
 
     def chargerImage(self, url):
         """
@@ -34,26 +25,6 @@ class AnalyseImageWorld(object):
 
         self.imageCamera = cv2.imread(url)
 
-    def trouverElement(self):
-        """
-        Appelle toutes les fonctions de traitement visuel afin de trouver tous les elements
-        """
-
-        # cv2.imshow("Image", self.imageCamera)
-        self.recadrerImage()
-        self.estomperImage()
-        self.detecterTresor()
-        self.detecterBleu()
-        self.detecterRouge()
-        self.detecterJaune()
-        self.detecterVert()
-
-        # Affiche l'image apres detection
-        #cv2.imshow("Image2", self.imageCamera)
-
-        # Permet de garder les images ouvertes
-        cv2.waitKey(0)
-
     def recadrerImage(self):
         """
         Recadrage de l'image pour supprimer les zones inutiles qui se trouvent hors de la table
@@ -61,7 +32,7 @@ class AnalyseImageWorld(object):
 
         # Hardcodage du crop
         # TODO: a verifier sur toute les tables
-        crop = self.imageCamera[self.resolution[0]*3/16:self.resolution[0]*11/12, 0:self.resolution[1]]
+        crop = self.imageCamera[100:950, 0:1600]
         cv2.imwrite('Cropped.png', crop)
         self.imageCamera = cv2.imread('Cropped.png')
 
@@ -73,62 +44,6 @@ class AnalyseImageWorld(object):
         blur = cv2.GaussianBlur(self.imageCamera, (5, 5), 0)
         cv2.imwrite('Cropped.png', blur)
         self.imageCamera = cv2.imread('Cropped.png')
-
-    def definirFormesConnues(self):
-        """
-        Definition d'un contour parfait pour chaque forme que le systeme devra detecter.
-        Ces formes seront compares aux contours trouves par le systeme
-        """
-
-        precision, threshTriangle = cv2.threshold(self.patronTriangle, 127, 255, 0)
-        precision, threshCercle = cv2.threshold(self.patronCercle, 127, 255, 0)
-        precision, threshCarre = cv2.threshold(self.patronCarre, 127, 255, 0)
-        precision, threshPentagone = cv2.threshold(self.patronPentagone, 127, 255, 0)
-
-        # Recherche des contours
-        _, contoursTriangle, _ = cv2.findContours(threshTriangle, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        self.cntTriangle = contoursTriangle[0]
-        _, contoursCercle, _ = cv2.findContours(threshCercle, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        self.cntCercle = contoursCercle[0]
-        _, contoursCarre, _ = cv2.findContours(threshCarre, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        self.cntCarre = contoursCarre[0]
-        _, contoursPentagone, _ = cv2.findContours(threshPentagone, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        self.cntPentagone = contoursPentagone[0]
-
-        # Ajoute les formes predeterminees dans une liste
-        self.formesConnues.append(self.cntTriangle)
-        self.formesConnues.append(self.cntCarre)
-        self.formesConnues.append(self.cntCercle)
-        self.formesConnues.append(self.cntPentagone)
-
-    def trouverForme(self, contours, couleur):
-        """
-        Comparaison de chaque forme predefinie avec les contours de la forme detectee, afin d'obtenir un taux de compatibilite pour chaque forme
-        :param contours: Un array contenant tous les contours de la forme
-        :param couleur: La couleur correspondante aux contours
-        """
-
-        resultatsMatch = []
-        resultatsMatch.append((cv2.matchShapes(contours, self.cntTriangle, 1, 0.0), contours, "Triangle"))
-        resultatsMatch.append((cv2.matchShapes(contours, self.cntCercle, 1, 0.0), contours, "Cercle"))
-        resultatsMatch.append((cv2.matchShapes(contours, self.cntCarre, 1, 0.0), contours, "Carre"))
-        resultatsMatch.append((cv2.matchShapes(contours, self.cntPentagone, 1, 0.0), contours, "Pentagone"))
-        meilleurMatch = min(resultatsMatch)
-        precision, _, _ = meilleurMatch
-
-        if (precision < 0.5):
-            self.identifierForme(meilleurMatch, couleur)
-        else:
-            print "Forme non conforme detectee"
-
-        resultatsMatch.remove(meilleurMatch)
-        precisionMeilleur, contours, nomFigure = meilleurMatch
-        deuxiemeMatch = min(resultatsMatch)
-        precisionDeuxieme, _, nomFigure2 = deuxiemeMatch
-
-        print "1er %s | Match %f" % (nomFigure, precision)
-        print "2e %s | Match %f" % (nomFigure2, precisionDeuxieme)
-        print "---------------------------------------------------"
 
     def trouverCentreForme(self, contoursForme):
         """
@@ -142,256 +57,61 @@ class AnalyseImageWorld(object):
         centre_y = int(M['m01'] / M['m00'])
         return centre_x, centre_y
 
-    def identifierForme(self, meilleurMatch, couleur):
+    def identifierForme(self, element):
         """
         Identification de la forme detectee sur l'image
-        :param meilleurMatch: Forme identifiee avec le plus haut taux de compatibilite
-        :param couleur: La couleur de la forme identifiee
+        :param element: Forme identifiee avec le plus haut taux de compatibilite
         """
 
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        _, contoursForme, nomFigure = meilleurMatch
-
+        contoursForme, nomForme, couleurForme = element
         centreForme = self.trouverCentreForme(contoursForme)
-        # Afficher identification sur la photo
-        cv2.putText(self.imageCamera, nomFigure, centreForme, font, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
-
-        if (couleur == "TRESOR"):
+        if (couleurForme == "TRESOR"):
             tresor = Tresor(centreForme)
             self.elementsCartographiques.append(tresor)
         else:
-            ile = Ile(centreForme, couleur, nomFigure)
+            ile = Ile(centreForme, couleurForme, nomForme)
             self.elementsCartographiques.append(ile)
 
-    def detecterRouge(self):
+    def trouverElementCartographiques(self):
         """
-        Detection des teintes de rouge dans l'image
-        """
-
-        # Debut et fin de l'intervale de couleur rouge # TODO: trouver un meilleur intervale
-        intervalleFoncer = np.array([36, 0, 129])  # 970028
-        intervalleClair = np.array([108, 40, 240])  # FF0044
-
-        # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
-        # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        masqueRouge = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
-
-        # Affiche l'image en noir et blanc
-        #cv2.imshow("MaskRouge", masqueRouge)
-
-        # Trouve les contours a l'aide du masque
-        _, contoursRouge, _ = cv2.findContours(masqueRouge.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        # supprime les contours negligeable
-        index = []
-        for c in range(len(contoursRouge)):
-            aire = cv2.contourArea(contoursRouge[c])
-            if ((aire < 100) or (aire > 900)):  # TODO: trouver la bonne valeur pour comparer
-                index += [c]
-
-        if (index != []):
-            contoursRouge = np.delete(contoursRouge, index)
-
-        # print le nombre de forme trouver
-        print "\n%d FORMES ROUGE" % (len(contoursRouge))
-
-        # Identifier la forme
-        for c in contoursRouge:
-            print cv2.contourArea(c)
-            self.trouverForme(c, "ROUGE")
-
-        self.nombreFormeRouge = len(contoursRouge)
-
-    def detecterBleu(self):
-        """
-        Detection des teintes de bleu dans l'image
+        Appelle toutes les fonctions de traitement visuel afin de trouver tous les elements
         """
 
-        # Debut et fin de l'intervale de couleur bleu
-        intervalleClair = np.array([255, 255, 102])  # 66FFFF
-        intervalleFoncer = np.array([102, 102, 0])  # 006666
+        # cv2.imshow("Image", self.imageCamera)
+        self.detectionIles = DetectionIles(self.imageCamera)
+        self.detectionIles.definirFormesConnues()
+        self.detectionIles.detecterIles()
+        self.detectionIles.detecterTresor()
 
-        # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
-        # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        masqueBleu = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
+        self.ilesIdentifiees = self.detectionIles.getIlesIdentifiees()
+        self.tresorIdentifies = self.detectionIles.getTresorsIdentifies()
 
-        # Affiche l'image en noir et blanc
-        #cv2.imshow("MaskBleu", masqueBleu)
+        #print "Longueur de element: %d" % len(self.ilesIdentifiees)
 
-        # Trouve les contours a l'aide du masque
-        _, contoursBleu, _ = cv2.findContours(masqueBleu.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        for element in self.ilesIdentifiees:
+            self.identifierForme(element)
+        for tresor in self.tresorIdentifies:
+            self.identifierForme(tresor)
 
-        # supprime les contours negligeable
-        index = []
-        for c in range(len(contoursBleu)):
-            aire = cv2.contourArea(contoursBleu[c])
-            if (aire < 100 or aire > 1000):  # TODO: trouver la bonne valeur pour comparer
-                index += [c]
+        # Affiche l'image apres detection
+        #cv2.imshow("Image2", self.imageCamera)
 
-        if (index != []):
-            contoursBleu = np.delete(contoursBleu, index)
+        # Permet de garder les images ouvertes
+        cv2.waitKey(0)
 
-        # print le nombre de forme trouver
-        print "\n%d FORMES BLEUES" % (len(contoursBleu))
+    def dessinerTrajet(self, trajet):
+        point1 = None
+        for point2 in trajet:
+            if (point1 == None):
+                point1 = point2
+            else:
+                cv2.arrowedLine(self.imageCamera,point2,point1,(0, 0, 0),5)
+                point1 = point2
 
-        # Identifier la forme
-        for c in contoursBleu:
-            print cv2.contourArea(c)
-            self.trouverForme(c, "BLEU")
+    def dessinerElementCartographique(self):
+        for element in self.elementsCartographiques:
+            cv2.putText(self.imageCamera, element.forme, (element.centre_x-25, element.centre_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
 
-        self.nombreFormeBleue = len(contoursBleu)
-
-    def detecterJaune(self):
-        """
-        Detection des teintes de jaune dans l'image
-        """
-
-        # Debut et fin de l'intervale de couleur jaune
-        intervalleClair = np.array([51, 216, 242])  # F2D833
-        intervalleFoncer = np.array([10, 120, 140])  # 8C780A
-
-        # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
-        # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        masqueJaune = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
-
-        # Affiche l'image en noir et blanc
-        #cv2.imshow("MaskJaune", masqueJaune)
-
-        # Trouve les contours a l'aide du masque
-        _, contoursJaune, _ = cv2.findContours(masqueJaune.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        # supprime les contours negligeable
-        index = []
-        for c in range(len(contoursJaune)):
-            aire = cv2.contourArea(contoursJaune[c])
-            if (aire < 100 or aire > 1000):  # TODO: trouver la bonne valeur pour comparer
-                index += [c]
-
-        if (index != []):
-            contoursJaune = np.delete(contoursJaune, index)
-
-        # print le nombre de forme trouver
-        print "\n%d FORMES JAUNE" % (len(contoursJaune))
-
-        # Identifier la forme
-        for c in contoursJaune:
-            print cv2.contourArea(c)
-            self.trouverForme(c, "JAUNE")
-        self.nombreFormeJaune = len(contoursJaune)
-
-    def detecterVert(self):
-        """
-        Detection des teintes de vert dans l'image
-        """
-
-        # Debut et fin de l'intervale de couleur vert
-        intervalleClair = np.array([102, 255, 102])  # 66FF66
-        intervalleFoncer = np.array([0, 102, 0])  # 006600
-        # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
-        # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        masqueVert = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
-
-        # Affiche l'image en noir et blanc
-        #cv2.imshow("MaskVert", masqueVert)
-
-        # Trouve les contours a l'aide du masque
-        _, contoursVert, _ = cv2.findContours(masqueVert.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        # supprime les contours negligeable
-        index = []
-        for c in range(len(contoursVert)):
-            aire = cv2.contourArea(contoursVert[c])
-            if (aire < 100 or aire > 1000):  # TODO: trouver la bonne valeur pour comparer
-                index += [c]
-
-        if (index != []):
-            contoursVert = np.delete(contoursVert, index)
-
-        # print le nombre de forme trouver
-        print "\n%d FORMES VERTES" % (len(contoursVert))
-
-        # Identifier la forme
-        for c in contoursVert:
-            print cv2.contourArea(c)
-            self.trouverForme(c, "VERT")
-        self.nombreFormeVerte = len(contoursVert)
-
-    def detecterTresor(self):
-        """
-        Detection des teintes de jaune venant de forme plus petites que les iles dans l'image
-        """
-
-        # Debut et fin de l'intervale de couleur jaune
-        intervalleClair = np.array([37, 145, 145])  # Jimmy
-        intervalleFoncer = np.array([6, 100, 100])  # Jimmy
-        # Retourne un masque binair (pixel=blanc (255, 255, 255) si elle est
-        # dans l'intervalle et noir (0, 0, 0) dans le cas contraire)
-        shapeTresorMasque = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
-
-        # Affiche l'image en noir et blanc
-        #cv2.imshow("Masque Tresor", shapeTresorMasque)
-
-        # Trouve les contours a l'aide du masque
-        _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        # supprime les contours negligeable
-        index = []
-        for c in range(len(contoursTresor)):
-            aire = cv2.contourArea(contoursTresor[c])
-            if (aire < 10 or aire > 200):  # TODO: trouver la bonne valeur pour comparer
-                index.append(c)
-
-        if (index != []):
-            contoursTresor = np.delete(contoursTresor, index)
-
-        # dessine par dessus les contours
-        print "%d TRESORS " % (len(contoursTresor))
-
-        # Identifier tresor
-        for c in contoursTresor:
-            print cv2.contourArea(c)
-            formeTresor = _, c, "Tresor"
-            self.identifierForme(formeTresor, "TRESOR")
-            print "---------------------------------------------------"
-
-    def getElementCartographiques(self):
-        """
-        :return: Retourne les elements cartographiques detectees par le systeme
-        """
-
-        return self.elementsCartographiques
-
-    def ajouterElementTrouver(self, elementCarto):
-        """
-        Ajout d'un element cartographique dans la liste des elements cartographiques
-        :param elementCarto: Un element cartographique
-        """
-        self.elementsCartographiques.append(elementCarto)
-
-    def getNombreFormeRouge(self):
-        """
-        :return: Le nombre d'element rouge detecte
-        """
-
-        return self.nombreFormeRouge
-
-    def getNombreFormeBleue(self):
-        """
-        :return: Le nombre d'element bleu detecte
-        """
-
-        return self.nombreFormeBleue
-
-    def getNombreFormeJaune(self):
-        """
-        :return: Le nombre d'element jaune detecte
-        """
-
-        return self.nombreFormeJaune
-
-    def getNombreFormeVerte(self):
-        """
-        :return: Le nombre d'element vert detecte
-        """
-
-        return self.nombreFormeVerte
+    def afficherImage(self):
+        cv2.imshow("Image", self.imageCamera)
+        cv2.waitKey(0)

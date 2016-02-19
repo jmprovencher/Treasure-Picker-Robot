@@ -1,25 +1,23 @@
 import sys
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 import timeit
 
 
-class RobotUI(QtGui.QWidget):
+class Main(QtGui.QMainWindow):
 
     def __init__(self):
-        super(RobotUI, self).__init__()
+        QtGui.QMainWindow.__init__(self)
+        self.initUI()
+
+    def initUI(self):
+        timer = QtCore.QTimer
         self.champ_textbox = QtGui.QLineEdit(self)
         self.champ_textbox = QtGui.QLineEdit(self)
         self.champ_textbox.move(140, 20)
         self.champ_textbox.resize(120, 20)
-        self.initUI()
-
-    def updateTextBox(self):
-        self.champ_textbox.setText(str(timeit.timeit()))
-        self.champ_textbox.update()
-
-    def initUI(self):
         champ = QtGui.QLabel('Champ')
         champ.move(20, 2)
+
 
         btn = QtGui.QPushButton('Bouton 3', self)
         btn.setToolTip('Click to quit!')
@@ -46,11 +44,9 @@ class RobotUI(QtGui.QWidget):
 
 def main():
     app = QtGui.QApplication(sys.argv)
-    robUI = RobotUI()
-    sys.exit(app.exec_())
-    while 1:
-        robUI.updateTextBox()
+    main = Main()
+    main.show()
+
     sys.exit(app.exec_())
 if __name__ == '__main__':
     main()
-

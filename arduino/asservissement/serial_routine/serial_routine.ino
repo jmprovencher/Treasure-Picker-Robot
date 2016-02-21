@@ -1,6 +1,7 @@
+#include <TimerOne.h>
 #include <PID_v1.h>
 #include <LiquidCrystal.h>
-#include <TimerOne.h>
+
 
 // global value that corresponds to the byte sent by the micro PC by UART.
 int incomingByte = 0;
@@ -10,6 +11,7 @@ boolean mode = false;
 String action = "";
 
 int wheelPos[4] = {0, 0, 0, 0};
+int newWheelPos[4] = {0, 0, 0, 0};
 
 int pins[6] = {3, 4, 7, 8, 9, 10};
 int spdWheels[7] = {0, 0, 0, 0, 255, 0};
@@ -24,15 +26,24 @@ PID fourthPID(&Input[3], &Output[3], &Setpoint[3], 2, 5, 1, DIRECT);
 void setup() {
   Serial.begin(115200);
   
-  Timer1.initialize(150000);
-  Timer1.attachInterrupt(blinkLED); // blinkLED to run every 0.15 seconds
+  Timer1.initialize(200000);
+  Timer1.attachInterrupt(asservissement); // blinkLED to run every 0.2 seconds
   
   for(int i = 0; i < 6; i++){
      pinMode(pins[i], OUTPUT);
   }
   for(int i = 0; i < 4; i++){
-     Input[i] = analogRead(i);
+     wheelPos[i] = analogRead(i);
+     Input[i] = 0;
      Setpoint[i] = spdWheels[i];
+  }
+}
+
+void asservissement() {
+  for(int i = 0; i < 4; i++)
+  {
+    newWheelPos[i] = analogRead(i);
+    Input[i] = abs((newWheelPos[i] - wheelPos[i])/0.2);
   }
 }
 

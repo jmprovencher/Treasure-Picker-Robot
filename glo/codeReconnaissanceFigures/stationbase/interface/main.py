@@ -2,6 +2,6 @@
 import numpy as np
 import cv2
 
-from StationBase import StationBase
+from stationbase.interface.StationBase import StationBase
 
 stationBase = StationBase()

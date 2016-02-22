@@ -1,6 +1,7 @@
 from unittest import TestCase
-from AnalyseImageWorld import AnalyseImageWorld
-from Ile import Ile
+
+from elements.Ile import Ile
+from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
 
 
 class TestAnalyseImageWorld(TestCase):

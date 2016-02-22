@@ -1,9 +1,8 @@
 # import the necessary packages
-import numpy as np
-from ElementCartographique import ElementCartographique
-from Ile import Ile
 from Tresor import Tresor
-from Trajectoire import Trajectoire
+
+from elements.Ile import Ile
+from stationbase.trajectoire.Trajectoire import Trajectoire
 
 
 class Carte():

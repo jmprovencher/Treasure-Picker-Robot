@@ -1,10 +1,6 @@
 # import the necessary packages
-import numpy as np
-from ElementCartographique import ElementCartographique
-from Ile import Ile
-from Tresor import Tresor
-from Carte import Carte
-from AnalyseImageWorld import AnalyseImageWorld
+from elements.Carte import Carte
+from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
 
 
 class StationBase():
@@ -26,7 +22,6 @@ class StationBase():
         self.carte.trajectoire.trouverTrajet((50, 50),(1500, 400))
         self.carte.trajectoire.afficherTrajectoire()                            # Dans le terminal
         self.analyseImageWorld.dessinerTrajet(self.carte.trajectoire.trajet)    # Sur la photo
-
         self.analyseImageWorld.afficherImage()
 
 

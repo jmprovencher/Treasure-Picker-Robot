@@ -1,6 +1,5 @@
 # import the necessary packages
-import numpy as np
-from ElementCartographique import ElementCartographique
+from stationbase.vision.ElementCartographique import ElementCartographique
 
 
 class Ile(ElementCartographique):

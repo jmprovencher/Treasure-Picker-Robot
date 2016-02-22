@@ -1,9 +1,4 @@
 # import the necessary packages
-import numpy as np
-import heapq
-from ElementCartographique import ElementCartographique
-from Ile import Ile
-from Tresor import Tresor
 from Cellule import Cellule
 
 class GrilleCellule():

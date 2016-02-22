@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 from stationbase.interface.StationBase import StationBase
-from stationbase.commande.Requete import Requete
+from stationbase.commande.RequeteJSON import RequeteJSON
 
 stationBase = StationBase()
-requete = Requete()
+requete = RequeteJSON('avancer', 15)

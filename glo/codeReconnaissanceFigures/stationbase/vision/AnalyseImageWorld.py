@@ -1,7 +1,7 @@
 # import the necessary packages
 import cv2
-from elements.Tresor import Tresor
 
+from elements.Tresor import Tresor
 from stationbase.vision.DetectionElementsCartographiques import DetectionElementsCartographiques
 from elements.Ile import Ile
 

@@ -1,5 +1,5 @@
 # import the necessary packages
-from stationbase.vision.ElementCartographique import ElementCartographique
+from elements.ElementCartographique import ElementCartographique
 
 
 class Ile(ElementCartographique):

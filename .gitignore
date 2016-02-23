@@ -7,6 +7,13 @@
 *.blg
 Remises/Rapport\ de\ developpement.pdf
 
+.idea/
+.idea/workspace.xml		
+.idea/tasks.xml		
+.idea/dictionaries		
+.idea/vcs.xml		
+.idea/jsLibraryMappings.xml
+
 
 # User-specific stuff:
 

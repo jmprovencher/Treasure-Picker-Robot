@@ -1,0 +1,9 @@
+Le système de vision est géré en grande partie par la station de base, qui reçoit l'information nécéssaire par l'entremise de la caméra world et celle présente sur le robot. Ce système est programmé en Python et utilise la librairie graphique de traitement d'image OpenCV. 
+
+Le système de vision sert à faire une analyse en profondeur de la table de jeu et à prendre des décisions grâce aux informations venant du robot. Le système doit donc être performant et stable afin de ne pas induire le robot en erreur. 
+
+La caméra présente sur le robot ne sera utilisée que dans deux situations. Premièrement, elle servira lorsqu'aucun trésor est détecté par la caméra world puisque le robot tentera d'identifier la position des trésors grâce à son point de vue. Deuxièmement, la caméra du robot servira lors de l'approche d'une cible comme une île, un trésor ou la station de recharge. Donc, une fois le robot déplacé au point de positionnement devant la cible, la caméra embarquée enverra des images à la station de base afin de commencer la phase d'approche. Cette phase permet au robot de se positionner de manière optimale afin de faciliter l'exécution de la tâche demandée.
+
+Localisation des iles/tresor/robot: 
+- parler de la detection des formes avec le nombre de sommet VS detection avec template de forme bcp plus efficace et stable
+- Photo HD au debut et pt au debut de chaque phase d'approche

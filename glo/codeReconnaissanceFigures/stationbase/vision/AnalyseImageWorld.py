@@ -10,7 +10,7 @@ class AnalyseImageWorld(object):
     def __init__(self):
         self.elementsCartographiques = []
         self.tresorIdentifies = []
-        self.chargerImage('Image/table2/trajet2.png')
+        self.chargerImage('Image/table3/detection1.png')
         self.resolution = (1200, 1600)
         self.recadrerImage()
         self.estomperImage()
@@ -22,6 +22,7 @@ class AnalyseImageWorld(object):
         # Hardcodage du crop
         # TODO: a verifier sur toute les tables
         crop = self.imageCamera[100:950, 0:1600]
+
         cv2.imwrite('Cropped.png', crop)
         self.imageCamera = cv2.imread('Cropped.png')
 

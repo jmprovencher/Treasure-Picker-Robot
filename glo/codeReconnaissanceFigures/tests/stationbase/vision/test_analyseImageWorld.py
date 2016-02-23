@@ -13,14 +13,14 @@ class TestAnalyseImageWorld(TestCase):
     def test_retourneBonNombreElement_AvecImageParfaite(self):
         self.analyseImageWorldParfait.chargerImage('Image/image_testunitaire_parfaite.png')
         self.analyseImageWorldParfait.trouverElement()
-        self.elementsCartographiques = self.analyseImageWorldParfait.getElementCartographiques()
+        self.elementsCartographiques = self.analyseImageWorldParfait.elementsCartographiques
         self.assertEqual(len(self.elementsCartographiques), 17,
                          "Le systeme n'a pas detecte le bon nombre de forme prefaites")
 
     def test_retourneBonNombreElement_AvecImageOriginale(self):
         self.analyseImageWorld.chargerImage('Image/image_testunitaire.png')
         self.analyseImageWorld.trouverElement()
-        self.elementsCartographiques = self.analyseImageWorld.getElementCartographiques()
+        self.elementsCartographiques = self.analyseImageWorld.elementsCartographiques
         self.assertEqual(len(self.elementsCartographiques), 17,
                          "Le systeme n'a pas detecte le bon nombre de forme reelles")
 

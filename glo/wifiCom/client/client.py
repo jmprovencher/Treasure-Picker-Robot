@@ -4,7 +4,7 @@ s = socket.socket()             # Create a socket object
 host = socket.gethostname()     # Get local machine name
 port = 60000                    # Reserve a port for your service.
 print host
-s.connect(('DESKTOP-5KTTE0G', port))
+s.connect(('192.168.1.37', port))
 s.send("Hello server!")	#if python 3, need to encode the string with bytes(string, 'utf-8')
 
 with open('received_file.json', 'wb') as f:
@@ -19,5 +19,5 @@ with open('received_file.json', 'wb') as f:
         f.write(data)
 
 f.close()
-print('Successfully get the file')
+print('Successfully got the file')
 s.close()

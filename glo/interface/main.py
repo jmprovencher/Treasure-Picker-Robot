@@ -15,8 +15,8 @@ class Main(QtGui.QMainWindow):
         self.champ_textbox = QtGui.QLineEdit(self)
         self.champ_textbox.move(140, 20)
         self.champ_textbox.resize(120, 20)
-        champ = QtGui.QLabel('Champ')
-        champ.move(20, 2)
+        self.champ = QtGui.QLabel('Champ')
+        self.champ.move(20, 2)
 
 
         btn = QtGui.QPushButton('Bouton 3', self)
@@ -37,7 +37,7 @@ class Main(QtGui.QMainWindow):
         btn3.resize(btn.sizeHint())
         btn3.move(20, 400)
 
-        self.resize(720,490)
+        self.resize(1280,720)
         self.setWindowTitle('Design 3')
         self.show()
 

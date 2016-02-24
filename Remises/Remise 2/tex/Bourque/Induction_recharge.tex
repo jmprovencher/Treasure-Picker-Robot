@@ -1,0 +1,5 @@
+L’électroaimant est alimenté par un condensateur. Ce dernier est rechargé par un transformateur. Le primaire du transformateur est situé sur la station de recharge. Il est alimenté par une tension DC de 5V qui provient de la carte Manchester. Le transformateur ne fonctionnant qu’en AC, cette tension DC est hachée par un MOSFET dans lequel on envoie un signal carré de fréquence de 4Hz.
+\medbreak
+Le secondaire, située sur le robot, est constitué d’un redresseur double alternance à 4 diodes, d’un condensateur de charge et d’un interrupteur électronique. Le condensateur choisi est un condensateur de 5F. Le système d’induction permet de le recharger à 5V. 
+\medbreak
+L’interrupteur électronique permet d’ouvrir le circuit lorsque la recharge est terminée. En effet, un faible courant de fuite circule dans le redresseur et accélère ainsi la chute de tension aux bornes du condensateur.

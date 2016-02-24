@@ -1,57 +1,85 @@
 import sys
 from PyQt4 import QtGui, QtCore
-import timeit
 
-
-class Main(QtGui.QMainWindow):
+class Interface(QtGui.QWidget):
 
     def __init__(self):
-        QtGui.QMainWindow.__init__(self)
-        self.initUI()
+        super(Interface, self).__init__()
+        self.setGeometry(1280, 1280, 1280, 700)
+        self.setWindowTitle('Interface')
 
-    def initUI(self):
-        timer = QtCore.QTimer
-        self.champ_textbox = QtGui.QLineEdit(self)
-        self.champ_textbox = QtGui.QLineEdit(self)
-        self.champ_textbox.move(140, 20)
-        self.champ_textbox.resize(120, 20)
-        self.champ = QtGui.QLabel('Champ')
-        self.champ.move(20, 2)
+    def paintEvent(self, e):
+        qp = QtGui.QPainter()
+        qp.begin(self)
+        qp.drawPixmap(640, 0, QtGui.QPixmap("test_image7.png"),0, 90, 640, 480)
+        qp.drawPixmap(640, 350, QtGui.QPixmap("test_image7.png"),0, 90, 640, 480)
+        self.drawRectangles(qp)
+        self.drawCircles(qp)
+        self.drawPolygones(qp)
+        self.drawTriangles(qp)
+        qp.end()
 
 
-        btn = QtGui.QPushButton('Bouton 3', self)
-        btn.setToolTip('Click to quit!')
-        btn.clicked.connect(exit)
-        btn.resize(btn.sizeHint())
-        btn.move(20, 300)
 
-        btn2 = QtGui.QPushButton('Bouton 2', self)
-        btn2.setToolTip('Click to quit!')
-        btn2.clicked.connect(exit)
-        btn2.resize(btn.sizeHint())
-        btn2.move(20, 350)
+    def drawRectangles(self, qp):
 
-        btn3 = QtGui.QPushButton('Bouton 1', self)
-        btn3.setToolTip('Click to quit!')
-        btn3.clicked.connect(exit)
-        btn3.resize(btn.sizeHint())
-        btn3.move(20, 400)
+        self.vert(qp)
+        qp.drawRect(1000, 600, 20, 20)
 
-        self.resize(1280,720)
-        self.setWindowTitle('Design 3')
-        self.show()
+        self.bleu(qp)
+        qp.drawRect(250, 15, 20, 20)
 
-        color = QtGui.QColor(0, 0, 0)
-        color.setNamedColor('#d4d4d4')
-        qp.setPen(color)
-        
 
+
+    def drawCircles(self, qp):
+        self.rouge(qp)
+        qp.drawEllipse(10, 10, 20, 20)
+
+    def drawPolygones(self, qp):
+        self.jaune(qp)
+        polygone = QtGui.QPolygon([
+            QtCore.QPoint(800, 60),
+            QtCore.QPoint(814, 46),
+            QtCore.QPoint(828, 60),
+            QtCore.QPoint(821, 74),
+            QtCore.QPoint(807, 74),
+            QtCore.QPoint(800, 60)
+        ])
+        qp.drawConvexPolygon(polygone)
+
+    def drawTriangles(self, qp):
+        self.jaune(qp)
+        polygone = QtGui.QPolygon([
+            QtCore.QPoint(850, 60),
+            QtCore.QPoint(862, 36),
+            QtCore.QPoint(874, 60)
+        ])
+        qp.drawConvexPolygon(polygone)
+
+
+    def jaune(self, qp):
+        qp.setBrush(QtGui.QColor(200, 200, 0, 200))
+        qp.setPen(QtGui.QColor(200, 200, 0))
+
+    def rouge(self, qp):
+        qp.setBrush(QtGui.QColor(200, 0, 0, 200))
+        qp.setPen(QtGui.QColor(200, 0, 0))
+
+    def vert(self, qp):
+        qp.setBrush(QtGui.QColor(0, 200, 0, 160))
+        qp.setPen(QtGui.QColor(0, 200, 0))
+
+    def bleu(self, qp):
+        qp.setBrush(QtGui.QColor(0, 0, 200, 200))
+        qp.setPen(QtGui.QColor(0, 0, 200))
 
 def main():
-    app = QtGui.QApplication(sys.argv)
-    main = Main()
-    main.show()
 
+    app = QtGui.QApplication(sys.argv)
+    interface = Interface()
+    interface.show()
     sys.exit(app.exec_())
+
+
 if __name__ == '__main__':
     main()

@@ -41,6 +41,11 @@ class Main(QtGui.QMainWindow):
         self.setWindowTitle('Design 3')
         self.show()
 
+        color = QtGui.QColor(0, 0, 0)
+        color.setNamedColor('#d4d4d4')
+        qp.setPen(color)
+        
+
 
 def main():
     app = QtGui.QApplication(sys.argv)

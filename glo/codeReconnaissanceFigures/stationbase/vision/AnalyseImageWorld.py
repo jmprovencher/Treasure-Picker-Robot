@@ -7,10 +7,10 @@ from elements.Ile import Ile
 
 
 class AnalyseImageWorld(object):
-    def __init__(self):
+    def __init__(self, url):
         self.elementsCartographiques = []
         self.tresorIdentifies = []
-        self.chargerImage('Image/table3/detection1.png')
+        self.chargerImage(url)
         self.resolution = (1200, 1600)
         self.recadrerImage()
         self.estomperImage()
@@ -62,16 +62,25 @@ class AnalyseImageWorld(object):
 
     def dessinerTrajet(self, trajet):
         point1 = None
-        for point2 in trajet:
-            if (point1 == None):
-                point1 = point2
-            else:
-                cv2.arrowedLine(self.imageCamera,point2,point1,(0, 0, 0),5)
-                point1 = point2
+        if (trajet == []):
+            cv2.putText(self.imageCamera, 'Il n''existe aucun trajet!', (1000, 800), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 0, 255), 2, cv2.LINE_AA)
+        else:
+            for point2 in trajet:
+                if (point1 == None):
+                    point1 = point2
+                else:
+                    cv2.arrowedLine(self.imageCamera,point2,point1,(0, 255, 0),5)
+                    point1 = point2
 
     def dessinerElementCartographique(self):
         for element in self.elementsCartographiques:
             cv2.putText(self.imageCamera, element.forme, (element.centre_x-25, element.centre_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
+
+    def dessinerDebutFinTrajet(self, debut, fin):
+        x1, y1 = debut
+        x2, y2 = fin
+        cv2.putText(self.imageCamera, 'Debut', (x1-25, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+        cv2.putText(self.imageCamera, 'Fin', (x2, y2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
 
     def afficherImage(self):
         cv2.imshow("Image", self.imageCamera)

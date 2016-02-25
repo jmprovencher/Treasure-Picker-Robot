@@ -20,10 +20,10 @@ double Setpoint[4] = {3000, 3000, 3000, 3000};
 double Input[4] = {3000, 3000, 3000, 3000};
 double Output[4];
 
-PID firstPID(&Input[0], &Output[0], &Setpoint[0], 1, 1, 0.05, REVERSE);
-PID secondPID(&Input[1], &Output[1], &Setpoint[1], 1, 1, 0.05, REVERSE);
-PID thirdPID(&Input[2], &Output[2], &Setpoint[2], 1, 1, 0.05, REVERSE);
-PID fourthPID(&Input[3], &Output[3], &Setpoint[3], 1, 1, 0.05, REVERSE);
+PID firstPID(&Input[0], &Output[0], &Setpoint[0], 1, 2, 0.2, REVERSE);
+PID secondPID(&Input[1], &Output[1], &Setpoint[1], 1, 2, 0.2, REVERSE);
+PID thirdPID(&Input[2], &Output[2], &Setpoint[2], 1, 2, 0.2, REVERSE);
+PID fourthPID(&Input[3], &Output[3], &Setpoint[3], 1, 2, 0.2, REVERSE);
 
 PID pidList[4] = {firstPID, secondPID, thirdPID, fourthPID};
 
@@ -68,7 +68,9 @@ void loop() {
       delay(20);
     }
     for(int i = 0; i<4; i++){
-        Setpoint[i] = 3000;
+      Setpoint[i] = 3000;
+    }
+    for(int i = 4; i<6; i++){
         analogWrite(pinsDrive[i], 0);
     }
     duration = 0;
@@ -91,11 +93,11 @@ void serialEvent(){
       }
       else if(incomingByte == 52){
         action = "Turning left ";
-        Setpoint[2] = 600; Setpoint[3] = 600; Setpoint[0] = 3000; Setpoint[1] = 3000; spdWheels[0] = 0, spdWheels[1] = 255;
+        Setpoint[2] = 600; Setpoint[3] = 600; Setpoint[0] = 3000; Setpoint[1] = 3000; spdWheels[0] = 255, spdWheels[1] = 0;
       }
       else if(incomingByte == 54){
         action = "Turning right ";
-        Setpoint[2] = 600; Setpoint[3] = 600; Setpoint[0] = 3000; Setpoint[1] = 3000; spdWheels[0] = 255, spdWheels[1] = 0;
+        Setpoint[2] = 600; Setpoint[3] = 600; Setpoint[0] = 3000; Setpoint[1] = 3000; spdWheels[0] = 0, spdWheels[1] = 255;
       }
       else{
         action = "Invalid action ";        

@@ -54,8 +54,6 @@ int incomingByte = 0;   // for incoming serial data
                 incomingByte = Serial.read();
 
                 // say what you got:
-                print("I received: ");
-                print(incomingByte, DEC);
         }
   
   // Set the target of channel 0 to 1500 us, and wait 2 seconds.

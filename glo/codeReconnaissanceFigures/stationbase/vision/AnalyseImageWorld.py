@@ -76,11 +76,11 @@ class AnalyseImageWorld(object):
         for element in self.elementsCartographiques:
             cv2.putText(self.imageCamera, element.forme, (element.centre_x-25, element.centre_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
 
-    def dessinerDebutFinTrajet(self, debut, fin):
-        x1, y1 = debut
-        x2, y2 = fin
-        cv2.putText(self.imageCamera, 'Debut', (x1-25, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-        cv2.putText(self.imageCamera, 'Fin', (x2, y2), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+    def dessinerDebutFinTrajet(self, pointInitial, pointFinal):
+        debutX, debutY = pointInitial
+        finX, finY = pointFinal
+        cv2.putText(self.imageCamera, 'Debut', (debutX-25, debutY), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+        cv2.putText(self.imageCamera, 'Fin', (finX, finY), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
 
     def afficherImage(self):
         cv2.imshow("Image", self.imageCamera)

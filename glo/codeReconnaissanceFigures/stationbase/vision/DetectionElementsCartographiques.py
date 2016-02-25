@@ -56,7 +56,7 @@ class DetectionElementsCartographiques(object):
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme, couleur
 
-        if (precision < 0.5):
+        if (precision < 0.3):
             self.ilesIdentifiees.append(formeIdentifiee)
             self.nombreFormes += 1
 
@@ -75,8 +75,8 @@ class DetectionElementsCartographiques(object):
 
         intervalleClair, intervalleFonce, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        cv2.imshow("masque", masqueCouleur)
-        _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # cv2.imshow("masque", masqueCouleur)
+        _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         contoursNegligeable = []
         for c in range(len(contoursCouleur)):

@@ -27,4 +27,3 @@ while True:
 
     print('Done sending')
     conn.close()
-    break;

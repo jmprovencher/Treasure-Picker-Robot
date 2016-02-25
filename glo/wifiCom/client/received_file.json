@@ -1,5 +1,1 @@
-{"employees":[
-    {"firstName":"Jay", "lastName":"Brown"},
-    {"firstName":"Emile", "lastName":"Bourque"},
-    {"firstName":"JM", "lastName":"Provencher"}
-]}
+{"parametre": 15, "commande": "avancer"}

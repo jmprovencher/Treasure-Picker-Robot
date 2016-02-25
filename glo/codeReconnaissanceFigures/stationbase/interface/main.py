@@ -58,8 +58,8 @@ class Interface(QtGui.QWidget):
         qp.drawText(275, 550 + 50, QtCore.QString("Ile A"))
 
     def setUpLiveVirtuel(self, qp):
-        qp.drawPixmap(640, 0, QtGui.QPixmap("test_image7.png"),0, 90, 640, 480)
-        qp.drawPixmap(640, 350, QtGui.QPixmap("test_image_vide.png"),0, 90, 640, 480)
+        qp.drawPixmap(640, 0, QtGui.QPixmap("Image/test_image7.png"),0, 90, 640, 480)
+        qp.drawPixmap(640, 350, QtGui.QPixmap("Image/test_image_vide.png"),0, 90, 640, 480)
         self.orange(qp)
         qp.drawRect(450, 348, 830, 5)
         qp.drawRect(638, 0, 5, 700)

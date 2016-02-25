@@ -15,7 +15,7 @@ class Interface(QtGui.QWidget):
         super(Interface, self).__init__()
         self.setGeometry(1280, 1280, 1280, 700)
         self.setWindowTitle('Interface')
-        btn = QtGui.QPushButton('DEMARAGE', self)
+        btn = QtGui.QPushButton('DEMARRAGE', self)
         btn.clicked.connect(self.demarrerRoutine)
         btn.resize(120,46)
         btn.move(200, 200)

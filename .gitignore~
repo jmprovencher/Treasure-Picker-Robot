@@ -8,12 +8,12 @@
 Remises/Rapport\ de\ developpement.pdf
 
 # IDE files
-*.idea/
-*.idea/workspace.xml		
-*.idea/tasks.xml		
-*.idea/dictionaries		
-*.idea/vcs.xml		
-*.idea/jsLibraryMappings.xml
+.idea/
+.idea/workspace.xml		
+.idea/tasks.xml		
+.idea/dictionaries		
+.idea/vcs.xml		
+.idea/jsLibraryMappings.xml
 
 # User-specific stuff:
 visualParadigm/diagrammePhysique.vpp~1

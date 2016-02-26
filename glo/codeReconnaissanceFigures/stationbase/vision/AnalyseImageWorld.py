@@ -1,6 +1,6 @@
 # import the necessary packages
 import cv2
-import Config
+import ConfigPath
 from elements.Ile import Ile
 from elements.Tresor import Tresor
 from stationbase.vision.DetectionElementsCartographiques import DetectionElementsCartographiques
@@ -17,19 +17,19 @@ class AnalyseImageWorld(object):
         self.police = cv2.FONT_HERSHEY_SIMPLEX
 
     def chargerImage(self, url):
-        self.imageCamera = cv2.imread(Config.Config().appendToProjectPath(url))
+        self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath(url))
         self.recadrerImage()
         self.estomperImage()
 
     def recadrerImage(self):
         crop = self.imageCamera[100:950, 0:1600]
-        cv2.imwrite(Config.Config().appendToProjectPath('Cropped.png'), crop)
-        self.imageCamera = cv2.imread(Config.Config().appendToProjectPath('Cropped.png'))
+        cv2.imwrite(ConfigPath.Config().appendToProjectPath('Cropped.png'), crop)
+        self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('Cropped.png'))
 
     def estomperImage(self):
         blur = cv2.GaussianBlur(self.imageCamera, (5, 5), 0)
-        cv2.imwrite(Config.Config().appendToProjectPath('Cropped.png'), blur)
-        self.imageCamera = cv2.imread(Config.Config().appendToProjectPath('Cropped.png'))
+        cv2.imwrite(ConfigPath.Config().appendToProjectPath('Cropped.png'), blur)
+        self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('Cropped.png'))
 
     def trouverCentreForme(self, contoursForme):
         MatriceCentreMasse = cv2.moments(contoursForme)

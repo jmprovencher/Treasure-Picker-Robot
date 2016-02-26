@@ -1,9 +1,10 @@
 # import the necessary packages
 import cv2
-
+import Config
+from elements.Ile import Ile
 from elements.Tresor import Tresor
 from stationbase.vision.DetectionElementsCartographiques import DetectionElementsCartographiques
-from elements.Ile import Ile
+
 
 ##### REFACTORING STATUS #####
 # Done
@@ -16,19 +17,19 @@ class AnalyseImageWorld(object):
         self.police = cv2.FONT_HERSHEY_SIMPLEX
 
     def chargerImage(self, url):
-        self.imageCamera = cv2.imread(url)
+        self.imageCamera = cv2.imread(Config.Config().appendToProjectPath(url))
         self.recadrerImage()
         self.estomperImage()
 
     def recadrerImage(self):
         crop = self.imageCamera[100:950, 0:1600]
-        cv2.imwrite('Cropped.png', crop)
-        self.imageCamera = cv2.imread('Cropped.png')
+        cv2.imwrite(Config.Config().appendToProjectPath('Cropped.png'), crop)
+        self.imageCamera = cv2.imread(Config.Config().appendToProjectPath('Cropped.png'))
 
     def estomperImage(self):
         blur = cv2.GaussianBlur(self.imageCamera, (5, 5), 0)
-        cv2.imwrite('Cropped.png', blur)
-        self.imageCamera = cv2.imread('Cropped.png')
+        cv2.imwrite(Config.Config().appendToProjectPath('Cropped.png'), blur)
+        self.imageCamera = cv2.imread(Config.Config().appendToProjectPath('Cropped.png'))
 
     def trouverCentreForme(self, contoursForme):
         MatriceCentreMasse = cv2.moments(contoursForme)
@@ -65,7 +66,7 @@ class AnalyseImageWorld(object):
         pointInitial = None
 
         if (len(trajet) == 0):
-            cv2.putText(self.imageCamera, "Aucun trajet disponible", (1000, 800), self.police, 1.5,
+            cv2.putText(self.imageCamera, 'Aucun trajet disponible', (1000, 800), self.police, 1.5,
                         (0, 0, 255), 2, cv2.LINE_AA)
         else:
             for pointFinal in trajet:
@@ -88,5 +89,5 @@ class AnalyseImageWorld(object):
         cv2.putText(self.imageCamera, 'Fin', (fin_x, fin_y), self.police, 1, (0, 0, 0), 2, cv2.LINE_AA)
 
     def afficherImage(self):
-        cv2.imshow("Image", self.imageCamera)
+        cv2.imshow('Image', self.imageCamera)
         cv2.waitKey(0)

@@ -1,6 +1,7 @@
 # import the necessary packages
 import cv2
 import numpy as np
+import Config
 
 ##### REFACTORING STATUS #####
 # Done
@@ -10,10 +11,10 @@ class DetectionElementsCartographiques(object):
     def __init__(self, image):
         self.imageCamera = image
 
-        self.patronTriangle = cv2.imread('Image/triangle.png', 0)
-        self.patronCercle = cv2.imread('Image/cercle.png', 0)
-        self.patronCarre = cv2.imread('Image/carre.png', 0)
-        self.patronPentagone = cv2.imread('Image/pentagone.png', 0)
+        self.patronTriangle = cv2.imread(Config.Config().appendToProjectPath('Image/triangle.png'), 0)
+        self.patronCercle = cv2.imread(Config.Config().appendToProjectPath('Image/cercle.png'), 0)
+        self.patronCarre = cv2.imread(Config.Config().appendToProjectPath('Image/carre.png'), 0)
+        self.patronPentagone = cv2.imread(Config.Config().appendToProjectPath('Image/pentagone.png'), 0)
 
         self.formesConnues = []
         self.ilesIdentifiees = []

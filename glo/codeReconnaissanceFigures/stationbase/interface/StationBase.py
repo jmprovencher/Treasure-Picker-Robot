@@ -2,7 +2,6 @@
 from elements.Carte import Carte
 from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
 
-
 class StationBase():
 
     def __init__(self):

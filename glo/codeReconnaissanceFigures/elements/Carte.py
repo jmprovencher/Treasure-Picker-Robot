@@ -16,16 +16,17 @@ class Carte():
         for elementCarte in elementCartographiques:
             if (isinstance(elementCarte, Ile)):
                 self.listeIles.append(elementCarte)
+
             elif (isinstance(elementCarte, Tresor)):
                 self.listeTresors.append(elementCarte)
 
     def getIles(self):
         return self.listeIles
 
-    def getIles(self, couleurOuForme):
+    def getIles(self, informationIleCible):
         retour = []
         for ile in self.listeIles:
-            if (ile.getCouleur() == couleurOuForme):
+            if (ile.couleur == informationIleCible):
                 retour += ile
         return retour
 

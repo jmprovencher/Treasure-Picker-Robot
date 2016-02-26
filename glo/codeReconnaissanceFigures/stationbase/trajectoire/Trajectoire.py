@@ -1,30 +1,32 @@
 # import the necessary packages
-from AlgoAEtoile import AlgoAEtoile
-from GrilleCellule import GrilleCellule
+from stationbase.trajectoire.AlgorithmeTrajectoire import AlgorithmeTrajectoire
+from stationbase.trajectoire.GrilleCellule import GrilleCellule
 
+#REFACTORING STATUS
+# DONE
 
 class Trajectoire():
 
     def __init__(self):
         self.grilleCellule = GrilleCellule()
-        self.trajet = []
+        self.trajectoire = []
 
     def initGrilleCellule(self, listeIles):
         self.grilleCellule.initGrilleCellule(listeIles)
 
     def trouverTrajet(self, depart, arriver):
-        algo = AlgoAEtoile(self.grilleCellule)
-        self.trajet = algo.trouverTrajet(depart, arriver)
+        algoTrajectoire = AlgorithmeTrajectoire(self.grilleCellule)
+        self.trajectoire = algoTrajectoire.trouverTrajet(depart, arriver)
 
     def afficherTrajectoire(self):
         print "\n******************************************************************************"
         print "Trajectoire:"
         print "******************************************************************************\n"
-        if (self.trajet == []):
+        if (self.trajectoire == []):
             print "Il n'existe aucun trajet!"
         else:
             print "Arriver!!"
-            for deplacement in self.trajet:
+            for deplacement in self.trajectoire:
                 print "cellule: %d, %d" % deplacement
             print "Debut!!"
 

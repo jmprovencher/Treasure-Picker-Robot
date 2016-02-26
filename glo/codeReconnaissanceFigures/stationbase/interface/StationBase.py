@@ -11,7 +11,7 @@ class StationBase():
         self.main()
 
     def main(self):
-        listNom = ['Image/table2/detection1.png','Image/table2/detection2.png','Image/table2/trajet1.png','Image/table2/trajet2.png','Image/table2/testVert1.png']
+        listNom = ['Image/table2/trajet1.png']#,'Image/table2/detection2.png','Image/table2/trajet1.png','Image/table2/trajet2.png','Image/table2/testVert1.png']
 
         for nom in listNom:
 

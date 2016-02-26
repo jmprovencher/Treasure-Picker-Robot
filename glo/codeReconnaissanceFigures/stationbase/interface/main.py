@@ -1,23 +1,19 @@
 # import the necessary packages
-import numpy as np
-import cv2
+import sys
 
 from stationbase.interface.StationBase import StationBase
-from stationbase.commande.RequeteJSON import RequeteJSON
-
-import sys
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import pyqtSlot
 
-class Interface(QtGui.QWidget):
 
+class Interface(QtGui.QWidget):
     def __init__(self):
         super(Interface, self).__init__()
         self.setGeometry(1280, 1280, 1280, 700)
         self.setWindowTitle('Interface')
         btn = QtGui.QPushButton('DEMARRAGE', self)
         btn.clicked.connect(self.demarrerRoutine)
-        btn.resize(120,46)
+        btn.resize(120, 46)
         btn.move(200, 200)
 
     @pyqtSlot()
@@ -30,7 +26,6 @@ class Interface(QtGui.QWidget):
     def paintEvent(self, e):
         qp = QtGui.QPainter()
         qp.begin(self)
-
 
         self.setUpLiveFeed(qp)
         self.setUpLiveVirtuel(qp)
@@ -58,24 +53,20 @@ class Interface(QtGui.QWidget):
         qp.drawText(275, 550 + 50, QtCore.QString("Ile A"))
 
     def setUpLiveVirtuel(self, qp):
-        qp.drawPixmap(640, 0, QtGui.QPixmap("Image/test_image7.png"),0, 90, 640, 480)
-        qp.drawPixmap(640, 350, QtGui.QPixmap("Image/test_image_vide.png"),0, 90, 640, 480)
+        qp.drawPixmap(640, 0, QtGui.QPixmap("Image/test_image7.png"), 0, 90, 640, 480)
+        qp.drawPixmap(640, 350, QtGui.QPixmap("Image/test_image_vide.png"), 0, 90, 640, 480)
         self.orange(qp)
         qp.drawRect(450, 348, 830, 5)
         qp.drawRect(638, 0, 5, 700)
         qp.drawText(450, 338, QtCore.QString("TEMPS REEL"))
         qp.drawText(450, 378, QtCore.QString("VIRTUEL"))
 
-
     def drawRectangles(self, qp):
-
         self.vert(qp)
         qp.drawRect(953, 457, 30, 30)
 
         self.bleu(qp)
         qp.drawRect(823, 578, 30, 30)
-
-
 
     def drawCircles(self, qp):
         self.rouge(qp)
@@ -91,7 +82,7 @@ class Interface(QtGui.QWidget):
 
     def triangle_init(self, qp, x, y):
         polygone = QtGui.QPolygon([
-            QtCore.QPoint(x+ 0, y + 36),
+            QtCore.QPoint(x + 0, y + 36),
             QtCore.QPoint(x + 18, y + 0),
             QtCore.QPoint(x + 36, y + 36)
         ])
@@ -111,7 +102,6 @@ class Interface(QtGui.QWidget):
     def blanc_contour_bleu(self, qp):
         qp.setBrush(QtGui.QColor(250, 250, 250, 250))
         qp.setPen(QtGui.QColor(0, 0, 250))
-
 
     def noir(self, qp):
         qp.setBrush(QtGui.QColor(0, 0, 0, 250))
@@ -137,8 +127,8 @@ class Interface(QtGui.QWidget):
         qp.setBrush(QtGui.QColor(0, 140, 190, 250))
         qp.setPen(QtGui.QColor(0, 140, 190))
 
-def main():
 
+def main():
     app = QtGui.QApplication(sys.argv)
     interface = Interface()
     interface.show()

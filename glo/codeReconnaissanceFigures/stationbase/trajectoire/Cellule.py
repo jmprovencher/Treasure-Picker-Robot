@@ -1,6 +1,5 @@
-# import the necessary packages
-import numpy as np
-
+##### REFACTORING STATUS #####
+# X,Y,G,H,F A RENOMMER
 
 class Cellule():
 

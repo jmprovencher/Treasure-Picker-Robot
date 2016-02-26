@@ -5,6 +5,8 @@ from elements.Tresor import Tresor
 from stationbase.vision.DetectionElementsCartographiques import DetectionElementsCartographiques
 from elements.Ile import Ile
 
+##### REFACTORING STATUS #####
+# Done
 
 class AnalyseImageWorld(object):
     def __init__(self, url):
@@ -14,6 +16,7 @@ class AnalyseImageWorld(object):
         self.resolution = (1200, 1600)
         self.recadrerImage()
         self.estomperImage()
+        self.police = cv2.FONT_HERSHEY_SIMPLEX
 
     def chargerImage(self, url):
         self.imageCamera = cv2.imread(url)
@@ -35,12 +38,14 @@ class AnalyseImageWorld(object):
         MatriceCentreMasse = cv2.moments(contoursForme)
         centre_x = int(MatriceCentreMasse['m10'] / MatriceCentreMasse['m00'])
         centre_y = int(MatriceCentreMasse['m01'] / MatriceCentreMasse['m00'])
+
         return centre_x, centre_y
 
-    def identifierForme(self, element):
-        contoursForme, nomForme, couleurForme = element
+    def identifierForme(self, forme):
+        contoursForme, nomForme, couleurForme = forme
         centreForme = self.trouverCentreForme(contoursForme)
-        if (couleurForme == "TRESOR"):
+
+        if (couleurForme == ""):
             tresor = Tresor(centreForme)
             self.elementsCartographiques.append(tresor)
         else:
@@ -48,12 +53,12 @@ class AnalyseImageWorld(object):
             self.elementsCartographiques.append(ile)
 
     def trouverElementCartographiques(self):
-        self.detectionIles = DetectionElementsCartographiques(self.imageCamera)
-        self.detectionIles.detecterIles()
-        self.detectionIles.detecterTresor()
+        detectionIles = DetectionElementsCartographiques(self.imageCamera)
+        detectionIles.detecterIles()
+        detectionIles.detecterTresor()
 
-        self.ilesIdentifiees = self.detectionIles.ilesIdentifiees
-        self.tresorIdentifies = self.detectionIles.tresorIdentifies
+        self.ilesIdentifiees = detectionIles.ilesIdentifiees
+        self.tresorIdentifies = detectionIles.tresorIdentifies
 
         for element in self.ilesIdentifiees:
             self.identifierForme(element)
@@ -61,26 +66,30 @@ class AnalyseImageWorld(object):
             self.identifierForme(tresor)
 
     def dessinerTrajet(self, trajet):
-        point1 = None
-        if (trajet == []):
-            cv2.putText(self.imageCamera, 'Il n''existe aucun trajet!', (1000, 800), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 0, 255), 2, cv2.LINE_AA)
+        pointInitial = None
+
+        if (len(trajet) == 0):
+            cv2.putText(self.imageCamera, "Aucun trajet disponible", (1000, 800), self.police, 1.5,
+                        (0, 0, 255), 2, cv2.LINE_AA)
         else:
-            for point2 in trajet:
-                if (point1 == None):
-                    point1 = point2
+            for pointFinal in trajet:
+                if (pointInitial == None):
+                    pointInitial = pointFinal
                 else:
-                    cv2.arrowedLine(self.imageCamera,point2,point1,(0, 255, 0),5)
-                    point1 = point2
+                    cv2.arrowedLine(self.imageCamera, pointFinal, pointInitial, (0, 255, 0), 5)
+                    pointInitial = pointFinal
 
     def dessinerElementCartographique(self):
         for element in self.elementsCartographiques:
-            cv2.putText(self.imageCamera, element.forme, (element.centre_x-25, element.centre_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
+            cv2.putText(self.imageCamera, element.forme, (element.centre_x - 25, element.centre_y),
+                        self.police, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
 
     def dessinerDebutFinTrajet(self, pointInitial, pointFinal):
-        debutX, debutY = pointInitial
-        finX, finY = pointFinal
-        cv2.putText(self.imageCamera, 'Debut', (debutX-25, debutY), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-        cv2.putText(self.imageCamera, 'Fin', (finX, finY), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+        debut_x, debut_y = pointInitial
+        fin_x, fin_y = pointFinal
+
+        cv2.putText(self.imageCamera, 'Debut', (debut_x - 25, debut_y), self.police, 1, (0, 0, 0), 2, cv2.LINE_AA)
+        cv2.putText(self.imageCamera, 'Fin', (fin_x, fin_y), self.police, 1, (0, 0, 0), 2, cv2.LINE_AA)
 
     def afficherImage(self):
         cv2.imshow("Image", self.imageCamera)

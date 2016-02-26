@@ -2,6 +2,8 @@
 import cv2
 import numpy as np
 
+##### REFACTORING STATUS #####
+# Done
 
 class DetectionElementsCartographiques(object):
 
@@ -75,7 +77,7 @@ class DetectionElementsCartographiques(object):
 
         intervalleClair, intervalleFonce, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        # cv2.imshow("masque", masqueCouleur)
+
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         contoursNegligeable = []
@@ -108,5 +110,5 @@ class DetectionElementsCartographiques(object):
             contoursTresor = np.delete(contoursTresor, contoursNegligeable)
 
         for contours in contoursTresor:
-            formeTresor = contours, "Tresor", "TRESOR"
+            formeTresor = contours, "Tresor", ""
             self.tresorIdentifies.append(formeTresor)

@@ -1,19 +1,12 @@
 # import the necessary packages
 from elements.ElementCartographique import ElementCartographique
 
-
 class Ile(ElementCartographique):
 
     def __init__(self, centre, couleur, forme):
         self.centre_x, self.centre_y = centre
         self.couleur = couleur
         self.forme = forme
-
-    def getForme(self):
-        return self.forme
-
-    def getCouleur(self):
-        return self.couleur
 
     def afficher(self):
         print "ILE"

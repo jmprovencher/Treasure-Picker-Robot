@@ -4,6 +4,7 @@ import sys
 from stationbase.interface.StationBase import StationBase
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import pyqtSlot
+import ConfigPath
 
 
 class Interface(QtGui.QWidget):
@@ -37,29 +38,29 @@ class Interface(QtGui.QWidget):
 
     def setUpLiveFeed(self, qp):
         self.noir(qp)
-        qp.drawText(50, 400 + 50, QtCore.QString("Trajectoire :"))
-        qp.drawText(50, 450 + 50, QtCore.QString("Tension condensateur :"))
-        qp.drawText(50, 500 + 50, QtCore.QString("Position et Orientation du Robot :"))
-        qp.drawText(50, 550 + 50, QtCore.QString("Ile cible :"))
+        qp.drawText(50, 400 + 50, QtCore.QString('Trajectoire :'))
+        qp.drawText(50, 450 + 50, QtCore.QString('Tension condensateur :'))
+        qp.drawText(50, 500 + 50, QtCore.QString('Position et Orientation du Robot :'))
+        qp.drawText(50, 550 + 50, QtCore.QString('Ile cible :'))
         self.blanc_contour_bleu(qp)
         qp.drawRect(260, 385 + 50, 120, 20)
         qp.drawRect(260, 435 + 50, 80, 20)
         qp.drawRect(260, 485 + 50, 300, 20)
         qp.drawRect(260, 535 + 50, 100, 20)
         self.noir(qp)
-        qp.drawText(275, 400 + 50, QtCore.QString("88.95''N  15.10''O "))
-        qp.drawText(275, 450 + 50, QtCore.QString("1.23539 V "))
-        qp.drawText(275, 500 + 50, QtCore.QString("0.8245m, 0.23421m     68.35''S  1.36''O "))
-        qp.drawText(275, 550 + 50, QtCore.QString("Ile A"))
+        qp.drawText(275, 400 + 50, QtCore.QString('88.95''N  15.10''O '))
+        qp.drawText(275, 450 + 50, QtCore.QString('1.23539 V '))
+        qp.drawText(275, 500 + 50, QtCore.QString('0.8245m, 0.23421m     68.35''S  1.36''O '))
+        qp.drawText(275, 550 + 50, QtCore.QString('Ile A'))
 
     def setUpLiveVirtuel(self, qp):
-        qp.drawPixmap(640, 0, QtGui.QPixmap("Image/test_image7.png"), 0, 90, 640, 480)
-        qp.drawPixmap(640, 350, QtGui.QPixmap("Image/test_image_vide.png"), 0, 90, 640, 480)
+        qp.drawPixmap(640, 0, QtGui.QPixmap('Image/test_image7.png'), 0, 90, 640, 480)
+        qp.drawPixmap(640, 350, QtGui.QPixmap('Image/test_image_vide.png'), 0, 90, 640, 480)
         self.orange(qp)
         qp.drawRect(450, 348, 830, 5)
         qp.drawRect(638, 0, 5, 700)
-        qp.drawText(450, 338, QtCore.QString("TEMPS REEL"))
-        qp.drawText(450, 378, QtCore.QString("VIRTUEL"))
+        qp.drawText(450, 338, QtCore.QString('TEMPS REEL'))
+        qp.drawText(450, 378, QtCore.QString('VIRTUEL'))
 
     def drawRectangles(self, qp):
         self.vert(qp)

@@ -9,23 +9,19 @@ from elements.Ile import Ile
 # Done
 
 class AnalyseImageWorld(object):
-    def __init__(self, url):
+    def __init__(self):
         self.elementsCartographiques = []
         self.tresorIdentifies = []
-        self.chargerImage(url)
         self.resolution = (1200, 1600)
-        self.recadrerImage()
-        self.estomperImage()
         self.police = cv2.FONT_HERSHEY_SIMPLEX
 
     def chargerImage(self, url):
         self.imageCamera = cv2.imread(url)
+        self.recadrerImage()
+        self.estomperImage()
 
     def recadrerImage(self):
-        # Hardcodage du crop
-        # TODO: a verifier sur toute les tables
         crop = self.imageCamera[100:950, 0:1600]
-
         cv2.imwrite('Cropped.png', crop)
         self.imageCamera = cv2.imread('Cropped.png')
 

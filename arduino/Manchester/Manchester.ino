@@ -2,7 +2,6 @@ int pinClock = 2;
 int pinManchester = 50;
 bool stateClock = 0;
 bool stateManchester = 0;
-bool transmission = 0;
 bool bitDecode = 0;
 bool arrayCode[32] = {0};
 int compteur = 0;
@@ -10,6 +9,8 @@ int nombreDeSuite = 1;
 int compteurCode = 0;
 bool arrayDecode[7] = {0};
 int codeSecret = 0;
+unsigned int count = 0;
+unsigned int countLoop = 0;
 
 
 
@@ -26,8 +27,27 @@ void setup()
 
 void loop()
 {
+  if (count != countLoop)
+  {
+    countLoop = count;
+    stateClock = digitalRead(pinClock);
+    stateManchester = digitalRead(pinManchester);
+    bitDecode = stateClock ^ stateManchester;
+      //Serial.println(stateManchester);
+      //Serial.println(stateClock);
+      //Serial.println(bitDecode);
+    arrayCode[compteur] = bitDecode;
+    compteur++;
+  }
+
+  
   if (compteur == 31)
   {
+    for(int h=0;h<32;h++)
+    {
+      Serial.println(arrayCode[h]);
+    }
+    Serial.println("Serie terminee, voici le code secret :");
     while (nombreDeSuite != 8)  //peut rester coincer dans while ?
     {
       for (int i = 0; i < 32; i++)
@@ -46,10 +66,15 @@ void loop()
                   arrayDecode[compteurCode] = arrayCode[k];
                   compteurCode++;
                 }
-                codeSecret = arrayDecode[0];
-                for (byte u=1; u<8; u++)
+                for (int b=0;b<7;b++)
                 {
-                  codeSecret= codeSecret*10+arrayDecode[i];
+                  Serial.print(arrayDecode[b]);
+                }
+                Serial.println("Fini");
+                codeSecret = 0;
+                for (int u=0; u<7; u++)
+                {
+                  codeSecret= codeSecret*2+arrayDecode[u];
                 }
                 Serial.println(codeSecret);
               }
@@ -64,12 +89,7 @@ void loop()
 
 void Reading()
 {
-  // ajouter delay ?
-  stateClock = digitalRead(pinClock);
-  stateManchester = digitalRead(pinManchester);
-  bitDecode = stateClock ^ stateManchester;
-  arrayCode[compteur] = bitDecode;
-  compteur++;
+  count++;
 }
 
 

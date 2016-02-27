@@ -6,18 +6,16 @@
 *.bbl
 *.blg
 Remises/Rapport\ de\ developpement.pdf
-<<<<<<< HEAD
-.idea/
-=======
+
+# IDE files
+*.idea/
+*.idea/workspace.xml		
+*.idea/tasks.xml		
+*.idea/dictionaries		
+*.idea/vcs.xml		
+*.idea/jsLibraryMappings.xml
 
 # User-specific stuff:
-.idea/
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/dictionaries
-.idea/vcs.xml
-.idea/jsLibraryMappings.xml
->>>>>>> 1e1306b6d839dafe5c50563340da107e41ec4426
 visualParadigm/diagrammePhysique.vpp~1
 visualParadigm/diagrammePhysique.vpp~2
 *.vpp~3

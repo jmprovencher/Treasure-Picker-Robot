@@ -1,0 +1,14 @@
+Le système de transmission retenu par l'équipe pour communiquer le signal Manchester est un système utilisant une LED comme émetteur et une autre LED comme récepteur. Ce système LED à LED est une solution simple et peu coûteuse qui ne présente donc pas un coût monétaire important pour le projet ni beaucoup de temps de travail. Pour décoder le code il est nécessaire de transmettre l'horloge ainsi que le code, le système est donc installé en double à cet effet. Chacun des signaux est transmis par un banque de quatre LED qui seront situées sur la station de recharge. L'utilisation de plusieurs diodes est justifiée pour rendre le système plus efficace en cas de défaillance d'une de celle-ci et donc d'ajouter de la redondance. Les LED en réception sont situées de chaque côté de la face avant du robot de manière à éviter les interférences. Encore une fois, la redondance est utilisée pour la réception et deux LED sont donc placées à cet effet.
+\medbreak
+L'horloge fournit avec le dispositif du Manchester n'est pas utilisée car elle est jugée trop rapide, une horloge d'environ 1 à 2H est généré par un microcontrôleur PIC. Une fréquence plus élevée n'est pas requise dû au temps passé à recharger le condensateur, de plus avec une basse fréquence le risque d'erreur est jugé moins élevé. Des LED rouges sont utilisées pour la transmission des signaux, après des expériences avec d'autres couleurs il fut remarqué que celles-ci offraient les meilleures performances.
+\medbreak
+Un circuit d'amplification des signaux situé sur le robot permet d'amplifier ceux-ci après réception et donc de produire des signaux 0 à 5V. Le schéma de ce circuit est présenté à la figure \ref{f:Manchester} et réalisé sur PCB conformément aux exigences. Les signaux amplifiés sont ensuite lu par des entrées numériques de l'Arduino Mega. La signal d'horloge est lu par une entrée permettant d'utiliser les interruptions tandis que le code Manchester est lu par une entrée ordinaire. Une interruption est lancée sur chaque front montant d'horloge, les deux données sont alors lues et on effectue une opération XOR sur les signaux afin d'obtenir le signal décodé. Ce résultat est ensuite stocké dans un buffer circulaire de 32 éléments, ce qui assure d'avoir au moins une itération de la séquence de 16 bits dans son ensemble. Un algorithme parcours ensuite ce tableau de données pour recherché la séquence de 8 bits à 1 suivit d'un bit à 0 pour finalement prendre les 7 bits d'intérêt composant la lettre ASCII voulue. Cette lettre est finalement transmise à l'ordinateur embarquée pour utilisation future.
+
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=0.85\textwidth]{fig/Manchester.png}
+   \caption{Circuit d'amplification des signaux du code Manchester}
+   \label{f:Manchester}
+\end{figure}
+
+\pagebreak

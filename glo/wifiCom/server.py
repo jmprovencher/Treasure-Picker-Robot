@@ -3,6 +3,8 @@ import socket                   # Import socket module
 port = 60000                    # Reserve a port for your service.
 s = socket.socket()             # Create a socket object
 host = socket.gethostname()     # Get local machine name
+hostAdress = socket.gethostbyname(host)
+print hostAdress
 s.bind((host, port))            # Bind to the port
 s.listen(5)                     # Now wait for client connection.
 
@@ -14,7 +16,7 @@ while True:
     data = conn.recv(1024)
     print('Server received', repr(data))
 
-    filename='test.json'
+    filename='data.json'
     f = open(filename,'r')
     l = f.read(1024)
     while (l):
@@ -25,4 +27,3 @@ while True:
 
     print('Done sending')
     conn.close()
-    break;

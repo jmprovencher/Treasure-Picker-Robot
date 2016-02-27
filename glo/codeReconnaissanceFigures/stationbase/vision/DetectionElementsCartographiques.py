@@ -56,11 +56,12 @@ class DetectionElementsCartographiques(object):
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme, couleur
 
-        if (precision < 0.3):
+        if (precision < 0.2):
             self.ilesIdentifiees.append(formeIdentifiee)
             self.nombreFormes += 1
         else:
             print "Forme non conforme detectee"
+
 
     def detecterIles(self):
         self._detecterFormeCouleur(self.intervalleRouge)
@@ -91,7 +92,7 @@ class DetectionElementsCartographiques(object):
         intervalleClair = np.array([37, 145, 145])
         intervalleFoncer = np.array([6, 100, 100])
         shapeTresorMasque = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
-        _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         contoursNegligeable = []
         for contours in range(len(contoursTresor)):

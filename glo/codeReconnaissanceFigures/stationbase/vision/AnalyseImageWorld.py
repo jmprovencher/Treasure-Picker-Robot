@@ -5,14 +5,11 @@ from elements.Ile import Ile
 from elements.Tresor import Tresor
 from stationbase.vision.DetectionElementsCartographiques import DetectionElementsCartographiques
 
-
-##### REFACTORING STATUS #####
-# Done
-
 class AnalyseImageWorld(object):
     def __init__(self):
         self.elementsCartographiques = []
         self.tresorIdentifies = []
+        self.ilesIdentifiees = []
         self.resolution = (1200, 1600)
         self.police = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -49,13 +46,13 @@ class AnalyseImageWorld(object):
             ile = Ile(centreForme, couleurForme, nomForme)
             self.elementsCartographiques.append(ile)
 
-    def trouverElementCartographiques(self):
-        detectionIles = DetectionElementsCartographiques(self.imageCamera)
-        detectionIles.detecterIles()
-        detectionIles.detecterTresor()
+    def trouverElementsCartographiques(self):
+        self.detectionElements = DetectionElementsCartographiques(self.imageCamera)
+        self.detectionElements.detecterIles()
+        self.detectionElements.detecterTresor()
 
-        self.ilesIdentifiees = detectionIles.ilesIdentifiees
-        self.tresorIdentifies = detectionIles.tresorIdentifies
+        self.ilesIdentifiees = self.detectionElements.ilesIdentifiees
+        self.tresorIdentifies = self.detectionElements.tresorIdentifies
 
         for element in self.ilesIdentifiees:
             self.identifierForme(element)
@@ -89,5 +86,5 @@ class AnalyseImageWorld(object):
         cv2.putText(self.imageCamera, 'Fin', (fin_x, fin_y), self.police, 1, (0, 0, 0), 2, cv2.LINE_AA)
 
     def afficherImage(self):
-        cv2.imshow('Image', self.imageCamera)
+        cv2.imshow('images', self.imageCamera)
         cv2.waitKey(0)

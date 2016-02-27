@@ -3,18 +3,13 @@ import cv2
 import numpy as np
 import ConfigPath
 
-
-##### REFACTORING STATUS #####
-# Done
-
 class DetectionElementsCartographiques(object):
     def __init__(self, image):
         self.imageCamera = image
-
-        self.patronTriangle = cv2.imread(ConfigPath.Config().appendToProjectPath('Image/triangle.png'), 0)
-        self.patronCercle = cv2.imread(ConfigPath.Config().appendToProjectPath('Image/cercle.png'), 0)
-        self.patronCarre = cv2.imread(ConfigPath.Config().appendToProjectPath('Image/carre.png'), 0)
-        self.patronPentagone = cv2.imread(ConfigPath.Config().appendToProjectPath('Image/pentagone.png'), 0)
+        self.patronTriangle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/triangle.png'), 0)
+        self.patronCercle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/cercle.png'), 0)
+        self.patronCarre = cv2.imread(ConfigPath.Config().appendToProjectPath('images/carre.png'), 0)
+        self.patronPentagone = cv2.imread(ConfigPath.Config().appendToProjectPath('images/pentagone.png'), 0)
 
         self.formesConnues = []
         self.ilesIdentifiees = []
@@ -26,6 +21,7 @@ class DetectionElementsCartographiques(object):
         self.intervalleBleu = np.array([255, 255, 102]), np.array([102, 102, 0]), "Bleu"
         self.intervalleJaune = np.array([51, 216, 242]), np.array([10, 120, 140]), "Jaune"
         self.intervalleVert = np.array([102, 255, 102]), np.array([0, 102, 0]), "Vert"
+
         self._definirPatronsFormes()
 
     def _definirPatronsFormes(self):
@@ -48,13 +44,14 @@ class DetectionElementsCartographiques(object):
         self.formesConnues.append(self.cntCercle)
         self.formesConnues.append(self.cntPentagone)
 
-    def trouverForme(self, contours, couleur):
+    def _trouverForme(self, contours, couleur):
 
         resultatsMatch = []
         resultatsMatch.append((cv2.matchShapes(contours, self.cntTriangle, 1, 0.0), contours, "Triangle"))
         resultatsMatch.append((cv2.matchShapes(contours, self.cntCercle, 1, 0.0), contours, "Cercle"))
         resultatsMatch.append((cv2.matchShapes(contours, self.cntCarre, 1, 0.0), contours, "Carre"))
         resultatsMatch.append((cv2.matchShapes(contours, self.cntPentagone, 1, 0.0), contours, "Pentagone"))
+
         meilleurMatch = min(resultatsMatch)
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme, couleur
@@ -62,11 +59,8 @@ class DetectionElementsCartographiques(object):
         if (precision < 0.3):
             self.ilesIdentifiees.append(formeIdentifiee)
             self.nombreFormes += 1
-
         else:
             print "Forme non conforme detectee"
-
-        resultatsMatch.remove(meilleurMatch)
 
     def detecterIles(self):
         self._detecterFormeCouleur(self.intervalleRouge)
@@ -78,38 +72,45 @@ class DetectionElementsCartographiques(object):
 
         intervalleClair, intervalleFonce, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         contoursNegligeable = []
-        for c in range(len(contoursCouleur)):
-            aire = cv2.contourArea(contoursCouleur[c])
-            if ((aire < 1000) or (aire > 6000)):  # TODO: trouver la bonne valeur pour comparer
-                contoursNegligeable.append(c)
+        for contours in range(len(contoursCouleur)):
+            aire = cv2.contourArea(contoursCouleur[contours])
+            if ((aire < 1000) or (aire > 6000)):
+                contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
 
         for contoursForme in contoursCouleur:
-            self.trouverForme(contoursForme, couleurForme)
+            self._trouverForme(contoursForme, couleurForme)
 
     def detecterTresor(self):
 
-        intervalleClair = np.array([37, 145, 145])  # Jimmy
-        intervalleFoncer = np.array([6, 100, 100])  # Jimmy
-
+        intervalleClair = np.array([37, 145, 145])
+        intervalleFoncer = np.array([6, 100, 100])
         shapeTresorMasque = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
-        _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         contoursNegligeable = []
-        for c in range(len(contoursTresor)):
-            aire = cv2.contourArea(contoursTresor[c])
-            if (aire < 30 or aire > 150):  # TODO: trouver la bonne valeur pour comparer
-                contoursNegligeable.append(c)
+        for contours in range(len(contoursTresor)):
+            aire = cv2.contourArea(contoursTresor[contours])
+            if (aire < 30 or aire > 150):
+                contoursNegligeable.append(contours)
 
         if (contoursNegligeable != []):
             contoursTresor = np.delete(contoursTresor, contoursNegligeable)
 
         for contours in contoursTresor:
             formeTresor = contours, "Tresor", ""
+            print "Ajout tresor"
             self.tresorIdentifies.append(formeTresor)
+
+    def _getNombreIleCouleur(self, couleurVoulue):
+        nombreIles = 0
+        for iles in self.ilesIdentifiees:
+            _, _, couleur = iles
+            if (couleur == couleurVoulue):
+                nombreIles += 1
+        return nombreIles

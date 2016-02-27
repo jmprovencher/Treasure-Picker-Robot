@@ -10,8 +10,8 @@ class StationBase():
         self.initialiserStationBase()
 
     def initialiserStationBase(self):
-        self.analyseImageWorld.chargerImage('Image/table2/trajet1.png')
-        self.analyseImageWorld.trouverElementCartographiques()
+        self.analyseImageWorld.chargerImage('images/table2/detection1.png')
+        self.analyseImageWorld.trouverElementsCartographiques()
         self.carte.ajouterElementCarto(self.analyseImageWorld.elementsCartographiques)
         self.carte.afficherCarte()
         self.analyseImageWorld.dessinerElementCartographique()

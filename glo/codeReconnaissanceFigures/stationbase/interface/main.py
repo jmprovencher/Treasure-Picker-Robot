@@ -54,8 +54,8 @@ class Interface(QtGui.QWidget):
         qp.drawText(275, 550 + 50, QtCore.QString('Ile A'))
 
     def setUpLiveVirtuel(self, qp):
-        qp.drawPixmap(640, 0, QtGui.QPixmap('Image/test_image7.png'), 0, 90, 640, 480)
-        qp.drawPixmap(640, 350, QtGui.QPixmap('Image/test_image_vide.png'), 0, 90, 640, 480)
+        qp.drawPixmap(640, 0, QtGui.QPixmap('images/test_image7.png'), 0, 90, 640, 480)
+        qp.drawPixmap(640, 350, QtGui.QPixmap('images/test_image_vide.png'), 0, 90, 640, 480)
         self.orange(qp)
         qp.drawRect(450, 348, 830, 5)
         qp.drawRect(638, 0, 5, 700)
@@ -131,10 +131,10 @@ class Interface(QtGui.QWidget):
 
 def main():
     stationBase = StationBase()
-    app = QtGui.QApplication(sys.argv)
-    interface = Interface()
-    interface.show()
-    sys.exit(app.exec_())
+    #app = QtGui.QApplication(sys.argv)
+    #interface = Interface()
+    #interface.show()
+    #sys.exit(app.exec_())
 
 
 if __name__ == '__main__':

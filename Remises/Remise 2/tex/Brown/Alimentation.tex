@@ -1,0 +1,13 @@
+Un circuit imprimé a été conçu pour assurer un accès facile aux différents niveaux de tensions requis par le robot. Ce circuit comprend donc les deux régulateurs nécessaires pour le 12V, le régulateur pour les circuits fonctionnant à 5V ainsi que le régulateur 19V pour le mini PC. Les deux régulateurs utilisés pour le 12V sont le même modèle que celui utilisé pour le 5V. Le régulateur en question est un hacheur série dévolteur DC-DC avec un voltmètre intégré qui a une précision de $\pm$ 0.05V \cite{ALI01}. Il prend 4V à 38V en entré et donne 1.35V à 36V en sortie avec un courant maximum de 5A et sont efficacité peut atteindre 96\%. De plus, il a une protection intégrée contre la surchauffe et les courts-circuits. Les autres régulateurs considérés pour le robot ne pouvaient fournir que 3A et ils coûtaient environ le même prix, c'est entre autres ce qui nous a fait pencher vers ce régulateur. Le voltmètre intégré qui affiche la tension d'entrée ou de sortie n'était pas un critère, mais puisque ce n'est pas encombrant, c'est seulement un avantage. 
+\bigbreak
+La batterie choisie est une LiPO 6S à 4.5Ah de Turnigy \cite{ALI00}. On a choisi de prendre une 6S pour avoir 22.2V en moyenne, car on a besoin d'au moins 21V pour alimenter le régulateur du mini PC. De plus, nous avions précédemment calculé que notre robot avait besoin d'environ 110W pendant le 10 minutes imposé pour la compétition, mais nous voulions au moins 30 minutes d'autonomie pour faciliter les tests. On a donc choisi une batterie de 4.5Ah, ce qui donne 600W, pour environ 50 minutes d'autonomie, tel que calculé dans le rapport précédent. Plusieurs batteries correspondaient à nos critères, on a simplement choisi la moins chère.
+\bigbreak
+La figure \ref{f:alim2} présente le schéma électrique du circuit imprimé.
+
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=1\textwidth]{fig/alim2.pdf}
+   \caption{Schéma électrique du circuit imprimé}
+   \label{f:alim2}
+\end{figure}
+\pagebreak

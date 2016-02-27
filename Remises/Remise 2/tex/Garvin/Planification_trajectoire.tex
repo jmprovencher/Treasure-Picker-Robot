@@ -1,0 +1,18 @@
+
+
+La planification de la trajectoire est effectuée avec les positions obtenues de la localisation (voir \ref{s:localisation}). Pour l'instant, elle se déroule comme suit. Premièrement, une grille de cellules est initialisée avec les coordonnées pixels de l'image ou chaque cellules représente une coordonnée (x,y). Lors de cette création, les pixels qui sont situées à un intervale près des centres des îles (en x et en y) sont déclarées comme étant innaccesible. Il y a donc une zone tampon en forme de carré autour de chacune des îles. De plus, la création de la grille est créée avec une incrémentation en x et en y de sorte à conserver seulement les coordonnées pixels situées à plus ou moins un centimètre de distance (sur la table). \medbreak
+
+La raison d'avoir une zone tampon en forme de carré au lieu de cercle est simplement puisque l'implémentation est grandement simplifiée. Bien que ceci ne soit pas optimal, une trajectoire pourra tout de même être trouvée dû au nombre réduit d'îles sur la table.  \medbreak
+
+Une fois cette grille initialisée, il suffit de fournir une coordonnée de départ et d'arriver à l'algorithme de planification de trajectoire. Celui-ci est une implémentation de l'algorithme A* (figure \ref{f:Trajectoire}). La raison pour laquelle cet algorithme fut retenue est principalement pour sa rapidité d'éxécution. En effet, bien qu'il ne choisice pas le trajet le plus court, il le trouve très rapidement. Cela est primordial puisque le trajet sera recalculé de façon fréquente afin de compenser pour les incertitudes et les erreurs d'approximation. L'autre candidat qui pourrait remplacer l'algorithme A* est l'algorithme de Dijkstra. Cela permettrait d'obtenir le trajet le plus court. Par contre, cela dépendra de sa performance. Cette solution sera explorée prochainement.  \medbreak   
+
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=1\textwidth]{fig/trajet.png}
+   \caption{Exemple de trajectoire}
+   \label{f:Trajectoire}
+\end{figure}
+
+En ce qui concerne la distance physique de plus ou moins un centimètre des pixels dans la grille de cellules, il est sujet à changement. Présentement, avec environ 3000 cellules dans la grille, l'algorithme A* s'éxécute presque instantanément. Des tests seront effectuées plus en profondeur selon l'algorithme choisi afin d'avoir une distance physique optimale entre les cellules.    \medbreak
+
+       

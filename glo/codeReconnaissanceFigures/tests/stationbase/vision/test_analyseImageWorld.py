@@ -21,18 +21,21 @@ class TestAnalyseImageWorld(TestCase):
         self.analyseImageWorld.chargerImage('images/table2/detection1.png')
         self.analyseImageWorld.trouverElementsCartographiques()
         nombreElement = len(self.analyseImageWorld.elementsCartographiques)
+
         self.assertEqual(nombreElement, 19)
 
     def test_retourne_bon_nombre_tresors_apres_detection(self):
         self.analyseImageWorld.chargerImage('images/table2/detection1.png')
         self.analyseImageWorld.trouverElementsCartographiques()
         nombreTresor = len(self.analyseImageWorld.tresorIdentifies)
+
         self.assertEqual(nombreTresor, 3)
 
     def test_retourne_bon_nombre_iles_apres_detection(self):
         self.analyseImageWorld.chargerImage('images/table2/detection1.png')
         self.analyseImageWorld.trouverElementsCartographiques()
         nombreTresor = len(self.analyseImageWorld.ilesIdentifiees)
+
         self.assertEqual(nombreTresor, 16)
 
     def test_chargement_image(self):

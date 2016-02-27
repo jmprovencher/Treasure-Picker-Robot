@@ -3,12 +3,6 @@ import heapq
 
 from stationbase.trajectoire.Cellule import Cellule
 
-
-##### REFACTORING STATUS #####
-# 80% COMPLETE
-# SEB, tu dois :
-# - RENOMMER G,H,F POUR ELEMENT ADJ -----> Ligne 37-39 et autre?
-
 class AlgorithmeTrajectoire():
     def __init__(self, grilleCellule):
         self.grilleCellule = grilleCellule
@@ -23,7 +17,7 @@ class AlgorithmeTrajectoire():
     def trouverTrajet(self, depart, arriver):
         self.setDepart(depart)
         self.setArriver(arriver)
-        heapq.heappush(self.heapOuvert, (self.depart.f, self.depart))
+        heapq.heappush(self.heapOuvert, (self.depart.priorite, self.depart))
 
         while len(self.heapOuvert):
             f, cellule = heapq.heappop(self.heapOuvert)
@@ -36,12 +30,12 @@ class AlgorithmeTrajectoire():
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacente(cellule)
             for adj in cellulesAdjacentes:
                 if adj.atteignable and adj not in self.fermer:
-                    if (adj.f, adj) in self.heapOuvert:
-                        if adj.g > cellule.g + 10:
+                    if (adj.priorite, adj) in self.heapOuvert:
+                        if adj.poid > cellule.poid + 10:
                             self.rafraichirCellule(adj, cellule)
                     else:
                         self.rafraichirCellule(adj, cellule)
-                        heapq.heappush(self.heapOuvert, (adj.f, adj))
+                        heapq.heappush(self.heapOuvert, (adj.priorite, adj))
 
         self.trajet = []
         return self.trajet
@@ -88,10 +82,10 @@ class AlgorithmeTrajectoire():
         print "\nDepart: cellule: %d, %d" % (self.depart.x, self.depart.y)
 
     def rafraichirCellule(self, celluleAdjacente, cellule):
-        celluleAdjacente.g = cellule.g + 10
-        celluleAdjacente.h = celluleAdjacente.getHeuristic(self.arriver)
+        celluleAdjacente.poid = cellule.poid + 10
+        celluleAdjacente.heuristic = celluleAdjacente.getHeuristic(self.arriver)
         celluleAdjacente.parent = cellule
-        celluleAdjacente.f = celluleAdjacente.h + celluleAdjacente.g
+        celluleAdjacente.priorite = celluleAdjacente.heuristic + celluleAdjacente.poid
 
     def setDepart(self, depart):
         depart_x, depart_y = depart

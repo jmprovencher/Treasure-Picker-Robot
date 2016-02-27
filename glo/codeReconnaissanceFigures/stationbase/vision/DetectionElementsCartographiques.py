@@ -3,11 +3,11 @@ import cv2
 import numpy as np
 import ConfigPath
 
+
 ##### REFACTORING STATUS #####
 # Done
 
 class DetectionElementsCartographiques(object):
-
     def __init__(self, image):
         self.imageCamera = image
 

@@ -1,8 +1,8 @@
 Les responsabilités du système de vision sont partagées entre la station de base et le robot. Le système de vision sert à faire une analyse en profondeur de la table de jeu et à prendre des décisions grâce aux informations venant du robot. Le système doit donc être performant et stable afin de ne pas induire le robot en erreur. 
-
+\medbreak
 La station de base, par l'entremise de la caméra monde, gère la phase de déplacement tandis que le robot gère la phase d'alignement à l'aide de sa caméra embarquée. La phase de déplacement comporte la détection des éléments cartographiques ainsi que la planification de la trajectoire alors que la phase d'alignement permet au robot de se positionner de manière optimale afin de faciliter l'exécution de la tâche demandée.
-
+\medbreak
 La caméra monde est utilisée pour la détection des éléments cartographiques ainsi que pour suivre le déplacement du trésor. Grâce à ces informations, la station de base peut générer une trajectoire et transmettre des commandes au robot.
-
+\medbreak
 La caméra embarquée ne sera utilisée que dans deux situations. Tout d'abord, elle servira lorsqu'aucun trésor n'est détecté par la caméra world, le robot tentera alors d'identifier la position des trésors grâce à son point de vue plus rapproché. Ensuite, elle sera utilisée lors de la phase d'alignement, afin que le robot puisse se rapprocher sécuritairement d'une cible comme une île, un trésor ou la station de recharge. Donc, une fois la phase de déplacement terminée et le robot rendu devant la cible, le système de vision du robot prendra le contrôle afin d'amorcer la phase d'alignement.  
 

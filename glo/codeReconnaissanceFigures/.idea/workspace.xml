@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2164fd9b-a437-4f7b-b75a-b06565fcab2c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stationbase/interface/main.py" afterPath="$PROJECT_DIR$/stationbase/interface/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stationbase/trajectoire/AlgorithmeTrajectoire.py" afterPath="$PROJECT_DIR$/stationbase/trajectoire/AlgorithmeTrajectoire.py" />
     </list>
     <ignored path="codeReconnaissanceFigures.iws" />
@@ -40,8 +38,8 @@
       <file leaf-file-name="AlgorithmeTrajectoire.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/stationbase/trajectoire/AlgorithmeTrajectoire.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5">
-              <caret line="41" column="1" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.33333334">
+              <caret line="34" column="64" selection-start-line="34" selection-start-column="64" selection-end-line="34" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -1074,8 +1072,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/stationbase/trajectoire/AlgorithmeTrajectoire.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5">
-          <caret line="41" column="1" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="34" column="64" selection-start-line="34" selection-start-column="64" selection-end-line="34" selection-end-column="64" />
           <folding />
         </state>
       </provider>

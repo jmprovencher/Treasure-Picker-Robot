@@ -39,7 +39,7 @@ class AlgorithmeTrajectoire():
 
         self.trajet = []
         return self.trajet
- 
+
     def simplifierTrajectoire(self):
         self.trajet = [(self.arriver.x, self.arriver.y)]
         cellule = self.grilleCellule.getCellule(self.arriver.x, self.arriver.y)

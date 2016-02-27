@@ -1,10 +1,6 @@
 # import the necessary packages
 from stationbase.trajectoire.Cellule import Cellule
 
-##### REFACTORING STATUS #####
-# 80 % DONE
-# PEUT ETRE SIMPLIFIER CONDITIONS DE GETCELLULESADJACENTES AVEC NOUVELLES FONCTIONS DE COMPARAISON
-
 class GrilleCellule():
     def __init__(self):
         self.listeCellules = []

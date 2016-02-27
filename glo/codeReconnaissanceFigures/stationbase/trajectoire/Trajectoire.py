@@ -2,9 +2,6 @@
 from stationbase.trajectoire.AlgorithmeTrajectoire import AlgorithmeTrajectoire
 from stationbase.trajectoire.GrilleCellule import GrilleCellule
 
-#REFACTORING STATUS
-# DONE
-
 class Trajectoire():
 
     def __init__(self):

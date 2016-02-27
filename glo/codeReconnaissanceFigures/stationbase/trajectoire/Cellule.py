@@ -1,5 +1,3 @@
-##### REFACTORING STATUS #####
-# X,Y,G,H,F A RENOMMER
 
 class Cellule():
 
@@ -9,7 +7,7 @@ class Cellule():
         self.y = y
         self.parent = None
         self.poid = 0
-        self.h = 0
+        self.heuristic = 0
         self.priorite = 0
 
     def getHeuristic(self, arriver):

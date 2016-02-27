@@ -3,12 +3,6 @@ import heapq
 
 from stationbase.trajectoire.Cellule import Cellule
 
-
-##### REFACTORING STATUS #####
-# 80% COMPLETE
-# SEB, tu dois :
-# - RENOMMER G,H,F POUR ELEMENT ADJ -----> Ligne 37-39 et autre?
-
 class AlgorithmeTrajectoire():
     def __init__(self, grilleCellule):
         self.grilleCellule = grilleCellule
@@ -89,9 +83,9 @@ class AlgorithmeTrajectoire():
 
     def rafraichirCellule(self, celluleAdjacente, cellule):
         celluleAdjacente.poid = cellule.poid + 10
-        celluleAdjacente.h = celluleAdjacente.getHeuristic(self.arriver)
+        celluleAdjacente.heuristic = celluleAdjacente.getHeuristic(self.arriver)
         celluleAdjacente.parent = cellule
-        celluleAdjacente.priorite = celluleAdjacente.h + celluleAdjacente.poid
+        celluleAdjacente.priorite = celluleAdjacente.heuristic + celluleAdjacente.poid
 
     def setDepart(self, depart):
         depart_x, depart_y = depart

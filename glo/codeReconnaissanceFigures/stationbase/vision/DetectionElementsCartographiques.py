@@ -56,11 +56,12 @@ class DetectionElementsCartographiques(object):
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme, couleur
 
-        if (precision < 0.3):
+        if (precision < 0.2):
             self.ilesIdentifiees.append(formeIdentifiee)
             self.nombreFormes += 1
         else:
             print "Forme non conforme detectee"
+
 
     def detecterIles(self):
         self._detecterFormeCouleur(self.intervalleRouge)

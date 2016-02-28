@@ -6,7 +6,6 @@ from stationbase.trajectoire.Trajectoire import Trajectoire
 
 
 class Carte():
-
     def __init__(self):
         self.listeIles = []
         self.listeTresors = []

@@ -5,6 +5,7 @@ from elements.Ile import Ile
 from elements.Tresor import Tresor
 from stationbase.vision.DetectionElementsCartographiques import DetectionElementsCartographiques
 
+
 class AnalyseImageWorld(object):
     def __init__(self):
         self.elementsCartographiques = []

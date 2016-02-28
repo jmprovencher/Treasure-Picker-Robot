@@ -2,8 +2,8 @@
 from stationbase.trajectoire.AlgorithmeTrajectoire import AlgorithmeTrajectoire
 from stationbase.trajectoire.GrilleCellule import GrilleCellule
 
-class Trajectoire():
 
+class Trajectoire():
     def __init__(self):
         self.grilleCellule = GrilleCellule()
         self.trajectoire = []
@@ -26,22 +26,3 @@ class Trajectoire():
             for deplacement in self.trajectoire:
                 print "cellule: %d, %d" % deplacement
             print "Debut!!"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

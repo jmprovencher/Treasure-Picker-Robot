@@ -1,6 +1,4 @@
-
 class Cellule():
-
     def __init__(self, x, y, atteignable):
         self.atteignable = atteignable
         self.x = x

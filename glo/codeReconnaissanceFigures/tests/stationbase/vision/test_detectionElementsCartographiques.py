@@ -3,7 +3,6 @@ import cv2
 import ConfigPath
 
 from stationbase.vision.DetectionElementsCartographiques import DetectionElementsCartographiques
-from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
 
 
 class TestDetectionElementsCartographiques(TestCase):

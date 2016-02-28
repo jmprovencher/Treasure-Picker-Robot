@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import ConfigPath
 
+
 class DetectionElementsCartographiques(object):
     def __init__(self, image):
         self.imageCamera = image
@@ -61,7 +62,6 @@ class DetectionElementsCartographiques(object):
             self.nombreFormes += 1
         else:
             print "Forme non conforme detectee"
-
 
     def detecterIles(self):
         self._detecterFormeCouleur(self.intervalleRouge)

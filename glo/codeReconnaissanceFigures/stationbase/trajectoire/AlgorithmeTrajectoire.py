@@ -3,6 +3,7 @@ import heapq
 
 from stationbase.trajectoire.Cellule import Cellule
 
+
 class AlgorithmeTrajectoire():
     def __init__(self, grilleCellule):
         self.grilleCellule = grilleCellule

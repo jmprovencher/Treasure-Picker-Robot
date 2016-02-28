@@ -10,11 +10,11 @@ Avec pulseIn, lorsqu'aucune onde n'est détectée avant la fin du temps maximal, u
 
 Les tests initiaux de l'asservissement étaient peu fructueux. En effet, la sortie du PID variait beaucoup trop rapidement entre minimum et maximum, ne permettant que très peu de précision. Ceci était dû à un kp trop élevé, ce qui multipliait l'erreur bien au delà de la valeur maximale du paramètre du PWM, soit 255. En diminuant l'élément proportionnel kp à 0.0005 au lieu de 1, la variation cyclique due à un trop large dépassement est évitée. Le ki est présentement à 0.25 car il permet de rejoindre la consigne suffisemment rapidement sans créer de trop larges dépassements.
 
-\begin{figure}[htp]
-	\centering
-	\includegraphics[width=1\textwidth]{fig/communicationArduino.png}
-	\caption{Test de rotation sur deux roues, commande à rejoindre de 800 microsecondes de largeur d'impulsion}
-	\label{f:test_Arduino}
-\end{figure}
+%\begin{figure}[htp]
+%	\centering
+%	\includegraphics[width=1\textwidth]{fig/communicationArduino.png}
+%	\caption{Test de rotation sur deux roues, commande à rejoindre de 800 microsecondes de largeur d'impulsion} 
+%	\label{f:test_Arduino}
+%\end{figure}
 
 Dans l'état actuel de ce sous-système, il y a dépassement en vitesse de plus de 10\% pendant environ une seconde. Afin de permettre des déplaements plus précis, du travail sera fait pour diminuer ce dépassement. Pour communiquer à l'Arduino Mega la ccomnsigne à rejoindre, une interruption sur le port série est implémentée en utilisant serialEvent. Lorsque le port série détecte qu'il y a quelque chose à lire sur le port série, le code de lecture de la commande prend alors priorité sur l'exécution du PID.

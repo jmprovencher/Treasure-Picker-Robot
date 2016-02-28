@@ -10,10 +10,10 @@ class Interface(QtGui.QWidget):
         super(Interface, self).__init__()
         self.setGeometry(1280, 1280, 1280, 700)
         self.setWindowTitle('Interface')
-        btn = QtGui.QPushButton('DEMARRAGE', self)
-        btn.clicked.connect(self.demarrerRoutine)
-        btn.resize(120, 46)
-        btn.move(200, 200)
+        btnDemarrer = QtGui.QPushButton('Demarrer', self)
+        btnDemarrer.clicked.connect(self.demarrerRoutine)
+        btnDemarrer.resize(120, 46)
+        btnDemarrer.move(200, 200)
 
     @pyqtSlot()
     def demarrerRoutine(self):
@@ -26,60 +26,60 @@ class Interface(QtGui.QWidget):
         qp = QtGui.QPainter()
         qp.begin(self)
 
-        self.setUpLiveFeed(qp)
-        self.setUpLiveVirtuel(qp)
-        self.drawRectangles(qp)
-        self.drawCircles(qp)
-        self.drawPolygones(qp)
-        self.drawTriangles(qp)
+        self.afficherInformations(qp)
+        self.afficherImages(qp)
+        self.dessinerCarre(qp)
+        self.dessinerCercle(qp)
+        self.dessinerPentagone(qp)
+        self.dessinerTriangle(qp)
         qp.end()
 
-    def setUpLiveFeed(self, qp):
-        self.noir(qp)
+    def afficherInformations(self, qp):
+        self.dessinerNoir(qp)
         qp.drawText(50, 400 + 50, QtCore.QString('Trajectoire :'))
         qp.drawText(50, 450 + 50, QtCore.QString('Tension condensateur :'))
         qp.drawText(50, 500 + 50, QtCore.QString('Position et Orientation du Robot :'))
         qp.drawText(50, 550 + 50, QtCore.QString('Ile cible :'))
-        self.blanc_contour_bleu(qp)
+        self.formatContours(qp)
         qp.drawRect(260, 385 + 50, 120, 20)
         qp.drawRect(260, 435 + 50, 80, 20)
         qp.drawRect(260, 485 + 50, 300, 20)
         qp.drawRect(260, 535 + 50, 100, 20)
-        self.noir(qp)
+        self.dessinerNoir(qp)
         qp.drawText(275, 400 + 50, QtCore.QString('88.95''N  15.10''O '))
-        qp.drawText(275, 450 + 50, QtCore.QString('1.23539 V '))
+        qp.drawText(275, 450 + 50, QtCore.QString('1.23 V '))
         qp.drawText(275, 500 + 50, QtCore.QString('0.8245m, 0.23421m     68.35''S  1.36''O '))
-        qp.drawText(275, 550 + 50, QtCore.QString('Ile A'))
+        qp.drawText(275, 550 + 50, QtCore.QString('Cercle rouge'))
 
-    def setUpLiveVirtuel(self, qp):
+    def afficherImages(self, qp):
         qp.drawPixmap(640, 0, QtGui.QPixmap('images/test_image7.png'), 0, 90, 640, 480)
         qp.drawPixmap(640, 350, QtGui.QPixmap('images/test_image_vide.png'), 0, 90, 640, 480)
-        self.orange(qp)
+        self.dessinerOrange(qp)
         qp.drawRect(450, 348, 830, 5)
         qp.drawRect(638, 0, 5, 700)
-        qp.drawText(450, 338, QtCore.QString('TEMPS REEL'))
-        qp.drawText(450, 378, QtCore.QString('VIRTUEL'))
+        qp.drawText(450, 338, QtCore.QString('Carte reelle'))
+        qp.drawText(450, 378, QtCore.QString('Carte virtuelle'))
 
-    def drawRectangles(self, qp):
-        self.vert(qp)
+    def dessinerCarre(self, qp):
+        self.dessinerVert(qp)
         qp.drawRect(953, 457, 30, 30)
 
-        self.bleu(qp)
+        self.dessinerBleu(qp)
         qp.drawRect(823, 578, 30, 30)
 
-    def drawCircles(self, qp):
-        self.rouge(qp)
+    def dessinerCercle(self, qp):
+        self.dessinerRouge(qp)
         qp.drawEllipse(807, 442, 32, 32)
 
-    def drawPolygones(self, qp):
-        self.jaune(qp)
-        self.polygone_init(qp, 900, 592)
+    def dessinerPentagone(self, qp):
+        self.dessinerJaune(qp)
+        self.initPentagone(qp, 900, 592)
 
-    def drawTriangles(self, qp):
-        self.jaune(qp)
-        self.triangle_init(qp, 722, 568)
+    def dessinerTriangle(self, qp):
+        self.dessinerJaune(qp)
+        self.initTriangle(qp, 722, 568)
 
-    def triangle_init(self, qp, x, y):
+    def initTriangle(self, qp, x, y):
         polygone = QtGui.QPolygon([
             QtCore.QPoint(x + 0, y + 36),
             QtCore.QPoint(x + 18, y + 0),
@@ -87,7 +87,7 @@ class Interface(QtGui.QWidget):
         ])
         qp.drawConvexPolygon(polygone)
 
-    def polygone_init(self, qp, x, y):
+    def initPentagone(self, qp, x, y):
         polygone = QtGui.QPolygon([
             QtCore.QPoint(x + 0, y + 18),
             QtCore.QPoint(x + 18, y),
@@ -98,31 +98,31 @@ class Interface(QtGui.QWidget):
         ])
         qp.drawConvexPolygon(polygone)
 
-    def blanc_contour_bleu(self, qp):
+    def formatContours(self, qp):
         qp.setBrush(QtGui.QColor(250, 250, 250, 250))
         qp.setPen(QtGui.QColor(0, 0, 250))
 
-    def noir(self, qp):
+    def dessinerNoir(self, qp):
         qp.setBrush(QtGui.QColor(0, 0, 0, 250))
         qp.setPen(QtGui.QColor(0, 0, 0))
 
-    def orange(self, qp):
+    def dessinerOrange(self, qp):
         qp.setBrush(QtGui.QColor(252, 100, 0, 250))
         qp.setPen(QtGui.QColor(252, 100, 0))
 
-    def jaune(self, qp):
+    def dessinerJaune(self, qp):
         qp.setBrush(QtGui.QColor(205, 175, 0, 250))
         qp.setPen(QtGui.QColor(205, 175, 0))
 
-    def rouge(self, qp):
+    def dessinerRouge(self, qp):
         qp.setBrush(QtGui.QColor(140, 0, 30, 250))
         qp.setPen(QtGui.QColor(140, 0, 30))
 
-    def vert(self, qp):
+    def dessinerVert(self, qp):
         qp.setBrush(QtGui.QColor(0, 110, 60, 250))
         qp.setPen(QtGui.QColor(0, 110, 60))
 
-    def bleu(self, qp):
+    def dessinerBleu(self, qp):
         qp.setBrush(QtGui.QColor(0, 140, 190, 250))
         qp.setPen(QtGui.QColor(0, 140, 190))
 

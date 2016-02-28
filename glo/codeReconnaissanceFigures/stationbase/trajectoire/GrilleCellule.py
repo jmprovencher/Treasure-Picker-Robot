@@ -1,6 +1,7 @@
 # import the necessary packages
 from stationbase.trajectoire.Cellule import Cellule
 
+
 class GrilleCellule():
     def __init__(self):
         self.listeCellules = []

@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import ConfigPath
 
+
 class DetectionElementsCartographiques(object):
     def __init__(self, image):
         self.imageCamera = image
@@ -62,7 +63,6 @@ class DetectionElementsCartographiques(object):
         else:
             print "Forme non conforme detectee"
 
-
     def detecterIles(self):
         self._detecterFormeCouleur(self.intervalleRouge)
         self._detecterFormeCouleur(self.intervalleBleu)
@@ -97,6 +97,7 @@ class DetectionElementsCartographiques(object):
         contoursNegligeable = []
         for contours in range(len(contoursTresor)):
             aire = cv2.contourArea(contoursTresor[contours])
+            print aire
             if (aire < 30 or aire > 150):
                 contoursNegligeable.append(contours)
 

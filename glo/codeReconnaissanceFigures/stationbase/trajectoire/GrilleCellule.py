@@ -7,18 +7,18 @@ class GrilleCellule():
         self.resolution = (1600, 1200)
         self.dimensionCrop = (1600, 850)
         self.dimensionReel = (300, 100)
-        self.increment_x = int((self.dimensionCrop[0]) / self.dimensionReel[0])
-        self.increment_y = int((self.dimensionCrop[1]) / self.dimensionReel[1])
+        self.incrementX = int((self.dimensionCrop[0]) / self.dimensionReel[0])
+        self.incrementY = int((self.dimensionCrop[1]) / self.dimensionReel[1])
         self.bufferIle = 20
 
     def initGrilleCellule(self, listeIles):
         self.listeCellules = []
         atteignable_x = True
 
-        for x in range(0, self.dimensionCrop[0], self.increment_x):
+        for x in range(0, self.dimensionCrop[0], self.incrementX):
             if (not self.xEstAtteignable(x, listeIles)):
                 atteignable_x = False
-            for y in range(0, self.dimensionCrop[1], self.increment_y):
+            for y in range(0, self.dimensionCrop[1], self.incrementY):
                 if (atteignable_x):
                     self.listeCellules.append(Cellule(x, y, True))
                 elif (self.yEstAtteignable(y, listeIles)):
@@ -45,34 +45,34 @@ class GrilleCellule():
 
     def getCellule(self, x, y):
         return self.listeCellules[
-            ((x / self.increment_x)) * ((self.dimensionCrop[1] / self.increment_y + 1)) + ((y / self.increment_y))]
+            ((x / self.incrementX)) * ((self.dimensionCrop[1] / self.incrementY + 1)) + ((y / self.incrementY))]
 
-    def getCelluleAdjacente(self, cellule):
+    def getCelluleAdjacentes(self, cellule):
         listCellules = []
 
-        if cellule.x < self.dimensionCrop[0] - self.increment_x:
-            listCellules.append(self.getCellule(cellule.x + self.increment_x, cellule.y))
+        if cellule.x < self.dimensionCrop[0] - self.incrementX:
+            listCellules.append(self.getCellule(cellule.x + self.incrementX, cellule.y))
 
-        if cellule.y >= 0 + self.increment_y:
-            listCellules.append(self.getCellule(cellule.x, cellule.y - self.increment_y))
+        if cellule.y >= 0 + self.incrementY:
+            listCellules.append(self.getCellule(cellule.x, cellule.y - self.incrementY))
 
-        if cellule.x >= 0 + self.increment_x:
-            listCellules.append(self.getCellule(cellule.x - self.increment_x, cellule.y))
+        if cellule.x >= 0 + self.incrementX:
+            listCellules.append(self.getCellule(cellule.x - self.incrementX, cellule.y))
 
-        if cellule.y < self.dimensionCrop[1] - self.increment_y:
-            listCellules.append(self.getCellule(cellule.x, cellule.y + self.increment_y))
+        if cellule.y < self.dimensionCrop[1] - self.incrementY:
+            listCellules.append(self.getCellule(cellule.x, cellule.y + self.incrementY))
 
-        if ((cellule.x < self.dimensionCrop[0] - self.increment_x) and (
-                    cellule.y < self.dimensionCrop[1] - self.increment_y)):
-            listCellules.append(self.getCellule(cellule.x + self.increment_x, cellule.y + self.increment_y))
+        if ((cellule.x < self.dimensionCrop[0] - self.incrementX) and (
+                    cellule.y < self.dimensionCrop[1] - self.incrementY)):
+            listCellules.append(self.getCellule(cellule.x + self.incrementX, cellule.y + self.incrementY))
 
-        if ((cellule.x >= 0 + self.increment_x) and (cellule.y >= 0 + self.increment_y)):
-            listCellules.append(self.getCellule(cellule.x - self.increment_x, cellule.y - self.increment_y))
+        if ((cellule.x >= 0 + self.incrementX) and (cellule.y >= 0 + self.incrementY)):
+            listCellules.append(self.getCellule(cellule.x - self.incrementX, cellule.y - self.incrementY))
 
-        if ((cellule.x < self.dimensionCrop[0] - self.increment_x) and (cellule.y >= 0 + self.increment_y)):
-            listCellules.append(self.getCellule(cellule.x + self.increment_x, cellule.y - self.increment_y))
+        if ((cellule.x < self.dimensionCrop[0] - self.incrementX) and (cellule.y >= 0 + self.incrementY)):
+            listCellules.append(self.getCellule(cellule.x + self.incrementX, cellule.y - self.incrementY))
 
-        if ((cellule.x >= 0 + self.increment_x) and (cellule.y < self.dimensionCrop[1] - self.increment_y)):
-            listCellules.append(self.getCellule(cellule.x - self.increment_x, cellule.y + self.increment_y))
+        if ((cellule.x >= 0 + self.incrementX) and (cellule.y < self.dimensionCrop[1] - self.incrementY)):
+            listCellules.append(self.getCellule(cellule.x - self.incrementX, cellule.y + self.incrementY))
 
         return listCellules

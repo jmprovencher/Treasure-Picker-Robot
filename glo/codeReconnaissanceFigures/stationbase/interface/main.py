@@ -131,10 +131,10 @@ class Interface(QtGui.QWidget):
 
 def main():
     stationBase = StationBase()
-    app = QtGui.QApplication(sys.argv)
-    interface = Interface()
-    interface.show()
-    sys.exit(app.exec_())
+    #app = QtGui.QApplication(sys.argv)
+    #interface = Interface()
+    #interface.show()
+    #sys.exit(app.exec_())
 
 
 if __name__ == '__main__':

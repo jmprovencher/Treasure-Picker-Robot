@@ -7,8 +7,8 @@ class Cellule():
         self.y = y
         self.parent = None
         self.poid = 0
-        self.heuristic = 0
+        self.heuristique = 0
         self.priorite = 0
 
-    def getHeuristic(self, arriver):
+    def getHeuristique(self, arriver):
         return 10 * (abs(self.x - arriver.x) + abs(self.y - arriver.y))

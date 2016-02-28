@@ -8,7 +8,6 @@ class AlgorithmeTrajectoire():
         self.grilleCellule = grilleCellule
         self.heapOuvert = []
         heapq.heapify(self.heapOuvert)
-
         self.trajet = []
         self.fermer = set()
         self.depart = None
@@ -23,11 +22,11 @@ class AlgorithmeTrajectoire():
             f, cellule = heapq.heappop(self.heapOuvert)
             self.fermer.add(cellule)
             if self.estArriver(cellule):
-                self.simplifierTrajectoire()
+                self.simplifierTrajet()
                 return self.trajet
                 break
 
-            cellulesAdjacentes = self.grilleCellule.getCelluleAdjacente(cellule)
+            cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)
             for adj in cellulesAdjacentes:
                 if adj.atteignable and adj not in self.fermer:
                     if (adj.priorite, adj) in self.heapOuvert:
@@ -40,7 +39,7 @@ class AlgorithmeTrajectoire():
         self.trajet = []
         return self.trajet
 
-    def simplifierTrajectoire(self):
+    def simplifierTrajet(self):
         self.trajet = [(self.arriver.x, self.arriver.y)]
         cellule = self.grilleCellule.getCellule(self.arriver.x, self.arriver.y)
         depart_x = cellule.x - cellule.parent.x
@@ -83,24 +82,24 @@ class AlgorithmeTrajectoire():
 
     def rafraichirCellule(self, celluleAdjacente, cellule):
         celluleAdjacente.poid = cellule.poid + 10
-        celluleAdjacente.heuristic = celluleAdjacente.getHeuristic(self.arriver)
+        celluleAdjacente.heuristique = celluleAdjacente.getHeuristique(self.arriver)
         celluleAdjacente.parent = cellule
-        celluleAdjacente.priorite = celluleAdjacente.heuristic + celluleAdjacente.poid
+        celluleAdjacente.priorite = celluleAdjacente.heuristique + celluleAdjacente.poid
 
     def setDepart(self, depart):
         depart_x, depart_y = depart
-        while not (depart_x % self.grilleCellule.increment_x == 0):
+        while not (depart_x % self.grilleCellule.incrementX == 0):
             depart_x += 1
-        while not (depart_y % self.grilleCellule.increment_y == 0):
+        while not (depart_y % self.grilleCellule.incrementY == 0):
             depart_y += 1
         self.depart = Cellule(depart_x, depart_y, True)
 
     def setArriver(self, arriver):
         arriver_x, arriver_y = arriver
-        while not (arriver_x % self.grilleCellule.increment_x == 0):
+        while not (arriver_x % self.grilleCellule.incrementX == 0):
             arriver_x += 1
 
-        while not (arriver_y % self.grilleCellule.increment_y == 0):
+        while not (arriver_y % self.grilleCellule.incrementY == 0):
             arriver_y += 1
         self.arriver = Cellule(arriver_x, arriver_y, True)
 

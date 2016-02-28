@@ -14,6 +14,7 @@ class AlgorithmeTrajectoire():
         self.arriver = None
 
     def trouverTrajet(self, depart, arriver):
+        self.trajet = []
         self.setDepart(depart)
         self.setArriver(arriver)
         heapq.heappush(self.heapOuvert, (self.depart.priorite, self.depart))

@@ -3,11 +3,15 @@ int pinManchester = 50;
 bool stateClock = 0;
 bool stateManchester = 0;
 bool bitDecode = 0;
-bool arrayCode[32] = {0};
+bool complete = false;
 int compteur = 0;
 int nombreDeSuite = 1;
-int compteurCode = 0;
+
+bool arrayCode[32] = {0};
+bool arrayBigReset[32] = {0};
 bool arrayDecode[7] = {0};
+bool arraySmallReset[7] = {0};
+
 int codeSecret = 0;
 unsigned int count = 0;
 unsigned int countLoop = 0;
@@ -41,44 +45,52 @@ void loop()
   }
 
   
-  if (compteur == 31)
+  if (compteur == 32 && complete == false)
   {
+    Serial.print("Reception:");
     for(int h=0;h<32;h++)
     {
-      Serial.println(arrayCode[h]);
+      Serial.print(arrayCode[h]);
     }
-    Serial.println("Serie terminee, voici le code secret :");
-    while (nombreDeSuite != 8)  //peut rester coincer dans while ?
+    Serial.println(".");
+    for (int i = 0; i < 32; i++)
     {
-      for (int i = 0; i < 32; i++)
+      if (arrayCode[i] == 1)
       {
-        if (arrayCode[i] == 1)
+        for (int j = i; j < i+8; j++)
         {
-          for (int j = i; j < i+8; j++)
+          if (arrayCode[j+1] == 1)
           {
-            if (arrayCode[j+1] == 1)
-            {
             nombreDeSuite++;
-            if (nombreDeSuite == 8 && arrayCode[j+2] == 0)
+            
+            if (nombreDeSuite > 7 && arrayCode[j+2] == 0)
+            {
+              Serial.println("Serie terminee, voici le code secret :");
+              for (int k = 0; k < 7; k++)
               {
-                for (int k = j+3; k < j+9; k++)
-                {
-                  arrayDecode[compteurCode] = arrayCode[k];
-                  compteurCode++;
-                }
-                for (int b=0;b<7;b++)
-                {
-                  Serial.print(arrayDecode[b]);
-                }
-                Serial.println("Fini");
-                codeSecret = 0;
-                for (int u=0; u<7; u++)
-                {
-                  codeSecret= codeSecret*2+arrayDecode[u];
-                }
-                Serial.println(codeSecret);
+                arrayDecode[k] = arrayCode[k + j + 3];
               }
+              for (int b=0;b<7;b++)
+              {
+                Serial.print(arrayDecode[b]);
+              }
+              Serial.println(".");
+              codeSecret = 0;
+              for (int u=0; u<7; u++)
+              {
+                codeSecret= codeSecret*2+arrayDecode[u];
+              }
+              Serial.println(codeSecret);
+              Serial.println(char(codeSecret));
+              memcpy(arrayCode, arrayBigReset, 32);
+              memcpy(arrayDecode, arraySmallReset, 7);
+              complete = true;
+              i = 32;
+              break;
             }
+          }
+          else{
+            nombreDeSuite = 1;
           }
         }
       }

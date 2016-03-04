@@ -2,7 +2,6 @@ from unittest import TestCase
 from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
 from elements.Carte import Carte
 import random
-from stationbase.trajectoire.AlgorithmeTrajectoire import AlgorithmeTrajectoire
 
 
 class TestAlgorithmeTrajectoire(TestCase):

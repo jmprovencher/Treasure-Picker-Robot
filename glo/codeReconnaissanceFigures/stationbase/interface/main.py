@@ -3,6 +3,7 @@ import sys
 from stationbase.interface.StationBase import StationBase
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import pyqtSlot
+
 import ConfigPath
 
 
@@ -29,10 +30,6 @@ class Interface(QtGui.QWidget):
 
         self.afficherInformations(qp)
         self.afficherImages(qp)
-        self.dessinerCarre(qp)
-        self.dessinerCercle(qp)
-        self.dessinerPentagone(qp)
-        self.dessinerTriangle(qp)
         qp.end()
 
     def afficherInformations(self, qp):
@@ -61,72 +58,17 @@ class Interface(QtGui.QWidget):
         qp.drawText(450, 338, QtCore.QString('Carte reelle'))
         qp.drawText(450, 378, QtCore.QString('Carte virtuelle'))
 
-    def dessinerCarre(self, qp):
-        self.dessinerVert(qp)
-        qp.drawRect(953, 457, 30, 30)
-
-        self.dessinerBleu(qp)
-        qp.drawRect(823, 578, 30, 30)
-
-    def dessinerCercle(self, qp):
-        self.dessinerRouge(qp)
-        qp.drawEllipse(807, 442, 32, 32)
-
-    def dessinerPentagone(self, qp):
-        self.dessinerJaune(qp)
-        self.initPentagone(qp, 900, 592)
-
-    def dessinerTriangle(self, qp):
-        self.dessinerJaune(qp)
-        self.initTriangle(qp, 722, 568)
-
-    def initTriangle(self, qp, x, y):
-        polygone = QtGui.QPolygon([
-            QtCore.QPoint(x + 0, y + 36),
-            QtCore.QPoint(x + 18, y + 0),
-            QtCore.QPoint(x + 36, y + 36)
-        ])
-        qp.drawConvexPolygon(polygone)
-
-    def initPentagone(self, qp, x, y):
-        polygone = QtGui.QPolygon([
-            QtCore.QPoint(x + 0, y + 18),
-            QtCore.QPoint(x + 18, y),
-            QtCore.QPoint(x + 36, y + 18),
-            QtCore.QPoint(x + 27, y + 36),
-            QtCore.QPoint(x + 9, y + 36),
-            QtCore.QPoint(x + 0, y + 18)
-        ])
-        qp.drawConvexPolygon(polygone)
-
-    def formatContours(self, qp):
-        qp.setBrush(QtGui.QColor(250, 250, 250, 250))
-        qp.setPen(QtGui.QColor(0, 0, 250))
-
+    def dessinerOrange(self, qp):
+        qp.setBrush(QtGui.QColor(252, 100, 0, 250))
+        qp.setPen(QtGui.QColor(252, 100, 0))
+        0
     def dessinerNoir(self, qp):
         qp.setBrush(QtGui.QColor(0, 0, 0, 250))
         qp.setPen(QtGui.QColor(0, 0, 0))
 
-    def dessinerOrange(self, qp):
-        qp.setBrush(QtGui.QColor(252, 100, 0, 250))
-        qp.setPen(QtGui.QColor(252, 100, 0))
-
-    def dessinerJaune(self, qp):
-        qp.setBrush(QtGui.QColor(205, 175, 0, 250))
-        qp.setPen(QtGui.QColor(205, 175, 0))
-
-    def dessinerRouge(self, qp):
-        qp.setBrush(QtGui.QColor(140, 0, 30, 250))
-        qp.setPen(QtGui.QColor(140, 0, 30))
-
-    def dessinerVert(self, qp):
-        qp.setBrush(QtGui.QColor(0, 110, 60, 250))
-        qp.setPen(QtGui.QColor(0, 110, 60))
-
-    def dessinerBleu(self, qp):
-        qp.setBrush(QtGui.QColor(0, 140, 190, 250))
-        qp.setPen(QtGui.QColor(0, 140, 190))
-
+    def formatContours(self, qp):
+        qp.setBrush(QtGui.QColor(250, 250, 250, 250))
+        qp.setPen(QtGui.QColor(0, 0, 250))
 
 def main():
     app = QtGui.QApplication(sys.argv)

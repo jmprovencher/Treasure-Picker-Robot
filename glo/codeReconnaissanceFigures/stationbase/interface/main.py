@@ -61,7 +61,7 @@ class Interface(QtGui.QWidget):
     def dessinerOrange(self, qp):
         qp.setBrush(QtGui.QColor(252, 100, 0, 250))
         qp.setPen(QtGui.QColor(252, 100, 0))
-        0
+
     def dessinerNoir(self, qp):
         qp.setBrush(QtGui.QColor(0, 0, 0, 250))
         qp.setPen(QtGui.QColor(0, 0, 0))

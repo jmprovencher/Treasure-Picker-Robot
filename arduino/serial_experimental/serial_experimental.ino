@@ -11,7 +11,7 @@ boolean mode = false;
 String action = "";
 
 int pinsDrive[6] = {3, 6, 7, 8, 9, 10};
-int pinsRead[4] = {14, 15, 16, 17};
+int pinsRead[4] = {18, 19, 20, 21};
 int spdWheels[2] = {255, 0};
 unsigned long spdBuffer = 0;
 int duration = 0;
@@ -39,46 +39,53 @@ void setup() {
     pidList[i].SetMode(AUTOMATIC);
     pidList[i].SetSampleTime(15);
   }
+  attachInterrupt(digitalPinToInterrupt(18), decrementDuration, FALLING);
+  attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  analogWrite(pinsDrive[4], spdWheels[0]);
+  analogWrite(pinsDrive[5], spdWheels[1]);
   if(duration != 0){
-    analogWrite(pinsDrive[4], spdWheels[0]);
-    analogWrite(pinsDrive[5], spdWheels[1]);
-    for(int i = 0; i < (duration*2); i++){
-      for(int j = 0; j<4; j++){
-        spdBuffer = pulseIn(pinsRead[j], HIGH, 3000);
-        if(spdBuffer == 0){
-          spdBuffer = 3000;
-        }
-        Input[j] = (spdBuffer);
-        pidList[j].Compute();
-        Serial.print(Input[j]);
-        Serial.print(" - ");
-        Serial.print(Output[j]);
-        Serial.print(";");
+    for(int j = 0; j<4; j++){
+      spdBuffer = pulseIn(pinsRead[j], HIGH, 3000);
+      if(spdBuffer == 0){
+        spdBuffer = 3000;
       }
-      Serial.println(".");
-      Serial.print(action);
+      Input[j] = (spdBuffer);
+      pidList[j].Compute();
+      Serial.print(Input[j]);
+      Serial.print(" - ");
+      Serial.print(Output[j]);
+      Serial.print(";");
+    }
+    Serial.println(".");
+    Serial.print(action);
       for(int j = 0; j<4; j++){
-        if(Setpoint[j] != 3000){
-          analogWrite(pinsDrive[j], Output[j]);
-        }
-        else{
-          analogWrite(pinsDrive[j], 0);
-        }
+      if(Setpoint[j] != 3000){
+        analogWrite(pinsDrive[j], Output[j]);
       }
-      //Serial.println(incomingByte - i, DEC);
-      delay(20);
+      else{
+        analogWrite(pinsDrive[j], 0);
+      }
     }
-    for(int i = 0; i<4; i++){
-      Setpoint[i] = 3000;
-    }
-    for(int i = 4; i<6; i++){
-        analogWrite(pinsDrive[i], 0);
-    }
-    duration = 0;
+    //Serial.println(incomingByte - i, DEC);
+    delay(20);
+  }
+  else{
+    stopWheels();
+  }
+}
+
+void decrementDuration(){
+  duration--;
+}
+
+void stopWheels(){
+  Setpoint[2] = 3000; Setpoint[3] = 3000; Setpoint[0] = 3000; Setpoint[1] = 3000; spdWheels[0] = 255, spdWheels[1] = 0;
+  for(int i = 4; i<6; i++){
+      analogWrite(pinsDrive[i], 0);
   }
 }
 
@@ -98,16 +105,24 @@ void serialEvent(){
         Setpoint[0] = 800; Setpoint[1] = 800; Setpoint[2] = 3000; Setpoint[3] = 3000; spdWheels[0] = 0, spdWheels[1] = 255;
       }
       else if(incomingByte == 52){
-        action = "Turning left ";
+        action = "Moving left ";
         Setpoint[2] = 800; Setpoint[3] = 800; Setpoint[0] = 3000; Setpoint[1] = 3000; spdWheels[0] = 255, spdWheels[1] = 0;
       }
       else if(incomingByte == 54){
-        action = "Turning right ";
+        action = "Moving right ";
         Setpoint[2] = 800; Setpoint[3] = 800; Setpoint[0] = 3000; Setpoint[1] = 3000; spdWheels[0] = 0, spdWheels[1] = 255;
       }
+      else if(incomingByte == 55){
+        action = "Turning left ";
+        Setpoint[2] = 800; Setpoint[3] = 3000; Setpoint[0] = 3000; Setpoint[1] = 800; spdWheels[0] = 255, spdWheels[1] = 0;
+      }
+      else if(incomingByte == 57){
+        action = "Turning right ";
+        Setpoint[2] = 800; Setpoint[3] = 3000; Setpoint[0] = 3000; Setpoint[1] = 800; spdWheels[0] = 0, spdWheels[1] = 255;
+      }
       else{
-        action = "Invalid action ";        
-        Setpoint[2] = 3000; Setpoint[3] = 3000; Setpoint[0] = 3000; Setpoint[1] = 3000; spdWheels[0] = 255, spdWheels[1] = 0;
+        action = "Invalid action ";
+        stopWheels();        
       }
       mode = true;
     }

@@ -24,6 +24,7 @@ class TCPServer:
     def sendFile(self, filename,):
         f = open(filename, 'r')
         data = f.read()
+        print data
         while data:
             self.conn.send(data)
             print('Sent ', repr(data))

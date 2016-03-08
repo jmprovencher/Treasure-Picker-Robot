@@ -33,23 +33,16 @@ class TCPClient:
     def receiveFile(self):
         with open('received_file.json', 'wb') as f:
             print 'file opened'
-            while True:
-                print('receiving data...')
-                data = self.s.recv(1024)
-                print('data=%s', data)
-                if not data:
-                    break
-                # write data to a file
-                f.write(data)
+            print('receiving data...')
+            data = self.s.recv(1024)
+            print('data=%s', data)
+            # write data to a file
+            f.write(data)
 
         f.close()
         print('Successfully got the file')
         json_data = open('received_file.json').read()
         data = json.loads(json_data)
-        commande = data['commande']
-        parametre = data['parametre']
-        print('Commande:', commande)
-        print('Parametre:', parametre)
         return data
 
 

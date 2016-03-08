@@ -29,7 +29,7 @@ class UARTDriver:
 
         elif command == 'droite':
             self.UART.write(b'6'.encode())
-            self.UART.write( parameter.encode())
+            self.UART.write(parameter.encode())
 
         commandComplete = self.UART.read(2)
         return commandComplete

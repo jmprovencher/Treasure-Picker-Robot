@@ -17,14 +17,11 @@ class TCPServer:
     def _establishConnection(self):
         conn, addr = self.s.accept()  # Establish connection with client.
         print 'Got connection from', addr
-        data = conn.recv(1024)
-        print('Server received', repr(data))
         return conn
 
     def sendFile(self, filename,):
         f = open(filename, 'r')
         data = f.read()
-        print data
         while data:
             self.conn.send(data)
             print('Sent ', repr(data))

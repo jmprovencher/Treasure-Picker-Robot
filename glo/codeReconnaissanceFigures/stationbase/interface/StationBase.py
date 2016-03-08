@@ -11,7 +11,7 @@ class StationBase():
         self.initialiserStationBase()
 
     def initialiserStationBase(self):
-        self.analyseImageWorld.chargerImage(ConfigPath.Config().appendToProjectPath('images/table2/trajet1.png'))
+        self.analyseImageWorld.chargerImage(ConfigPath.Config().appendToProjectPath('images/table3/trajet2.png'))
         self.analyseImageWorld.trouverElementsCartographiques()
         self.carte.ajouterElementCarto(self.analyseImageWorld.elementsCartographiques)
         self.carte.afficherCarte()
@@ -19,9 +19,9 @@ class StationBase():
         self.analyseImageWorld.afficherImage()
 
         self.carte.trajectoire.initGrilleCellule(self.carte.listeIles)
-        self.analyseImageWorld.dessinerDebutFinTrajet((50, 50), (1500, 400))
+        self.analyseImageWorld.dessinerDebutFinTrajet((100, 100), (1500, 400))
         self.analyseImageWorld.afficherImage()
-        self.carte.trajectoire.trouverTrajet((50, 50), (1500, 400))
+        self.carte.trajectoire.trouverTrajet((100, 100), (1500, 400))
         self.carte.trajectoire.afficherTrajectoire()  # Dans le terminal
         self.analyseImageWorld.dessinerTrajet(self.carte.trajectoire.trajectoire)  # Sur la photo
         self.analyseImageWorld.afficherImage()

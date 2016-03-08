@@ -13,6 +13,7 @@ class AnalyseImageWorld(object):
         self.ilesIdentifiees = []
         self.resolution = (1200, 1600)
         self.police = cv2.FONT_HERSHEY_SIMPLEX
+        self.detectionElements = None
 
     def chargerImage(self, url):
         self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath(url))
@@ -20,7 +21,9 @@ class AnalyseImageWorld(object):
         self.estomperImage()
 
     def recadrerImage(self):
-        crop = self.imageCamera[100:950, 0:1600]
+        self.detectionElements = DetectionElementsCartographiques(self.imageCamera)
+        y = self.detectionElements.detecterCentreYCarreVert()
+        crop = self.imageCamera[y-425:y+425, 0:1600]
         cv2.imwrite(ConfigPath.Config().appendToProjectPath('Cropped.png'), crop)
         self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('Cropped.png'))
 
@@ -49,6 +52,7 @@ class AnalyseImageWorld(object):
 
     def trouverElementsCartographiques(self):
         self.detectionElements = DetectionElementsCartographiques(self.imageCamera)
+
         self.detectionElements.detecterIles()
         self.detectionElements.detecterTresor()
 

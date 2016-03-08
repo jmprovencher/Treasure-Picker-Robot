@@ -28,7 +28,6 @@ class AlgorithmeTrajectoire():
             if self.estArriver(cellule):
                 self.simplifierTrajet()
                 return self.trajet
-                break
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)
             for adj in cellulesAdjacentes:
@@ -65,7 +64,7 @@ class AlgorithmeTrajectoire():
             depart_x = temp.x - cellule.x
             depart_y = temp.y - cellule.y
 
-        self.trajet.append((depart_x, depart_y))
+        self.trajet.append((self.depart.x, self.depart.y))
         self.eliminerDetourInutile()
 
     def eliminerDetourInutile(self):

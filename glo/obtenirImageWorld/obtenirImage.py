@@ -1,7 +1,7 @@
 import cv2
  
 # Camera 0 is the integrated web cam on my netbook
-camera_port = 1
+camera_port = 0
  
 #Number of frames to throw away while the camera adjusts to light levels
 ramp_frames = 30
@@ -25,7 +25,7 @@ for i in xrange(ramp_frames):
 print("Taking image...")
 # Take the actual image we want to keep
 camera_capture = get_image()
-file = "test_image6.png"
+file = "test_image19.png"
 # A nice feature of the imwrite method is that it will automatically choose the
 # correct format based on the file extension you provide. Convenient!
 cv2.imwrite(file, camera_capture)

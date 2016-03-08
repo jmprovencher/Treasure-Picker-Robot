@@ -1,6 +1,7 @@
 # import the necessary packages
 import sys
 from stationbase.interface.StationBase import StationBase
+from stationbase.interface.ImageVirtuelle import ImageVirtuelle
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import pyqtSlot
 
@@ -23,11 +24,11 @@ class Interface(QtGui.QWidget):
 
     def initialiserStationBase(self):
         self.stationBase = StationBase()
+        imageVirtuelle = ImageVirtuelle((100,100))
 
     def paintEvent(self, e):
         qp = QtGui.QPainter()
         qp.begin(self)
-
         self.afficherInformations(qp)
         self.afficherImages(qp)
         qp.end()

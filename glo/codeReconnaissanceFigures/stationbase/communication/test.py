@@ -1,2 +1,4 @@
-from Server import Server
-monServer = Server()
+from TCPServer import TCPServer
+monServer = TCPServer()
+print monServer.connectionEstablished
+monServer.sendFile('data.json')

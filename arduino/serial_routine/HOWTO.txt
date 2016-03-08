@@ -1,0 +1,18 @@
+Upon boot, the arduino code will setup up the PIDs accordingly. No command required.
+
+These ascii characters need to be sent to move the robot.
+
+'8' (56) = UP
+'6' (54) = RIGHT
+'4' (52) = LEFT
+'0' (50) = DOWN 
+
+Special functions have been added to serial_experimental. Those are
+'7' (55) = TURN LEFT
+'9' (57) = TURN RIGHT
+
+=================================================================================
+SENDING ANYTHING ELSE STOPS THE WHEELS ENTIRELY UNTIL A VALID TRANSMISSION OCCURS
+=================================================================================
+
+After the first byte has been sent, a second byte has to be sent to determine the distance travelled. This distance so far is arbitrary, but sorry not, in serial_experimental this value is worth one sixteenth of a wheel diameter's distance per entry value. Every falling edge, duration will decrease by one. Serial_experimental uses the pins 18, 19, 20 and 21 to read, so make sure to change the connections if you want to try it out!

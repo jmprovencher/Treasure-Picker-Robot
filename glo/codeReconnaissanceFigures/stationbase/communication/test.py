@@ -1,2 +1,2 @@
-from Server import Server
-monServer = Server()
+from TCPServer import TCPServer
+monServer = TCPServer()

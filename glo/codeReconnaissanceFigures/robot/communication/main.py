@@ -1,4 +1,6 @@
 from UARTDriver import UARTDriver
 from TCPClient import TCPClient
 monClient = TCPClient()
-monUart = UARTDriver('COM8', 9600)
+data = monClient.receiveFile()
+print data
+#monUart = UARTDriver('COM8', 9600)

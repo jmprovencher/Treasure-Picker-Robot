@@ -18,8 +18,9 @@ class StationBase():
         self.carte.ajouterElementCarto(self.analyseImageWorld.elementsCartographiques)
         self.imageVirtuelle.ajouterIles(self.carte.listeIles)
         self.imageVirtuelle.ajouterTresors(self.carte.listeTresors)
-
+        self.imageVirtuelle.dessinerFormes()
         self.carte.afficherCarte()
+
         self.analyseImageWorld.dessinerElementCartographique()
         self.analyseImageWorld.afficherImage()
 

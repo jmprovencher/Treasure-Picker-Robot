@@ -24,7 +24,6 @@ class Interface(QtGui.QWidget):
 
     def initialiserStationBase(self):
         self.stationBase = StationBase()
-        imageVirtuelle = ImageVirtuelle((100,100))
 
     def paintEvent(self, e):
         qp = QtGui.QPainter()
@@ -52,7 +51,7 @@ class Interface(QtGui.QWidget):
 
     def afficherImages(self, qp):
         qp.drawPixmap(640, 0, QtGui.QPixmap(ConfigPath.Config().appendToProjectPath('images/test_image7.png')), 0, 90, 640, 480)
-        qp.drawPixmap(640, 350, QtGui.QPixmap(ConfigPath.Config().appendToProjectPath('images/test_image_vide.png')), 0, 90, 640, 480)
+
         self.dessinerOrange(qp)
         qp.drawRect(450, 348, 830, 5)
         qp.drawRect(638, 0, 5, 700)

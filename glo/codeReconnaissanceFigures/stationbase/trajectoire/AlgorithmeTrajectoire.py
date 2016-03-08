@@ -2,6 +2,8 @@
 import heapq
 
 from stationbase.trajectoire.Cellule import Cellule
+from stationbase.trajectoire.GrilleCellule import GrilleCellule
+import math
 
 
 class AlgorithmeTrajectoire():
@@ -64,6 +66,47 @@ class AlgorithmeTrajectoire():
             depart_y = temp.y - cellule.y
 
         self.trajet.append((depart_x, depart_y))
+        self.eliminerDetourInutile()
+
+    def eliminerDetourInutile(self):
+        longueurInitiale = 1
+        longueurFinale = 0
+        while (longueurInitiale != longueurFinale):
+            longueurInitiale = len(self.trajet)
+            i = 0
+            while (len(self.trajet) > i+2):
+                while ((len(self.trajet) > i+2) and (self.ligneDroiteEstPossible(self.trajet[i], self.trajet[i+2]))):
+                    self.trajet.pop(i+1)
+                    print len(self.trajet)
+                    print i
+                i = i + 1
+            longueurFinale = len(self.trajet)
+
+    def ligneDroiteEstPossible(self, debut, fin):
+        for ile in self.grilleCellule.listeIles:
+            if (self.ileTropPresALigne(ile, debut, fin)):
+                return False
+        return True
+
+    def ileTropPresALigne(self, ile, debut, fin):
+        x1, y1 = debut
+        x2, y2 = fin
+        x3, y3 = (ile.centre_x, ile.centre_y)
+        px = x2-x1
+        py = y2-y1
+        tmp = px*px + py*py
+        u =  ((x3 - x1) * px + (y3 - y1) * py) / float(tmp)
+        if u > 1:
+            u = 1
+        elif u < 0:
+            u = 0
+        x = x1 + u * px
+        y = y1 + u * py
+        dx = x - x3
+        dy = y - y3
+        dist = math.sqrt(dx*dx + dy*dy)
+
+        return dist < int(round(self.grilleCellule.bufferIle * (self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0]))
 
     def afficherTrajectoireDetailler(self):
         cellule = self.grilleCellule.getCellule(self.arriver.x, self.arriver.y)

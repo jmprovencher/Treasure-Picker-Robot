@@ -11,9 +11,11 @@ class GrilleCellule():
         self.incrementX = int((self.dimensionCrop[0]) / self.dimensionReel[0])
         self.incrementY = int((self.dimensionCrop[1]) / self.dimensionReel[1])
         self.bufferIle = 20
+        self.listeIles = None
 
     def initGrilleCellule(self, listeIles):
         self.listeCellules = []
+        self.listeIles = listeIles
         atteignable_x = True
 
         for x in range(0, self.dimensionCrop[0], self.incrementX):

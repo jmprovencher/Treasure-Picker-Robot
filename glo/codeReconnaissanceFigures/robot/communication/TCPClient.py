@@ -42,8 +42,15 @@ class TCPClient:
         f.close()
         print('Successfully got the file')
         json_data = open('received_file.json').read()
-        data = json.loads(json_data)
-        return data
+        if json_data == '':
+            print ('Empty file')
+            return -1
+        else:
+            try:
+                data = json.loads(json_data)
+            except:
+                print('No JSON object was found')
+            return data
 
 
     def closeConnection(self):

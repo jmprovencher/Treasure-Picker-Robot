@@ -2,7 +2,7 @@ from UARTDriver import UARTDriver
 from TCPClient import TCPClient
 monClient = TCPClient()
 # monUart = UARTDriver('COM8', 9600) #on Windows
-monUart = UARTDriver('dev/ttyACM0', 9600) #on linux
+monUart = UARTDriver('/dev/ttyACM0', 9600) #on linux
 
 while 1:
         data = monClient.receiveFile()

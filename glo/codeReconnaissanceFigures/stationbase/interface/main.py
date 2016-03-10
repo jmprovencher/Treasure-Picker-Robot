@@ -3,7 +3,7 @@ import sys
 from stationbase.interface.StationBase import StationBase
 from stationbase.interface.ImageReelle import ImageReelle
 from PyQt4 import QtGui, QtCore
-from PyQt4.QtCore import pyqtSlot
+from PyQt4.QtGui import QPainter
 
 import ConfigPath
 
@@ -18,9 +18,9 @@ class Interface(QtGui.QWidget):
         self.btnDemarrer.move(200, 200)
         self.demarre = False
 
-
     def paintEvent(self, e):
-        qp = QtGui.QPainter()
+        #possibilité de faire un espèce de emit pour merger différentes images.
+        qp = QPainter()
         qp.begin(self)
         self.afficherInformations(qp)
         self.executerDemarage(qp)

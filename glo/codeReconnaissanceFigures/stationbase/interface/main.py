@@ -1,7 +1,6 @@
 # import the necessary packages
 import sys
 from stationbase.interface.StationBase import StationBase
-from stationbase.interface.ImageVirtuelle import ImageVirtuelle
 from stationbase.interface.ImageReelle import ImageReelle
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import pyqtSlot
@@ -17,24 +16,25 @@ class Interface(QtGui.QWidget):
         self.btnDemarrer = QtGui.QPushButton('Demarrer', self)
         self.btnDemarrer.resize(120, 46)
         self.btnDemarrer.move(200, 200)
+        self.demarre = False
 
-    @pyqtSlot()
-    def demarrerRoutine(self, qp):
-        self.initStationBase(qp)
-
-    def initStationBase(self, qp):
-        self.stationBase = StationBase(qp)
 
     def paintEvent(self, e):
         qp = QtGui.QPainter()
         qp.begin(self)
         self.afficherInformations(qp)
-        self.afficherImages(qp)
-        self.btnDemarrer.clicked.connect(self.demarrerRoutine(qp))
-
-        self.imageReelle = ImageReelle(qp)
-        self.imageVirtuelle = ImageReelle(qp)
+        self.executerDemarage(qp)
         qp.end()
+
+    def executerDemarage(self, qp):
+        self.btnDemarrer.clicked.connect(self.estDemarrer)
+        if(self.demarre == True):
+            ImageReelle(qp)
+            StationBase(qp)
+            self.afficherImages(qp)
+
+    def estDemarrer(self):
+        self.demarre = True
 
     def afficherInformations(self, qp):
         self.dessinerNoir(qp)
@@ -52,14 +52,16 @@ class Interface(QtGui.QWidget):
         qp.drawText(275, 450 + 50, QtCore.QString('1.23 V '))
         qp.drawText(275, 500 + 50, QtCore.QString('0.8245m, 0.23421m     68.35''S  1.36''O '))
         qp.drawText(275, 550 + 50, QtCore.QString('Cercle rouge'))
+        self.dessinerOrange(qp)
+        qp.drawText(450, 338, QtCore.QString('Carte reelle'))
+        qp.drawText(450, 378, QtCore.QString('Carte virtuelle'))
+        qp.drawRect(450, 348, 830, 5)
+        qp.drawRect(638, 0, 5, 700)
 
     def afficherImages(self, qp):
-        qp.drawPixmap(640, 0, QtGui.QPixmap(ConfigPath.Config().appendToProjectPath('images/test_image7.png')), 0, 90, 640, 480)
         self.dessinerOrange(qp)
         qp.drawRect(450, 348, 830, 5)
         qp.drawRect(638, 0, 5, 700)
-        qp.drawText(450, 338, QtCore.QString('Carte reelle'))
-        qp.drawText(450, 378, QtCore.QString('Carte virtuelle'))
 
     def dessinerOrange(self, qp):
         qp.setBrush(QtGui.QColor(252, 100, 0, 250))

@@ -14,23 +14,24 @@ class Interface(QtGui.QWidget):
         super(Interface, self).__init__()
         self.setGeometry(1280, 1280, 1280, 700)
         self.setWindowTitle('Interface')
-        btnDemarrer = QtGui.QPushButton('Demarrer', self)
-        btnDemarrer.clicked.connect(self.demarrerRoutine)
-        btnDemarrer.resize(120, 46)
-        btnDemarrer.move(200, 200)
+        self.btnDemarrer = QtGui.QPushButton('Demarrer', self)
+        self.btnDemarrer.resize(120, 46)
+        self.btnDemarrer.move(200, 200)
 
     @pyqtSlot()
-    def demarrerRoutine(self):
-        self.initialiserStationBase()
+    def demarrerRoutine(self, qp):
+        self.initStationBase(qp)
 
-    def initialiserStationBase(self):
-        self.stationBase = StationBase()
+    def initStationBase(self, qp):
+        self.stationBase = StationBase(qp)
 
     def paintEvent(self, e):
         qp = QtGui.QPainter()
         qp.begin(self)
         self.afficherInformations(qp)
         self.afficherImages(qp)
+        self.btnDemarrer.clicked.connect(self.demarrerRoutine(qp))
+
         self.imageReelle = ImageReelle(qp)
         self.imageVirtuelle = ImageReelle(qp)
         qp.end()

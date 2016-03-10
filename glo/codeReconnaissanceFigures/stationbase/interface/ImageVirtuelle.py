@@ -4,8 +4,8 @@ import ConfigPath
 
 
 class ImageVirtuelle():
-    def __init__(self, dimension):
-        self.dimension_x, self.dimension_y = dimension
+    def __init__(self, qp):
+        self.qp = qp;
         self.carteVirtuelle = Carte
         self.listeIles = []
         self.listeTresors = []

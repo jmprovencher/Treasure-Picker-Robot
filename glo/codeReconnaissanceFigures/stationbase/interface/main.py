@@ -2,6 +2,7 @@
 import sys
 from stationbase.interface.StationBase import StationBase
 from stationbase.interface.ImageVirtuelle import ImageVirtuelle
+from stationbase.interface.ImageReelle import ImageReelle
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import pyqtSlot
 
@@ -30,6 +31,8 @@ class Interface(QtGui.QWidget):
         qp.begin(self)
         self.afficherInformations(qp)
         self.afficherImages(qp)
+        self.imageReelle = ImageReelle(qp)
+        self.imageVirtuelle = ImageReelle(qp)
         qp.end()
 
     def afficherInformations(self, qp):
@@ -51,7 +54,6 @@ class Interface(QtGui.QWidget):
 
     def afficherImages(self, qp):
         qp.drawPixmap(640, 0, QtGui.QPixmap(ConfigPath.Config().appendToProjectPath('images/test_image7.png')), 0, 90, 640, 480)
-
         self.dessinerOrange(qp)
         qp.drawRect(450, 348, 830, 5)
         qp.drawRect(638, 0, 5, 700)

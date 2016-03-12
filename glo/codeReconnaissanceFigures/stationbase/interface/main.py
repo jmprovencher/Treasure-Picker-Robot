@@ -2,6 +2,7 @@
 import sys
 from stationbase.interface.StationBase import StationBase
 from stationbase.interface.ImageReelle import ImageReelle
+from stationbase.interface.ImageVirtuelle import ImageVirtuelle
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QPainter
 
@@ -16,25 +17,30 @@ class Interface(QtGui.QWidget):
         self.btnDemarrer = QtGui.QPushButton('Demarrer', self)
         self.btnDemarrer.resize(120, 46)
         self.btnDemarrer.move(200, 200)
+        self.ilesDetectees = []
+        self.tresorsDetectes = []
+        self.btnDemarrer.clicked.connect(self.demarrerRoutine)
         self.demarre = False
 
     def paintEvent(self, e):
-        #possibilité de faire un espèce de emit pour merger différentes images.
+        #possibilite de faire un espece de emit pour merger differentes images
         qp = QPainter()
         qp.begin(self)
+        if (self.estDemarrer()):
+            imageReelle = ImageReelle(qp)
+            imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes)
         self.afficherInformations(qp)
-        self.executerDemarage(qp)
         qp.end()
 
-    def executerDemarage(self, qp):
-        self.btnDemarrer.clicked.connect(self.estDemarrer)
-        if(self.demarre == True):
-            ImageReelle(qp)
-            StationBase(qp)
-            self.afficherImages(qp)
+    def demarrerRoutine(self):
+        stationBase = StationBase()
+        self.ilesDetectees = stationBase.getIlesDetectees()
+        self.tresorsDetectes = stationBase.getTresorsDetectes()
+        self.demarre = True
+        self.repaint()
 
     def estDemarrer(self):
-        self.demarre = True
+        return self.demarre
 
     def afficherInformations(self, qp):
         self.dessinerNoir(qp)

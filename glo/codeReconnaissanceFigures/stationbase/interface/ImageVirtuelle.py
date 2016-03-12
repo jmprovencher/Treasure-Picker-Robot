@@ -12,12 +12,13 @@ class ImageVirtuelle():
 
     def dessinerTresors(self, qp, listeTresors):
         for tresor in listeTresors:
+            print("DESSINE TRESOR")
             position = tresor.centre_x * 0.4 + 618, tresor.centre_y * 0.4 + 355
             self.dessinerTresor(qp, position)
 
     def dessinerIles(self, qp, listeIles):
         for ile in listeIles:
-            print("DESSINE")
+            print("DESSINE ILES: ", ile.forme, ile.couleur)
             position = (ile.centre_x * 0.4 + 618, ile.centre_y * 0.4 + 355)
             couleur = ile.couleur
             forme = ile.forme

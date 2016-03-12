@@ -8,17 +8,24 @@ import ConfigPath
 
 
 class StationBase():
-    def __init__(self, qp):
+    def __init__(self):
         self.analyseImageWorld = AnalyseImageWorld()
         self.carte = Carte()
-        self.initialiserStationBase(qp)
+        self.initialiserStationBase()
 
-    def initialiserStationBase(self, qp):
+    def initialiserStationBase(self):
         self.analyseImageWorld.chargerImage(ConfigPath.Config().appendToProjectPath('images/table3/trajet2.png'))
         self.analyseImageWorld.trouverElementsCartographiques()
+        print("########", len(self.analyseImageWorld.elementsCartographiques))
         self.carte.ajouterElementCarto(self.analyseImageWorld.elementsCartographiques)
-        ImageVirtuelle(qp, self.carte.listeIles, self.carte.listeTresors)
-        self.carte.afficherCarte()
+
+    def getIlesDetectees(self):
+        return self.carte.listeIles
+
+    def getTresorsDetectes(self):
+        return self.carte.listeTresors
+
+        #self.carte.afficherCarte()
         #self.analyseImageWorld.dessinerElementCartographique()
         #self.analyseImageWorld.afficherImage()
         #self.carte.trajectoire.initGrilleCellule(self.carte.listeIles)

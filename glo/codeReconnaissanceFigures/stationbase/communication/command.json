@@ -1,0 +1,14 @@
+{"parametre": 15,
+  "commande": "forward",
+"commande": "backward",
+"commande": "right",
+"commande": "left",
+"commande": "armUp",
+"commande": "armDown",
+"commande": "magnetOn",
+"commande": "magnetOff",
+"commande": "cameraLeft",
+"commande": "cameraRight",
+"commande": "cameraFront",
+"commande": "cameraTreasure"
+}

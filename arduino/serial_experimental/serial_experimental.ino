@@ -19,6 +19,7 @@ int duration = 0;
 double Setpoint[4] = {3000, 3000, 3000, 3000};
 double Input[4] = {3000, 3000, 3000, 3000};
 double Output[4];
+MicroMaestro maestro(Serial1);
 
 PID firstPID(&Input[0], &Output[0], &Setpoint[0], 0.00005, 0.25, 0, REVERSE);
 PID secondPID(&Input[1], &Output[1], &Setpoint[1], 0.000066, 0.30, 0, REVERSE);
@@ -33,7 +34,6 @@ void setup() {
   for(int i = 0; i < 6; i++){
     pinMode(pinsDrive[i], OUTPUT);
   }
-  MicroMaestro maestro(Serial1);
   
   for(int i = 0; i < 4; i++){
     pinMode(pinsRead[i], INPUT);

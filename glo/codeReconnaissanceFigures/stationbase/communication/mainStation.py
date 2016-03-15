@@ -22,5 +22,15 @@ while 1:
         else:
             parameter = ''
         myRequest = RequeteJSON(command, parameter)
-        monServer.sendFile('data.json')
+        while 1:
+            try:
+                monServer.sendFile('data.json')
+            except:
+                #still not working, getting socket error : only one usage of each socket adress
+                print "Connection with the remote host lost, Trying to reconnect"
+                monServer.closeConnection()
+                monServer = TCPServer()
+                print monServer.connectionEstablished
+            else:
+                break
 

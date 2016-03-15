@@ -5,7 +5,14 @@ monClient = TCPClient()
 monUart = UARTDriver('/dev/ttyACM0', 9600) #on linux
 
 while 1:
-        data = monClient.receiveFile()
+        while 1:
+            try:
+                data = monClient.receiveFile()
+                break
+            except:
+                print "Connection Lost, Trying to reconnect"
+                monClient = TCPClient()
+
         if data == -1:
             print('Error while receiving file')
         else:

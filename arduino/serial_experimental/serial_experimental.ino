@@ -12,6 +12,8 @@ String action = "";
 
 int pinsDrive[6] = {3, 6, 7, 8, 9, 10};
 int pinsRead[4] = {18, 19, 20, 21};
+int pinPrehenseur = 4;
+int pinElectroAimant = 5;
 int spdWheels[2] = {255, 0};
 unsigned long spdBuffer = 0;
 int duration = 0;
@@ -19,6 +21,8 @@ int duration = 0;
 double Setpoint[4] = {3000, 3000, 3000, 3000};
 double Input[4] = {3000, 3000, 3000, 3000};
 double Output[4];
+MicroMaestro maestro(Serial1);
+MicroMaestro prehenseurMaestro(Serial2);
 
 PID firstPID(&Input[0], &Output[0], &Setpoint[0], 0.00005, 0.25, 0, REVERSE);
 PID secondPID(&Input[1], &Output[1], &Setpoint[1], 0.000066, 0.30, 0, REVERSE);
@@ -33,7 +37,6 @@ void setup() {
   for(int i = 0; i < 6; i++){
     pinMode(pinsDrive[i], OUTPUT);
   }
-  MicroMaestro maestro(Serial1);
   
   for(int i = 0; i < 4; i++){
     pinMode(pinsRead[i], INPUT);
@@ -100,26 +103,50 @@ void serialEvent(){
       if(incomingByte == 56){
         action = "Moving forward ";
         Setpoint[0] = 800; Setpoint[1] = 800; Setpoint[2] = 3000; Setpoint[3] = 3000; spdWheels[0] = 255, spdWheels[1] = 0;
+        mode = true;
       }
       else if(incomingByte == 50){
         action = "Moving backwards ";
         Setpoint[0] = 800; Setpoint[1] = 800; Setpoint[2] = 3000; Setpoint[3] = 3000; spdWheels[0] = 0, spdWheels[1] = 255;
+        mode = true;
       }
       else if(incomingByte == 52){
         action = "Moving left ";
         Setpoint[2] = 800; Setpoint[3] = 800; Setpoint[0] = 3000; Setpoint[1] = 3000; spdWheels[0] = 255, spdWheels[1] = 0;
+        mode = true;
       }
       else if(incomingByte == 54){
         action = "Moving right ";
         Setpoint[2] = 800; Setpoint[3] = 800; Setpoint[0] = 3000; Setpoint[1] = 3000; spdWheels[0] = 0, spdWheels[1] = 255;
+        mode = true;
       }
       else if(incomingByte == 55){
         action = "Turning left ";
         Setpoint[2] = 800; Setpoint[3] = 3000; Setpoint[0] = 3000; Setpoint[1] = 800; spdWheels[0] = 255, spdWheels[1] = 0;
+        mode = true;
       }
       else if(incomingByte == 57){
         action = "Turning right ";
         Setpoint[2] = 800; Setpoint[3] = 3000; Setpoint[0] = 3000; Setpoint[1] = 800; spdWheels[0] = 0, spdWheels[1] = 255;
+        mode = true;
+      }
+      else if(incomingByte == 93){
+        action = "Activate Magnet";
+        analogWrite(pinElectroAimant, 255);
+      }
+      else if(incomingByte == 94){
+        action = "Deactivate Magnet";
+        analogWrite(pinElectroAimant, 0);
+      }
+      else if(incomingByte == 95){
+        action = "Prehenseur down";
+        prehenseurMaestro.setTarget(0, 6000);
+        prehenseurMaestro.setTarget(1, 6200);
+      }
+      else if(incomingByte == 96){
+        action = "Prehenseur up ";
+        prehenseurMaestro.setTarget(0, 6000);
+        prehenseurMaestro.setTarget(1, 4044);
       }
       else if(incomingByte == 98){
         action = "Camera Left ";
@@ -145,7 +172,6 @@ void serialEvent(){
         action = "Invalid action ";
         stopWheels();        
       }
-      mode = true;
     }
     else if(mode){
       duration = incomingByte;

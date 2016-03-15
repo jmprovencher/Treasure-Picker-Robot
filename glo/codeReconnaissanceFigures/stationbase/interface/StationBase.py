@@ -1,23 +1,36 @@
 # import the necessary packages
 from elements.Carte import Carte
-from PyQt4 import QtGui, QtCore
 from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
-from stationbase.interface.ImageVirtuelle import ImageVirtuelle
-from stationbase.interface.ImageReelle import ImageReelle
+from stationbase.interface.FeedVideo import FeedVideo
 import ConfigPath
 
 
-class StationBase():
-    def __init__(self):
+
+class StationBase(object):
+    def __init__(self, feedVideo):
         self.analyseImageWorld = AnalyseImageWorld()
+        self.feedVideo = feedVideo
         self.carte = Carte()
         self.initialiserStationBase()
 
-    def initialiserStationBase(self):
+    def analyserImage(self, imageCapture):
+        self.imageReelle = imageCapture
+        ###### ANALYSER IMAGE ICI AU LIEU DU PATH ######
+        #self.analyseImageWorld.chargerImage(self.imageReelle)
         self.analyseImageWorld.chargerImage(ConfigPath.Config().appendToProjectPath('images/table3/trajet2.png'))
+
         self.analyseImageWorld.trouverElementsCartographiques()
-        print("########", len(self.analyseImageWorld.elementsCartographiques))
         self.carte.ajouterElementCarto(self.analyseImageWorld.elementsCartographiques)
+
+    def initialiserStationBase(self):
+        self.feedVideo = FeedVideo()
+        self.feedVideo.bind_to(self.analyserImage)
+
+    def suspendreFeedVideo(self):
+        self.feedVideo.suspendreCapture()
+
+    def demarrerFeedVideo(self):
+        self.feedVideo.demarrerCapture()
 
     def getIlesDetectees(self):
         return self.carte.listeIles

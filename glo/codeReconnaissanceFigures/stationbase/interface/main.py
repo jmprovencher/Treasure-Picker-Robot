@@ -3,6 +3,7 @@ import sys
 from stationbase.interface.StationBase import StationBase
 from stationbase.interface.ImageReelle import ImageReelle
 from stationbase.interface.ImageVirtuelle import ImageVirtuelle
+from stationbase.interface.FeedVideo import FeedVideo
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QPainter
 
@@ -15,15 +16,18 @@ class Interface(QtGui.QWidget):
         self.setGeometry(1280, 1280, 1280, 700)
         self.setWindowTitle('Interface')
         self.btnDemarrer = QtGui.QPushButton('Demarrer', self)
+        self.btnVideo = QtGui.QPushButton('Start Video', self)
         self.btnDemarrer.resize(120, 46)
+        self.btnVideo.resize(120, 46)
         self.btnDemarrer.move(200, 200)
+        self.btnVideo.move(200, 300)
         self.ilesDetectees = []
         self.tresorsDetectes = []
         self.btnDemarrer.clicked.connect(self.demarrerRoutine)
+        self.btnVideo.clicked.connect(self.recevoirImage)
         self.demarre = False
 
     def paintEvent(self, e):
-        #possibilite de faire un espece de emit pour merger differentes images
         qp = QPainter()
         qp.begin(self)
         if (self.estDemarrer()):
@@ -33,10 +37,14 @@ class Interface(QtGui.QWidget):
         qp.end()
 
     def demarrerRoutine(self):
-        stationBase = StationBase()
-        self.ilesDetectees = stationBase.getIlesDetectees()
-        self.tresorsDetectes = stationBase.getTresorsDetectes()
+        self.feed = FeedVideo()
+        self.stationBase = StationBase(self.feed)
         self.demarre = True
+
+    def recevoirImage(self):
+        self.stationBase.feedVideo.demarrerCapture()
+        self.ilesDetectees = self.stationBase.getIlesDetectees()
+        self.tresorsDetectes = self.stationBase.getTresorsDetectes()
         self.repaint()
 
     def estDemarrer(self):

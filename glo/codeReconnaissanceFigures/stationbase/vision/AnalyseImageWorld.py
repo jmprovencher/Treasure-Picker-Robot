@@ -16,6 +16,7 @@ class AnalyseImageWorld(object):
         self.detectionElements = None
 
     def chargerImage(self, url):
+        #self.imageCamera = image
         self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath(url))
         self.recadrerImage()
         self.estomperImage()

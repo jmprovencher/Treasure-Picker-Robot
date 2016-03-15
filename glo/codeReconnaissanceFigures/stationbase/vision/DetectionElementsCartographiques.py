@@ -68,13 +68,13 @@ class DetectionElementsCartographiques(object):
         self._detecterFormeCouleur(self.intervalleBleu)
         self._detecterFormeCouleur(self.intervalleJaune)
         self._detecterFormeCouleur(self.intervalleVert)
-#
+
     def _detecterFormeCouleur(self, intervalleCouleur):
 
         intervalleClair, intervalleFonce, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
+        print("UUUUUUU", len(contoursCouleur))
         contoursNegligeable = []
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])

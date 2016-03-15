@@ -6,8 +6,8 @@ class TCPClient:
     def __init__(self):
         self.s = socket.socket()
         self.port = 60000
-        #self.host = '10.248.187.169'
-        self.host = '192.168.1.37' #If on embedded computer in local network
+        self.host = '10.248.187.169'
+        #self.host = '192.168.1.37' #If on embedded computer in local network
         self.connectionEstablished = self._connectToServer()
 
     def _connectToServer(self):

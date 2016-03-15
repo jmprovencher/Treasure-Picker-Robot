@@ -15,21 +15,47 @@ class UARTDriver:
 
     def sendCommand(self, command, parameter):
 
-        if command == 'avancer':
+        if command == 'forward':
             self.UART.write(b'8'.encode())
             self.UART.write(b'parameter'.encode())
 
-        elif command == 'reculer':
+        elif command == 'backward':
             self.UART.write(b'2'.encode())
             self.UART.write(parameter.encode())
 
-        elif command == 'gauche':
+        elif command == 'left':
             self.UART.write(b'4'.encode())
             self.UART.write(parameter.encode())
 
-        elif command == 'droite':
+        elif command == 'right':
             self.UART.write(b'6'.encode())
             self.UART.write(parameter.encode())
 
-        commandComplete = self.UART.read(2)
-        return commandComplete
+        elif command == 'armUp':
+            pass
+
+        elif command == 'armDown':
+            pass
+
+        elif command == 'magnetOn':
+            pass
+
+        elif command == 'magnetOff':
+            pass
+
+        elif command == 'cameraRight':
+            self.UART.write(b'a'.encode())
+
+        elif command == 'cameraLeft':
+            self.UART.write(b'b'.encode())
+
+        elif command == 'cameraFront':
+            self.UART.write(b'c'.encode())
+
+        elif command == 'cameraTreasure':
+            self.UART.write(b'd'.encode())
+
+        #To implement when arduino will return command completion confirmation
+        #commandComplete = self.UART.read(2)
+        #return commandComplete
+        return 1

@@ -121,22 +121,22 @@ void serialEvent(){
         action = "Turning right ";
         Setpoint[2] = 800; Setpoint[3] = 3000; Setpoint[0] = 3000; Setpoint[1] = 800; spdWheels[0] = 0, spdWheels[1] = 255;
       }
-      else if(incomingByte == 58){
+      else if(incomingByte == 98){
         action = "Camera Left ";
         maestro.setTarget(0, 2400);
         maestro.setTarget(1, 6200);
       }
-      else if(incomingByte == 59){
+      else if(incomingByte == 97){
         action = "Camera Right ";
         maestro.setTarget(0, 9600);
         maestro.setTarget(1, 6200);
       }
-      else if(incomingByte == 60){
+      else if(incomingByte == 99){
         action = "Camera Front ";
         maestro.setTarget(0, 6000);
         maestro.setTarget(1,6200);
       }
-      else if(incomingByte == 61){
+      else if(incomingByte == 100){
         action = "Camera Treasure ";
         maestro.setTarget(0,6000);
         maestro.setTarget(1, 4044);

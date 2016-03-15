@@ -19,7 +19,7 @@ class TCPServer:
         print 'Got connection from', addr
         return conn
 
-    def sendFile(self, filename,):
+    def sendFile(self, filename):
         f = open(filename, 'r')
         data = f.read()
         while data:

@@ -1,7 +1,7 @@
 import cv2
 
 
-class FeedVideo(object):
+class FeedVideoRobot(object):
     def __init__(self):
         self.capture = cv2.VideoCapture(0)
         self.enregistre = False
@@ -42,4 +42,3 @@ class FeedVideo(object):
 
     def reprendreCapture(self):
         self.enregistre = True
-

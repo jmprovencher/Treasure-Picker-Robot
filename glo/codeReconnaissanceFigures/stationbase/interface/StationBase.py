@@ -15,12 +15,16 @@ class StationBase(object):
 
     def analyserImage(self, imageCapture):
         self.imageReelle = imageCapture
+        
         ###### ANALYSER IMAGE ICI AU LIEU DU PATH ######
         #self.analyseImageWorld.chargerImage(self.imageReelle)
         self.analyseImageWorld.chargerImage(ConfigPath.Config().appendToProjectPath('images/table3/trajet2.png'))
 
         self.analyseImageWorld.trouverElementsCartographiques()
         self.carte.ajouterElementCarto(self.analyseImageWorld.elementsCartographiques)
+
+    def getImageReelle(self):
+        return self.imageReelle
 
     def initialiserStationBase(self):
         self.feedVideo = FeedVideo()
@@ -31,12 +35,6 @@ class StationBase(object):
 
     def demarrerFeedVideo(self):
         self.feedVideo.demarrerCapture()
-
-    def getIlesDetectees(self):
-        return self.carte.listeIles
-
-    def getTresorsDetectes(self):
-        return self.carte.listeTresors
 
         #self.carte.afficherCarte()
         #self.analyseImageWorld.dessinerElementCartographique()

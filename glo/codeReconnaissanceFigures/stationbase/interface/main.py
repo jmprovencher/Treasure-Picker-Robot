@@ -1,5 +1,7 @@
 # import the necessary packages
 import sys
+
+from robot.interface.Robot import Robot
 from stationbase.interface.StationBase import StationBase
 from stationbase.interface.ImageReelle import ImageReelle
 from stationbase.interface.ImageVirtuelle import ImageVirtuelle
@@ -24,27 +26,31 @@ class Interface(QtGui.QWidget):
         self.ilesDetectees = []
         self.tresorsDetectes = []
         self.btnDemarrer.clicked.connect(self.demarrerRoutine)
-        self.btnVideo.clicked.connect(self.recevoirImage)
+        self.btnVideo.clicked.connect(self.demarrerCapture)
         self.demarre = False
 
     def paintEvent(self, e):
         qp = QPainter()
         qp.begin(self)
         if (self.estDemarrer()):
-            imageReelle = ImageReelle(qp)
+            image = self.obtenirImageReelle()
+            imageReelle = ImageReelle(qp, image)
             imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes)
         self.afficherInformations(qp)
         qp.end()
 
+    def obtenirImageReelle(self):
+        return self.stationBase.getImageReelle()
+
     def demarrerRoutine(self):
         self.feed = FeedVideo()
         self.stationBase = StationBase(self.feed)
-        self.demarre = True
 
-    def recevoirImage(self):
+    def demarrerCapture(self):
         self.stationBase.feedVideo.demarrerCapture()
-        self.ilesDetectees = self.stationBase.getIlesDetectees()
-        self.tresorsDetectes = self.stationBase.getTresorsDetectes()
+        self.ilesDetectees = self.stationBase.carte.listeIles
+        self.tresorsDetectes = self.stationBase.carte.listeTresors
+        self.demarre = True
         self.repaint()
 
     def estDemarrer(self):
@@ -72,11 +78,6 @@ class Interface(QtGui.QWidget):
         qp.drawRect(450, 348, 830, 5)
         qp.drawRect(638, 0, 5, 700)
 
-    def afficherImages(self, qp):
-        self.dessinerOrange(qp)
-        qp.drawRect(450, 348, 830, 5)
-        qp.drawRect(638, 0, 5, 700)
-
     def dessinerOrange(self, qp):
         qp.setBrush(QtGui.QColor(252, 100, 0, 250))
         qp.setPen(QtGui.QColor(252, 100, 0))
@@ -90,6 +91,8 @@ class Interface(QtGui.QWidget):
         qp.setPen(QtGui.QColor(0, 0, 250))
 
 def main():
+    #robot = Robot()
+    #robot.analyserImage()
     app = QtGui.QApplication(sys.argv)
     interface = Interface()
     interface.show()

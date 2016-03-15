@@ -10,7 +10,7 @@ class RequeteJSON():
 
     def _definirRequete(self, commande, parametre):
         self.data = {
-            'communication': commande,
+            'commande': commande,
             'parametre': parametre,
         }
         return self.data

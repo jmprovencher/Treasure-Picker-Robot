@@ -6,17 +6,17 @@ class TCPClient:
     def __init__(self):
         self.s = socket.socket()
         self.port = 60000
-        self.hostTest = '10.248.251.245'
+        self.hostTest = '10.248.187.169'
         self.host = '192.168.1.37' #If on embedded computer in local network
         self.connectionEstablished = self._connectToServer()
 
     def _connectToServer(self):
         while True:
             try:
-                self.s.connect((self.hostTest, self.port))
+                self.s.connect((self.host, self.port))
                 break
             except Exception as e:
-                print("Connection failed with %s:%d. Exception is %s" % (self.hostTest, self.port, e))
+                print("Connection failed with %s:%d. Exception is %s" % (self.host, self.port, e))
         return True
 
     def sendFile(self, filename,):

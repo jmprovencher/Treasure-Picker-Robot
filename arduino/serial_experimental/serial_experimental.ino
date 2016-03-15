@@ -1,6 +1,6 @@
 #include <PID_v1.h>
 #include <LiquidCrystal.h>
-
+#include <PololuMaestro.h>
 
 
 // global value that corresponds to the byte sent by the micro PC by UART.
@@ -29,10 +29,11 @@ PID pidList[4] = {firstPID, secondPID, thirdPID, fourthPID};
 
 void setup() {
   Serial.begin(9600);
-  
+  Serial1.begin(9600);
   for(int i = 0; i < 6; i++){
     pinMode(pinsDrive[i], OUTPUT);
   }
+  MicroMaestro maestro(Serial1);
   
   for(int i = 0; i < 4; i++){
     pinMode(pinsRead[i], INPUT);
@@ -119,6 +120,26 @@ void serialEvent(){
       else if(incomingByte == 57){
         action = "Turning right ";
         Setpoint[2] = 800; Setpoint[3] = 3000; Setpoint[0] = 3000; Setpoint[1] = 800; spdWheels[0] = 0, spdWheels[1] = 255;
+      }
+      else if(incomingByte == 58){
+        action = "Camera Left ";
+        maestro.setTarget(0, 2400);
+        maestro.setTarget(1, 6200);
+      }
+      else if(incomingByte == 59){
+        action = "Camera Right ";
+        maestro.setTarget(0, 9600);
+        maestro.setTarget(1, 6200);
+      }
+      else if(incomingByte == 60){
+        action = "Camera Front ";
+        maestro.setTarget(0, 6000);
+        maestro.setTarget(1,6200);
+      }
+      else if(incomingByte == 61){
+        action = "Camera Treasure ";
+        maestro.setTarget(0,6000);
+        maestro.setTarget(1, 4044);
       }
       else{
         action = "Invalid action ";

@@ -54,13 +54,13 @@ void loop() {
         }
         Input[j] = (spdBuffer);
         pidList[j].Compute();
-        Serial.print(Input[j]);
-        Serial.print(" - ");
-        Serial.print(Output[j]);
-        Serial.print(";");
+        //Serial.print(Input[j]);
+        //Serial.print(" - ");
+        //Serial.print(Output[j]);
+        //Serial.print(";");
       }
-      Serial.println(".");
-      Serial.print(action);
+      //Serial.println(".");
+      //Serial.print(action);
       for(int j = 0; j<4; j++){
         if(Setpoint[j] != 3000){
           analogWrite(pinsDrive[j], Output[j]);
@@ -78,6 +78,7 @@ void loop() {
     for(int i = 4; i<6; i++){
         analogWrite(pinsDrive[i], 0);
     }
+    Serial.print(action + duration + " completed!");
     duration = 0;
   }
 }

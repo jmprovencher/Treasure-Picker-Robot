@@ -12,6 +12,12 @@ class ImageVirtuelle():
         self.dessinerTresors(qp, listeTresors)
         listeDePoint = [(200, 100), (100, 100), (200, 400), (600, 200), (1000, 600)]
         self.dessinerTrajectoire(qp, listeDePoint)
+        self.dessinerConnecter(qp)
+
+    def dessinerConnecter(self, qp):
+        qp.setBrush(QtGui.QColor(0, 110, 60, 250))
+        qp.setPen(QtGui.QColor(0, 110, 60))
+        qp.drawEllipse(205, 55, 40, 40)
 
     def dessinerTresors(self, qp, listeTresors):
         for tresor in listeTresors:

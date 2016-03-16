@@ -1,6 +1,7 @@
 from PyQt4 import QtGui, QtCore
 
 import ConfigPath
+import math
 
 
 class ImageVirtuelle():
@@ -9,6 +10,14 @@ class ImageVirtuelle():
         print("PAINT EVEN ###################")
         self.dessinerIles(qp, listeIles)
         self.dessinerTresors(qp, listeTresors)
+        listeDePoint = [(200, 100), (100, 100), (200, 400), (600, 200), (1000, 600)]
+        self.dessinerTrajectoire(qp, listeDePoint)
+        self.dessinerConnecter(qp)
+
+    def dessinerConnecter(self, qp):
+        qp.setBrush(QtGui.QColor(0, 110, 60, 250))
+        qp.setPen(QtGui.QColor(0, 110, 60))
+        qp.drawEllipse(205, 55, 40, 40)
 
     def dessinerTresors(self, qp, listeTresors):
         for tresor in listeTresors:
@@ -82,3 +91,21 @@ class ImageVirtuelle():
                 QtCore.QPoint(centre_x - 18, centre_y)
             ])
             qp.drawConvexPolygon(polygone)
+
+    def dessinerTrajectoire(self, qp, listeDePoint):
+        qp.setBrush(QtGui.QColor(0, 140, 190, 250))
+        qp.setPen(QtGui.QColor(0, 140, 190))
+        qp.setPen(QtGui.QPen(QtCore.Qt.black, 2, QtCore.Qt.SolidLine))
+        Point1 = (listeDePoint[0][0] * 0.4 + 618, listeDePoint[0][1] * 0.4 + 355)
+        Point2 = (listeDePoint[1][0] * 0.4 + 618, listeDePoint[1][1] * 0.4 + 355)
+        qp.drawLine(Point1[0],Point1[1], Point2[0],Point2[1] )
+        if (len(listeDePoint) > 2):
+            self.dessinerTrajectoire(qp, listeDePoint[1::1])
+        if (len(listeDePoint) == 2):
+            vecteurLigne = ((Point1[0] - Point2[0]) , (Point1[1] - Point2[1]))
+            distanceLigne = (math.sqrt(((vecteurLigne[0])**2) + ((vecteurLigne[1])**2)))/15
+            vecteurDerniereLigne = (vecteurLigne[0]/distanceLigne, vecteurLigne[1]/distanceLigne)
+            vecteurHoraire = ((vecteurDerniereLigne[0] * math.cos(math.pi/4)) + (vecteurDerniereLigne[1] * math.sin(math.pi/4)), (- vecteurDerniereLigne[0] * math.sin(math.pi/4)) + (vecteurDerniereLigne[1] * math.cos(math.pi/4)))
+            vecteurAntiHoraire = ((vecteurDerniereLigne[0] * math.cos(- math.pi/4)) + (vecteurDerniereLigne[1] * math.sin(- math.pi/4)), (- vecteurDerniereLigne[0] * math.sin(- math.pi/4)) + (vecteurDerniereLigne[1] * math.cos(- math.pi/4)))
+            qp.drawLine(Point2[0], Point2[1], Point2[0] + vecteurHoraire[0], Point2[1] + vecteurHoraire[1])
+            qp.drawLine(Point2[0], Point2[1], Point2[0] + vecteurAntiHoraire[0], Point2[1] + vecteurAntiHoraire[1])

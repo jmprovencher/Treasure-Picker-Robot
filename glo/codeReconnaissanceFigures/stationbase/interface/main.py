@@ -77,6 +77,11 @@ class Interface(QtGui.QWidget):
         qp.drawText(450, 378, QtCore.QString('Carte virtuelle'))
         qp.drawRect(450, 348, 830, 5)
         qp.drawRect(638, 0, 5, 700)
+        self.dessinerNoir(qp)
+        qp.drawText(80, 80, QtCore.QString('Robot connecter?'))
+        qp.drawEllipse(200, 50, 50, 50)
+        self.dessinerRouge(qp)
+        qp.drawEllipse(205, 55, 40, 40)
 
     def dessinerOrange(self, qp):
         qp.setBrush(QtGui.QColor(252, 100, 0, 250))
@@ -89,6 +94,10 @@ class Interface(QtGui.QWidget):
     def formatContours(self, qp):
         qp.setBrush(QtGui.QColor(250, 250, 250, 250))
         qp.setPen(QtGui.QColor(0, 0, 250))
+
+    def dessinerRouge(self, qp):
+        qp.setBrush(QtGui.QColor(240, 0, 0, 250))
+        qp.setPen(QtGui.QColor(140, 0, 0))
 
 def main():
     #robot = Robot()

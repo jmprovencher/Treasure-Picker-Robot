@@ -98,7 +98,7 @@ class ImageVirtuelle():
         qp.setPen(QtGui.QPen(QtCore.Qt.black, 2, QtCore.Qt.SolidLine))
         Point1 = (listeDePoint[0][0] * 0.4 + 618, listeDePoint[0][1] * 0.4 + 355)
         Point2 = (listeDePoint[1][0] * 0.4 + 618, listeDePoint[1][1] * 0.4 + 355)
-        qp.drawLine(Point1[0],Point1[1], Point2[0],Point2[1] )
+        qp.drawLine(Point1[0], Point1[1], Point2[0],Point2[1] )
         if (len(listeDePoint) > 2):
             self.dessinerTrajectoire(qp, listeDePoint[1::1])
         if (len(listeDePoint) == 2):

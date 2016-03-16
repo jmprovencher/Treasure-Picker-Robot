@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-02-21" view-index="0" gantt-divider-location="410" resource-divider-location="423" version="2.7" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-02-24" view-index="0" gantt-divider-location="410" resource-divider-location="423" version="2.7" locale="en_US">
     <description/>
-    <view zooming-state="default:4" id="gantt-chart">
-        <field id="tpd3" name="Name" width="64" order="0"/>
+    <view zooming-state="default:3" id="gantt-chart">
+        <field id="tpd3" name="Name" width="63" order="0"/>
         <field id="tpd4" name="Begin date" width="14" order="1"/>
         <field id="tpd5" name="End date" width="21" order="2"/>
         <option id="taskLabelUp" value="name"/>
@@ -122,18 +122,18 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
                 <depend id="12" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="12" name="Livrable 3" color="#8cb6ce" meeting="false" start="2016-02-28" duration="35" complete="0" expand="true">
+        <task id="12" name="Livrable 3" color="#8cb6ce" meeting="false" start="2016-02-28" duration="35" complete="9" expand="true">
             <depend id="98" type="2" difference="0" hardness="Strong"/>
-            <task id="221" name="Début livrable 3" color="#00ff00" meeting="true" start="2016-02-29" duration="0" complete="0" expand="true"/>
-            <task id="85" name="Réunion 7" color="#00ff00" meeting="false" start="2016-03-01" duration="1" complete="0" expand="true"/>
-            <task id="88" name="Réunion 8" color="#00ff00" meeting="false" start="2016-03-08" duration="1" complete="0" expand="true"/>
-            <task id="90" name="Réunion 9" color="#00ff00" meeting="false" start="2016-03-15" duration="1" complete="0" expand="true"/>
+            <task id="221" name="Début livrable 3" color="#00ff00" meeting="true" start="2016-02-29" duration="0" complete="100" expand="true"/>
+            <task id="85" name="Réunion 7" color="#00ff00" meeting="false" start="2016-03-01" duration="1" complete="100" expand="true"/>
+            <task id="88" name="Réunion 8" color="#00ff00" meeting="false" start="2016-03-08" duration="1" complete="100" expand="true"/>
+            <task id="90" name="Réunion 9" color="#00ff00" meeting="false" start="2016-03-15" duration="1" complete="100" expand="true"/>
             <task id="92" name="Réunion 10" color="#00ff00" meeting="false" start="2016-03-22" duration="1" complete="0" expand="true"/>
             <task id="95" name="Réunion 11" color="#00ff00" meeting="false" start="2016-03-29" duration="1" complete="0" expand="true"/>
             <task id="15" name="Remise livrable 3" color="#cc0000" meeting="true" start="2016-04-03" duration="0" complete="0" expand="true">
                 <depend id="98" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="235" name="Tâches Rapport" color="#ffff00" meeting="false" start="2016-02-28" duration="30" complete="0" expand="false">
+            <task id="235" name="Tâches Rapport" color="#ffff00" meeting="false" start="2016-02-28" duration="30" complete="0" expand="true">
                 <task id="243" name="Mise à jour DPF" color="#8cb6ce" meeting="false" start="2016-02-28" duration="15" complete="0" expand="true"/>
                 <task id="246" name="Mise à jour plan d'intégration" color="#8cb6ce" meeting="false" start="2016-02-28" duration="7" complete="0" expand="true"/>
                 <task id="249" name="Mise à jour registre de risques" color="#8cb6ce" meeting="false" start="2016-02-28" duration="15" complete="0" expand="true"/>
@@ -142,8 +142,8 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
                 <task id="259" name="Vision" color="#8cb6ce" meeting="false" start="2016-03-10" duration="19" complete="0" expand="true"/>
                 <task id="262" name="Systèmes électroniques" color="#8cb6ce" meeting="false" start="2016-03-10" duration="19" complete="0" expand="true"/>
             </task>
-            <task id="237" name="Tâches Conception" color="#0000ff" meeting="false" start="2016-02-28" duration="30" complete="0" expand="true">
-                <task id="265" name="Intégration" color="#ffff00" meeting="false" start="2016-02-28" duration="30" complete="0" expand="false">
+            <task id="237" name="Tâches Conception" color="#0000ff" meeting="false" start="2016-02-28" duration="30" complete="8" expand="true">
+                <task id="265" name="Intégration" color="#ffff00" meeting="false" start="2016-02-28" duration="30" complete="0" expand="true">
                     <task id="297" name="Alimenter les systèmes avec la batterie" color="#8cb6ce" meeting="false" start="2016-02-28" duration="4" complete="0" expand="true"/>
                     <task id="300" name="Monter le préhenseur sur le robot et le contrôler" color="#8cb6ce" meeting="false" start="2016-03-02" duration="7" complete="0" expand="true"/>
                     <task id="302" name="Installer l'électroaimant et le secondaire de recharge au préhenseur" color="#8cb6ce" meeting="false" start="2016-03-02" duration="7" complete="0" expand="true"/>
@@ -155,14 +155,14 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
                     <task id="322" name="Vérification du bon fonctionnement électrique lorsque tout les systèmes sont branchés" color="#8cb6ce" meeting="false" start="2016-02-28" duration="17" complete="0" expand="true"/>
                     <task id="325" name="Effectuer la transition entre phase de déplacement et la phase d'alignement" color="#8cb6ce" meeting="false" start="2016-03-03" duration="19" complete="0" expand="true"/>
                 </task>
-                <task id="267" name="Conception de systèmes" color="#ffff00" meeting="false" start="2016-02-28" duration="10" complete="0" expand="false">
-                    <task id="272" name="Finalisation code Manchester" color="#8cb6ce" meeting="false" start="2016-02-28" duration="7" complete="0" expand="true"/>
+                <task id="267" name="Conception de systèmes" color="#ffff00" meeting="false" start="2016-02-28" duration="10" complete="33" expand="true">
+                    <task id="272" name="Finalisation code Manchester" color="#8cb6ce" meeting="false" start="2016-02-28" duration="7" complete="100" expand="true"/>
                     <task id="275" name="Finalisation interface" color="#8cb6ce" meeting="false" start="2016-02-28" duration="7" complete="0" expand="true"/>
                     <task id="278" name="Vision caméra embarquée" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="0" expand="true"/>
-                    <task id="281" name="Conception &amp; assemblage circuit de recharge" color="#8cb6ce" meeting="false" start="2016-02-28" duration="7" complete="0" expand="true"/>
+                    <task id="281" name="Conception &amp; assemblage circuit de recharge" color="#8cb6ce" meeting="false" start="2016-02-28" duration="7" complete="100" expand="true"/>
                     <task id="284" name="Conception physique borne de recharge" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="0" expand="true"/>
                     <task id="287" name="Installation LEDs pour Manchester" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="0" expand="true"/>
-                    <task id="290" name="Fixer électronique sur robot" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="0" expand="true"/>
+                    <task id="290" name="Fixer électronique sur robot" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="100" expand="true"/>
                     <task id="293" name="Détecter le robot &amp; trouver forme distinctive" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="0" expand="true"/>
                 </task>
             </task>
@@ -300,9 +300,9 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
         <displaycolumn property-id="tpd9" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd1" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd0" order="-1" width="75" visible="false"/>
-        <displaycolumn property-id="tpd3" order="0" width="260" visible="true"/>
-        <displaycolumn property-id="tpd4" order="1" width="59" visible="true"/>
-        <displaycolumn property-id="tpd5" order="2" width="87" visible="true"/>
+        <displaycolumn property-id="tpd3" order="0" width="250" visible="true"/>
+        <displaycolumn property-id="tpd4" order="1" width="57" visible="true"/>
+        <displaycolumn property-id="tpd5" order="2" width="84" visible="true"/>
     </taskdisplaycolumns>
     <previous/>
     <roles roleset-name="Default"/>

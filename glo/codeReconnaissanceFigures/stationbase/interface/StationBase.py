@@ -15,7 +15,7 @@ class StationBase(object):
 
     def analyserImage(self, imageCapture):
         self.imageReelle = imageCapture
-        
+
         ###### ANALYSER IMAGE ICI AU LIEU DU PATH ######
         #self.analyseImageWorld.chargerImage(self.imageReelle)
         self.analyseImageWorld.chargerImage(ConfigPath.Config().appendToProjectPath('images/table3/trajet2.png'))

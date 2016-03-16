@@ -33,7 +33,7 @@ class FeedVideo(object):
             ret, frame = self.capture.read()
             self.img = frame
             self.set_image(frame)
-            cv2.imshow('image', self._imageCapture)
+            #cv2.imshow('image', self._imageCapture)
         if (self.enregistre == False):
             blur = cv2.blur(self._imageCapture, (5, 5))
 

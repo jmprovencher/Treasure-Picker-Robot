@@ -33,11 +33,19 @@ class Interface(QtGui.QWidget):
         qp = QPainter()
         qp.begin(self)
         if (self.estDemarrer()):
+            print("Paint event")
             image = self.obtenirImageReelle()
             imageReelle = ImageReelle(qp, image)
+            #self.dessinerImageReelle(qp)
             imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes)
         self.afficherInformations(qp)
         qp.end()
+
+    #Cette fonction est automatiquement appelee quand l'image est updater dans stationBase
+    def dessinerImageReelle(self, qp):
+        image = self.obtenirImageReelle()
+        print("Essaye de dessiner....")
+        imageReelle = ImageReelle(qp, image)
 
     def obtenirImageReelle(self):
         return self.stationBase.getImageReelle()
@@ -45,6 +53,7 @@ class Interface(QtGui.QWidget):
     def demarrerRoutine(self):
         self.feed = FeedVideo()
         self.stationBase = StationBase(self.feed)
+        self.stationBase.bind_to(self.dessinerImageReelle)
 
     def demarrerCapture(self):
         self.stationBase.feedVideo.demarrerCapture()

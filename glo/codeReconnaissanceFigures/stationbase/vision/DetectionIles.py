@@ -31,10 +31,10 @@ class DetectionIles(object):
 
         meilleurMatch = min(resultatsMatch)
         precision, contours, nomForme = meilleurMatch
-        print ("PRECISION", precision)
         formeIdentifiee = contours, nomForme, couleur
 
         if (precision < 0.2):
+            print (nomForme, couleur, precision)
             self.ilesIdentifiees.append(formeIdentifiee)
             self.nombreIles += 1
         else:
@@ -44,7 +44,8 @@ class DetectionIles(object):
 
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        cv2.imshow(couleurForme, masqueCouleur)
+        ########################################
+        #cv2.imshow(couleurForme, masqueCouleur)
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 

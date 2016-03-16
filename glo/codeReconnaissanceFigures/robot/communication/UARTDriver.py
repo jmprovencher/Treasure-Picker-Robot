@@ -17,19 +17,19 @@ class UARTDriver:
 
         if command == 'forward':
             self.UART.write(b'8'.encode())
-            self.UART.write(b'parameter'.encode())
+            self.UART.write(parameter)
 
         elif command == 'backward':
             self.UART.write(b'2'.encode())
-            self.UART.write(parameter.encode())
+            self.UART.write(parameter)
 
         elif command == 'left':
             self.UART.write(b'4'.encode())
-            self.UART.write(parameter.encode())
+            self.UART.write(parameter)
 
         elif command == 'right':
             self.UART.write(b'6'.encode())
-            self.UART.write(parameter.encode())
+            self.UART.write(parameter)
 
         elif command == 'armUp':
             pass

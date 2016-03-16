@@ -10,7 +10,7 @@ class ImageVirtuelle():
         print("PAINT EVEN ###################")
         self.dessinerIles(qp, listeIles)
         self.dessinerTresors(qp, listeTresors)
-        listeDePoint = [(200, 100), (100, 100), (200, 400), (600, 200), (1000, 600)]
+        listeDePoint = []
         self.dessinerTrajectoire(qp, listeDePoint)
         self.dessinerConnecter(qp)
 

@@ -9,7 +9,8 @@ class Carte():
     def __init__(self):
         self.listeIles = []
         self.listeTresors = []
-        self.trajectoire = Trajectoire()
+        #self.trajectoire = Trajectoire()
+        self.trajectoire = [(20, 130), (100, 100), (200, 400), (600, 200), (1000, 600)]
 
     def ajouterElementCarto(self, elementCartographiques):
         for elementCarte in elementCartographiques:

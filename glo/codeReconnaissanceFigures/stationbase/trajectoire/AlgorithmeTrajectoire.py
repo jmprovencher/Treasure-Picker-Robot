@@ -28,6 +28,10 @@ class AlgorithmeTrajectoire():
             if self.estArriver(cellule):
                 self.simplifierTrajet()
                 return self.trajet
+            elif (self.cellulePlusPres is None):
+                self.cellulePlusPres = cellule
+            elif (self.cellulePlusPres.heuristique > cellule.heuristique):
+                self.cellulePlusPres = cellule
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)
             for adj in cellulesAdjacentes:
@@ -39,7 +43,8 @@ class AlgorithmeTrajectoire():
                         self.rafraichirCellule(adj, cellule)
                         heapq.heappush(self.heapOuvert, (adj.priorite, adj))
 
-        self.trajet = []
+        self.arriver = self.cellulePlusPres
+        self.simplifierTrajet()
         return self.trajet
 
     def simplifierTrajet(self):

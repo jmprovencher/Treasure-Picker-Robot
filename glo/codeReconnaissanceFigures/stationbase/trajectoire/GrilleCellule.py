@@ -11,6 +11,7 @@ class GrilleCellule():
         self.incrementX = int((self.dimensionCrop[0]) / self.dimensionReel[0])
         self.incrementY = int((self.dimensionCrop[1]) / self.dimensionReel[1])
         self.bufferIle = 20
+        self.bufferMur = 20
         self.listeIles = None
 
     def initGrilleCellule(self, listeIles):
@@ -40,7 +41,8 @@ class GrilleCellule():
 
     def yEstAtteignable(self, y, listeIles):
         nombrePixel = int(round(self.bufferIle * (self.dimensionCrop[1]) / self.dimensionReel[1]))
-
+        if (y > self.dimensionCrop[1]-nombrePixel or y < nombrePixel):
+            return False
         for ile in listeIles:
             if ((y > (ile.centre_y - nombrePixel)) and (y < (ile.centre_y + nombrePixel))):
                 return False

@@ -93,16 +93,17 @@ class ImageVirtuelle():
             qp.drawConvexPolygon(polygone)
 
     def dessinerTrajectoire(self, qp, listeDePoint):
-        qp.setBrush(QtGui.QColor(0, 140, 190, 250))
-        qp.setPen(QtGui.QColor(0, 140, 190))
-        qp.setPen(QtGui.QPen(QtCore.Qt.black, 2, QtCore.Qt.SolidLine))
-        point1 = (listeDePoint[0][0] * 0.4 + 618, listeDePoint[0][1] * 0.4 + 355)
-        point2 = (listeDePoint[1][0] * 0.4 + 618, listeDePoint[1][1] * 0.4 + 355)
-        qp.drawLine(point1[0], point1[1], point2[0],point2[1] )
-        if (len(listeDePoint) > 2):
-            self.dessinerTrajectoire(qp, listeDePoint[1::1])
-        if (len(listeDePoint) == 2):
-            self.dessinerFlecheBout(qp, point1, point2)
+        if(listeDePoint):
+            qp.setBrush(QtGui.QColor(0, 140, 190, 250))
+            qp.setPen(QtGui.QColor(0, 140, 190))
+            qp.setPen(QtGui.QPen(QtCore.Qt.black, 2, QtCore.Qt.SolidLine))
+            point1 = (listeDePoint[0][0] * 0.4 + 618, listeDePoint[0][1] * 0.4 + 355)
+            point2 = (listeDePoint[1][0] * 0.4 + 618, listeDePoint[1][1] * 0.4 + 355)
+            qp.drawLine(point1[0], point1[1], point2[0],point2[1] )
+            if (len(listeDePoint) > 2):
+                self.dessinerTrajectoire(qp, listeDePoint[1::1])
+            if (len(listeDePoint) == 2):
+                self.dessinerFlecheBout(qp, point1, point2)
 
     def dessinerFlecheBout(self, qp, pointAvantDernier, pointN):
         vecteurBout = ((pointAvantDernier[0] - pointN[0]) , (pointAvantDernier[1] - pointN[1]))

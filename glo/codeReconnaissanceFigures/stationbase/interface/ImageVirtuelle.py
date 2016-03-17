@@ -5,13 +5,13 @@ import math
 
 
 class ImageVirtuelle():
-    def __init__(self, qp, listeIles, listeTresors):
+    def __init__(self, qp, listeIles, listeTresors, trajectoire):
         qp.drawPixmap(640, 350, QtGui.QPixmap(ConfigPath.Config().appendToProjectPath('images/test_image_vide.png')), 0, 90, 640, 480)
         print("PAINT EVEN ###################")
         self.dessinerIles(qp, listeIles)
         self.dessinerTresors(qp, listeTresors)
         listeDePoint = []
-        self.dessinerTrajectoire(qp, listeDePoint)
+        self.dessinerTrajectoire(qp, trajectoire)
         self.dessinerConnecter(qp)
 
     def dessinerConnecter(self, qp):
@@ -102,10 +102,13 @@ class ImageVirtuelle():
         if (len(listeDePoint) > 2):
             self.dessinerTrajectoire(qp, listeDePoint[1::1])
         if (len(listeDePoint) == 2):
-            vecteurLigne = ((point1[0] - point2[0]) , (point1[1] - point2[1]))
-            distanceLigne = (math.sqrt(((vecteurLigne[0])**2) + ((vecteurLigne[1])**2)))/15
-            vecteurDerniereLigne = (vecteurLigne[0]/distanceLigne, vecteurLigne[1]/distanceLigne)
-            vecteurHoraire = ((vecteurDerniereLigne[0] * math.cos(math.pi/4)) + (vecteurDerniereLigne[1] * math.sin(math.pi/4)), (- vecteurDerniereLigne[0] * math.sin(math.pi/4)) + (vecteurDerniereLigne[1] * math.cos(math.pi/4)))
-            vecteurAntiHoraire = ((vecteurDerniereLigne[0] * math.cos(- math.pi/4)) + (vecteurDerniereLigne[1] * math.sin(- math.pi/4)), (- vecteurDerniereLigne[0] * math.sin(- math.pi/4)) + (vecteurDerniereLigne[1] * math.cos(- math.pi/4)))
-            qp.drawLine(point2[0], point2[1], point2[0] + vecteurHoraire[0], point2[1] + vecteurHoraire[1])
-            qp.drawLine(point2[0], point2[1], point2[0] + vecteurAntiHoraire[0], point2[1] + vecteurAntiHoraire[1])
+            self.dessinerFlecheBout(qp, point1, point2)
+
+    def dessinerFlecheBout(self, qp, pointAvantDernier, pointN):
+        vecteurBout = ((pointAvantDernier[0] - pointN[0]) , (pointAvantDernier[1] - pointN[1]))
+        distanceBout = (math.sqrt(((vecteurBout[0])**2) + ((vecteurBout[1])**2)))/15
+        vecUnitaireBout = (vecteurBout[0]/distanceBout, vecteurBout[1]/distanceBout)
+        vecteurGauche = ((vecUnitaireBout[0] * math.cos(math.pi/4)) + (vecUnitaireBout[1] * math.sin(math.pi/4)), (- vecUnitaireBout[0] * math.sin(math.pi/4)) + (vecUnitaireBout[1] * math.cos(math.pi/4)))
+        vecteurDroit = ((vecUnitaireBout[0] * math.cos(- math.pi/4)) + (vecUnitaireBout[1] * math.sin(- math.pi/4)), (- vecUnitaireBout[0] * math.sin(- math.pi/4)) + (vecUnitaireBout[1] * math.cos(- math.pi/4)))
+        qp.drawLine(pointN[0], pointN[1], pointN[0] + vecteurGauche[0], pointN[1] + vecteurGauche[1])
+        qp.drawLine(pointN[0], pointN[1], pointN[0] + vecteurDroit[0], pointN[1] + vecteurDroit[1])

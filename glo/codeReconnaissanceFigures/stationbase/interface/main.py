@@ -18,25 +18,27 @@ class Interface(QtGui.QWidget):
         self.setGeometry(1280, 1280, 1280, 700)
         self.setWindowTitle('Interface')
         self.btnDemarrer = QtGui.QPushButton('Demarrer', self)
-        self.btnVideo = QtGui.QPushButton('Start Video', self)
+        #self.btnVideo = QtGui.QPushButton('Start Video', self)
         self.btnDemarrer.resize(120, 46)
-        self.btnVideo.resize(120, 46)
+        #self.btnVideo.resize(120, 46)
         self.btnDemarrer.move(200, 200)
-        self.btnVideo.move(200, 300)
+        #self.btnVideo.move(200, 300)
         self.ilesDetectees = []
         self.tresorsDetectes = []
         self.btnDemarrer.clicked.connect(self.demarrerRoutine)
-        self.btnVideo.clicked.connect(self.demarrerCapture)
+        #self.btnVideo.clicked.connect(self.demarrerCapture)
         self.demarre = False
 
     def paintEvent(self, e):
         qp = QPainter()
         qp.begin(self)
-        if (self.estDemarrer()):
+        print(self.demarre)
+        if (self.demarre):
             print("Paint event")
             image = self.obtenirImageReelle()
             self.imageReelle = ImageReelle(qp, image)
             imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoireDecider)
+
         self.afficherInformations(qp)
         qp.end()
 
@@ -54,16 +56,12 @@ class Interface(QtGui.QWidget):
         self.stationBase = StationBase(self.feed)
         self.stationBase.bind_to(self.dessinerImageReelle)
 
-    def demarrerCapture(self):
+    #def demarrerCapture(self):
         self.stationBase.feedVideo.demarrerCapture()
         self.ilesDetectees = self.stationBase.carte.listeIles
         self.tresorsDetectes = self.stationBase.carte.listeTresors
-        self.trajectoireDecider = self.stationBase.carte.trajectoire
         self.demarre = True
-        self.repaint()
-
-    def estDemarrer(self):
-        return self.demarre
+        #self.repaint()
 
     def afficherInformations(self, qp):
         self.dessinerNoir(qp)

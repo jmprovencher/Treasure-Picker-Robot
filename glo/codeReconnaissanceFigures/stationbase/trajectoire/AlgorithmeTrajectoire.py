@@ -15,6 +15,7 @@ class AlgorithmeTrajectoire():
         self.fermer = set()
         self.depart = None
         self.arriver = None
+        self.cellulePlusPres = None
 
     def trouverTrajet(self, depart, arriver):
         self.trajet = []

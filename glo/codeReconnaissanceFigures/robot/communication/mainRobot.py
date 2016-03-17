@@ -1,7 +1,7 @@
 from UARTDriver import UARTDriver
 from TCPClient import TCPClient
 monClient = TCPClient()
-monUart = UARTDriver('COM8', 9600) #on Windows
+#monUart = UARTDriver('COM8', 9600) #on Windows
 #monUart = UARTDriver('/dev/ttyACM0', 9600) #on linux
 
 while 1:
@@ -19,4 +19,4 @@ while 1:
             print data
             commande = data['commande']
             parametre = data['parametre']
-            monUart.sendCommand(commande, parametre)
+            #monUart.sendCommand(commande, parametre)

@@ -12,7 +12,6 @@ class Robot(object):
         self.positionDepot = True
         self.analyseImageEmbarquee = AnalyseImageEmbarquee()
         self.initialiserVideo()
-        self.carte = Carte()
 
     def analyserImage(self, imageCapture):
         print("Analyzing robot image")

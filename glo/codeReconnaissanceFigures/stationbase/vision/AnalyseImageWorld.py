@@ -5,7 +5,6 @@ from elements.Ile import Ile
 from elements.Tresor import Tresor
 from stationbase.vision.DetectionIles import DetectionIles
 from stationbase.vision.DetectionRobot import DetectionRobot
-from stationbase.vision.DetectionTable import DetectionTable
 from stationbase.vision.DetectionTresors import DetectionTresors
 
 
@@ -17,17 +16,15 @@ class AnalyseImageWorld(object):
         self.ilesIdentifiees = []
         self.police = cv2.FONT_HERSHEY_SIMPLEX
         self.detectionIles = None
+        self.detectionEffectuee = False
 
     def chargerImage(self, image):
         self.imageCamera = image
-        # self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath(image))
         self.recadrerImage()
         self.estomperImage()
 
     def recadrerImage(self):
-        self.detectionTable = DetectionTable(self.imageCamera)
-        y = self.detectionTable.detecterCentreYCarreVert()
-        crop = self.imageCamera[y - 425:y + 425, 0:1600]
+        crop = self.imageCamera[155:1010, 0:1600]
         cv2.imwrite(ConfigPath.Config().appendToProjectPath('Cropped.png'), crop)
         self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('Cropped.png'))
 
@@ -55,9 +52,8 @@ class AnalyseImageWorld(object):
             self.elementsCartographiques.append(ile)
 
     def trouverElementsCartographiques(self):
-        self.elementsCartographiques = []
         ########################################
-        cv2.imshow('Image Analysee', self.imageCamera)
+        #cv2.imshow('Image Analysee', self.imageCamera)
         if (self.detectionEffectuee == False):
             print("Detection des iles et tresors....")
             self.detectionIles = DetectionIles(self.imageCamera)

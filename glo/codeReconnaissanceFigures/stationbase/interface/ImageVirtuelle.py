@@ -108,7 +108,7 @@ class ImageVirtuelle():
         vecteurBout = ((pointAvantDernier[0] - pointN[0]) , (pointAvantDernier[1] - pointN[1]))
         distanceBout = (math.sqrt(((vecteurBout[0])**2) + ((vecteurBout[1])**2)))/15
         vecUnitaireBout = (vecteurBout[0]/distanceBout, vecteurBout[1]/distanceBout)
-        vecteurGauche = ((vecUnitaireBout[0] * math.cos(math.pi/4)) + (vecUnitaireBout[1] * math.sin(math.pi/4)), (- vecUnitaireBout[0] * math.sin(math.pi/4)) + (vecUnitaireBout[1] * math.cos(math.pi/4)))
-        vecteurDroit = ((vecUnitaireBout[0] * math.cos(- math.pi/4)) + (vecUnitaireBout[1] * math.sin(- math.pi/4)), (- vecUnitaireBout[0] * math.sin(- math.pi/4)) + (vecUnitaireBout[1] * math.cos(- math.pi/4)))
-        qp.drawLine(pointN[0], pointN[1], pointN[0] + vecteurGauche[0], pointN[1] + vecteurGauche[1])
-        qp.drawLine(pointN[0], pointN[1], pointN[0] + vecteurDroit[0], pointN[1] + vecteurDroit[1])
+        flecheGauche = ((vecUnitaireBout[0] * math.cos(math.pi/4)) + (vecUnitaireBout[1] * math.sin(math.pi/4)), (- vecUnitaireBout[0] * math.sin(math.pi/4)) + (vecUnitaireBout[1] * math.cos(math.pi/4)))
+        flecheDroite = ((vecUnitaireBout[0] * math.cos(- math.pi/4)) + (vecUnitaireBout[1] * math.sin(- math.pi/4)), (- vecUnitaireBout[0] * math.sin(- math.pi/4)) + (vecUnitaireBout[1] * math.cos(- math.pi/4)))
+        qp.drawLine(pointN[0], pointN[1], pointN[0] + flecheGauche[0], pointN[1] + flecheGauche[1])
+        qp.drawLine(pointN[0], pointN[1], pointN[0] + flecheDroite[0], pointN[1] + flecheDroite[1])

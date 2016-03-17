@@ -20,14 +20,11 @@ class AnalyseImageWorld(object):
 
     def chargerImage(self, image):
         self.imageCamera = image
-        # self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath(image))
         self.recadrerImage()
         self.estomperImage()
 
     def recadrerImage(self):
-        self.detectionTable = DetectionTable(self.imageCamera)
-        y = self.detectionTable.detecterCentreYCarreVert()
-        crop = self.imageCamera[y - 425:y + 425, 0:1600]
+        crop = self.imageCamera[155:1010, 0:1600]
         cv2.imwrite(ConfigPath.Config().appendToProjectPath('Cropped.png'), crop)
         self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('Cropped.png'))
 

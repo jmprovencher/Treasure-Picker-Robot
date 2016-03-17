@@ -11,16 +11,16 @@ class Robot(object):
         self.positionTresor = False
         self.positionDepot = True
         self.analyseImageEmbarquee = AnalyseImageEmbarquee()
-        #self.feedVideo = feedVideo
+        self.initialiserVideo()
         self.carte = Carte()
 
-    def analyserImage(self):
-        #self.imageReelle = imageCapture
-        ###### ANALYSER IMAGE ICI AU LIEU DU PATH ######
-        # self.analyseImageWorld.chargerImage(self.imageReelle)
-        self.analyseImageEmbarquee.chargerImage(ConfigPath.Config().appendToProjectPath('images/camera_robot/iles/test_image13.png'))
+    def analyserImage(self, imageCapture):
+        print("Analyzing robot image")
+        self.analyseImageEmbarquee.chargerImage(imageCapture)
+        #self.analyseImageEmbarquee.chargerImage(ConfigPath.Config().appendToProjectPath('images/camera_robot/iles/test_image15.png'))
         if (self.positionDepot == True):
             self.analyseImageEmbarquee.evaluerPositionDepot("Vert")
+            self.analyseImageEmbarquee.alignementIle.afficherFeed()
         elif (self.positionTresor == True):
             self.analyseImageEmbarquee.evaluerPositionTresor()
 

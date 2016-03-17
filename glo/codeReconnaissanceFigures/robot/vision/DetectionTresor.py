@@ -3,14 +3,16 @@ import numpy as np
 import ConfigPath
 
 
-class AlignementTresor(object):
+class DetectionTresor(object):
     def __init__(self, image):
         self.imageCamera = image
+        self.positionZone = (810, 730)
+        self.rayonZone = 20
         #cv2.imshow("image", image)
         #self.definirPositionOptimale()
 
-    def definidefinirPositionOptimale(self):
-        print("Uuiuuu")
+    def dessinerZoneCritique(self):
+        cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)
 
     def trouverCentreForme(self, contoursForme):
         MatriceCentreMasse = cv2.moments(contoursForme)

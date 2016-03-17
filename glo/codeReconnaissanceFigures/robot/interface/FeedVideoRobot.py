@@ -10,8 +10,8 @@ class FeedVideoRobot(object):
         self.img = 0
 
     def demarrerCapture(self):
-        self._capturer()
         self.enregistre = True
+        self._capturer()
 
     def get_image(self):
         return self._imageCapture
@@ -19,6 +19,7 @@ class FeedVideoRobot(object):
     def set_image(self, image):
         self._imageCapture = image
         for callback in self._observers:
+            print("Calling...")
             callback(self._imageCapture)
 
     imageCapture = property(get_image, set_image)
@@ -34,6 +35,7 @@ class FeedVideoRobot(object):
             self.img = frame
             self.set_image(frame)
             #cv2.imshow('image', self._imageCapture)
+
         if (self.enregistre == False):
             blur = cv2.blur(self._imageCapture, (5, 5))
 

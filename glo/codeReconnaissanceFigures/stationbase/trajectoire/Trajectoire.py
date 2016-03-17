@@ -26,5 +26,3 @@ class Trajectoire():
             for deplacement in self.trajectoire:
                 print "cellule: %d, %d" % deplacement
             print "Debut!!"
-
-

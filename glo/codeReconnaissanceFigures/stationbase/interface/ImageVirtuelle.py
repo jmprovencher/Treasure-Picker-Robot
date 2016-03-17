@@ -96,16 +96,16 @@ class ImageVirtuelle():
         qp.setBrush(QtGui.QColor(0, 140, 190, 250))
         qp.setPen(QtGui.QColor(0, 140, 190))
         qp.setPen(QtGui.QPen(QtCore.Qt.black, 2, QtCore.Qt.SolidLine))
-        Point1 = (listeDePoint[0][0] * 0.4 + 618, listeDePoint[0][1] * 0.4 + 355)
-        Point2 = (listeDePoint[1][0] * 0.4 + 618, listeDePoint[1][1] * 0.4 + 355)
-        qp.drawLine(Point1[0], Point1[1], Point2[0],Point2[1] )
+        point1 = (listeDePoint[0][0] * 0.4 + 618, listeDePoint[0][1] * 0.4 + 355)
+        point2 = (listeDePoint[1][0] * 0.4 + 618, listeDePoint[1][1] * 0.4 + 355)
+        qp.drawLine(point1[0], point1[1], point2[0],point2[1] )
         if (len(listeDePoint) > 2):
             self.dessinerTrajectoire(qp, listeDePoint[1::1])
         if (len(listeDePoint) == 2):
-            vecteurLigne = ((Point1[0] - Point2[0]) , (Point1[1] - Point2[1]))
+            vecteurLigne = ((point1[0] - point2[0]) , (point1[1] - point2[1]))
             distanceLigne = (math.sqrt(((vecteurLigne[0])**2) + ((vecteurLigne[1])**2)))/15
             vecteurDerniereLigne = (vecteurLigne[0]/distanceLigne, vecteurLigne[1]/distanceLigne)
             vecteurHoraire = ((vecteurDerniereLigne[0] * math.cos(math.pi/4)) + (vecteurDerniereLigne[1] * math.sin(math.pi/4)), (- vecteurDerniereLigne[0] * math.sin(math.pi/4)) + (vecteurDerniereLigne[1] * math.cos(math.pi/4)))
             vecteurAntiHoraire = ((vecteurDerniereLigne[0] * math.cos(- math.pi/4)) + (vecteurDerniereLigne[1] * math.sin(- math.pi/4)), (- vecteurDerniereLigne[0] * math.sin(- math.pi/4)) + (vecteurDerniereLigne[1] * math.cos(- math.pi/4)))
-            qp.drawLine(Point2[0], Point2[1], Point2[0] + vecteurHoraire[0], Point2[1] + vecteurHoraire[1])
-            qp.drawLine(Point2[0], Point2[1], Point2[0] + vecteurAntiHoraire[0], Point2[1] + vecteurAntiHoraire[1])
+            qp.drawLine(point2[0], point2[1], point2[0] + vecteurHoraire[0], point2[1] + vecteurHoraire[1])
+            qp.drawLine(point2[0], point2[1], point2[0] + vecteurAntiHoraire[0], point2[1] + vecteurAntiHoraire[1])

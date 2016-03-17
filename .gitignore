@@ -19,5 +19,8 @@ Remises/Rapport\ de\ developpement.pdf
 visualParadigm/diagrammePhysique.vpp~1
 visualParadigm/diagrammePhysique.vpp~2
 *.vpp~3
+*.pyc
+*~
+*.swp
 Remises/Remise\ 1/~$DPF.xlsx
 Remises/Remise\ 2/Remise2.pdf

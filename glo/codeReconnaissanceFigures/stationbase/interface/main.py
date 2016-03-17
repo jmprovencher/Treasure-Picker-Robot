@@ -35,17 +35,18 @@ class Interface(QtGui.QWidget):
         print(self.demarre)
         if (self.demarre):
             print("Paint event")
-            self.imageReelle.updateImage(qp)
-            #imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoireDecider)
+            image = self.obtenirImageReelle()
+            self.imageReelle = ImageReelle(qp, image)
+            imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoireDecider)
+
         self.afficherInformations(qp)
         qp.end()
 
     #Cette fonction est automatiquement appelee quand l'image est updater dans stationBase
-    def dessinerImageReelle(self, image):
-        self.imageReelle = ImageReelle(image)
+    def dessinerImageReelle(self, qp):
+        image = self.obtenirImageReelle()
+        #self.imageReelle.updateImage(image)
         print("Essaye de dessiner....")
-
-
 
     def obtenirImageReelle(self):
         return self.stationBase.getImageReelle()
@@ -106,12 +107,14 @@ class Interface(QtGui.QWidget):
         qp.setPen(QtGui.QColor(140, 0, 0))
 
 def main():
-    #robot = Robot()
-    #robot.analyserImage()
-    app = QtGui.QApplication(sys.argv)
-    interface = Interface()
-    interface.show()
-    sys.exit(app.exec_())
+
+    robot = Robot()
+    robot.feedVideo.demarrerCapture()
+    #robot.feedVideo.demarrerCapture()
+    #app = QtGui.QApplication(sys.argv)
+    #interface = Interface()
+    #interface.show()
+    #sys.exit(app.exec_())
 
 
 if __name__ == '__main__':

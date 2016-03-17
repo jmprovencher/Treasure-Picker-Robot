@@ -3,7 +3,7 @@ import cv2
 
 class FeedVideo(object):
     def __init__(self):
-        self.capture = cv2.VideoCapture(1)
+        self.capture = cv2.VideoCapture(0)
         self.capture.set(3,1600)
         self.capture.set(4,1200)
         self.enregistre = False

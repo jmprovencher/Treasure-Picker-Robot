@@ -5,7 +5,7 @@ from robot.interface.Robot import Robot
 from stationbase.interface.StationBase import StationBase
 from stationbase.interface.ImageReelle import ImageReelle
 from stationbase.interface.ImageVirtuelle import ImageVirtuelle
-from stationbase.interface.FeedVideo import FeedVideo
+from stationbase.interface.FeedVideoStation import FeedVideo
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QPainter
 
@@ -36,8 +36,9 @@ class Interface(QtGui.QWidget):
         if (self.demarre):
             print("Paint event")
             image = self.obtenirImageReelle()
-            self.imageReelle = ImageReelle(qp, image)
-            imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoireDecider)
+            self.imageReelle = ImageReelle(image)
+            self.trajectoire = self.stationBase.getCarte()
+            imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoire)
 
         self.afficherInformations(qp)
         qp.end()
@@ -108,13 +109,10 @@ class Interface(QtGui.QWidget):
 
 def main():
 
-    robot = Robot()
-    robot.feedVideo.demarrerCapture()
-    #robot.feedVideo.demarrerCapture()
-    #app = QtGui.QApplication(sys.argv)
-    #interface = Interface()
-    #interface.show()
-    #sys.exit(app.exec_())
+    app = QtGui.QApplication(sys.argv)
+    interface = Interface()
+    interface.show()
+    sys.exit(app.exec_())
 
 
 if __name__ == '__main__':

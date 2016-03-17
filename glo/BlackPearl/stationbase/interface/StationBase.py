@@ -1,7 +1,7 @@
 # import the necessary packages
 from elements.Carte import Carte
 from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
-from stationbase.interface.FeedVideo import FeedVideo
+from stationbase.interface.FeedVideoStation import FeedVideo
 import ConfigPath
 
 
@@ -44,6 +44,9 @@ class StationBase(object):
 
     def getImageReelle(self):
         return self._imageCapture
+
+    def getCarte(self):
+        return self.carte
 
     def initialiserStationBase(self):
         self.feedVideo.bind_to(self.analyserImage)

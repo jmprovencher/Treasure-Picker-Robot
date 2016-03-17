@@ -7,7 +7,7 @@ from PyQt4.QtGui import QPainter
 
 
 import ConfigPath
-from stationbase.interface.FeedVideo import FeedVideo
+from stationbase.interface.FeedVideoStation import FeedVideo
 
 
 class ImageReelle():

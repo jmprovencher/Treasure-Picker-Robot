@@ -26,12 +26,13 @@ class AlgorithmeTrajectoire():
         while len(self.heapOuvert):
             f, cellule = heapq.heappop(self.heapOuvert)
             self.fermer.add(cellule)
+            cellule.calculerDistance(self.arriver)
             if self.estArriver(cellule):
                 self.simplifierTrajet()
                 return self.trajet
             elif (self.cellulePlusPres is None):
                 self.cellulePlusPres = cellule
-            elif (self.cellulePlusPres.heuristique > cellule.heuristique):
+            elif (self.cellulePlusPres.distance > cellule.distance):
                 self.cellulePlusPres = cellule
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)

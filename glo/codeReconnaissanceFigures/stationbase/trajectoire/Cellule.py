@@ -13,4 +13,4 @@ class Cellule():
         return 10 * (abs(self.x - arriver.x) + abs(self.y - arriver.y))
 
     def calculerDistance(self, arriver):
-        self.distance = (arriver.x-self.x)+(arriver.y-self.y)
+        self.distance = (arriver.x-self.x)**2+(arriver.y-self.y)**2

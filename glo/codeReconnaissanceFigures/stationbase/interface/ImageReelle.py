@@ -13,7 +13,7 @@ from stationbase.interface.FeedVideo import FeedVideo
 class ImageReelle():
     def __init__(self, image):
         print("Image init")
-        cv2.imshow('image', image)
+        #cv2.imshow('image', image)
         self.imageCamera = image
 
     def updateImage(self, qp):

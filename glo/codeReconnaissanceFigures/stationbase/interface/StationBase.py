@@ -42,7 +42,6 @@ class StationBase(object):
         return self._imageCapture
 
     def initialiserStationBase(self):
-        self.feedVideo = FeedVideo()
         self.feedVideo.bind_to(self.analyserImage)
 
     def suspendreFeedVideo(self):

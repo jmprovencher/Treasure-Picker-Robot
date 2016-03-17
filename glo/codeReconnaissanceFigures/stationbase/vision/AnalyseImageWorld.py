@@ -57,7 +57,7 @@ class AnalyseImageWorld(object):
     def trouverElementsCartographiques(self):
         self.elementsCartographiques = []
         ########################################
-        cv2.imshow('Image Analysee', self.imageCamera)
+        #cv2.imshow('Image Analysee', self.imageCamera)
         if (self.detectionEffectuee == False):
             print("Detection des iles et tresors....")
             self.detectionIles = DetectionIles(self.imageCamera)

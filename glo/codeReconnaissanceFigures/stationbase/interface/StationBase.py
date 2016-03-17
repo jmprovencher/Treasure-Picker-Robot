@@ -22,8 +22,12 @@ class StationBase(object):
 
         self.analyseImageWorld.trouverElementsCartographiques()
         self.carte.ajouterElementCarto(self.analyseImageWorld.elementsCartographiques)
-        #self.analyseImageWorld.dessinerElementCartographique()
-        #self.analyseImageWorld.afficherImage()
+        self.analyseImageWorld.dessinerElementCartographique()
+        self.carte.trajectoire.initGrilleCellule(self.carte.listeIles)
+        self.analyseImageWorld.dessinerDebutFinTrajet((100, 100), (702, 391))
+        self.carte.trajectoire.trouverTrajet((100, 100), (702, 391))
+        self.analyseImageWorld.dessinerTrajet(self.carte.trajectoire.trajectoire)  # Sur la photo
+        self.analyseImageWorld.afficherImage()
 
     def get_imageReelle(self):
         return self._imageCapture
@@ -50,13 +54,13 @@ class StationBase(object):
     def demarrerFeedVideo(self):
         self.feedVideo.demarrerCapture()
 
-        #self.carte.afficherCarte()
+        self.carte.afficherCarte()
         self.analyseImageWorld.dessinerElementCartographique()
         self.analyseImageWorld.afficherImage()
-        #self.carte.trajectoire.initGrilleCellule(self.carte.listeIles)
-        #self.analyseImageWorld.dessinerDebutFinTrajet((100, 100), (1500, 400))
-        #self.analyseImageWorld.afficherImage()
-        #self.carte.trajectoire.trouverTrajet((100, 100), (1500, 400))
-        #self.carte.trajectoire.afficherTrajectoire()  # Dans le terminal
-        #self.analyseImageWorld.dessinerTrajet(self.carte.trajectoire.trajectoire)  # Sur la photo
-        #self.analyseImageWorld.afficherImage()
+        self.carte.trajectoire.initGrilleCellule(self.carte.listeIles)
+        self.analyseImageWorld.dessinerDebutFinTrajet((100, 100), (1500, 400))
+        self.analyseImageWorld.afficherImage()
+        self.carte.trajectoire.trouverTrajet((100, 100), (1500, 400))
+        self.carte.trajectoire.afficherTrajectoire()  # Dans le terminal
+        self.analyseImageWorld.dessinerTrajet(self.carte.trajectoire.trajectoire)  # Sur la photo
+        self.analyseImageWorld.afficherImage()

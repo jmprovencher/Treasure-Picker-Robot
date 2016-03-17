@@ -36,7 +36,7 @@ class Interface(QtGui.QWidget):
         if (self.demarre):
             print("Paint event")
             self.imageReelle.updateImage(qp)
-            imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoireDecider)
+            #imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoireDecider)
         self.afficherInformations(qp)
         qp.end()
 
@@ -59,7 +59,6 @@ class Interface(QtGui.QWidget):
         self.stationBase.feedVideo.demarrerCapture()
         self.ilesDetectees = self.stationBase.carte.listeIles
         self.tresorsDetectes = self.stationBase.carte.listeTresors
-        self.trajectoireDecider = self.stationBase.carte.trajectoire
         self.demarre = True
         #self.repaint()
 

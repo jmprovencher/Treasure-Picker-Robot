@@ -5,7 +5,7 @@ from robot.interface.Robot import Robot
 from stationbase.interface.StationBase import StationBase
 from stationbase.interface.ImageReelle import ImageReelle
 from stationbase.interface.ImageVirtuelle import ImageVirtuelle
-from stationbase.interface.FeedVideoStation import FeedVideo
+from stationbase.interface.FeedVideoStation import FeedVideoStation
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QPainter
 
@@ -18,28 +18,24 @@ class Interface(QtGui.QWidget):
         self.setGeometry(1280, 1280, 1280, 700)
         self.setWindowTitle('Interface')
         self.btnDemarrer = QtGui.QPushButton('Demarrer', self)
-        #self.btnVideo = QtGui.QPushButton('Start Video', self)
         self.btnDemarrer.resize(120, 46)
-        #self.btnVideo.resize(120, 46)
         self.btnDemarrer.move(200, 200)
-        #self.btnVideo.move(200, 300)
-        self.ilesDetectees = []
-        self.tresorsDetectes = []
-        self.trajectoire = []
         self.btnDemarrer.clicked.connect(self.demarrerRoutine)
-        #self.btnVideo.clicked.connect(self.demarrerCapture)
-        self.demarre = False
+        #self.ilesDetectees = []
+        #self.tresorsDetectes = []
+        #self.trajectoire = []
+
 
     def paintEvent(self, e):
         qp = QPainter()
         qp.begin(self)
-        print(self.demarre)
-        if (self.demarre):
-            print("Paint event")
-            image = self.obtenirImageReelle()
-            self.imageReelle = ImageReelle(image)
-            self.trajectoire = self.stationBase.getCarte()
-            imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoire)
+        #print(self.demarre)
+        #if (self.demarre):
+        #    print("Paint event")
+        #    image = self.obtenirImageReelle()
+        #    self.imageReelle = ImageReelle(image)
+        #    self.trajectoire = self.stationBase.getCarte()
+        #    imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoire)
 
         self.afficherInformations(qp)
         qp.end()
@@ -53,17 +49,11 @@ class Interface(QtGui.QWidget):
     def obtenirImageReelle(self):
         return self.stationBase.getImageReelle()
 
-    def demarrerRoutine(self):
-        self.feed = FeedVideo()
-        self.stationBase = StationBase(self.feed)
-        self.stationBase.bind_to(self.dessinerImageReelle)
 
-    #def demarrerCapture(self):
-        self.stationBase.feedVideo.demarrerCapture()
-        self.ilesDetectees = self.stationBase.carte.listeIles
-        self.tresorsDetectes = self.stationBase.carte.listeTresors
-        self.demarre = True
-        #self.repaint()
+
+    def demarrerRoutine(self):
+        self.stationBase = StationBase()
+
 
     def afficherInformations(self, qp):
         self.dessinerNoir(qp)

@@ -1,18 +1,19 @@
 # import the necessary packages
 from elements.Carte import Carte
 from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
-from stationbase.interface.FeedVideoStation import FeedVideo
-import ConfigPath
+from stationbase.interface.FeedVideoStation import FeedVideoStation
+import time
 
 
 
 class StationBase(object):
-    def __init__(self, feedVideo):
-        self.analyseImageWorld = AnalyseImageWorld()
-        self.feedVideo = feedVideo
+    def __init__(self):
+        self.demarrerFeedVideo()
         self.carte = Carte()
-        self.initialiserStationBase()
-        self._observers = []
+        self.demarerAnalyseImageWorld()
+
+        #self.initialiserStationBase()
+        #self._observers = []
 
     def analyserImage(self, imageCapture):
         self.set_imageReelle(imageCapture)
@@ -55,6 +56,23 @@ class StationBase(object):
         self.feedVideo.suspendreCapture()
 
     def demarrerFeedVideo(self):
+        self.threadVideo = FeedVideoStation()
+        self.threadVideo.start()
+
+    def demarerAnalyseImageWorld(self):
+        time.sleep(1)
+        self.threadAnalyseImageWorld = AnalyseImageWorld(self)
+        self.carte.ajouterElementCarto(self.threadAnalyseImageWorld.elementsCartographiques)
+        #self.carte.ajouterInfoRobot(self.threadAnalyseImageWorld.infoRobot)
+        self.threadAnalyseImageWorld.start()
+
+
+    def trouverPositionElements(self):
+
+        self.demarrerFeedVideo()
+        self.demarrerAnalysePosition()
+'''
+    def demarrerFeedVideo(self):
         self.feedVideo.demarrerCapture()
 
         self.carte.afficherCarte()
@@ -66,4 +84,4 @@ class StationBase(object):
         self.carte.trajectoire.trouverTrajet((100, 100), (1500, 400))
         self.carte.trajectoire.afficherTrajectoire()  # Dans le terminal
         self.analyseImageWorld.dessinerTrajet(self.carte.trajectoire.trajectoire)  # Sur la photo
-        self.analyseImageWorld.afficherImage()
+        self.analyseImageWorld.afficherImage()'''

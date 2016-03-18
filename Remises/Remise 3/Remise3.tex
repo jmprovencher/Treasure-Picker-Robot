@@ -1,0 +1,56 @@
+%!TEX encoding = IsoLatin
+
+\documentclass[12pt]{ULrapport}
+\usepackage[ansinew]{inputenc}
+\usepackage[french]{babel}
+\usepackage{float}
+\restylefloat{table}
+\usepackage{hhline}
+\usepackage{pdfpages}
+\usepackage{hyperref}
+\usepackage{multirow}
+
+
+% Title Page
+\title{Design III: Pirates des Caraïbes}
+\author{Sébastien Garvin, Xavier Kedzierski, Matthieu Sylvain, Jérémy Brown, Charles-Olivier Magnan, Jean-Michel Provencher}
+
+
+
+\TitreProjet{Design III}                       
+\TitreRapport{Remise 3}                      
+\Destinataire{Philippe Giguère, Dominique Grenier, Denis Laurendeau}         
+\NumeroEquipe{7}                                     
+\NomEquipe{Zière}                               
+\TableauMembres{%
+	111\,114\,478  & Garvin, Sébastien   & \\\hline 
+	111\,040\,128  & Kedzierski, Xavier   & \\\hline     
+	111\,066\,466  & Magnan, Charles-Olivier      & \\\hline
+	111\,071\,384  & Provencher, Jean-Michel   & \\\hline     
+	111\,073\,630	 & Bourque, Emile						& \\\hline
+	111\,075\,478	 & Sylvain, Matthieu			& \\\hline
+	111\,074\,361  & Brown, Jérémy				& \\\hline
+	907\,196\,009  & Garneau, Laurent			& \\\hline
+}
+\DateRemise{3 avril 2016} 
+% Contenu de l'historique des versions
+\HistoriqueVersions{%										% version & date & description \\\hline
+       1.0  & 24 janvier 2016 & Création du document \\\hline
+			 2.0  & 31 janvier 2016 & Remise 1 \\\hline
+			 3.0  & 28 février 2016 & Remise 2 \\\hline
+			 4.0  & 3 avril 2016    & Remise 3 \\\hline
+			}
+
+\begin{document}
+
+% Chapitres
+\input{tex/Main/Diagrammes.tex}
+\input{tex/Main/PlanIntegration.tex}
+\input{tex/Main/Vision.tex}
+\input{tex/Main/SchemasElectriques.tex}
+\input{tex/Main/bibliographie.tex}
+\appendix
+%\input{tex/annexe.tex}
+
+
+\end{document}          

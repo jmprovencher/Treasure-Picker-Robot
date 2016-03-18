@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-02-24" view-index="0" gantt-divider-location="410" resource-divider-location="423" version="2.7" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-02-22" view-index="0" gantt-divider-location="410" resource-divider-location="423" version="2.7" locale="en_US">
     <description/>
     <view zooming-state="default:3" id="gantt-chart">
         <field id="tpd3" name="Name" width="63" order="0"/>
@@ -122,7 +122,7 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
                 <depend id="12" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="12" name="Livrable 3" color="#8cb6ce" meeting="false" start="2016-02-28" duration="35" complete="9" expand="true">
+        <task id="12" name="Livrable 3" color="#8cb6ce" meeting="false" start="2016-02-28" duration="35" complete="24" expand="true">
             <depend id="98" type="2" difference="0" hardness="Strong"/>
             <task id="221" name="Début livrable 3" color="#00ff00" meeting="true" start="2016-02-29" duration="0" complete="100" expand="true"/>
             <task id="85" name="Réunion 7" color="#00ff00" meeting="false" start="2016-03-01" duration="1" complete="100" expand="true"/>
@@ -134,34 +134,34 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
                 <depend id="98" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="235" name="Tâches Rapport" color="#ffff00" meeting="false" start="2016-02-28" duration="30" complete="0" expand="true">
-                <task id="243" name="Mise à jour DPF" color="#8cb6ce" meeting="false" start="2016-02-28" duration="15" complete="0" expand="true"/>
-                <task id="246" name="Mise à jour plan d'intégration" color="#8cb6ce" meeting="false" start="2016-02-28" duration="7" complete="0" expand="true"/>
-                <task id="249" name="Mise à jour registre de risques" color="#8cb6ce" meeting="false" start="2016-02-28" duration="15" complete="0" expand="true"/>
+                <task id="243" name="Mise à jour DPF" color="#8cb6ce" meeting="false" start="2016-02-28" duration="30" complete="0" expand="true"/>
+                <task id="246" name="Mise à jour plan d'intégration" color="#8cb6ce" meeting="false" start="2016-02-28" duration="30" complete="0" expand="true"/>
+                <task id="249" name="Mise à jour registre de risques" color="#8cb6ce" meeting="false" start="2016-02-28" duration="30" complete="0" expand="true"/>
                 <task id="253" name="Mise à jour diagrammes GLO" color="#8cb6ce" meeting="false" start="2016-02-28" duration="30" complete="0" expand="true"/>
                 <task id="256" name="Tests unitaires et refactoring" color="#8cb6ce" meeting="false" start="2016-02-28" duration="30" complete="0" expand="true"/>
                 <task id="259" name="Vision" color="#8cb6ce" meeting="false" start="2016-03-10" duration="19" complete="0" expand="true"/>
                 <task id="262" name="Systèmes électroniques" color="#8cb6ce" meeting="false" start="2016-03-10" duration="19" complete="0" expand="true"/>
             </task>
-            <task id="237" name="Tâches Conception" color="#0000ff" meeting="false" start="2016-02-28" duration="30" complete="8" expand="true">
-                <task id="265" name="Intégration" color="#ffff00" meeting="false" start="2016-02-28" duration="30" complete="0" expand="true">
-                    <task id="297" name="Alimenter les systèmes avec la batterie" color="#8cb6ce" meeting="false" start="2016-02-28" duration="4" complete="0" expand="true"/>
-                    <task id="300" name="Monter le préhenseur sur le robot et le contrôler" color="#8cb6ce" meeting="false" start="2016-03-02" duration="7" complete="0" expand="true"/>
-                    <task id="302" name="Installer l'électroaimant et le secondaire de recharge au préhenseur" color="#8cb6ce" meeting="false" start="2016-03-02" duration="7" complete="0" expand="true"/>
+            <task id="237" name="Tâches Conception" color="#0000ff" meeting="false" start="2016-02-28" duration="30" complete="42" expand="true">
+                <task id="265" name="Intégration" color="#ffff00" meeting="false" start="2016-02-28" duration="30" complete="23" expand="true">
+                    <task id="297" name="Alimenter les systèmes avec la batterie" color="#8cb6ce" meeting="false" start="2016-02-28" duration="4" complete="100" expand="true"/>
+                    <task id="300" name="Monter le préhenseur sur le robot et le contrôler" color="#8cb6ce" meeting="false" start="2016-03-02" duration="21" complete="100" expand="true"/>
+                    <task id="302" name="Installer l'électroaimant et le secondaire de recharge au préhenseur" color="#8cb6ce" meeting="false" start="2016-03-02" duration="21" complete="0" expand="true"/>
                     <task id="306" name="Envoyer des instructions de déplacement au robot" color="#8cb6ce" meeting="false" start="2016-02-28" duration="19" complete="0" expand="true"/>
-                    <task id="309" name="Transmettre la lettre décodée à l'ordinateur embarqué" color="#8cb6ce" meeting="false" start="2016-03-04" duration="14" complete="0" expand="true"/>
-                    <task id="312" name="Communiquer la lettre décodée au serveur et recevoir l'île mystère" color="#8cb6ce" meeting="false" start="2016-03-18" duration="6" complete="0" expand="true"/>
-                    <task id="315" name="Transmettre et afficher les paramètres du robot sur l'interface" color="#8cb6ce" meeting="false" start="2016-02-28" duration="25" complete="0" expand="true"/>
+                    <task id="309" name="Transmettre la lettre décodée à l'ordinateur embarqué" color="#8cb6ce" meeting="false" start="2016-03-10" duration="17" complete="0" expand="true"/>
+                    <task id="312" name="Communiquer la lettre décodée au serveur et recevoir l'île mystère" color="#8cb6ce" meeting="false" start="2016-03-18" duration="9" complete="0" expand="true"/>
+                    <task id="315" name="Transmettre et afficher les paramètres du robot sur l'interface" color="#8cb6ce" meeting="false" start="2016-02-28" duration="28" complete="0" expand="true"/>
                     <task id="319" name="Asservir le robot en fonction de la position à atteindre" color="#8cb6ce" meeting="false" start="2016-02-28" duration="30" complete="0" expand="true"/>
-                    <task id="322" name="Vérification du bon fonctionnement électrique lorsque tout les systèmes sont branchés" color="#8cb6ce" meeting="false" start="2016-02-28" duration="17" complete="0" expand="true"/>
-                    <task id="325" name="Effectuer la transition entre phase de déplacement et la phase d'alignement" color="#8cb6ce" meeting="false" start="2016-03-03" duration="19" complete="0" expand="true"/>
+                    <task id="322" name="Vérification du bon fonctionnement électrique lorsque tout les systèmes sont branchés" color="#8cb6ce" meeting="false" start="2016-03-12" duration="15" complete="100" expand="true"/>
+                    <task id="325" name="Effectuer la transition entre phase de déplacement et la phase d'alignement" color="#8cb6ce" meeting="false" start="2016-03-19" duration="8" complete="0" expand="true"/>
                 </task>
-                <task id="267" name="Conception de systèmes" color="#ffff00" meeting="false" start="2016-02-28" duration="10" complete="33" expand="true">
+                <task id="267" name="Conception de systèmes" color="#ffff00" meeting="false" start="2016-02-28" duration="20" complete="71" expand="true">
                     <task id="272" name="Finalisation code Manchester" color="#8cb6ce" meeting="false" start="2016-02-28" duration="7" complete="100" expand="true"/>
-                    <task id="275" name="Finalisation interface" color="#8cb6ce" meeting="false" start="2016-02-28" duration="7" complete="0" expand="true"/>
-                    <task id="278" name="Vision caméra embarquée" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="0" expand="true"/>
+                    <task id="326" name="Conception station de recharge" color="#8cb6ce" meeting="false" start="2016-02-28" duration="18" complete="100" expand="true"/>
+                    <task id="275" name="Finalisation interface" color="#8cb6ce" meeting="false" start="2016-02-28" duration="18" complete="50" expand="true"/>
+                    <task id="278" name="Vision caméra embarquée" color="#8cb6ce" meeting="false" start="2016-02-28" duration="20" complete="50" expand="true"/>
                     <task id="281" name="Conception &amp; assemblage circuit de recharge" color="#8cb6ce" meeting="false" start="2016-02-28" duration="7" complete="100" expand="true"/>
-                    <task id="284" name="Conception physique borne de recharge" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="0" expand="true"/>
-                    <task id="287" name="Installation LEDs pour Manchester" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="0" expand="true"/>
+                    <task id="287" name="Installation LEDs pour Manchester" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="100" expand="true"/>
                     <task id="290" name="Fixer électronique sur robot" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="100" expand="true"/>
                     <task id="293" name="Détecter le robot &amp; trouver forme distinctive" color="#8cb6ce" meeting="false" start="2016-02-28" duration="10" complete="0" expand="true"/>
                 </task>
@@ -217,6 +217,7 @@ Répartition des dernières petits tâches, mise en forme de la remise]]></notes
         <allocation task-id="300" resource-id="0" function="Default:1" responsible="true" load="10.0"/>
         <allocation task-id="309" resource-id="0" function="Default:1" responsible="true" load="10.0"/>
         <allocation task-id="319" resource-id="0" function="Default:1" responsible="false" load="10.0"/>
+        <allocation task-id="326" resource-id="0" function="Default:1" responsible="true" load="10.0"/>
         <allocation task-id="118" resource-id="1" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="151" resource-id="1" function="Default:0" responsible="false" load="30.0"/>
         <allocation task-id="167" resource-id="1" function="Default:0" responsible="true" load="100.0"/>

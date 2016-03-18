@@ -1,4 +1,5 @@
 import cv2
+import ConfigPath
 
 
 class FeedVideo(object):
@@ -36,6 +37,7 @@ class FeedVideo(object):
             self.img = frame
             self.set_image(frame)
             #cv2.imshow('image', self._imageCapture)
+            cv2.imwrite(ConfigPath.Config().appendToProjectPath('imageReelle.png'), self._imageCapture)
         if (self.enregistre == False):
             blur = cv2.blur(self._imageCapture, (5, 5))
 

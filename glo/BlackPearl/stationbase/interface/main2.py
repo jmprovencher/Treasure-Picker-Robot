@@ -12,7 +12,7 @@ from PyQt4.QtGui import QPainter
 import ConfigPath
 
 
-class Interface(QtGui.QWidget):
+class AvantInterface(QtGui.QWidget):
     def __init__(self):
         super(Interface, self).__init__()
         self.setGeometry(1280, 1280, 1280, 700)
@@ -25,24 +25,11 @@ class Interface(QtGui.QWidget):
         #self.btnVideo.move(200, 300)
         self.ilesDetectees = []
         self.tresorsDetectes = []
-        self.trajectoire = []
-        self.btnDemarrer.clicked.connect(self.demarrerRoutine)
-        #self.btnVideo.clicked.connect(self.demarrerCapture)
-        self.demarre = False
 
-    def paintEvent(self, e):
-        qp = QPainter()
-        qp.begin(self)
-        print(self.demarre)
-        if (self.demarre):
             print("Paint event")
             image = self.obtenirImageReelle()
             self.imageReelle = ImageReelle(image)
             self.trajectoire = self.stationBase.getCarte()
-            imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoire)
-
-        self.afficherInformations(qp)
-        qp.end()
 
     #Cette fonction est automatiquement appelee quand l'image est updater dans stationBase
     def dessinerImageReelle(self, qp):

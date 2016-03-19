@@ -8,17 +8,16 @@ while 1:
     if command == 'exit':
         monServer.closeConnection()
     else:
-        print command
+        parameter = ''
         if command == 'forward' or command == 'backward' or command == 'left' or command == 'right':
             while True:
                 try:
-                    parameter = input('Enter parameter or press enter if no parameter needed')
+                    parameter = input('Enter parameter: ')
                     if type(parameter) == int:
                         break
 
                 except:
                     print 'Error: Parameter must be a number!'
-            print parameter
         else:
             parameter = ''
         myRequest = RequeteJSON(command, parameter)

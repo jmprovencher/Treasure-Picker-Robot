@@ -31,4 +31,3 @@ class DetectionTresors(object):
             print "Ajout tresor"
             self.tresorIdentifies.append(formeTresor)
 
-        

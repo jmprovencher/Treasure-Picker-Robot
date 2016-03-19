@@ -60,7 +60,7 @@ class ImageVirtuelle2(Thread):
         elif (couleur == 'Jaune'):
             return (0,255,255)
         elif (couleur == 'Vert'):
-            return (0,0,255)
+            return (0,255,0)
         elif (couleur == 'Bleu'):
             return (255,0,0)
         return (0,0,0)

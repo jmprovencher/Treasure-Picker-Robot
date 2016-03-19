@@ -37,7 +37,7 @@ class StationBase(object):
         self.threadRafraichireImVirtuelle.start()
 
     def demarerRoutine(self):
-        time.sleep(2) #TODO: Verifier que la premiere analise est bel et bien effectue
+        time.sleep(3) #TODO: Verifier que la premiere analise est bel et bien effectue
         self.carte.trajectoire.initGrilleCellule(self.carte.listeIles)
         self.etapeStation()
 
@@ -49,7 +49,7 @@ class StationBase(object):
         self.identifierDestination('RECHARGE')
         #trajectoirePrevu = self.carte.trajectoire.trouverTrajet(self.carte.infoRobot.getCentre(), self.destination)
         #self.imageVirtuelle.dessinerTrajetPrevu(self.carte.infoRobot.getCentre(), self.destination, trajectoirePrevu)
-        WtrajectoirePrevu = self.carte.trajectoire.trouverTrajet((100, 100), self.destination)
+        #trajectoirePrevu = self.carte.trajectoire.trouverTrajet((100, 100), self.destination)
         #self.imageVirtuelle.dessinerTrajetPrevu((100, 100), self.destination, trajectoirePrevu)
         #self.trajectoireReel = trajectoirePrevu
 

@@ -1,20 +1,15 @@
 # import the necessary packages
 import sys
 
-from robot.interface.Robot import Robot
 from stationbase.interface.StationBase import StationBase
-from stationbase.interface.ImageReelle import ImageReelle
-from stationbase.interface.ImageVirtuelle import ImageVirtuelle
-from stationbase.interface.FeedVideoStation import FeedVideoStation
+from stationbase.interface.ImageVirtuelle2 import ImageVirtuelle2
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QPainter
-
-import ConfigPath
-
 
 class Interface(QtGui.QWidget):
     def __init__(self):
         super(Interface, self).__init__()
+        self.imageVirtuelle = ImageVirtuelle2()
         self.setGeometry(1280, 1280, 1280, 700)
         self.setWindowTitle('Interface')
         self.btnDemarrer = QtGui.QPushButton('Demarrer', self)
@@ -52,7 +47,7 @@ class Interface(QtGui.QWidget):
 
 
     def demarrerRoutine(self):
-        self.stationBase = StationBase()
+        self.stationBase = StationBase(self.imageVirtuelle)
 
 
     def afficherInformations(self, qp):

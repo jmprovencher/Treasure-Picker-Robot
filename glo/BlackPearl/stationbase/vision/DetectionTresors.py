@@ -20,7 +20,6 @@ class DetectionTresors(object):
         contoursNegligeable = []
         for contours in range(len(contoursTresor)):
             aire = cv2.contourArea(contoursTresor[contours])
-            print aire
             if (aire < 30 or aire > 150):
                 contoursNegligeable.append(contours)
 

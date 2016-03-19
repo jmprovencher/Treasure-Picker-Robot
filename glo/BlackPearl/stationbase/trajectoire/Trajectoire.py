@@ -14,6 +14,7 @@ class Trajectoire():
     def trouverTrajet(self, depart, arriver):
         algoTrajectoire = AlgorithmeTrajectoire(self.grilleCellule)
         self.trajectoire = algoTrajectoire.trouverTrajet(depart, arriver)
+        return self.trajectoire
 
     def afficherTrajectoire(self):
         print "\n******************************************************************************"

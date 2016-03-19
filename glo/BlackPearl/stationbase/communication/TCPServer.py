@@ -1,8 +1,29 @@
 import socket
+from threading import Thread, RLock
+import time
 
+verrou = RLock()
 
-class TCPServer:
-    def __init__(self):
+class TCPServer(Thread):
+    def __init__(self, stationBase):
+        Thread.__init__(self)
+        self.stationBase = stationBase
+        self.creeConnection()
+        self.connection = self._establishConnection()
+
+    def run(self):
+        while 1:
+            if (self.doitEnvoyerFichier()):
+                self.sendFile(self, 'data.json')
+                self.stationBase.envoyerFichier = False
+            time.sleep(1)
+
+    def doitEnvoyerFichier(self):
+        with verrou:
+            return self.stationBase.envoyerFichier
+        
+    def creeConnection(self):
+        print '\ncreation connection TCP'
         port = 60000
         self.s = socket.socket()
         host = socket.gethostname()
@@ -10,27 +31,25 @@ class TCPServer:
         print hostAddress
         self.s.bind((host, port))
         self.s.listen(0)
-        print 'Server listening....'
-        self.conn = self._establishConnection()
-        self.connectionEstablished = True
+        print '\nServeur ecoute'
 
     def _establishConnection(self):
         conn, addr = self.s.accept()  # Establish connection with client.
-        print 'Got connection from', addr
+        print '\nconnection de: ', addr
         return conn
 
     def sendFile(self, filename):
         f = open(filename, 'r')
         data = f.read()
         while data:
-            self.conn.send(data)
-            print('Sent ', repr(data))
+            self.connection.send(data)
+            print('\nSent ', repr(data))
             data = f.read()
         f.close()
-        print('Done sending file')
+        print('\nDone sending file')
         return 1
 
     def closeConnection(self):
-        self.conn.close()
+        self.connection.close()
         print 'Connection closed'
 

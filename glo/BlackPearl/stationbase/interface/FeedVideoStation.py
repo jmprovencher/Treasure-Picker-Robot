@@ -20,7 +20,7 @@ class FeedVideoStation(Thread):
             self.afficher('\ncapturer une image du video')
             with verrou:
                 _, self.captureTable = self.video.read()
-            cv2.imshow('image', self.captureTable)
+            cv2.imshow('Feed', self.captureTable)
 
     def initVideo(self, portCamera):
         self.video = cv2.VideoCapture(portCamera)

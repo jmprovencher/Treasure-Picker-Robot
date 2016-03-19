@@ -2,14 +2,12 @@
 import sys
 
 from stationbase.interface.StationBase import StationBase
-from stationbase.interface.ImageVirtuelle2 import ImageVirtuelle2
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QPainter
 
 class Interface(QtGui.QWidget):
     def __init__(self):
         super(Interface, self).__init__()
-        self.imageVirtuelle = ImageVirtuelle2()
         self.setGeometry(1280, 1280, 1280, 700)
         self.setWindowTitle('Interface')
         self.btnDemarrer = QtGui.QPushButton('Demarrer', self)
@@ -47,7 +45,7 @@ class Interface(QtGui.QWidget):
 
 
     def demarrerRoutine(self):
-        self.stationBase = StationBase(self.imageVirtuelle)
+        self.stationBase = StationBase()
 
 
     def afficherInformations(self, qp):

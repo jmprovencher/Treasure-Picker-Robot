@@ -10,14 +10,13 @@ class FeedVideoStation(Thread):
     def __init__(self):
         Thread.__init__(self)
         self.video = None
-        self.initVideo(0)
+        self.initVideo(1)
         self.video.set(3,1600)
         self.video.set(4,1200)
         self.captureTable = None
 
     def run(self):
         while 1:
-            self.afficher('\ncapturer une image du video')
             with verrou:
                 _, self.captureTable = self.video.read()
             cv2.imshow('Feed', self.captureTable)

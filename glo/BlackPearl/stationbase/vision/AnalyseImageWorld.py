@@ -5,9 +5,10 @@ import time
 import cv2
 from elements.Ile import Ile
 from elements.Tresor import Tresor
+from elements.InfoRobot import InfoRobot
 from stationbase.vision.DetectionIles import DetectionIles
-from stationbase.vision.DetectionRobot import DetectionRobot
 from stationbase.vision.DetectionTresors import DetectionTresors
+from stationbase.vision.DetectionRobot import DetectionRobot
 
 verrou = RLock()
 
@@ -80,21 +81,19 @@ class AnalyseImageWorld(Thread):
 
         self.trouverRobot()
 
+    def trouverInfoRobot(self, contourForme):
+        rec = cv2.minAreaRect(contourForme)
+        return ((int(rec[0][0]), int(rec[0][1])), int(rec[2]))
 
     def trouverRobot(self):
         print("\ndetection du robot")
-        #self.detectionRobot = DetectionRobot(self.image)
-        #self.detectionRobot.detecter()
-        #self.detectionRobot.infoRobot
-        #with verrou:
-        #        self.stationBase.carte.infoRobot = infoRobot(centreForme, orientation)
-
-'''
-    def dessinerElementCartographique(self):
-        for element in self.elementsCartographiques:
-            cv2.putText(self.image, element.forme, (element.centre_x - 25, element.centre_y),
-                        self.police, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
+        self.detectionRobot = DetectionRobot(self.image)
+        self.detectionRobot.detecter()
+        if (not self.detectionRobot.robotIdentifiee is None):
+            contoursForme, _, _ = self.detectionRobot.robotIdentifiee
+            centreForme, orientation = self.trouverinfoRobot(contoursForme)
+            with verrou:
+                self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
 
 
-'''
 

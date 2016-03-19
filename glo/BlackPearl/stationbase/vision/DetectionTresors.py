@@ -30,3 +30,5 @@ class DetectionTresors(object):
             formeTresor = contours, "Tresor", ""
             print "Ajout tresor"
             self.tresorIdentifies.append(formeTresor)
+
+        

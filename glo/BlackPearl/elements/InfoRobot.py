@@ -1,7 +1,7 @@
 # import the necessary packages
 from elements.ElementCartographique import ElementCartographique
 
-class Ile(ElementCartographique):
+class InfoRobot(ElementCartographique):
     def __init__(self, centre, orientation):
         self.centre_x, self.centre_y = centre
         self.orientation = orientation

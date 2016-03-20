@@ -1,16 +1,9 @@
 # import the necessary packages
 import sys
 
-from robot.interface.Robot import Robot
 from stationbase.interface.StationBase import StationBase
-from stationbase.interface.ImageReelle import ImageReelle
-from stationbase.interface.ImageVirtuelle import ImageVirtuelle
-from stationbase.interface.FeedVideoStation import FeedVideoStation
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QPainter
-
-import ConfigPath
-
 
 class Interface(QtGui.QWidget):
     def __init__(self):

@@ -3,12 +3,14 @@ from Tresor import Tresor
 
 from elements.Ile import Ile
 from stationbase.trajectoire.Trajectoire import Trajectoire
-
+from elements.StationRecharge import StationRecharge
 
 class Carte():
     def __init__(self):
         self.listeIles = []
         self.listeTresors = []
+        self.infoRobot = None
+        self.stationRecharge = StationRecharge()
         self.trajectoire = Trajectoire()
 
     def ajouterElementCarto(self, elementCartographiques):

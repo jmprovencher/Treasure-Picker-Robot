@@ -5,9 +5,10 @@ import time
 import cv2
 from elements.Ile import Ile
 from elements.Tresor import Tresor
+from elements.InfoRobot import InfoRobot
 from stationbase.vision.DetectionIles import DetectionIles
-from stationbase.vision.DetectionRobot import DetectionRobot
 from stationbase.vision.DetectionTresors import DetectionTresors
+from stationbase.vision.DetectionRobot import DetectionRobot
 
 verrou = RLock()
 
@@ -15,10 +16,6 @@ class AnalyseImageWorld(Thread):
     def __init__(self, stationBase):
         Thread.__init__(self)
         self.stationBase = stationBase
-        self.elementsCartographiques = []
-        self.tresorIdentifies = []
-        self.ilesIdentifiees = []
-        self.infoRobot = None
         self.police = cv2.FONT_HERSHEY_SIMPLEX
         self.image = None
         self.detectionPrimaire()
@@ -27,11 +24,10 @@ class AnalyseImageWorld(Thread):
         while 1:
             self.chargerImage()
             self.trouverRobot()
-            time.sleep(1)
+            time.sleep(0.01)
 
     def chargerImage(self):
-        with verrou:
-            self.image = self.stationBase.threadVideo.getcaptureTable()
+        self.image = self.stationBase.threadVideo.getcaptureTable()
         self.recadrerImage()
         self.estomperImage()
 
@@ -64,51 +60,39 @@ class AnalyseImageWorld(Thread):
         self.trouverElementsCartographiques()
 
     def trouverElementsCartographiques(self):
-        print("\ndetection des iles et tresors")
+        print("\ndetection des iles")
         self.detectionIles = DetectionIles(self.image)
-        self.detectionTresors = DetectionTresors(self.image)
         self.detectionIles.detecter()
+        for ile in self.detectionIles.ilesIdentifiees:
+            contoursForme, nomForme, couleurForme = ile
+            centreForme = self.trouverCentreForme(contoursForme)
+            with verrou:
+                self.stationBase.carte.listeIles.append(Ile(centreForme, couleurForme, nomForme))
+
+        print("\ndetection des tresors")
+        self.detectionTresors = DetectionTresors(self.image)
         self.detectionTresors.detecter()
-        self.ilesIdentifiees = self.detectionIles.ilesIdentifiees
-        self.tresorIdentifies = self.detectionTresors.tresorIdentifies
-        for element in self.ilesIdentifiees:
-            self.identifierForme(element)
-        for tresor in self.tresorIdentifies:
-            self.identifierForme(tresor)
+        for tresor in self.detectionTresors.tresorIdentifies:
+            contoursForme, _, _ = tresor
+            centreForme = self.trouverCentreForme(contoursForme)
+            with verrou:
+                self.stationBase.carte.listeTresors.append(Tresor(centreForme))
+
         self.trouverRobot()
 
+    def trouverInfoRobot(self, contourForme):
+        rec = cv2.minAreaRect(contourForme)
+        return ((int(rec[0][0]), int(rec[0][1])), int(rec[2]))
 
     def trouverRobot(self):
-        print("\ndetection du robot")
+        #print("\ndetection du robot")
         self.detectionRobot = DetectionRobot(self.image)
-        #self.detectionRobot.detecter()
-        #self.infoRobot = self.detectionRobot.getInfoRobot()
+        self.detectionRobot.detecter()
+        if (not self.detectionRobot.robotIdentifiee is None):
+            contoursForme, _, _ = self.detectionRobot.robotIdentifiee
+            centreForme, orientation = self.trouverInfoRobot(contoursForme)
+            with verrou:
+                self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
 
-'''
-    def dessinerTrajet(self, trajet):
-        pointInitial = None
 
-        if (len(trajet) == 0):
-            cv2.putText(self.image, 'Aucun trajet disponible', (1000, 800), self.police, 1.5,
-                        (0, 0, 255), 2, cv2.LINE_AA)
-        else:
-            for pointFinal in trajet:
-                if (pointInitial == None):
-                    pointInitial = pointFinal
-                else:
-                    cv2.arrowedLine(self.image, pointFinal, pointInitial, (0, 255, 0), 5)
-                    pointInitial = pointFinal
-
-    def dessinerElementCartographique(self):
-        for element in self.elementsCartographiques:
-            cv2.putText(self.image, element.forme, (element.centre_x - 25, element.centre_y),
-                        self.police, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
-
-    def dessinerDebutFinTrajet(self, pointInitial, pointFinal):
-        debut_x, debut_y = pointInitial
-        fin_x, fin_y = pointFinal
-
-        cv2.putText(self.image, 'Debut', (debut_x - 25, debut_y), self.police, 1, (0, 0, 0), 2, cv2.LINE_AA)
-        cv2.putText(self.image, 'Fin', (fin_x, fin_y), self.police, 1, (0, 0, 0), 2, cv2.LINE_AA)
-'''
 

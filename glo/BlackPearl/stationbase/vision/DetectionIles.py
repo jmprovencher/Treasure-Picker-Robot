@@ -7,11 +7,9 @@ import ConfigPath
 class DetectionIles(object):
     def __init__(self, image):
         self.imageCamera = image
-        #cv2.imshow("image", image)
         self.formesConnues = []
         self.ilesIdentifiees = []
         self.nombreIles = 0
-
         self._definirIntervallesCouleurs()
         self._definirPatronsFormes()
 
@@ -44,8 +42,6 @@ class DetectionIles(object):
 
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        ########################################
-        #cv2.imshow(couleurForme, masqueCouleur)
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 

@@ -1,9 +1,9 @@
 from elements.ElementCartographique import ElementCartographique
 
-
-class Tresor(ElementCartographique):
-    def __init__(self, centre):
-        self.centre_x, self.centre_y = centre
+class StationRecharge(ElementCartographique):
+    def __init__(self):
+        self.centre_x = 1500
+        self.centre_y = 0
         self.forme = "Station"
 
     def afficher(self):

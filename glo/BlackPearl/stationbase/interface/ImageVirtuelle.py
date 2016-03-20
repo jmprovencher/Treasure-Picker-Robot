@@ -66,12 +66,12 @@ class ImageVirtuelle(Thread):
         cv2.putText(self.imageVirtuelle, 'Fin', (fin_x, fin_y), self.police, 1, (0, 0, 0), 2, cv2.LINE_AA)
 
     def dessinerRobot(self):
-        cv2.circle(self.imageVirtuelle,(self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y), 3, (0,0,0), -1)
-        if (self.anciennePosRobot == None):
-            self.anciennePosRobot = (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y)
-        else:
-            cv2.arrowedLine(self.imageVirtuelle, self.anciennePosRobot, (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y), (0,0,0), 2)
-            self.anciennePosRobot = (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y)
+        if (not self.stationBase.carte.infoRobot == None):
+            if (self.anciennePosRobot == None):
+                self.anciennePosRobot = (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y)
+            else:
+                cv2.arrowedLine(self.imageVirtuelle, self.anciennePosRobot, (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y), (0,0,0), 2)
+                self.anciennePosRobot = (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y)
 
     def reinitialiserImage(self):
         self.chargerImageVirtuelle()

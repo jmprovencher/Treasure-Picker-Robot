@@ -4,6 +4,7 @@ from stationbase.interface.AffichageDeBase import AffichageDeBase
 from stationbase.interface.StationBase import StationBase
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QPainter
+import time
 
 class Interface(QtGui.QWidget):
     def __init__(self):
@@ -41,7 +42,9 @@ class Interface(QtGui.QWidget):
 
 
     def demarrerRoutine(self):
-        self.stationBase = StationBase()
+        self.threadStationBase = StationBase()
+        time.sleep(5)
+        self.threadStationBase.start()
 
 def main():
 

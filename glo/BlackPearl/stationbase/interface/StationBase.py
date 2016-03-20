@@ -5,10 +5,16 @@ from stationbase.interface.FeedVideoStation import FeedVideoStation
 from stationbase.communication.Communication import Communication
 from stationbase.interface.ImageVirtuelle import ImageVirtuelle
 import time
+import sys
+from threading import Thread, RLock
+import time
 import cv2
 
-class StationBase(object):
+verrou = RLock()
+
+class StationBase(Thread):
     def __init__(self):
+        Thread.__init__(self)
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.trajectoirePrevue = None
@@ -18,6 +24,8 @@ class StationBase(object):
         #self.demarerConnectionTCP()
         self.destination = None
         self.trajectoireReel = None
+
+    def run(self):
         self.demarerRoutine()
 
     def demarrerFeedVideo(self):

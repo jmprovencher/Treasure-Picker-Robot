@@ -24,10 +24,16 @@ class DetectionRobot(object):
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme, couleur
 
+        robotExiste = False
+
         if (precision < 0.5):
             #print (nomForme, couleur, precision)
             self.robotIdentifiee = formeIdentifiee
+            robotExiste = True
             #print "Robot trouve"
+
+        if (robotExiste == False):
+            self.robotIdentifiee = None
 
     def _detecterFormeCouleur(self, intervalleCouleur):
 

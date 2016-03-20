@@ -9,7 +9,8 @@ while 1:
             try:
                 data = monClient.receiveFile()
                 break
-            except:
+            except Exception as e:
+                print e
                 print "Connection Lost, Trying to reconnect"
                 monClient = TCPClient()
 

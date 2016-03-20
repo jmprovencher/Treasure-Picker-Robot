@@ -1,6 +1,8 @@
 # import the necessary packages
 import sys
+import cv2
 
+from stationbase.interface.AffichageDeBase import AffichageDeBase
 from robot.interface.Robot import Robot
 from stationbase.interface.StationBase import StationBase
 from stationbase.interface.ImageReelle import ImageReelle
@@ -17,13 +19,20 @@ class Interface(QWidget):
         super(Interface, self).__init__()
         self.setGeometry(1280, 1280, 1280, 700)
         self.setWindowTitle('Interface')
+        self.feed = FeedVideo()
+        self.stationBase = StationBase(self.feed)
+
 
     def paintEvent(self, e):
         qp2 = QPainter()
         qp2.begin(self)
         qp2.drawPixmap(640, 0, QtGui.QPixmap(ConfigPath.Config().appendToProjectPath('imageReelle.png')), 0, 90, 640, 480)
+        self.affichageDeBase = AffichageDeBase(qp2)
+        #cv2.imshow('image', self.feed.capture())
         qp2.end()
         self.update()
+
+
 
 
 def main():

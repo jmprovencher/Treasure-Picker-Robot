@@ -6,7 +6,7 @@ class TCPClient:
     def __init__(self):
         self.s = socket.socket()
         self.port = 60000
-        self.host = '10.248.187.169'
+        self.host = '10.248.177.234'
         #self.host = '192.168.1.37' #If on embedded computer in local network
         self.connectionEstablished = self._connectToServer()
 
@@ -31,26 +31,13 @@ class TCPClient:
         return 1
 
     def receiveFile(self):
-        with open('received_file.json', 'wb') as f:
-            print 'file opened'
-            print('receiving data...')
-            data = self.s.recv(1024)
-            print('data=%s', data)
-            # write data to a file
-            f.write(data)
+        print('receiving data...')
+        data = self.s.recv(1024)
+        jsonObject = json.loads(data)
+        print('data successfully received')
+        return jsonObject
 
-        f.close()
-        print('Successfully got the file')
-        json_data = open('received_file.json').read()
-        if json_data == '':
-            print ('Empty file')
-            return -1
-        else:
-            try:
-                data = json.loads(json_data)
-            except:
-                print('No JSON object was found')
-            return data
+
 
 
     def closeConnection(self):

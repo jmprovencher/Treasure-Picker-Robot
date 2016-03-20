@@ -13,7 +13,7 @@ class TCPServer():
         self.s = socket.socket()
         host = socket.gethostname()
         hostAddress = socket.gethostbyname(host)
-        print hostAddress
+        print ('Server address : '+hostAddress)
         self.s.bind((host, port))
         self.s.listen(0)
         print '\nServeur ecoute'

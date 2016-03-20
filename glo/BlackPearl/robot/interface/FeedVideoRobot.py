@@ -19,7 +19,6 @@ class FeedVideoRobot(object):
     def set_image(self, image):
         self._imageCapture = image
         for callback in self._observers:
-            print("Calling...")
             callback(self._imageCapture)
 
     imageCapture = property(get_image, set_image)

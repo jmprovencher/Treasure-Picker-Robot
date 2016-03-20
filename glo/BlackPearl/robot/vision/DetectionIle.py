@@ -26,7 +26,6 @@ class DetectionIle(object):
         distance_y = (positionZone_y - position_y)
         distance = math.sqrt(math.pow(distance_x, 2) + math.pow(distance_y, 2))
         _, rayon = cv2.minEnclosingCircle(contoursIle)
-
         if (distance <= self.rayonZone):
             self.alignementTerminer = True
             self.dessinerZoneIle((position_x, position_y), rayon)
@@ -57,6 +56,8 @@ class DetectionIle(object):
             self._detecterFormeCouleur(self.intervalleBleu)
         elif (self.couleurIle == "Rouge"):
             self._detecterFormeCouleur(self.intervalleRouge)
+        elif (self.couleurIle == "Orange"):
+            self._detecterFormeCouleur(self.intervalleOrange)
 
     def afficherFeed(self):
         cv2.imshow("Image", self.imageCamera)
@@ -65,7 +66,7 @@ class DetectionIle(object):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
 
-        #cv2.imshow(couleurForme, masqueCouleur)
+        cv2.imshow(couleurForme, masqueCouleur)
         #cv2.waitKey(0)
 
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -91,6 +92,7 @@ class DetectionIle(object):
 
     def _definirIntervallesCouleurs(self):
         self.intervalleRouge = np.array([15, 0, 75]), np.array([100, 65, 200]), "Rouge"
+        self.intervalleOrange = np.array([50, 100, 100]), np.array([80, 120, 180]), "Orange"
         self.intervalleBleu = np.array([100, 100, 0]), np.array([190, 170, 80]), "Bleu"
         self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
         self.intervalleVert = np.array([50, 120, 40]), np.array([100, 170, 80]), "Vert"

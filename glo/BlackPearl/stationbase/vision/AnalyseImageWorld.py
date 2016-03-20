@@ -24,7 +24,7 @@ class AnalyseImageWorld(Thread):
         while 1:
             self.chargerImage()
             self.trouverRobot()
-            time.sleep(1)
+            time.sleep(0.01)
 
     def chargerImage(self):
         with verrou:
@@ -91,7 +91,7 @@ class AnalyseImageWorld(Thread):
         self.detectionRobot.detecter()
         if (not self.detectionRobot.robotIdentifiee is None):
             contoursForme, _, _ = self.detectionRobot.robotIdentifiee
-            centreForme, orientation = self.trouverinfoRobot(contoursForme)
+            centreForme, orientation = self.trouverInfoRobot(contoursForme)
             with verrou:
                 self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
 

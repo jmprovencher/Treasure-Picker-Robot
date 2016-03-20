@@ -2,8 +2,8 @@
 from elements.Carte import Carte
 from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
 from stationbase.interface.FeedVideoStation import FeedVideoStation
-from stationbase.communication.TCPServer import TCPServer
-from stationbase.interface.ImageVirtuelle2 import ImageVirtuelle2
+from stationbase.communication.Communication import Communication
+from stationbase.interface.ImageVirtuelle import ImageVirtuelle2
 import time
 import cv2
 
@@ -11,21 +11,22 @@ class StationBase(object):
     def __init__(self):
         self.demarrerFeedVideo()
         self.carte = Carte()
+        self.trajectoirePrevue = None
         self.demarerAnalyseImageWorld()
         self.demarerImageVirtuelle()
         self.envoyerFichier = False
-        #self.demarerConnectionTCP()
-        self.demarerRoutine()
+        self.demarerConnectionTCP()
         self.destination = None
         self.trajectoireReel = None
+        self.demarerRoutine()
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoStation()
         self.threadVideo.start()
 
     def demarerConnectionTCP(self):
-        self.threadConnection = TCPServer(self)
-        self.threadConnection.start()
+        self.threadCommunication = Communication(self)
+        self.threadCommunication.start()
 
     def demarerAnalyseImageWorld(self):
         time.sleep(1) #TODO: Verifier que la premiere capture est bel et bien effectue
@@ -47,11 +48,8 @@ class StationBase(object):
 
     def etapeStation(self):
         self.identifierDestination('RECHARGE')
-        #trajectoirePrevu = self.carte.trajectoire.trouverTrajet(self.carte.infoRobot.getCentre(), self.destination)
-        #self.imageVirtuelle.dessinerTrajetPrevu(self.carte.infoRobot.getCentre(), self.destination, trajectoirePrevu)
-        #trajectoirePrevu = self.carte.trajectoire.trouverTrajet((100, 100), self.destination)
-        #self.imageVirtuelle.dessinerTrajetPrevu((100, 100), self.destination, trajectoirePrevu)
-        #self.trajectoireReel = trajectoirePrevu
+        #self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.carte.infoRobot.getCentre(), self.destination)
+        self.trajectoirePrevue = []
 
 
 

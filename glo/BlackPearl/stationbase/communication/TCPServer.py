@@ -2,25 +2,10 @@ import socket
 from threading import Thread, RLock
 import time
 
-verrou = RLock()
-
-class TCPServer(Thread):
-    def __init__(self, stationBase):
-        Thread.__init__(self)
-        self.stationBase = stationBase
+class TCPServer():
+    def __init__(self):
         self.creeConnection()
         self.connection = self._establishConnection()
-
-    def run(self):
-        while 1:
-            if (self.doitEnvoyerFichier()):
-                self.sendFile(self, 'data.json')
-                self.stationBase.envoyerFichier = False
-            time.sleep(1)
-
-    def doitEnvoyerFichier(self):
-        with verrou:
-            return self.stationBase.envoyerFichier
         
     def creeConnection(self):
         print '\ncreation connection TCP'

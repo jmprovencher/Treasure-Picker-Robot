@@ -17,14 +17,14 @@ class DetectionRobot(object):
 
     def _trouverForme(self, contours, couleur):
 
-        resultatsMatch = None
+        resultatsMatch = []
         resultatsMatch.append((cv2.matchShapes(contours, self.cntRobot, 1, 0.0), contours, "Robot"))
 
         meilleurMatch = min(resultatsMatch)
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme, couleur
 
-        if (precision < 0.2):
+        if (precision < 1):
             print (nomForme, couleur, precision)
             self.robotIdentifiee = formeIdentifiee
             print "Robot trouve"
@@ -38,7 +38,7 @@ class DetectionRobot(object):
 
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            if ((aire < 500) or (aire > 3000)):
+            if ((aire < 100) or (aire > 8000)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):
@@ -52,7 +52,7 @@ class DetectionRobot(object):
         self.intervalleRobot = np.array([15, 0, 75]), np.array([100, 65, 200]),"Rose"
 
     def _definirPatronsFormes(self):
-        patronRobot = cv2.imread(ConfigPath.Config().appendToProjectPath('images/robot.png'), 0)
+        patronRobot = cv2.imread(ConfigPath.Config().appendToProjectPath('images/robotPasEleve.png'), 0)
         precision, threshRobot = cv2.threshold(patronRobot, 127, 255, 0)
 
         _, contoursRobot, _ = cv2.findContours(threshRobot, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

@@ -49,6 +49,7 @@ class StationBase(Thread):
         time.sleep(5) #TODO: Verifier que la premiere analise est bel et bien effectue
         self.carte.trajectoire.initGrilleCellule(self.carte.listeIles)
         self.etapeStation()
+        time.sleep(100000)
 
     def identifierDestination(self, etape):
         if (etape == 'RECHARGE'):

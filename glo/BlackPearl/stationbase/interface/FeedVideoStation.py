@@ -1,49 +1,35 @@
+import sys
+from threading import Thread, RLock
+import time
 import cv2
-import ConfigPath
 
+verrou = RLock()
 
-class FeedVideo(object):
+class FeedVideoStation(Thread):
+
     def __init__(self):
-        self.capture = cv2.VideoCapture(0)
-        self.capture.set(3,1600)
-        self.capture.set(4,1200)
-        self.enregistre = False
-        self._observers = []
-        self._imageCapture = 0
-        self.img = 0
+        Thread.__init__(self)
+        self.video = None
+        self.initVideo(1)
+        self.video.set(3,1600)
+        self.video.set(4,1200)
+        self.captureTable = None
 
-    def demarrerCapture(self):
-        self._capturer()
-        self.enregistre = True
+    def run(self):
+        while 1:
+            _, self.captureTable = self.video.read()
+            cv2.imshow('Feed', self.captureTable)
 
-    def get_image(self):
-        return self._imageCapture
+    def initVideo(self, portCamera):
+        self.video = cv2.VideoCapture(portCamera)
+        while (not self.video.isOpened()):
+            self.afficher('\na la recherche de la camera')
+            self.video = cv2.VideoCapture(1)
 
-    def set_image(self, image):
-        self._imageCapture = image
-        for callback in self._observers:
-            callback(self._imageCapture)
+    def afficher(self, string):
+        sys.stdout.write(string)
+        sys.stdout.flush()
 
-    imageCapture = property(get_image, set_image)
-
-    def bind_to(self, callback):
-        self._observers.append(callback)
-
-    def _capturer(self):
-        # On enregistre toutes les x millisecondes
-        while cv2.waitKey(1000) == -1:
-            print ("Capturing ")
-            ret, frame = self.capture.read()
-            self.img = frame
-            self.set_image(frame)
-            #cv2.imshow('image', self._imageCapture)
-            cv2.imwrite(ConfigPath.Config().appendToProjectPath('imageReelle.png'), self._imageCapture)
-        if (self.enregistre == False):
-            blur = cv2.blur(self._imageCapture, (5, 5))
-
-    def suspendreCapture(self):
-        self.enregistre = False
-
-    def reprendreCapture(self):
-        self.enregistre = True
+    def getcaptureTable(self):
+        return self.captureTable
 

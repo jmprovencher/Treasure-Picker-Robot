@@ -7,3 +7,6 @@ class ElementCartographique():
 
     def getY(self):
         return self.centre_y
+
+    def getCentre(self):
+        return (self.centre_x, self.centre_y)

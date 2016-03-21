@@ -10,42 +10,37 @@ class GrilleCellule():
         self.dimensionReel = (300, 100)
         self.incrementX = int((self.dimensionCrop[0]) / self.dimensionReel[0])
         self.incrementY = int((self.dimensionCrop[1]) / self.dimensionReel[1])
-        self.bufferIle = 20
-        self.bufferMur = 20
+        self.rayonBuffer = 10
         self.listeIles = None
 
     def initGrilleCellule(self, listeIles):
         self.listeCellules = []
         self.listeIles = listeIles
-        atteignable_x = True
-
         for x in range(0, self.dimensionCrop[0], self.incrementX):
-            if (not self.xEstAtteignable(x, listeIles)):
-                atteignable_x = False
             for y in range(0, self.dimensionCrop[1], self.incrementY):
-                if (atteignable_x):
-                    self.listeCellules.append(Cellule(x, y, True))
-                elif (self.yEstAtteignable(y, listeIles)):
-                    self.listeCellules.append(Cellule(x, y, True))
-                else:
-                    self.listeCellules.append(Cellule(x, y, False))
-            atteignable_x = True
-
-    def xEstAtteignable(self, x, listeIles):
-        nombrePixel = int(round(self.bufferIle * (self.dimensionCrop[0]) / self.dimensionReel[0]))
-
-        for ile in listeIles:
-            if ((x > (ile.centre_x - nombrePixel)) and (x < (ile.centre_x + nombrePixel))):
-                return False
-        return True
-
-    def yEstAtteignable(self, y, listeIles):
-        nombrePixel = int(round(self.bufferIle * (self.dimensionCrop[1]) / self.dimensionReel[1]))
-        if (y > self.dimensionCrop[1]-nombrePixel or y < nombrePixel):
+                    self.listeCellules.append(Cellule(x, y, self.estAtteignable(x, y, listeIles)))
+                
+    def pixelXACentimetre(self, pix):
+        return int(round(pix * self.rayonBuffer * (self.dimensionReel[0]) / self.dimensionCrop[0]))
+    
+    def pixelYACentimetre(self, pix):
+        return int(round(pix * self.rayonBuffer * (self.dimensionReel[1]) / self.dimensionCrop[1]))
+    
+    def distanceAIleAuCarre(self, x, y, ile):
+        distanceX = ile.centre_x - x
+        distanceY = ile.centre_y - y
+        distanceX = self.pixelXACentimetre(distanceX)
+        distanceY = self.pixelYACentimetre(distanceY)
+        distanceCarre = distanceX**2 + distanceY**2
+        return distanceCarre
+                
+    def estAtteignable(self, x, y, listeIles):
+        if (y <= self.rayonBuffer*2) or (y >= self.dimensionCrop[1]-self.rayonBuffer*2):
             return False
-        for ile in listeIles:
-            if ((y > (ile.centre_y - nombrePixel)) and (y < (ile.centre_y + nombrePixel))):
-                return False
+        elif not self.listeIles is None:
+            for ile in listeIles:
+                if  (self.distanceAIleAuCarre(x, y, ile) <= self.rayonBuffer**2):
+                    return False
         return True
 
     def getCellule(self, x, y):

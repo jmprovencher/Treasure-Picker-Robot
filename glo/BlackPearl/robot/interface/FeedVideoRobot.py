@@ -1,45 +1,26 @@
 import cv2
+from threading import Thread
 
+CAMERA_INDEX = 0
 
-class FeedVideoRobot(object):
+class FeedVideoRobot(Thread):
     def __init__(self):
-        self.capture = cv2.VideoCapture(0)
-        self.enregistre = False
-        self._observers = []
-        self._imageCapture = 0
-        self.img = 0
+        Thread.__init__()
+        self.video = None
+        self.initialiserVideo(CAMERA_INDEX)
+        self.video.set(3,1600)
+        self.video.set(4,1200)
+        self.imageCapture = None
 
-    def demarrerCapture(self):
-        self.enregistre = True
-        self._capturer()
+    def initialiserVideo(self, portCamera):
+        self.video = cv2.VideoCapture(portCamera)
+        while not (self.video.isOpened()):
+            print("Camera introuvable, essaye un autre index...")
+            self.video = cv2.VideoCapture(1)
 
-    def get_image(self):
-        return self._imageCapture
+    def run(self):
+        _, self.imageCapture = self.video.read()
+        cv2.imshow("Feed Robot", self.imageCapture)
 
-    def set_image(self, image):
-        self._imageCapture = image
-        for callback in self._observers:
-            callback(self._imageCapture)
-
-    imageCapture = property(get_image, set_image)
-
-    def bind_to(self, callback):
-        self._observers.append(callback)
-
-    def _capturer(self):
-        # On enregistre toutes les x millisecondes
-        while cv2.waitKey(1000) == -1:
-            print ("Capturing ")
-            ret, frame = self.capture.read()
-            self.img = frame
-            self.set_image(frame)
-            #cv2.imshow('image', self._imageCapture)
-
-        if (self.enregistre == False):
-            blur = cv2.blur(self._imageCapture, (5, 5))
-
-    def suspendreCapture(self):
-        self.enregistre = False
-
-    def reprendreCapture(self):
-        self.enregistre = True
+    def getImageCapture(self):
+        return self.imageCapture

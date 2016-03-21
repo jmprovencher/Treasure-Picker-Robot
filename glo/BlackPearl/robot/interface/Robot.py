@@ -1,40 +1,44 @@
 # import the necessary packages
-from elements.Carte import Carte
+from robot.communication.RobotClient import RobotClient
 from robot.vision.AnalyseImageEmbarquee import AnalyseImageEmbarquee
 from robot.interface.FeedVideoRobot import FeedVideoRobot
-from robot.communication.TCPClient import TCPClient
-import ConfigPath
+from threading import Thread, RLock
 
+verrou = RLock()
 
-class Robot(object):
-    def __init__(self):
-        self.phaseAlignement = False
+class Robot(Thread):
+    def __init__(self, uartDriver):
+        Thread.__init__(self)
+        print("Init")
+        self.uartDriver = uartDriver
+        self.alignementTresor = False
+        self.alignementDepot = False
         self.positionTresor = False
-        self.positionDepot = True
-        #monClient = TCPClient()
+        self.positionDepot = False
+        self.demarrerConnectionTCP()
+        self.threadVideo = FeedVideoRobot()
         self.analyseImageEmbarquee = AnalyseImageEmbarquee()
 
+    def run(self):
+        print("UIuu")
 
-    def analyserImage(self, imageCapture):
-        print("Analyzing robot image")
-        self.analyseImageEmbarquee.chargerImage(imageCapture)
-        #self.analyseImageEmbarquee.chargerImage(ConfigPath.Config().appendToProjectPath('images/camera_robot/iles/test_image15.png'))
-        if (self.positionDepot == True):
-            self.analyseImageEmbarquee.evaluerPositionDepot("Rouge")
-            #self.analyseImageEmbarquee.alignementIle.afficherFeed()
-        elif (self.positionTresor == True):
-            self.analyseImageEmbarquee.evaluerPositionTresor()
+    def traiterCommande(self, commande, parametre):
+        if (commande == 'alignement'):
+            self.demarrerPhaseAlignement(parametre)
+        else:
+            self.uartDriver.sendCommand(commande, parametre)
 
-    def debuterPhaseAlignement(self):
-        self.phaseAlignement = True
+    def demarrerPhaseAlignement(self, typeAlignement):
         self.initialiserVideo()
+        if (typeAlignement == "depot"):
+            self.alignementDepot = True
+        else:
+            self.alignementTresor = True
+        self.analyseImageEmbarquee.start()
+
+    def demarrerConnectionTCP(self):
+        self.robotClient = RobotClient(self)
+        self.robotClient.start()
 
     def initialiserVideo(self):
-        self.feedVideo = FeedVideoRobot()
-        self.feedVideo.bind_to(self.analyserImage)
-
-    def suspendreFeedVideo(self):
-        self.feedVideo.suspendreCapture()
-
-    def demarrerFeedVideo(self):
-        self.feedVideo.demarrerCapture()
+        self.threadVideo.start()

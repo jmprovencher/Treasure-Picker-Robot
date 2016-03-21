@@ -24,7 +24,7 @@ class FeedVideoStation(Thread):
         self.video = cv2.VideoCapture(portCamera)
         while (not self.video.isOpened()):
             self.afficher('\na la recherche de la camera')
-            self.video = cv2.VideoCapture(0)
+            self.video = cv2.VideoCapture(1)
 
     def afficher(self, string):
         sys.stdout.write(string)

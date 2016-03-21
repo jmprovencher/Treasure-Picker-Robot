@@ -26,8 +26,9 @@ class Interface(QtGui.QWidget):
         #    self.imageReelle = ImageReelle(image)
         #    self.trajectoire = self.stationBase.getCarte()
         #    imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoire)
-
         self.affichageDeBase = AffichageDeBase(qp)
+        self.threadStationBase.threadVideo.
+        qp.drawPixmap(640, 0, QtGui.QPixmap(self.imageCamera), 0, 90, 640, 480)
         qp.end()
 
     #Cette fonction est automatiquement appelee quand l'image est updater dans stationBase

@@ -1,10 +1,15 @@
 from UARTDriver import UARTDriver
 from TCPClient import TCPClient
 monClient = TCPClient()
-#monUart = UARTDriver('COM8', 9600) #on Windows
-#monUart = UARTDriver('/dev/ttyACM0', 9600) #on linux
+from threading import Thread, RLock
 
-while 1:
+class RobotClient(Thread):
+    def __init__(self, robot):
+        Thread.__init__(self)
+        self.robot = robot
+        self.monClient = TCPClient()
+
+    def run(self):
         while 1:
             try:
                 data = monClient.receiveFile()
@@ -12,7 +17,7 @@ while 1:
             except Exception as e:
                 print e
                 print "Connection Lost, Trying to reconnect"
-                monClient = TCPClient()
+                self.monClient = TCPClient()
 
         if data == -1:
             print('Error while receiving file')
@@ -20,4 +25,5 @@ while 1:
             print data
             commande = data['commande']
             parametre = data['parametre']
+            self.robot.traiterCommande(commande, parametre)
             #monUart.sendCommand(commande, parametre)

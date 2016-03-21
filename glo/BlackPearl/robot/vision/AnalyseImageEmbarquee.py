@@ -2,15 +2,28 @@ import cv2
 import ConfigPath
 from robot.vision.DetectionIle import DetectionIle
 from robot.vision.DetectionTresor import DetectionTresor
+from threading import Thread
 
-class AnalyseImageEmbarquee():
-    def __init__(self):
-        uiu = "showtime"
+COULEUR_CIBLE = "Bleu"
 
-    def chargerImage(self, image):
-        self.imageCamera = image
+class AnalyseImageEmbarquee(Thread):
+    def __init__(self, robot):
+        Thread.__init__()
+        self.robot = robot
+        self.imageCamera = None
+        self.alignementTresor = False
+        self.alignementDepot = False
+
+    def run(self):
+        self.chargerImage()
+        if (self.robot.alignementDepot):
+            self.evaluerPositionDepot(COULEUR_CIBLE)
+        else:
+            self.evaluerPositionTresor()
+
+    def chargerImage(self):
+        self.imageCamera = self.robot.threadVideo.getImageCapture()
         self.estomperImage()
-        #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath(image))
 
     def estomperImage(self):
         blur = cv2.GaussianBlur(self.imageCamera, (5, 5), 0)

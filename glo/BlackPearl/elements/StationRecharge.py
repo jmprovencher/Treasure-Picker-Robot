@@ -3,7 +3,7 @@ from elements.ElementCartographique import ElementCartographique
 class StationRecharge(ElementCartographique):
     def __init__(self):
         self.centre_x = 1500
-        self.centre_y = 0
+        self.centre_y = 5
         self.forme = "Station"
 
     def afficher(self):

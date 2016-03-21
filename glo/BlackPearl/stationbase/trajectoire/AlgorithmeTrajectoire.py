@@ -30,9 +30,7 @@ class AlgorithmeTrajectoire():
             if self.estArriver(cellule):
                 self.simplifierTrajet()
                 return self.trajet
-            elif (self.cellulePlusPres is None):
-                self.cellulePlusPres = cellule
-            elif (self.cellulePlusPres.distance > cellule.distance):
+            elif ((self.cellulePlusPres is None) and (self.distanceADestinationAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y) <= (self.grilleCellule.rayonBuffer*2)**2+1)):
                 self.cellulePlusPres = cellule
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)
@@ -48,6 +46,14 @@ class AlgorithmeTrajectoire():
         self.arriver = self.cellulePlusPres
         self.simplifierTrajet()
         return self.trajet
+
+    def distanceADestinationAuCarre(self, x, y, destX, destY):
+        distanceX = destX - x
+        distanceY = destY - y
+        distanceX = self.pixelXACentimetre(distanceX)
+        distanceY = self.pixelYACentimetre(distanceY)
+        distanceCarre = distanceX**2 + distanceY**2
+        return distanceCarre
 
     def simplifierTrajet(self):
         self.trajet = [(self.arriver.x, self.arriver.y)]

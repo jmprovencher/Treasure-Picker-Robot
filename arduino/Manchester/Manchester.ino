@@ -7,10 +7,10 @@ bool complete = false;
 int compteur = 0;
 int nombreDeSuite = 1;
 
-bool arrayCode[32] = {0};
-bool arrayBigReset[32] = {0};
-bool arrayDecode[7] = {0};
-bool arraySmallReset[7] = {0};
+int arrayCode[32] = {0};
+int arrayBigReset[32] = {0};
+int arrayDecode[7] = {0};
+int arraySmallReset[7] = {0};
 
 int codeSecret = 0;
 unsigned int count = 0;
@@ -37,9 +37,11 @@ void loop()
     stateClock = digitalRead(pinClock);
     stateManchester = digitalRead(pinManchester);
     bitDecode = stateClock ^ stateManchester;
-      //Serial.println(stateManchester);
-      //Serial.println(stateClock);
-      //Serial.println(bitDecode);
+    Serial.print(stateManchester);
+    Serial.print("-");
+    Serial.print(stateClock);
+    Serial.print("-");
+    Serial.println(bitDecode);
     arrayCode[compteur] = bitDecode;
     compteur++;
   }
@@ -101,7 +103,10 @@ void loop()
 
 void Reading()
 {
-  count++;
+  delay(50);
+  if(digitalRead(pinClock) == HIGH){
+    count++;
+  }
 }
 
 

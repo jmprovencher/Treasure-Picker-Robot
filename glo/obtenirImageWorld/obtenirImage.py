@@ -8,7 +8,7 @@ ramp_frames = 30
  
 # Now we can initialize the camera capture object with the cv2.VideoCapture class.
 # All it needs is the index to a camera port.
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(camera_port)
 camera.set(3,1600)
 camera.set(4,1200)
 
@@ -25,7 +25,7 @@ for i in xrange(ramp_frames):
 print("Taking image...")
 # Take the actual image we want to keep
 camera_capture = get_image()
-file = "ilebleue.png"
+file = "stationrechargeProche.png"
 # A nice feature of the imwrite method is that it will automatically choose the
 # correct format based on the file extension you provide. Convenient!
 cv2.imwrite(file, camera_capture)

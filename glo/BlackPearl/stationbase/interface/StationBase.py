@@ -19,7 +19,7 @@ class StationBase(Thread):
         self.trajectoireReel = None
         self.trajectoirePrevue = None
         self.envoyerFichier = False
-        #self.demarrerConnectionTCP()
+        self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.demarrerAnalyseImageWorld()

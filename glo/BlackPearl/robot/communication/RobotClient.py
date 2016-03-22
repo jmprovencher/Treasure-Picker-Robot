@@ -1,6 +1,5 @@
 from UARTDriver import UARTDriver
 from TCPClient import TCPClient
-monClient = TCPClient()
 from threading import Thread, RLock
 
 class RobotClient(Thread):
@@ -11,8 +10,9 @@ class RobotClient(Thread):
 
     def run(self):
         while 1:
+            print("RobotClient run")
             try:
-                data = monClient.receiveFile()
+                data = self.monClient.receiveFile()
                 break
             except Exception as e:
                 print e

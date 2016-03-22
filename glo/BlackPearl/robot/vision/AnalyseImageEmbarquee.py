@@ -8,13 +8,14 @@ COULEUR_CIBLE = "Bleu"
 
 class AnalyseImageEmbarquee(Thread):
     def __init__(self, robot):
-        Thread.__init__()
+        Thread.__init__(self)
         self.robot = robot
         self.imageCamera = None
         self.alignementTresor = False
         self.alignementDepot = False
 
     def run(self):
+        print("Analyse run...")
         self.chargerImage()
         if (self.robot.alignementDepot):
             self.evaluerPositionDepot(COULEUR_CIBLE)

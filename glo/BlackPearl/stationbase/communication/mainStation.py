@@ -2,7 +2,7 @@ from TCPServer import TCPServer
 from RequeteJSON import RequeteJSON
 import time
 monServer = TCPServer()
-print monServer.connectionEstablished
+#print monServer.connectionEstablished
 while 1:
     command = raw_input('Enter your command: ')
     if command == 'exit':

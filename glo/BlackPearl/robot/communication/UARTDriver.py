@@ -13,6 +13,12 @@ class UARTDriver:
         time.sleep(2)  # the sleep time is important to make sure we don't send any messages before the initialization is complete
         return UART
 
+    def cameraPositionDepot(self):
+        self.UART.write(b'e'.encode())
+
+    def cameraPositionTresor(self):
+        self.UART.write(b'd'.encode())
+
     def sendCommand(self, command, parameter):
 
         if command == 'forward':

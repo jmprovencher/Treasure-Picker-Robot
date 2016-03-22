@@ -16,26 +16,29 @@ class DetectionIle(object):
         self.rayonZone = 100
 
         self._definirIntervallesCouleurs()
-        self.dessinerZoneDepot()
+        self.dessinerZoneCible()
         self.detecterIle()
+        self.ajustements = []
 
     def evaluerPosition(self, contoursIle):
         position_x, position_y = self.trouverCentreForme(contoursIle)
-        positionZone_x, positionZone_y = (810, 730)
+        positionZone_x, positionZone_y = self.positionZone
         distance_x = (positionZone_x - position_x)
         distance_y = (positionZone_y - position_y)
         distance = math.sqrt(math.pow(distance_x, 2) + math.pow(distance_y, 2))
         _, rayon = cv2.minEnclosingCircle(contoursIle)
+
+        ######### A retravailler
         if (distance <= self.rayonZone):
             self.alignementTerminer = True
             self.dessinerZoneIle((position_x, position_y), rayon)
             self.alignementIle.completerDepot()
+            self.ajustements = []
         else:
             self.dessinerZoneIle((position_x, position_y), rayon)
-            self.alignementIle.ajusterPosition(distance_x, distance_y)
-        print("Distance: %d" % distance)
+            self.ajustements = self.alignementIle.calculerAjustement(distance_x, distance_y)
 
-    def dessinerZoneDepot(self):
+    def dessinerZoneCible(self):
         cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)
 
     def dessinerZoneIle(self, position, rayon):
@@ -67,7 +70,7 @@ class DetectionIle(object):
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
 
         cv2.imshow(couleurForme, masqueCouleur)
-        #cv2.waitKey(0)
+        # cv2.waitKey(0)
 
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
@@ -81,7 +84,7 @@ class DetectionIle(object):
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
 
-        if (len(contoursCouleur) !=0):
+        if (len(contoursCouleur) != 0):
             self.evaluerPosition(contoursCouleur[0])
 
     def trouverCentreForme(self, contoursForme):

@@ -19,7 +19,7 @@ class StationBase(Thread):
         self.trajectoireReel = None
         self.trajectoirePrevue = None
         self.envoyerFichier = False
-        self.demarrerConnectionTCP()
+        #self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.demarrerAnalyseImageWorld()
@@ -55,10 +55,11 @@ class StationBase(Thread):
 
     def etapeStation(self):
         self.identifierDestination('RECHARGE')
+        self.trajectoirePrevue = []
         while 1:
-            if (not self.carte.infoRobot is None):
-                self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.carte.infoRobot.getCentre(), self.destination)
-                break
+        #    if (not self.carte.infoRobot is None):
+        #        self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.carte.infoRobot.getCentre(), self.destination)
+        #        break
             time.sleep(1)
 
 

@@ -25,7 +25,7 @@ class AnalyseImageWorld(Thread):
     def run(self):
         while 1:
             self.chargerImage()
-            #self.trouverRobot()
+            self.trouverRobot()
             time.sleep(0.01)
 
     def attendreFeed(self):
@@ -84,7 +84,7 @@ class AnalyseImageWorld(Thread):
             with verrou:
                 self.stationBase.carte.listeTresors.append(Tresor(centreForme))
 
-        #self.trouverRobot()
+        self.trouverRobot()
 
     def trouverInfoRobot(self, formesDetectees):
         contourAvant, contourArriere = formesDetectees

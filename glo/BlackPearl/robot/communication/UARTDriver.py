@@ -21,15 +21,15 @@ class UARTDriver:
 
         elif command == 'backward':
             self.UART.write(b'2'.encode())
-            self.UART.write(parameter)
+            self.UART.write(str(parameter).encode())
 
         elif command == 'left':
             self.UART.write(b'4'.encode())
-            self.UART.write(parameter)
+            self.UART.write(str(parameter).encode())
 
         elif command == 'right':
             self.UART.write(b'6'.encode())
-            self.UART.write(parameter)
+            self.UART.write(str(parameter).encode())
 
         elif command == 'armUp':
             pass

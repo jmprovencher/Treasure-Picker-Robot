@@ -21,13 +21,13 @@ class Interface(QtGui.QWidget):
         qp = QPainter()
         qp.begin(self)
         #print(self.demarre)
-        if (self.demarre):
+        #if (self.demarre):
         #    print("Paint event")
         #    image = self.obtenirImageReelle()
         #    self.imageReelle = ImageReelle(image)
         #    self.trajectoire = self.stationBase.getCarte()
         #    imageVirtuelle = ImageVirtuelle(qp, self.ilesDetectees, self.tresorsDetectes, self.trajectoire)
-            qp.drawPixmap(640, 0, QtGui.QPixmap(self.threadStationBase.threadVideo.getcaptureTable), 0, 90, 640, 480)
+            #qp.drawPixmap(640, 0, QtGui.QPixmap(self.threadStationBase.threadVideo.captureTable), 0, 90, 640, 480)
         self.affichageDeBase = AffichageDeBase(qp)
         qp.end()
 
@@ -44,7 +44,6 @@ class Interface(QtGui.QWidget):
 
     def demarrerRoutine(self):
         self.threadStationBase = StationBase()
-        time.sleep(5)
         self.threadStationBase.start()
         self.demarre = True
 

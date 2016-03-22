@@ -8,10 +8,10 @@ import time
 verrou = RLock()
 
 class Robot(Thread):
-    def __init__(self):
+    def __init__(self, uartDriver):
         Thread.__init__(self)
         print("Robot init")
-        #self.uartDriver = uartDriver
+        self.uartDriver = uartDriver
         self.alignementTresor = False
         self.alignementDepot = False
         self.positionTresor = False
@@ -51,5 +51,5 @@ class Robot(Thread):
             self.demarrerPhaseAlignement(parametre)
         else:
             print("Commande directe")
-            #self.uartDriver.sendCommand(commande, parametre)
+            self.uartDriver.sendCommand(commande, parametre)
 

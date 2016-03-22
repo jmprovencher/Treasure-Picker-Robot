@@ -51,5 +51,5 @@ class Robot(Thread):
             self.demarrerPhaseAlignement(parametre)
         else:
             print("Commande directe")
-            #self.uartDriver.sendCommand(commande, parametre)
+            self.uartDriver.sendCommand(commande, parametre)
 

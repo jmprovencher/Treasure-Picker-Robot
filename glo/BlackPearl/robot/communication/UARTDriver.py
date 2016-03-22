@@ -17,7 +17,7 @@ class UARTDriver:
 
         if command == 'forward':
             self.UART.write(b'8'.encode())
-            self.UART.write(parameter)
+            self.UART.write(parameter.encode())
 
         elif command == 'backward':
             self.UART.write(b'2'.encode())

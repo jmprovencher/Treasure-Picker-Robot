@@ -12,7 +12,7 @@ class FeedVideoStation(Thread):
         self.video = None
         self.captureTable = None
         self.feedEstDemare = False
-        self.initVideo(0)
+        self.initVideo(1)
 
     def run(self):
         while 1:

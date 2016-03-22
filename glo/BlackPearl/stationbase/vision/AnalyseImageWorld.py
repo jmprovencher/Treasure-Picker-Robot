@@ -19,16 +19,21 @@ class AnalyseImageWorld(Thread):
         self.stationBase = stationBase
         self.police = cv2.FONT_HERSHEY_SIMPLEX
         self.image = None
+        self.attendreFeed()
         self.detectionPrimaire()
 
     def run(self):
         while 1:
             self.chargerImage()
-            self.trouverRobot()
+            #self.trouverRobot()
+            time.sleep(0.01)
+
+    def attendreFeed(self):
+        while self.stationBase.threadVideo.captureTable is None:
             time.sleep(0.01)
 
     def chargerImage(self):
-        self.image = self.stationBase.threadVideo.getcaptureTable()
+        self.image = self.stationBase.threadVideo.captureTable
         self.recadrerImage()
         self.estomperImage()
 
@@ -79,7 +84,7 @@ class AnalyseImageWorld(Thread):
             with verrou:
                 self.stationBase.carte.listeTresors.append(Tresor(centreForme))
 
-        self.trouverRobot()
+        #self.trouverRobot()
 
     def trouverInfoRobot(self, formesDetectees):
         contourAvant, contourArriere = formesDetectees

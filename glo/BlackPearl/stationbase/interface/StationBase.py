@@ -19,12 +19,11 @@ class StationBase(Thread):
         self.trajectoireReel = None
         self.trajectoirePrevue = None
         self.envoyerFichier = False
+        #self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.demarrerAnalyseImageWorld()
         self.demarrerImageVirtuelle()
-        self.demarrerConnectionTCP()
-
 
     def run(self):
         self.demarerRoutine()
@@ -38,7 +37,6 @@ class StationBase(Thread):
         self.threadCommunication.start()
 
     def demarrerAnalyseImageWorld(self):
-        time.sleep(5) #TODO: Verifier que la premiere capture est bel et bien effectue
         self.threadAnalyseImageWorld = AnalyseImageWorld(self)
         self.threadAnalyseImageWorld.start()
 
@@ -47,7 +45,6 @@ class StationBase(Thread):
         self.threadImageVirtuelle.start()
 
     def demarerRoutine(self):
-        time.sleep(5) #TODO: Verifier que la premiere analise est bel et bien effectue
         self.carte.trajectoire.initGrilleCellule(self.carte.listeIles)
         self.etapeStation()
         time.sleep(100000)
@@ -59,9 +56,10 @@ class StationBase(Thread):
     def etapeStation(self):
         self.identifierDestination('RECHARGE')
         while 1:
-            if (not self.carte.infoRobot.getCentre() is None):
+            if (not self.carte.infoRobot is None):
                 self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.carte.infoRobot.getCentre(), self.destination)
                 break
+            time.sleep(1)
 
 
 

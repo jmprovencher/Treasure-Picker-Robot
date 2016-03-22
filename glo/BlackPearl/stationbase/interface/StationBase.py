@@ -2,7 +2,7 @@
 from elements.Carte import Carte
 from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
 from stationbase.interface.FeedVideoStation import FeedVideoStation
-from stationbase.communication.Communication import Communication
+from stationbase.communication.StationServeur import StationServeur
 from stationbase.interface.ImageVirtuelle import ImageVirtuelle
 import time
 import sys
@@ -15,15 +15,16 @@ verrou = RLock()
 class StationBase(Thread):
     def __init__(self):
         Thread.__init__(self)
-        self.demarrerFeedVideo()
-        self.carte = Carte()
-        self.trajectoirePrevue = None
-        self.demarerAnalyseImageWorld()
-        self.demarerImageVirtuelle()
-        self.envoyerFichier = False
-        self.demarerConnectionTCP()
         self.destination = None
         self.trajectoireReel = None
+        self.trajectoirePrevue = None
+        self.envoyerFichier = False
+        self.demarrerFeedVideo()
+        self.carte = Carte()
+        self.demarrerAnalyseImageWorld()
+        self.demarrerImageVirtuelle()
+        self.demarrerConnectionTCP()
+
 
     def run(self):
         self.demarerRoutine()
@@ -32,18 +33,18 @@ class StationBase(Thread):
         self.threadVideo = FeedVideoStation()
         self.threadVideo.start()
 
-    def demarerConnectionTCP(self):
-        self.threadCommunication = Communication(self)
+    def demarrerConnectionTCP(self):
+        self.threadCommunication = StationServeur(self)
         self.threadCommunication.start()
 
-    def demarerAnalyseImageWorld(self):
+    def demarrerAnalyseImageWorld(self):
         time.sleep(5) #TODO: Verifier que la premiere capture est bel et bien effectue
         self.threadAnalyseImageWorld = AnalyseImageWorld(self)
         self.threadAnalyseImageWorld.start()
 
-    def demarerImageVirtuelle(self):
-        self.threadRafraichireImVirtuelle = ImageVirtuelle(self)
-        self.threadRafraichireImVirtuelle.start()
+    def demarrerImageVirtuelle(self):
+        self.threadImageVirtuelle = ImageVirtuelle(self)
+        self.threadImageVirtuelle.start()
 
     def demarerRoutine(self):
         time.sleep(5) #TODO: Verifier que la premiere analise est bel et bien effectue

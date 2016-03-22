@@ -1,5 +1,5 @@
 import cv2
- 
+import numpy as np
 # Camera 0 is the integrated web cam on my netbook
 camera_port = 0
  
@@ -33,3 +33,8 @@ cv2.imwrite(file, camera_capture)
 # You'll want to release the camera, otherwise you won't be able to create a new
 # capture object until your script exits
 del(camera)
+
+
+
+
+

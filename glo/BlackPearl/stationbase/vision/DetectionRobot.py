@@ -64,13 +64,13 @@ class DetectionRobot(object):
         self.intervalleRobot = np.array([15, 0, 75]), np.array([100, 65, 200])
 
     def _definirPatronsFormes(self):
-        patronRobotAvant = cv2.imread(ConfigPath.Config().appendToProjectPath('images/etoile.png'), 0)
+        patronRobotAvant = cv2.imread(ConfigPath.Config().appendToProjectPath('images/xPattern.png'), 0)
         _, threshRobotAvant = cv2.threshold(patronRobotAvant, 127, 255, 0)
         _, contoursRobotAvant, _ = cv2.findContours(threshRobotAvant, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.cntRobotAvant = contoursRobotAvant[0]
         self.formesConnues.append(self.cntRobotAvant)
 
-        patronRobotArriere = cv2.imread(ConfigPath.Config().appendToProjectPath('images/x.png'), 0)
+        patronRobotArriere = cv2.imread(ConfigPath.Config().appendToProjectPath('images/etoilePattern.png'), 0)
         _, threshRobotArriere = cv2.threshold(patronRobotArriere, 127, 255, 0)
         _, contoursRobotArriere, _ = cv2.findContours(threshRobotArriere, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.cntRobotArriere = contoursRobotArriere[0]

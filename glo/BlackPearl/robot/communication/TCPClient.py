@@ -17,8 +17,7 @@ class TCPClient:
                 self.s.connect((self.host, self.port))
                 break
             except Exception as e:
-                pass
-                #print("Connection failed with %s:%d. Exception is %s" % (self.host, self.port, e))
+                print("Connection failed with %s:%d. Exception is %s" % (self.host, self.port, e))
         return True
 
     def sendFile(self, filename,):

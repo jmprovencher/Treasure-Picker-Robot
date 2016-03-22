@@ -21,7 +21,7 @@ class StationBase(Thread):
         self.demarerAnalyseImageWorld()
         self.demarerImageVirtuelle()
         self.envoyerFichier = False
-        #self.demarerConnectionTCP()
+        self.demarerConnectionTCP()
         self.destination = None
         self.trajectoireReel = None
 

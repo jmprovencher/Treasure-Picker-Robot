@@ -5,7 +5,7 @@ CAMERA_INDEX = 0
 
 class FeedVideoRobot(Thread):
     def __init__(self):
-        Thread.__init__()
+        Thread.__init__(self)
         self.video = None
         self.initialiserVideo(CAMERA_INDEX)
         self.video.set(3,1600)

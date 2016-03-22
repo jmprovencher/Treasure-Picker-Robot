@@ -9,6 +9,7 @@ from elements.InfoRobot import InfoRobot
 from stationbase.vision.DetectionIles import DetectionIles
 from stationbase.vision.DetectionTresors import DetectionTresors
 from stationbase.vision.DetectionRobot import DetectionRobot
+import math
 
 verrou = RLock()
 
@@ -39,8 +40,8 @@ class AnalyseImageWorld(Thread):
 
     def trouverCentreForme(self, contoursForme):
         MatriceCentreMasse = cv2.moments(contoursForme)
-        centre_x = int(MatriceCentreMasse['m10'] / MatriceCentreMasse['m00'])
-        centre_y = int(MatriceCentreMasse['m01'] / MatriceCentreMasse['m00'])
+        centre_x = int(round(MatriceCentreMasse['m10'] / MatriceCentreMasse['m00']))
+        centre_y = int(round(MatriceCentreMasse['m01'] / MatriceCentreMasse['m00']))
 
         return centre_x, centre_y
 
@@ -80,17 +81,37 @@ class AnalyseImageWorld(Thread):
 
         self.trouverRobot()
 
-    def trouverInfoRobot(self, contourForme):
-        rec = cv2.minAreaRect(contourForme)
-        return ((int(rec[0][0]), int(rec[0][1])), int(rec[2]))
+    def trouverInfoRobot(self, formesDetectees):
+        contourAvant, contourArriere = formesDetectees
+        centreAvant = self.trouverCentreForme(contourAvant)
+        centrearriere = self.trouverCentreForme(contourArriere)
+        centreRobot = ((centreAvant[0]+centrearriere[0])/2, (centreAvant[1]+centrearriere[1])/2)
+        deltaX = centreAvant[0]-centrearriere[0]
+        deltaY = centreAvant[1]-centrearriere[1]
+        if not deltaX == 0:
+            pente = deltaY/deltaX
+
+        if deltaX < 0:
+            angle = 180+math.atan(pente)
+        elif deltaY <= 0 and deltaX > 0:
+            angle = math.atan(pente)
+        elif deltaY > 0 and deltaX > 0:
+            angle = 360+math.atan(pente)
+        elif deltaX == 0 and deltaY > 0:
+            angle = 270
+        elif deltaX == 0 and deltaY < 0:
+            angle = 90
+
+        int(round(math.degrees(angle)))
+
+        return (centreRobot, angle)
 
     def trouverRobot(self):
         #print("\ndetection du robot")
         self.detectionRobot = DetectionRobot(self.image)
         self.detectionRobot.detecter()
         if (not self.detectionRobot.robotIdentifiee is None):
-            contoursForme, _, _ = self.detectionRobot.robotIdentifiee
-            centreForme, orientation = self.trouverInfoRobot(contoursForme)
+            centreForme, orientation = self.trouverInfoRobot(self.detectionRobot.robotIdentifiee)
             with verrou:
                 self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
 

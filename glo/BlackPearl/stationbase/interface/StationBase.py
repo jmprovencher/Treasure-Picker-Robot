@@ -57,8 +57,11 @@ class StationBase(Thread):
 
     def etapeStation(self):
         self.identifierDestination('RECHARGE')
-        #self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.carte.infoRobot.getCentre(), self.destination)
-        self.trajectoirePrevue = []
+        while 1:
+            if (not self.carte.infoRobot.getCentre() is None):
+                self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.carte.infoRobot.getCentre(), self.destination)
+                break
+
 
 
 

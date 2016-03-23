@@ -30,6 +30,7 @@ class RobotClient(Thread):
                 print data
                 commande = data['commande']
                 parametre = data['parametre']
+
                 self.robot.traiterCommande(commande, parametre)
                 #monUart.sendCommand(commande, parametre)
 

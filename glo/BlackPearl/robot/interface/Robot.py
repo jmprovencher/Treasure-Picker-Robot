@@ -12,17 +12,18 @@ class Robot(Thread):
         Thread.__init__(self)
         print("Robot init")
         self.uartDriver = uartDriver
+        self.instructions = []
         self.alignementTresor = False
         self.alignementDepot = False
         self.positionTresor = False
         self.positionDepot = False
         self.tacheTerminee = False
-        self.demarrerConnectionTCP()
+        #self.demarrerConnectionTCP()
+        self.demarrerAlignement('tresor')
+
 
     def run(self):
         print("Robot run")
-        #if(self.tacheTerminee):
-
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoRobot()
@@ -33,22 +34,36 @@ class Robot(Thread):
         self.robotClient = RobotClient(self)
         self.robotClient.start()
 
-    def demarrerPhaseAlignement(self, typeAlignement):
-        self.demarrerFeedVideo()
-        time.sleep(2)
-        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
+    def demarrerAlignement(self, typeAlignement):
         if (typeAlignement == "depot"):
             self.alignementDepot = True
-        else:
+            #self.uartDriver.cameraPositionDepot()
+        if (typeAlignement == "tresor"):
             self.alignementTresor = True
+            #self.uartDriver.cameraPositionTresor()
 
+        #self.demarrerFeedVideo()
+        time.sleep(2)
+        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
+        print("Envoie les commandes d'ajustements")
+        self.effectuerAlignement()
+
+    def effectuerAlignement(self):
+        for inst in self.instructions:
+            #self.uartDriver.sendCommand(inst)
+            #Attendre que la commande soit faite, trouver autre moyen plus tard
+            time.sleep(2)
+
+    def ajouterCommande(self, instructions):
+        self.instructions.append(instructions)
 
     def traiterCommande(self, commande, parametre):
         if (commande == 'alignement'):
             print("Commence phase alignement: %s", parametre)
-            self.demarrerPhaseAlignement(parametre)
+
+            self.demarrerAlignement(parametre)
         else:
             print("Commande directe")
             self.uartDriver.sendCommand(commande, parametre)

@@ -19,8 +19,10 @@ class FeedVideoRobot(Thread):
             self.video = cv2.VideoCapture(1)
 
     def run(self):
-        _, self.imageCapture = self.video.read()
-        cv2.imshow("Feed Robot", self.imageCapture)
+        while 1:
+            print ("RobotFeed thread is running...")
+            _, self.imageCapture = self.video.read()
+            cv2.imshow("Feed Robot", self.imageCapture)
 
     def getImageCapture(self):
         return self.imageCapture

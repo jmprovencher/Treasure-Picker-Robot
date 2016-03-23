@@ -14,6 +14,7 @@ const int pinsDrive[4] = {3, 6, 7, 8};
 const int pinsDirection[8] = {9, 10, 11, 12, 15, 16, 26, 28};
 const int pinsRead[4] = {14, 20, 19, 21};
 const int pinElectroAimant = 5;
+const int pinCondensateur = 29;
 int spdWheels[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 unsigned long spdBuffer = 0;
@@ -57,6 +58,7 @@ void setup() {
   }
   attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
   attachInterrupt(digitalPinToInterrupt(21), decrementDuration, FALLING);
+  pinMode(pinCondensateur, OUTPUT);
 }
 
 void loop() {
@@ -109,6 +111,12 @@ void stopWheels(){
       analogWrite(pinsDirection[i], 0);
   }
 }
+
+float readCapacitorVoltage(){
+  int capacitorVoltageValue = analogRead(A0);
+  float capacitorVoltage = capacitorVoltageValue * (5.0 / 1023.0);
+  return capacitorVoltage;
+  }
 
 void serialEvent(){
     // read the incoming byte:
@@ -165,23 +173,25 @@ void serialEvent(){
         }
         mode = true;
       } 
-      else if(incomingByte == 93){
-        action = "Activate Magnet";
-        analogWrite(pinElectroAimant, 255);
-      }
-      else if(incomingByte == 94){
-        action = "Deactivate Magnet";
-        analogWrite(pinElectroAimant, 0);
-      }
-      else if(incomingByte == 95){
-        action = "Prehenseur down";
-        prehenseurMaestro.setTarget(0, 6000);
+      else if(incomingByte == 103){
+        action = "Pickup Treasure";
+        analogWrite(pinElectroAimant, 255); //Magnet on
+        prehenseurMaestro.setTarget(0, 6000); //Servo down
         prehenseurMaestro.setTarget(1, 6200);
-      }
-      else if(incomingByte == 96){
-        action = "Prehenseur up ";
-        prehenseurMaestro.setTarget(0, 6000);
+        //reculer un ti peu
+        prehenseurMaestro.setTarget(0, 6000); //Servo up
         prehenseurMaestro.setTarget(1, 4044);
+        analogWrite(pinElectroAimant, 0); // Magnet off
+      }
+      else if(incomingByte == 104){
+        action = "Drop Treasure";
+        analogWrite(pinElectroAimant, 255); //Magnet on
+        prehenseurMaestro.setTarget(0, 6000); //Servo down
+        prehenseurMaestro.setTarget(1, 6200);
+        analogWrite(pinElectroAimant, 0); // Magnet off
+        prehenseurMaestro.setTarget(0, 6000); //Servo up
+        prehenseurMaestro.setTarget(1, 4044);
+   
       }
       else if(incomingByte == 98){
         action = "Camera Left ";
@@ -202,6 +212,14 @@ void serialEvent(){
         action = "Camera Treasure ";
         maestro.setTarget(0,6000);
         maestro.setTarget(1, 4044);
+      }
+      else if(incomingByte == 101){
+        action = "Charger condensateur";
+        digitalWrite(pinCondensateur, HIGH);
+      }
+      else if(incomingByte == 102){
+        action = "Stop condensateur";
+        digitalWrite(pinCondensateur, LOW);
       }
       else{
         action = "Invalid action ";

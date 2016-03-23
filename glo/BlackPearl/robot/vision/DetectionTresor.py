@@ -2,6 +2,9 @@ import cv2
 import numpy as np
 import math
 
+KNOWN_DISTANCE = 8
+KNOWN_WIDTH = 1.0
+FOCAL_LENGTH = 864
 
 class DetectionTresor(object):
     def __init__(self, image):
@@ -12,7 +15,7 @@ class DetectionTresor(object):
         self.dessinerZoneCible()
         self.alignementTerminer = False
         self.ajustements = []
-
+        
         self.detecterTresor()
 
     def evaluerPosition(self, contoursIle):
@@ -48,8 +51,30 @@ class DetectionTresor(object):
         print(position)
         cv2.circle(self.imageCamera, position, 10, (0, 0, 255), 2)
 
+    def trouverDistance(self, contoursTresor):
+        zoneTresor = cv2.minAreaRect(contoursTresor)
+        #focalLength = (marker[1][0] * KNOWN_DISTANCE) / KNOWN_WIDTH
+        #print("Focal length: %d" %focalLength)
+        inches = self._calculerDistanceCamera(KNOWN_WIDTH, FOCAL_LENGTH, zoneTresor[1][0])
+
+        boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
+        cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
+        cv2.putText(self.imageCamera, "%.2f cm" % (inches*2.54) ,(self.imageCamera.shape[1] - 300, self.imageCamera.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX,2.0, (0, 255, 0), 3)
+        cv2.imshow("image", self.imageCamera)
+        cv2.waitKey(0)
+
     def detecterTresor(self):
         self._detecterFormeCouleur(self.intervalleJaune)
+
+    def trouverCentreForme(self, contoursForme):
+        MatriceCentreMasse = cv2.moments(contoursForme)
+        centre_x = int(MatriceCentreMasse['m10'] / MatriceCentreMasse['m00'])
+        centre_y = int(MatriceCentreMasse['m01'] / MatriceCentreMasse['m00'])
+
+        return centre_x, centre_y
+
+    def _calculerDistanceCamera(self, knownWidth, focalLength, perWidth):
+        return (knownWidth * focalLength) / perWidth
 
     def _detecterFormeCouleur(self, intervalleCouleur):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
@@ -71,17 +96,8 @@ class DetectionTresor(object):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
 
         if (len(contoursCouleur) != 0):
-            self.evaluerPosition(contoursCouleur[0])
-
-    def afficherFeed(self):
-        cv2.imshow("Detection Tresor", self.imageCamera)
-
-    def trouverCentreForme(self, contoursForme):
-        MatriceCentreMasse = cv2.moments(contoursForme)
-        centre_x = int(MatriceCentreMasse['m10'] / MatriceCentreMasse['m00'])
-        centre_y = int(MatriceCentreMasse['m01'] / MatriceCentreMasse['m00'])
-
-        return centre_x, centre_y
+            self.trouverDistance(contoursCouleur[0])
+            #self.evaluerPosition(contoursCouleur[0])
 
     def _definirIntervallesCouleurs(self):
         self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"

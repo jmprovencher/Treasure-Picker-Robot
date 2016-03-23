@@ -46,6 +46,5 @@ class Interface(QtGui.QWidget):
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
         QtGui.QApplication.processEvents()
         self.feed.repaint()
-        #print 1
 
 

@@ -2,7 +2,6 @@ from TCPServer import TCPServer
 from RequeteJSON import RequeteJSON
 import time
 monServer = TCPServer()
-#print monServer.connectionEstablished
 while 1:
     command = raw_input('Enter your command: ')
     if command == 'exit':
@@ -29,7 +28,6 @@ while 1:
                 print "Connection with the remote host lost, Trying to reconnect"
                 monServer.closeConnection()
                 monServer = TCPServer()
-                print monServer.connectionEstablished
             else:
                 break
 

@@ -25,7 +25,7 @@ class DetectionRobot(object):
         meilleurMatch = min(resultatsMatch)
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme
-        print precision
+        #print precision
 
         if (precision < 0.2):
             #print (nomForme, precision)
@@ -42,8 +42,8 @@ class DetectionRobot(object):
     def _detecterForme(self):
         intervalleFonce, intervalleClair = self.intervalleRobot
         masqueRobot = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        cv2.imshow('robot', masqueRobot)
-        cv2.waitKey(0)
+        #cv2.imshow('robot', masqueRobot)
+        #cv2.waitKey(0)
         _, contoursRobot, _ = cv2.findContours(masqueRobot.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
@@ -57,8 +57,6 @@ class DetectionRobot(object):
 
         for contoursForme in contoursRobot:
             self._trouverForme(contoursForme)
-
-        print '\n'
 
     def _definirIntervalleRobot(self):
         self.intervalleRobot = np.array([15, 0, 75]), np.array([100, 65, 200])

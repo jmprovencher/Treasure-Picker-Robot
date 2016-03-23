@@ -19,6 +19,7 @@ class AnalyseImageWorld(Thread):
         self.stationBase = stationBase
         self.police = cv2.FONT_HERSHEY_SIMPLEX
         self.image = None
+        self.imageCropper = None
         self.attendreFeed()
         self.detectionPrimaire()
 
@@ -35,6 +36,7 @@ class AnalyseImageWorld(Thread):
     def chargerImage(self):
         self.image = self.stationBase.threadVideo.captureTable
         self.recadrerImage()
+        self.imageCropper = self.image
         self.estomperImage()
 
     def recadrerImage(self):

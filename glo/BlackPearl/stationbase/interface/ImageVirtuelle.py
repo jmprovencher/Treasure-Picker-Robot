@@ -10,27 +10,22 @@ class ImageVirtuelle(Thread):
     def __init__(self, stationBase):
         Thread.__init__(self)
         self.stationBase = stationBase
-        self.chargerImageVirtuelle()
+        self.imageVirtuelle = None
         self.police = cv2.FONT_HERSHEY_SIMPLEX
-        self.dessinerElementCarto()
-        self.anciennePosRobot = None
-        self.trajetPrevuDessine = False
+        self.anciennePosRobot = []
+        self.chargerImageVirtuelle()
 
     def run(self):
         while 1:
-            if (self.stationBase.trajectoirePrevue is None and self.trajetPrevuDessine == True):
-                self.reinitialiserImage()
-            elif ((not self.stationBase.trajectoirePrevue is None) and self.trajetPrevuDessine == False):
-                #self.dessinerTrajetPrevu()
-                self.dessinerRobot()
-            elif ((not self.stationBase.trajectoirePrevue is None) and self.trajetPrevuDessine == True):
-                self.dessinerRobot()
-            cv2.imshow('Image Virtuelle', self.imageVirtuelle)
+            if (self.stationBase.trajectoirePrevue is None):
+                anciennePosRobot = []
+            self.chargerImageVirtuelle()
+            #cv2.imshow('Image Virtuelle', self.imageVirtuelle)
             time.sleep(0.01)
 
     def chargerImageVirtuelle(self):
-        self.imageVirtuelle = self.imageVirtuelle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/imageVide.png'))
-        self.recadrerImage()
+        self.imageVirtuelle = self.stationBase.threadAnalyseImageWorld.imageCropper
+        self.dessinerElementCarto()
 
     def dessinerElementCarto(self):
         for ile in self.stationBase.carte.listeIles:
@@ -39,9 +34,7 @@ class ImageVirtuelle(Thread):
         for tresor in self.stationBase.carte.listeTresors:
             cv2.putText(self.imageVirtuelle, tresor.forme, (tresor.centre_x - 25, ile.centre_y),
                         self.police, 0.5, self.getColor('Jaune'), 1, cv2.LINE_AA)
-
-    def recadrerImage(self):
-        self.imageVirtuelle = self.imageVirtuelle[155:1010, 0:1600]
+        self.dessinerRobot()
 
     def dessinerTrajetPrevu(self):
         if (len(self.stationBase.trajectoirePrevue) > 1):
@@ -67,15 +60,11 @@ class ImageVirtuelle(Thread):
 
     def dessinerRobot(self):
         if (not self.stationBase.carte.infoRobot == None):
-            if (self.anciennePosRobot == None):
-                self.anciennePosRobot = (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y)
-            else:
-                cv2.arrowedLine(self.imageVirtuelle, self.anciennePosRobot, (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y), (0,0,0), 2)
-                self.anciennePosRobot = (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y)
-
-    def reinitialiserImage(self):
-        self.chargerImageVirtuelle()
-        self.dessinerElementCarto()
+            self.anciennePosRobot.append((self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y))
+            if (len(self.anciennePosRobot) >= 2):
+                for i in reversed(range(len(self.anciennePosRobot)-1)):
+                    cv2.arrowedLine(self.imageVirtuelle, self.anciennePosRobot[i], self.anciennePosRobot[i+1], (0,0,0), 2)
+                    self.anciennePosRobot = (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y)
 
     def getColor(self, couleur):
         if (couleur == 'Rouge'):

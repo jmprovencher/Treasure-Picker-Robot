@@ -9,6 +9,8 @@ class DetectionRobot(object):
         self.formesConnues = []
         self.formeAvant = None
         self.formeArriere = None
+        self.conteurAvant = 0
+        self.conteurArriere = 0
         self._definirIntervalleRobot()
         self._definirPatronsFormes()
         self.robotIdentifiee = None
@@ -25,41 +27,42 @@ class DetectionRobot(object):
         meilleurMatch = min(resultatsMatch)
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme
-        #print precision
 
         if (precision < 0.2):
-            #print (nomForme, precision)
             if (nomForme == 'Avant'):
+                self.conteurAvant = self.conteurAvant + 1
                 self.formeAvant = formeIdentifiee
             else:
+                self.conteurArriere = self.conteurArriere + 1
                 self.formeArriere = formeIdentifiee
 
-        if ((self.formeArriere is None) or (self.formeAvant is None)):
-            self.robotIdentifiee = None
-        else:
-            self.robotIdentifiee = (self.formeAvant[0], self.formeArriere[0])
-
     def _detecterForme(self):
+        self.formeArriere = None
         intervalleFonce, intervalleClair = self.intervalleRobot
         masqueRobot = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        #cv2.imshow('robot', masqueRobot)
-        #cv2.waitKey(0)
         _, contoursRobot, _ = cv2.findContours(masqueRobot.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
         for contours in range(len(contoursRobot)):
             aire = cv2.contourArea(contoursRobot[contours])
-            if ((aire < 200) or (aire > 1000)):
+            if ((aire < 500) or (aire > 1500)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):
             contoursRobot = np.delete(contoursRobot, contoursNegligeable)
 
+        self.conteurAvant = 0
+        self.conteurArriere = 0
         for contoursForme in contoursRobot:
             self._trouverForme(contoursForme)
 
+        if ((not self.conteurArriere == 1) or (not self.conteurAvant == 1)):
+            self.robotIdentifiee = None
+        else:
+            self.robotIdentifiee = (self.formeAvant[0], self.formeArriere[0])
+
     def _definirIntervalleRobot(self):
-        self.intervalleRobot = np.array([15, 0, 75]), np.array([100, 65, 200])
+        self.intervalleRobot = np.array([0, 0, 0]), np.array([180, 130, 210])
 
     def _definirPatronsFormes(self):
         patronRobotAvant = cv2.imread(ConfigPath.Config().appendToProjectPath('images/xPattern.png'), 0)
@@ -73,6 +76,8 @@ class DetectionRobot(object):
         _, contoursRobotArriere, _ = cv2.findContours(threshRobotArriere, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.cntRobotArriere = contoursRobotArriere[0]
         self.formesConnues.append(self.cntRobotArriere)
+
+
 
 
 

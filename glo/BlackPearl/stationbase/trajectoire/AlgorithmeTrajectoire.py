@@ -30,7 +30,7 @@ class AlgorithmeTrajectoire():
             if self.estArriver(cellule):
                 self.simplifierTrajet()
                 return self.trajet
-            elif ((self.cellulePlusPres is None) and (cellule.atteignable) and (not cellule.parent is None)):# and (self.distanceADestination(cellule.x, cellule.y, self.arriver.x, self.arriver.y) <= (self.grilleCellule.rayonBuffer*2)+1)):
+            elif ((self.cellulePlusPres is None) and (cellule.atteignable) and (not cellule.parent is None)) and ((self.distanceADestination(cellule.x, cellule.y, self.arriver.x, self.arriver.y) <= (self.grilleCellule.rayonBuffer*2)+1)):
                 self.cellulePlusPres = cellule
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)
@@ -43,7 +43,7 @@ class AlgorithmeTrajectoire():
                         self.rafraichirCellule(adj, cellule)
                         heapq.heappush(self.heapOuvert, (adj.priorite, adj))
 
-        self.setArriver(self.cellulePlusPres)
+        self.arriver = self.cellulePlusPres
         self.simplifierTrajet()
         return self.trajet
 
@@ -56,10 +56,10 @@ class AlgorithmeTrajectoire():
         return distanceCarre
 
     def distanceADestination(self, x, y, destX, destY):
-        distanceX = destX - x
-        distanceY = destY - y
-        distanceX = self.grilleCellule.depPixelXACentimetre(distanceX)
-        distanceY = self.grilleCellule.depPixelYACentimetre(distanceY)
+        distancePixX = destX - x
+        distancePixY = destY - y
+        distanceX = self.grilleCellule.depPixelXACentimetre(distancePixX)
+        distanceY = self.grilleCellule.depPixelYACentimetre(distancePixY)
         distance = int(round(math.sqrt(distanceX**2 + distanceY**2)))
         return distance
 

@@ -10,7 +10,7 @@ class GrilleCellule():
         self.dimensionReel = (300, 100)
         self.incrementX = int((self.dimensionCrop[0]) // self.dimensionReel[0])
         self.incrementY = int((self.dimensionCrop[1]) // self.dimensionReel[1])
-        self.rayonBuffer = 10
+        self.rayonBuffer = 15
         self.listeIles = None
 
     def initGrilleCellule(self, listeIles):
@@ -38,7 +38,7 @@ class GrilleCellule():
         return distanceCarre
                 
     def estAtteignable(self, x, y, listeIles):
-        if (y <= self.depCentimetreYAPixel(self.rayonBuffer*2)) or (y >= self.dimensionCrop[1]-self.depCentimetreYAPixel(self.rayonBuffer*2)):
+        if (y <= self.depCentimetreYAPixel(self.rayonBuffer)) or (y >= self.dimensionCrop[1]-self.depCentimetreYAPixel(self.rayonBuffer)):
             return False
         elif not self.listeIles is None:
             for ile in listeIles:

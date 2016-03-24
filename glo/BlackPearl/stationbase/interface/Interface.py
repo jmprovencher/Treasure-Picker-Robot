@@ -10,6 +10,8 @@ from PyQt4.QtGui import QHeaderView
 from PyQt4.QtGui import QPushButton
 from PyQt4.QtGui import QLabel
 from PyQt4.QtGui import QPainter
+from PyQt4.QtCore import QString
+
 
 import sys
 import ConfigPath
@@ -56,9 +58,10 @@ class Interface(QtGui.QWidget):
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
         QtGui.QApplication.processEvents()
         if(not self.threadStationBase.carte.infoRobot is None):
-            self.orientation.setText(QtCore.QString((str(self.threadStationBase.carte.infoRobot.orientation))+'\xb0'))
+            self.orientation.setText(QString(str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y '+ str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
         self.feed.repaint()
         self.orientation.repaint()
+
 
 
 

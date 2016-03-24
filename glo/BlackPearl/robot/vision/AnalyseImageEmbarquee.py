@@ -30,17 +30,16 @@ class AnalyseImageEmbarquee(Thread):
                 self.evaluerPositionDepot(COULEUR_CIBLE)
             else:
                 self.evaluerPositionTresor()
-                self.ajustementsCalcules = True
+                self.afficherFeed()
+                #self.ajustementsCalcules = True
             time.sleep(1)
             # self.soumettreAjustements()
 
     def chargerImage(self):
-        # peut etre pas necessaire
-        # self.attendreFeedVideo()
-        # self.imageCamera = self.robot.threadVideo.getImageCapture()
-        self.imageCamera = cv2.imread(
-            ConfigPath.Config().appendToProjectPath('images/camera_robot/tresors/test_image5.png'))
-
+        #peut etre pas necessaire
+        #self.attendreFeedVideo()
+        #self.imageCamera = self.robot.threadVideo.getImageCapture()
+        self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('images/camera_robot/tresors/test_image5.png'))
         self.estomperImage()
 
     def estomperImage(self):
@@ -50,15 +49,25 @@ class AnalyseImageEmbarquee(Thread):
 
     def evaluerPositionTresor(self):
         self.detectionTresor = DetectionTresor(self.imageCamera)
+        self.ajustements = self.detectionTresor.ajustements
+
+        if (self.ajustements != []):
+            print("Commandes ajustements PICKUP pretes")
+            self.ajustementsCalcules = True
 
     def evaluerPositionDepot(self, couleurIleCible):
         self.detectionIle = DetectionIle(self.imageCamera, couleurIleCible)
         self.ajustements = self.detectionIle.ajustements
 
         if (self.ajustements != []):
+            print("Commandes ajustements DROP pretes")
             self.ajustementsCalcules = True
 
     def soumettreAjustements(self):
         for instructions in self.ajustementsCalcules:
             print("Commandes envoyees a liste attente: %s" % instructions)
             self.robot.ajouterCommande(instructions)
+
+    def afficherFeed(self):
+        cv2.imshow("Analyse", self.imageCamera)
+        #cv2.waitKey(0)

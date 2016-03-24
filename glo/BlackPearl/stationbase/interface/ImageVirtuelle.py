@@ -31,7 +31,7 @@ class ImageVirtuelle(Thread):
             cv2.putText(self.imageVirtuelle, ile.forme, (ile.centre_x - 25, ile.centre_y),
                         self.police, 0.5, self.getColor(ile.couleur), 1, cv2.LINE_AA)
         for tresor in self.stationBase.carte.listeTresors:
-            cv2.putText(self.imageVirtuelle, tresor.forme, (tresor.centre_x - 25, ile.centre_y),
+            cv2.putText(self.imageVirtuelle, tresor.forme, (tresor.centre_x - 25, tresor.centre_y),
                         self.police, 0.5, self.getColor('Jaune'), 1, cv2.LINE_AA)
         self.dessinerRobot()
 

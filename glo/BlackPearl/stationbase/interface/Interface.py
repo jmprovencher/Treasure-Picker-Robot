@@ -18,14 +18,16 @@ import math
 import sys
 import ConfigPath
 from stationbase.interface.StationBase import StationBase
-from stationbase.interface.AffichageDeBase import AffichageDeBase
+from stationbase.interface.TensionCondensateur import TensionCondensateur
 from stationbase.interface.AfficherImageVirtuelle import AfficherImageVirtuelle
+from stationbase.interface.AffichageDeBase import AffichageDeBase
 import time
 
 class Interface(QtGui.QWidget):
     def __init__(self):
         super(Interface, self).__init__()
         self.threadAfficherImageVirtuelle = AfficherImageVirtuelle(self)
+        self.threadTensionCondensateur = TensionCondensateur()
         self.initUI()
 
     def paintEvent(self, e):
@@ -50,6 +52,8 @@ class Interface(QtGui.QWidget):
         self.btnDemarer.setText('Demarer')
         self.btnDemarer.setGeometry(40, 70, 98, 27)
         self.btnDemarer.clicked.connect(self.demarerRoutine)
+        self.tensionCondensateur = QLabel(self)
+        self.tensionCondensateur.setGeometry(480, 22, 640, 50)
 
     def demarerRoutine(self):
         self.threadStationBase = StationBase()
@@ -66,8 +70,10 @@ class Interface(QtGui.QWidget):
         self.feed.repaint()
         if(not self.threadStationBase.trajectoirePrevue is None):
             self.dessinerDirection(self.threadStationBase.trajectoirePrevue[-1], self.threadStationBase.trajectoirePrevue[-2])
+        self.tensionCondensateur.setText(QString(self.threadTensionCondensateur.tension))
         self.orientation.repaint()
         self.direction.repaint()
+        self.tensionCondensateur.repaint()
 
     def dessinerDirection(self, point1, point2):
         x1, y1 = point1

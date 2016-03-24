@@ -2,6 +2,7 @@
 from robot.communication.RobotClient import RobotClient
 from robot.vision.AnalyseImageEmbarquee import AnalyseImageEmbarquee
 from robot.interface.FeedVideoRobot import FeedVideoRobot
+from robot.interface.TensionCondensateurRobot import TensionCondensateurRobot
 from threading import Thread, RLock
 import time
 
@@ -20,6 +21,7 @@ class Robot(Thread):
         self.tacheTerminee = False
         #self.demarrerConnectionTCP()
         self.demarrerAlignement('tresor')
+        self.threadTensionCondensateurRobot = TensionCondensateurRobot()
 
 
     def run(self):

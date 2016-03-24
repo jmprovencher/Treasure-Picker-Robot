@@ -2,17 +2,19 @@ from PyQt4 import QtGui, QtCore
 import cv2
 import numpy as np
 import time
-from PyQt4.QtCore import QThread
+from threading import Thread
 import ConfigPath
 
-class TensionCondensateur(QThread):
+class TensionCondensateur(Thread):
 
     def __init__(self):
-        QThread.__init__(self)
+        Thread.__init__(self)
         self.tension = '?'
+        self.tensionInt = 1
 
     def run(self):
-
         while 1:
-            self.tension = '1.2'+'V'
-            time.sleep(0.2)
+            self.tensionInt += 1
+            self.tension = str(self.tensionInt)+'V'
+            print(self.tension)
+            time.sleep(1)

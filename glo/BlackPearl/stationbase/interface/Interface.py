@@ -12,6 +12,8 @@ from PyQt4.QtGui import QLabel
 from PyQt4.QtGui import QPainter
 from PyQt4.QtCore import QString
 
+import math
+
 
 import sys
 import ConfigPath
@@ -42,6 +44,8 @@ class Interface(QtGui.QWidget):
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
         self.orientation = QLabel(self)
         self.orientation.setGeometry(380, 22, 440, 50)
+        self.direction = QLabel(self)
+        self.direction.setGeometry(380, 52, 400, 80)
         self.btnDemarer = QPushButton(self)
         self.btnDemarer.setText('Demarer')
         self.btnDemarer.setGeometry(40, 70, 98, 27)
@@ -60,9 +64,15 @@ class Interface(QtGui.QWidget):
         if(not self.threadStationBase.carte.infoRobot is None):
             self.orientation.setText(QString(str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y '+ str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
         self.feed.repaint()
+        if(not self.threadStationBase.trajectoirePrevue is None):
+            self.dessinerDirection(self.threadStationBase.trajectoirePrevue[-1], self.threadStationBase.trajectoirePrevue[-2])
         self.orientation.repaint()
+        self.direction.repaint()
 
-
-
-
-
+    def dessinerDirection(self, point1, point2):
+        x1, y1 = point1
+        x2, y2 = point2
+        vectorX = x2 - x1
+        vectorY = y2 - y1
+        print(str(vectorX))
+        self.direction.setText(QString(str(math.atan(vectorY/vectorX)*180/math.pi)))

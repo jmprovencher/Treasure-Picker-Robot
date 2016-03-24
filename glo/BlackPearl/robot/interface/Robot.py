@@ -35,6 +35,7 @@ class Robot(Thread):
         self.robotClient.start()
 
     def demarrerAlignement(self, typeAlignement):
+        #self.demarrerFeedVideo()
         if (typeAlignement == "depot"):
             self.alignementDepot = True
             #self.uartDriver.cameraPositionDepot()
@@ -42,7 +43,6 @@ class Robot(Thread):
             self.alignementTresor = True
             #self.uartDriver.cameraPositionTresor()
 
-        #self.demarrerFeedVideo()
         time.sleep(2)
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
         self.analyseImageEmbarquee.start()

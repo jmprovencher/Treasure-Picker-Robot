@@ -12,7 +12,7 @@ String action = "";
 
 const int pinsDrive[4] = {3, 6, 7, 8};
 const int pinsDirection[8] = {9, 10, 11, 12, 15, 16, 26, 28};
-const int pinsRead[4] = {14, 20, 19, 21};
+const int pinsRead[4] = {20, 19, 21, 18};
 const int pinElectroAimant = 5;
 int spdWheels[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -42,8 +42,8 @@ PID fourthPID(&Input[3], &Output[3], &Setpoint[3], 0.000055, 0.16, 0, REVERSE);
 PID pidList[4] = {firstPID, secondPID, thirdPID, fourthPID};
 
 void setup() {
-  Serial.begin(9600);
-  Serial1.begin(9600);
+  Serial.begin(115200);
+  Serial1.begin(115200);
   for(int i = 0; i < 4; i++){
     pinMode(pinsDrive[i], OUTPUT);
   }
@@ -53,6 +53,7 @@ void setup() {
   for(int i = 0; i < 4; i++){
     pinMode(pinsRead[i], INPUT);
     pidList[i].SetMode(AUTOMATIC);
+    pidList[i].SetOutputLimits(0, 200);
     pidList[i].SetSampleTime(15);
   }
   attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
@@ -99,7 +100,9 @@ void loop() {
 }
 
 void decrementDuration(){
-  duration--;
+  if(duration > 1){
+    duration--;
+  }
 }
 
 void stopWheels(){

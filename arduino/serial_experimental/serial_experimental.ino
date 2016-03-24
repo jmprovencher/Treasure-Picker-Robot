@@ -12,7 +12,7 @@ String action = "";
 
 const int pinsDrive[4] = {3, 6, 7, 8};
 const int pinsDirection[8] = {9, 10, 11, 12, 15, 16, 26, 28};
-const int pinsRead[4] = {14, 20, 19, 21};
+const int pinsRead[4] = {20, 19, 21, 14};
 const int pinElectroAimant = 5;
 const int pinCondensateur = 29;
 const int pinActivateElectroAimant = 30;
@@ -44,8 +44,8 @@ PID fourthPID(&Input[3], &Output[3], &Setpoint[3], 0.000055, 0.16, 0, REVERSE);
 PID pidList[4] = {firstPID, secondPID, thirdPID, fourthPID};
 
 void setup() {
-  Serial.begin(9600);
-  Serial1.begin(9600);
+  Serial.begin(115200);
+  Serial1.begin(115200);
   for(int i = 0; i < 4; i++){
     pinMode(pinsDrive[i], OUTPUT);
   }

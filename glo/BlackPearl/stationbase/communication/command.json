@@ -1,5 +1,6 @@
-{"parametre": 15,
-  "commande": "forward",
+{
+"parametre": 15,
+"commande": "forward",
 "commande": "backward",
 "commande": "right",
 "commande": "left",
@@ -10,5 +11,6 @@
 "commande": "cameraLeft",
 "commande": "cameraRight",
 "commande": "cameraFront",
-"commande": "cameraTreasure"
+"commande": "cameraTreasure",
+"commande": "rotate"
 }

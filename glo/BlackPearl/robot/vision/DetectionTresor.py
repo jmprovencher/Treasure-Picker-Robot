@@ -20,19 +20,22 @@ class DetectionTresor(object):
         self.alignementTerminer = False
         self.ajustements = []
         
-        self.detecterTresor()
+        self.trouverAjustements()
 
-    def evaluerAjustements(self, offsetLateral, distanceMur):
-
+    def trouverAjustements(self):
+        contoursTresor = self._detecterFormeCouleur(self.intervalleJaune)
+        distanceMur = self._trouverDistanceMur(contoursTresor)
+        offsetLateral = self.trouverOffsetLateral(contoursTresor)
         self.ajustements = self.alignementTresor.calculerAjustement(offsetLateral, distanceMur)
+        self._dessinerInformations(contoursTresor, distanceMur)
 
-
-    def detecterTresor(self):
-        formeTresor = self._detecterFormeCouleur(self.intervalleJaune)
-        distanceMur = self.trouverDistanceMur(formeTresor)
-        offsetLateral = self.trouverOffsetLateral(formeTresor)
-        self.ajustements = self.evaluerAjustements(offsetLateral, distanceMur)
-
+    def _dessinerInformations(self, contoursTresor, distanceMur):
+        zoneTresor = cv2.minAreaRect(contoursTresor)
+        boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
+        cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
+        cv2.putText(self.imageCamera, "%.2f cm" % (distanceMur*2.54) ,(self.imageCamera.shape[1] - 300, self.imageCamera.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX,2.0, (0, 255, 0), 3)
+        cv2.imshow("image", self.imageCamera)
+        cv2.waitKey(0)
 
     def trouverOffsetLateral(self, contoursTresor):
         position_x, position_y = self._trouverCentreForme(contoursTresor)
@@ -45,7 +48,6 @@ class DetectionTresor(object):
 
         return distance_x
 
-
     def _trouverCentreForme(self, contoursForme):
         MatriceCentreMasse = cv2.moments(contoursForme)
         centre_x = int(MatriceCentreMasse['m10'] / MatriceCentreMasse['m00'])
@@ -53,28 +55,19 @@ class DetectionTresor(object):
 
         return centre_x, centre_y
 
-    def trouverDistanceMur(self, contoursTresor):
+    def _trouverDistanceMur(self, contoursTresor):
         zoneTresor = cv2.minAreaRect(contoursTresor)
         focalLength = (zoneTresor[1][0] * KNOWN_DISTANCE) / KNOWN_WIDTH
         print("Focal length: %d" %focalLength)
 
         distanceCamera = self._calculerDistanceCamera(KNOWN_WIDTH, FOCAL_LENGTH, zoneTresor[1][0])
-        print("DISTANCE",distanceCamera)
+        print("Distance Tresor-Cam: %d" %distanceCamera)
         distanceMur = math.sqrt(math.pow(distanceCamera*2.54, 2) - math.pow(HAUTEUR_ROBOT*2.54, 2))
-
-
-
-
+        print("Distance Robot-Mur: %d" %distanceMur)
         return distanceMur
 
-        #boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
-        #cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
-        #cv2.putText(self.imageCamera, "%.2f cm" % (distance_pouce*2.54) ,(self.imageCamera.shape[1] - 300, self.imageCamera.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX,2.0, (0, 255, 0), 3)
-        #cv2.imshow("image", self.imageCamera)
-        #cv2.waitKey(0)
-
-    def _calculerDistanceCamera(self, knownWidth, focalLength, perWidth):
-        return (knownWidth * focalLength) / perWidth
+    def _calculerDistanceCamera(self, largeurTresor, longueurFocale, referenceLargeur):
+        return (largeurTresor * longueurFocale) / referenceLargeur
 
     def _detecterFormeCouleur(self, intervalleCouleur):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
@@ -101,6 +94,7 @@ class DetectionTresor(object):
 
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
+
         return contoursCouleur[0]
 
 

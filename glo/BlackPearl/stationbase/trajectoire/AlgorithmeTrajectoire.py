@@ -1,6 +1,6 @@
 # import the necessary packages
+from __future__ import division
 import heapq
-
 from stationbase.trajectoire.Cellule import Cellule
 from stationbase.trajectoire.GrilleCellule import GrilleCellule
 import math
@@ -30,7 +30,7 @@ class AlgorithmeTrajectoire():
             if self.estArriver(cellule):
                 self.simplifierTrajet()
                 return self.trajet
-            elif ((self.cellulePlusPres is None) and (self.distanceADestinationAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y) <= (self.grilleCellule.rayonBuffer*2)**2+1)):
+            elif ((self.cellulePlusPres is None) and (cellule.atteignable) and (not cellule.parent is None)) and ((self.distanceADestination(cellule.x, cellule.y, self.arriver.x, self.arriver.y) <= (self.grilleCellule.rayonBuffer*2)+1)):
                 self.cellulePlusPres = cellule
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)
@@ -50,10 +50,18 @@ class AlgorithmeTrajectoire():
     def distanceADestinationAuCarre(self, x, y, destX, destY):
         distanceX = destX - x
         distanceY = destY - y
-        distanceX = self.pixelXACentimetre(distanceX)
-        distanceY = self.pixelYACentimetre(distanceY)
+        distanceX = self.grilleCellule.depPixelXACentimetre(distanceX)
+        distanceY = self.grilleCellule.depPixelYACentimetre(distanceY)
         distanceCarre = distanceX**2 + distanceY**2
         return distanceCarre
+
+    def distanceADestination(self, x, y, destX, destY):
+        distancePixX = destX - x
+        distancePixY = destY - y
+        distanceX = self.grilleCellule.depPixelXACentimetre(distancePixX)
+        distanceY = self.grilleCellule.depPixelYACentimetre(distancePixY)
+        distance = int(round(math.sqrt(distanceX**2 + distanceY**2)))
+        return distance
 
     def simplifierTrajet(self):
         self.trajet = [(self.arriver.x, self.arriver.y)]
@@ -118,7 +126,7 @@ class AlgorithmeTrajectoire():
         dy = y - y3
         dist = math.sqrt(dx*dx + dy*dy)
 
-        return dist < int(round(self.grilleCellule.bufferIle * (self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0]))
+        return dist < int(round(self.grilleCellule.rayonBuffer * (self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0]))
 
     def afficherTrajectoireDetailler(self):
         cellule = self.grilleCellule.getCellule(self.arriver.x, self.arriver.y)

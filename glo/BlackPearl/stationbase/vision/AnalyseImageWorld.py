@@ -1,4 +1,5 @@
 # import the necessary packages
+from __future__ import division
 import sys
 from threading import Thread, RLock
 import time
@@ -19,6 +20,8 @@ class AnalyseImageWorld(Thread):
         self.stationBase = stationBase
         self.police = cv2.FONT_HERSHEY_SIMPLEX
         self.image = None
+        self.imageCropper = None
+        self.cntRobotPerdu = 0
         self.attendreFeed()
         self.detectionPrimaire()
 
@@ -35,6 +38,7 @@ class AnalyseImageWorld(Thread):
     def chargerImage(self):
         self.image = self.stationBase.threadVideo.captureTable
         self.recadrerImage()
+        self.imageCropper = self.image
         self.estomperImage()
 
     def recadrerImage(self):
@@ -90,24 +94,26 @@ class AnalyseImageWorld(Thread):
         contourAvant, contourArriere = formesDetectees
         centreAvant = self.trouverCentreForme(contourAvant)
         centrearriere = self.trouverCentreForme(contourArriere)
-        centreRobot = ((centreAvant[0]+centrearriere[0])/2, (centreAvant[1]+centrearriere[1])/2)
+        centreRobot = (int(round((centreAvant[0]+centrearriere[0])/2)), int(round((centreAvant[1]+centrearriere[1])/2)))
         deltaX = centreAvant[0]-centrearriere[0]
-        deltaY = centreAvant[1]-centrearriere[1]
+        deltaY = -1*(centreAvant[1]-centrearriere[1])
         if not deltaX == 0:
             pente = deltaY/deltaX
 
-        if deltaX < 0:
-            angle = 180+math.atan(pente)
-        elif deltaY <= 0 and deltaX > 0:
-            angle = math.atan(pente)
-        elif deltaY > 0 and deltaX > 0:
-            angle = 360+math.atan(pente)
+        if deltaY == 0 and deltaX < 0:
+            angle = 180
+        elif deltaY == 0 and deltaX > 0:
+            angle = 0
         elif deltaX == 0 and deltaY > 0:
-            angle = 270
-        elif deltaX == 0 and deltaY < 0:
             angle = 90
-
-        int(round(math.degrees(angle)))
+        elif deltaX == 0 and deltaY < 0:
+            angle = 270
+        elif deltaX > 0 and deltaY > 0:
+            angle = int(round(math.degrees(math.atan(pente))))
+        elif deltaX > 0 and deltaY < 0:
+            angle = 360 + int(round(math.degrees(math.atan(pente))))
+        elif deltaX < 0:
+            angle = 180 + int(round(math.degrees(math.atan(pente))))
 
         return (centreRobot, angle)
 
@@ -117,8 +123,42 @@ class AnalyseImageWorld(Thread):
         self.detectionRobot.detecter()
         if (not self.detectionRobot.robotIdentifiee is None):
             centreForme, orientation = self.trouverInfoRobot(self.detectionRobot.robotIdentifiee)
-            with verrou:
+            if self.stationBase.carte.infoRobot is None:
                 self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
+            elif self.deplacementPlausible(centreForme):
+                self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
+                self.cntRobotPerdu = 0
+            elif self.cntRobotPerdu > 25:
+                self.cntRobotPerdu = 0
+                self.stationBase.carte.infoRobot = None
+                print 1
+            else:
+                self.cntRobotPerdu = self.cntRobotPerdu + 1
+
+    def deplacementPlausible(self, centreForme):
+        x, y = centreForme
+        ancienX = self.stationBase.carte.infoRobot.centre_x
+        ancienY = self.stationBase.carte.infoRobot.centre_y
+        depX = abs(x - ancienX)
+        depY = abs(y - ancienY)
+        if (self.depXPlausible(depX) and self.depYPlausible(depY)):
+            return True
+        else:
+            return False
+
+    def depXPlausible(self, x):
+        depX = self.stationBase.carte.trajectoire.grilleCellule.depPixelXACentimetre(x)
+        if depX < 30:
+            return True
+        else:
+            return False
+
+    def depYPlausible(self, y):
+        depY = self.stationBase.carte.trajectoire.grilleCellule.depPixelXACentimetre(y)
+        if depY < 30:
+            return True
+        else:
+            return False
 
 
 

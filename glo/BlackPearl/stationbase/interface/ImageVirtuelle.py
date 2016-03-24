@@ -10,27 +10,21 @@ class ImageVirtuelle(Thread):
     def __init__(self, stationBase):
         Thread.__init__(self)
         self.stationBase = stationBase
-        self.chargerImageVirtuelle()
+        self.imageVirtuelle = None
+        self.anciennePosRobot = []
         self.police = cv2.FONT_HERSHEY_SIMPLEX
-        self.dessinerElementCarto()
-        self.anciennePosRobot = None
-        self.trajetPrevuDessine = False
+        self.chargerImageVirtuelle()
 
     def run(self):
         while 1:
-            if (self.stationBase.trajectoirePrevue is None and self.trajetPrevuDessine == True):
-                self.reinitialiserImage()
-            elif ((not self.stationBase.trajectoirePrevue is None) and self.trajetPrevuDessine == False):
-                #self.dessinerTrajetPrevu()
-                self.dessinerRobot()
-            elif ((not self.stationBase.trajectoirePrevue is None) and self.trajetPrevuDessine == True):
-                self.dessinerRobot()
-            cv2.imshow('Image Virtuelle', self.imageVirtuelle)
+            if (not self.stationBase.trajectoirePrevue is None):
+                self.dessinerTrajetPrevu()
+            self.chargerImageVirtuelle()
             time.sleep(0.01)
 
     def chargerImageVirtuelle(self):
-        self.imageVirtuelle = self.imageVirtuelle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/imageVide.png'))
-        self.recadrerImage()
+        self.imageVirtuelle = self.stationBase.threadAnalyseImageWorld.imageCropper
+        self.dessinerElementCarto()
 
     def dessinerElementCarto(self):
         for ile in self.stationBase.carte.listeIles:
@@ -39,43 +33,37 @@ class ImageVirtuelle(Thread):
         for tresor in self.stationBase.carte.listeTresors:
             cv2.putText(self.imageVirtuelle, tresor.forme, (tresor.centre_x - 25, ile.centre_y),
                         self.police, 0.5, self.getColor('Jaune'), 1, cv2.LINE_AA)
-
-    def recadrerImage(self):
-        self.imageVirtuelle = self.imageVirtuelle[155:1010, 0:1600]
+        self.dessinerRobot()
 
     def dessinerTrajetPrevu(self):
         if (len(self.stationBase.trajectoirePrevue) > 1):
             self.dessinerDebutFinTrajetPrevu(self.stationBase.trajectoirePrevue[-1], self.stationBase.trajectoirePrevue[0])
-        pointInitial = None
-        if (len(self.stationBase.trajectoirePrevue) == 0):
-            cv2.putText(self.imageVirtuelle, 'Aucun trajet disponible', (1000, 800), self.police, 1.5,
-                        (0, 0, 255), 2, cv2.LINE_AA)
-        else:
+            pointInitial = None
             for pointFinal in self.stationBase.trajectoirePrevue:
                 if (pointInitial == None):
                     pointInitial = pointFinal
                 else:
-                    cv2.arrowedLine(self.imageVirtuelle, pointFinal, pointInitial, (0, 255, 0), 5)
+                    cv2.arrowedLine(self.imageVirtuelle, pointFinal, pointInitial, (0, 255, 0), 2)
                     pointInitial = pointFinal
-        self.trajetPrevuDessine = True
+        else:
+            cv2.putText(self.imageVirtuelle, 'Aucun trajet disponible', (1000, 800), self.police, 1.5,
+                    (0, 0, 255), 1, cv2.LINE_AA)
 
     def dessinerDebutFinTrajetPrevu(self, debut, fin):
         debut_x, debut_y = debut
         fin_x, fin_y = fin
-        cv2.putText(self.imageVirtuelle, 'Debut', (debut_x - 25, debut_y), self.police, 1, (0, 0, 0), 2, cv2.LINE_AA)
-        cv2.putText(self.imageVirtuelle, 'Fin', (fin_x, fin_y), self.police, 1, (0, 0, 0), 2, cv2.LINE_AA)
+        cv2.putText(self.imageVirtuelle, 'Debut', (debut_x - 25, debut_y), self.police, 1, (0, 0, 0), 1, cv2.LINE_AA)
+        cv2.putText(self.imageVirtuelle, 'Fin', (fin_x, fin_y), self.police, 1, (0, 0, 0), 1, cv2.LINE_AA)
 
     def dessinerRobot(self):
-        if (not self.stationBase.carte.infoRobot == None):
-            if (self.anciennePosRobot == None):
-                self.anciennePosRobot = (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y)
-            else:
-                cv2.arrowedLine(self.imageVirtuelle, self.anciennePosRobot, (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y), (0,0,0), 2)
-                self.anciennePosRobot = (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y)
-
-    def reinitialiserImage(self):
-        self.chargerImageVirtuelle()
-        self.dessinerElementCarto()
+        if (not self.stationBase.carte.infoRobot is None):
+            position = (self.stationBase.carte.infoRobot.centre_x, self.stationBase.carte.infoRobot.centre_y)
+            self.anciennePosRobot.append(position)
+            if (len(self.anciennePosRobot) >= 2):
+                for i in reversed(range(len(self.anciennePosRobot)-1)):
+                    cv2.arrowedLine(self.imageVirtuelle, self.anciennePosRobot[i], self.anciennePosRobot[i+1], (0,0,0), 2)
+        else:
+            self.anciennePosRobot = []
 
     def getColor(self, couleur):
         if (couleur == 'Rouge'):

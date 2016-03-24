@@ -10,16 +10,15 @@ class FeedVideoStation(Thread):
     def __init__(self):
         Thread.__init__(self)
         self.video = None
-        self.initVideo(0)
+        self.initVideo(1)
         self.captureTable = None
         self.feedEstDemare = False
-        self.initVideo(1)
 
     def run(self):
         while 1:
             success, self.captureTable = self.video.read()
-            if (success):
-                cv2.imshow('Feed', self.captureTable)
+            #if (success):
+                #cv2.imshow('Feed', self.captureTable)
             time.sleep(0.01)
 
     def initVideo(self, portCamera):
@@ -29,7 +28,8 @@ class FeedVideoStation(Thread):
         while (not self.video.isOpened()):
             print('\na la recherche de la camera')
             self.video = cv2.VideoCapture(portCamera)
-
+        success, self.captureTable = self.video.read()
+        self.feedEstDemare = True
 
 
 

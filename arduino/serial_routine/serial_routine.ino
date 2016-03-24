@@ -55,8 +55,8 @@ void setup() {
     pidList[i].SetMode(AUTOMATIC);
     pidList[i].SetSampleTime(15);
   }
-  //attachInterrupt(digitalPinToInterrupt(18), decrementDuration, FALLING);
-  //attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
+  attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
+  attachInterrupt(digitalPinToInterrupt(21), decrementDuration, FALLING);
 }
 
 void loop() {
@@ -91,7 +91,6 @@ void loop() {
     }
     //Serial.println(incomingByte - i, DEC);
     delay(20);
-    duration--;
   }
   else if(duration == 1){
     duration = 0;
@@ -99,9 +98,9 @@ void loop() {
   }
 }
 
-//void decrementDuration(){
-//  duration--;
-//}
+void decrementDuration(){
+  duration--;
+}
 
 void stopWheels(){
   Setpoint[2] = 3000; Setpoint[3] = 3000; Setpoint[0] = 3000; Setpoint[1] = 3000;
@@ -165,7 +164,7 @@ void serialEvent(){
           spdWheels[i] = turnRight[i];
         }
         mode = true;
-      } /*
+      } 
       else if(incomingByte == 93){
         action = "Activate Magnet";
         analogWrite(pinElectroAimant, 255);
@@ -203,7 +202,7 @@ void serialEvent(){
         action = "Camera Treasure ";
         maestro.setTarget(0,6000);
         maestro.setTarget(1, 4044);
-      } */
+      }
       else{
         action = "Invalid action ";
         stopWheels();        

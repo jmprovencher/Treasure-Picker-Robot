@@ -37,17 +37,17 @@ class UARTDriver:
             self.UART.write(b'6'.encode())
             self.UART.write(str(parameter).encode())
 
-        elif command == 'armUp':
-            pass
+        elif command == 'pickup':
+            self.UART.write(b'g'.encode())
 
-        elif command == 'armDown':
-            pass
+        elif command == 'drop':
+            self.UART.write(b'h'.encode())
 
-        elif command == 'magnetOn':
-            pass
+        elif command == 'chargeCondensateur':
+            self.UART.write(b'e'.encode())
 
-        elif command == 'magnetOff':
-            pass
+        elif command == 'stopCondensateur':
+            self.UART.write(b'f'.encode())
 
         elif command == 'cameraRight':
             self.UART.write(b'a'.encode())

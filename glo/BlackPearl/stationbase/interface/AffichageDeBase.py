@@ -13,7 +13,6 @@ class AffichageDeBase():
         self.dessinerNoir(qp)
         qp.drawText(275, 400 + 50, QString('88.95''N  15.10''O '))
         qp.drawText(275, 450 + 50, QString('1.23 V '))
-        qp.drawText(275, 550 + 50, QString('Cercle rouge'))
         self.dessinerOrange(qp)
         qp.drawText(805, 133, QString('Carte virtuelle'))
         qp.drawRect(0, 140, 1599, 5)

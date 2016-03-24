@@ -31,9 +31,9 @@ class AnalyseImageEmbarquee(Thread):
             else:
                 self.evaluerPositionTresor()
                 self.afficherFeed()
-                #self.ajustementsCalcules = True
             time.sleep(1)
-            # self.soumettreAjustements()
+            print("Pret a soumettre ajustement")
+            self.soumettreAjustements()
 
     def chargerImage(self):
         #peut etre pas necessaire
@@ -54,6 +54,8 @@ class AnalyseImageEmbarquee(Thread):
         if (self.ajustements != []):
             print("Commandes ajustements PICKUP pretes")
             self.ajustementsCalcules = True
+        else:
+            print ("Oups")
 
     def evaluerPositionDepot(self, couleurIleCible):
         self.detectionIle = DetectionIle(self.imageCamera, couleurIleCible)
@@ -64,8 +66,8 @@ class AnalyseImageEmbarquee(Thread):
             self.ajustementsCalcules = True
 
     def soumettreAjustements(self):
-        for instructions in self.ajustementsCalcules:
-            print("Commandes envoyees a liste attente: %s" % instructions)
+        for instructions in self.ajustements:
+            print("Commandes envoyees a liste attente:" , instructions)
             self.robot.ajouterCommande(instructions)
 
     def afficherFeed(self):

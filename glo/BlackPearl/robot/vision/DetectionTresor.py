@@ -27,7 +27,7 @@ class DetectionTresor(object):
         distanceMur = self._trouverDistanceMur(contoursTresor)
         offsetLateral = self.trouverOffsetLateral(contoursTresor)
         self.ajustements = self.alignementTresor.calculerAjustement(offsetLateral, distanceMur)
-        self._dessinerInformations(contoursTresor, distanceMur)
+        #self._dessinerInformations(contoursTresor, distanceMur)
 
     def _dessinerInformations(self, contoursTresor, distanceMur):
         zoneTresor = cv2.minAreaRect(contoursTresor)
@@ -60,9 +60,9 @@ class DetectionTresor(object):
         focalLength = (zoneTresor[1][0] * KNOWN_DISTANCE) / KNOWN_WIDTH
         print("Focal length: %d" %focalLength)
 
-        distanceCamera = self._calculerDistanceCamera(KNOWN_WIDTH, FOCAL_LENGTH, zoneTresor[1][0])
+        distanceCamera = self._calculerDistanceCamera(KNOWN_WIDTH, FOCAL_LENGTH, zoneTresor[1][0])*2.54
         print("Distance Tresor-Cam: %d" %distanceCamera)
-        distanceMur = math.sqrt(math.pow(distanceCamera*2.54, 2) - math.pow(HAUTEUR_ROBOT*2.54, 2))
+        distanceMur = math.sqrt(math.pow(distanceCamera, 2) - math.pow(HAUTEUR_ROBOT*2.54, 2))
         print("Distance Robot-Mur: %d" %distanceMur)
         return distanceMur
 

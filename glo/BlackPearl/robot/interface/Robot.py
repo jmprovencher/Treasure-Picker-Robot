@@ -18,8 +18,8 @@ class Robot(Thread):
         self.positionTresor = False
         self.positionDepot = False
         self.tacheTerminee = False
-        self.demarrerConnectionTCP()
-        #self.demarrerAlignement('tresor')
+        #self.demarrerConnectionTCP()
+        self.demarrerAlignement('tresor')
 
 
     def run(self):
@@ -47,11 +47,12 @@ class Robot(Thread):
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
-        print("Envoie les commandes d'ajustements")
+        print("Envoie les commandes d'ajustements (FROM ROBOT)")
         self.effectuerAlignement()
 
     def effectuerAlignement(self):
         for inst in self.instructions:
+            print("Envoie instruction alignement au UART")
             #self.uartDriver.sendCommand(inst)
             #Attendre que la commande soit faite, trouver autre moyen plus tard
             time.sleep(2)

@@ -23,11 +23,14 @@ class DetectionTresors(object):
             if (aire < 30 or aire > 150):
                 contoursNegligeable.append(contours)
 
-        if (contoursNegligeable != []):
+        if len(contoursTresor) == len(contoursNegligeable):
+            contoursTresor = []
+        elif (contoursNegligeable != []):
             contoursTresor = np.delete(contoursTresor, contoursNegligeable)
 
-        for contours in contoursTresor:
-            formeTresor = contours, "Tresor", ""
-            print "Ajout tresor"
-            self.tresorIdentifies.append(formeTresor)
+        if len(contoursTresor) > 0:
+            for contours in contoursTresor:
+                formeTresor = contours, "Tresor", ""
+                print "Ajout tresor"
+                self.tresorIdentifies.append(formeTresor)
 

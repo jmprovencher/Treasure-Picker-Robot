@@ -40,9 +40,9 @@ class TCPServer():
 
     def get_address(self, host):
         address = socket.gethostbyname(host)
-        if not address or address.startswith('127.'):
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(('4.2.2.1', 0))
-            address = s.getsockname()[0]
+        #if not address or address.startswith('127.'):
+        #    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        #    s.connect(('4.2.2.1', 0))
+        #    address = s.getsockname()[0]
         return address
 

@@ -45,7 +45,7 @@ class DetectionRobot(object):
 
         for contours in range(len(contoursRobot)):
             aire = cv2.contourArea(contoursRobot[contours])
-            if ((aire < 500) or (aire > 1500)):
+            if ((aire < 500) or (aire > 3000)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):

@@ -26,8 +26,7 @@ class StationServeur(Thread):
             time.sleep(0.01)
 
     def doitEnvoyerFichier(self):
-        with verrou:
-            return self.stationBase.envoyerFichier
+        return self.stationBase.envoyerFichier
 
 
 

@@ -25,7 +25,8 @@ class StationBase(Thread):
         self.arriver = False
         self.envoyerFichier = False
         self.commandeTermine = False
-        #self.demarrerConnectionTCP()
+        self.attente = False
+        self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.demarrerAnalyseImageWorld()
@@ -60,7 +61,7 @@ class StationBase(Thread):
             self.destination = self.carte.stationRecharge.getCentre()
 
     def etapeStation(self):
-        print '--------------------------------------------------'
+        print '\n--------------------------------------------------'
         print 'Aller a la station de recharge'
         print '--------------------------------------------------'
         self.identifierDestination('RECHARGE')
@@ -70,11 +71,11 @@ class StationBase(Thread):
             self.deplacer()
         self.angleDesire = 90
         self.orienter()
-        print '--------------------------------------------------'
+        print '\n--------------------------------------------------'
         print 'Arriver a la station de recharge!'
         print '--------------------------------------------------'
         self.allignement("allignementStation")
-        print '--------------------------------------------------'
+        print '\n--------------------------------------------------'
         print 'Recharge termine'
         print '--------------------------------------------------'
 
@@ -141,13 +142,13 @@ class StationBase(Thread):
             angle = self.trouverDeplacementOrientation()
             if angle <= 3 and angle >= -3:
                 break
-            RequeteJSON("rotate", angle)
+            myRequest = RequeteJSON("rotate", angle)
             self.envoyerFichier = True
-            print 'envoyer rotation %d' % angle
             self.attendreRobot()
         self.angleDesire = None
 
     def attendreRobot(self):
+        self.attente = True
         while not self.commandeTermine:
             time.sleep(0.01)
         self.commandeTermine = False
@@ -174,22 +175,16 @@ class StationBase(Thread):
         dep = self.distanceADestination(debut[0], debut[1], arriver[0], arriver[1])
         RequeteJSON("forward", dep)
         self.envoyerFichier = True
-        print 'envoyer deplacement %d' % dep
         self.attendreRobot()
         debut = self.getPositionRobot()
         dep = self.distanceADestinationAuCarre(debut[0], debut[1], arriver[0], arriver[1])
         if dep <= 25:
-            print 'etape de complete'
+            print '\netape de complete'
             self.trajectoireReel.pop(-1)
 
-    def attendreRobot(self):
-        time.sleep(30)
-        print 'robot a fini'
-
     def allignement(self, type):
-        RequeteJSON(type)
+        RequeteJSON(type, 0)
         self.envoyerFichier = True
-        print 'envoyer ' +  type
         self.attendreRobot()
 
 

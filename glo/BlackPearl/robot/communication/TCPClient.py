@@ -21,6 +21,7 @@ class TCPClient:
         return True
 
     def sendFile(self, filename,):
+        print '\nsending file'
         f = open(filename, 'r')
         data = f.read()
         while data:
@@ -32,7 +33,7 @@ class TCPClient:
         return 1
 
     def receiveFile(self):
-        print('receiving data...')
+        print('\nreceiving data...')
         data = self.s.recv(1024)
         jsonObject = json.loads(data)
         print('data successfully received')

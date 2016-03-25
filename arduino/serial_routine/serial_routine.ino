@@ -7,19 +7,21 @@
 int incomingByte = 0;
 // value that allows a simple switch case
 boolean mode = false;
+// value that indicates rotation
+boolean rotation = false;
 // string used to print on the serial
 String action = "";
 
 const int pinsDrive[4] = {3, 6, 7, 8};
-const int pinsDirection[8] = {9, 10, 11, 12, 15, 16, 26, 28};
-const int pinsRead[4] = {14, 20, 19, 21};
+const int pinsDirection[8] = {32, 34, 36, 38, 40, 42, 46, 48};
+const int pinsRead[4] = {19, 21, 17, 20};
 const int pinElectroAimant = 5;
 int spdWheels[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 unsigned long spdBuffer = 0;
 int duration = 0;
 
-const int straightAhead[8] = {255, 0, 0, 255, 255, 255, 255, 255};
+const int straightAhead[8] = {255, 0, 0, 255, 0, 0, 0, 0};
 const int backwardsMov[8] = {0, 255, 255, 0, 0, 0, 0, 0};
 const int straightLeft[8] = {255, 0, 0, 255, 255, 0, 0, 255};
 const int straightRight[8] = {255, 0, 0, 255, 0, 255, 255, 0};
@@ -31,8 +33,8 @@ double Setpoint[4] = {3000, 3000, 3000, 3000};
 double Input[4] = {3000, 3000, 3000, 3000};
 double Output[4];
 
-MicroMaestro maestro(Serial1);
-MicroMaestro prehenseurMaestro(Serial2);
+MicroMaestro maestro(Serial2);
+MicroMaestro prehenseurMaestro(Serial3);
 
 PID firstPID(&Input[0], &Output[0], &Setpoint[0], 0.00006, 0.2, 0, REVERSE);
 PID secondPID(&Input[1], &Output[1], &Setpoint[1], 0.00006, 0.225, 0, REVERSE);
@@ -42,8 +44,8 @@ PID fourthPID(&Input[3], &Output[3], &Setpoint[3], 0.000055, 0.16, 0, REVERSE);
 PID pidList[4] = {firstPID, secondPID, thirdPID, fourthPID};
 
 void setup() {
-  Serial.begin(9600);
-  Serial1.begin(9600);
+  Serial.begin(115200);
+  Serial2.begin(9600);
   for(int i = 0; i < 4; i++){
     pinMode(pinsDrive[i], OUTPUT);
   }
@@ -53,6 +55,7 @@ void setup() {
   for(int i = 0; i < 4; i++){
     pinMode(pinsRead[i], INPUT);
     pidList[i].SetMode(AUTOMATIC);
+    pidList[i].SetOutputLimits(0, 120);
     pidList[i].SetSampleTime(15);
   }
   attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
@@ -62,7 +65,12 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   for(int i = 0; i < 8; i++){
-    analogWrite(pinsDirection[i], spdWheels[i]);
+    if(spdWheels[i] == 0){
+      digitalWrite(pinsDirection[i], LOW);
+    }
+    else{
+      digitalWrite(pinsDirection[i], HIGH);
+    }
   }
   if(duration > 1){
     for(int j = 0; j<4; j++){
@@ -72,15 +80,15 @@ void loop() {
       }
       Input[j] = (spdBuffer);
       pidList[j].Compute();
-      Serial.print(Input[j]);
-      Serial.print(" - ");
-      Serial.print(Setpoint[j]);
-      Serial.print(" - ");
-      Serial.print(Output[j]);
-      Serial.print(";");
+      //Serial.print(Input[j]);
+      //Serial.print(" - ");
+      //Serial.print(Setpoint[j]);
+      //Serial.print(" - ");
+      //Serial.print(Output[j]);
+      //Serial.print(";");
     }
-    Serial.println(".");
-    Serial.print(action);
+    //Serial.println(".");
+    //Serial.print(action);
       for(int j = 0; j<4; j++){
       if(Setpoint[j] != 3000){
         analogWrite(pinsDrive[j], Output[j]);
@@ -95,11 +103,14 @@ void loop() {
   else if(duration == 1){
     duration = 0;
     stopWheels();
+    //Serial.print(1);
   }
 }
 
 void decrementDuration(){
-  duration--;
+  if(duration > 1){
+    duration--;
+  }
 }
 
 void stopWheels(){
@@ -113,7 +124,6 @@ void stopWheels(){
 void serialEvent(){
     // read the incoming byte:
     incomingByte = Serial.read();
-    Serial.write(incomingByte);
     
     if(!mode){
       duration = 0;
@@ -123,6 +133,7 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = straightAhead[i];
         }
+        rotation = false;
         mode = true;
       }
       else if(incomingByte == 50){
@@ -131,6 +142,7 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = backwardsMov[i];
         }
+        rotation = false;
         mode = true;
       }
       else if(incomingByte == 52){
@@ -139,6 +151,7 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = straightLeft[i];
         }
+        rotation = false;
         mode = true;
       }
       else if(incomingByte == 54){
@@ -147,7 +160,9 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = straightRight[i];
         }
+        rotation = false;
         mode = true;
+        
       }
       else if(incomingByte == 55){
         action = "Turning left ";
@@ -155,6 +170,7 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = turnLeft[i];
         }
+        rotation = true;
         mode = true;
       }
       else if(incomingByte == 57){
@@ -163,6 +179,7 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = turnRight[i];
         }
+        rotation = true;
         mode = true;
       } 
       else if(incomingByte == 93){
@@ -183,25 +200,25 @@ void serialEvent(){
         prehenseurMaestro.setTarget(0, 6000);
         prehenseurMaestro.setTarget(1, 4044);
       }
-      else if(incomingByte == 98){
-        action = "Camera Left ";
-        maestro.setTarget(0, 2400);
-        maestro.setTarget(1, 6200);
-      }
       else if(incomingByte == 97){
+        action = "Camera Left ";
+        maestro.setTarget(1, 2400);
+        maestro.setTarget(2, 6200);
+      }
+      else if(incomingByte == 98){
         action = "Camera Right ";
-        maestro.setTarget(0, 9600);
-        maestro.setTarget(1, 6200);
+        maestro.setTarget(1, 9600);
+        maestro.setTarget(2, 6200);
       }
       else if(incomingByte == 99){
         action = "Camera Front ";
-        maestro.setTarget(0, 6000);
-        maestro.setTarget(1,6200);
+        maestro.setTarget(1, 6000);
+        maestro.setTarget(2,6200);
       }
       else if(incomingByte == 100){
         action = "Camera Treasure ";
-        maestro.setTarget(0,6000);
-        maestro.setTarget(1, 4044);
+        maestro.setTarget(1,6000);
+        maestro.setTarget(2, 4044);
       }
       else{
         action = "Invalid action ";
@@ -212,7 +229,12 @@ void serialEvent(){
       for(int i = 0; i < 4; i++){
         Output[i] = 0;
       }
-      duration = incomingByte;
+      if(rotation == false){
+        duration = incomingByte*52;
+      }
+      else{
+        duration = incomingByte*107;
+      }
       mode = false;
     }
 }

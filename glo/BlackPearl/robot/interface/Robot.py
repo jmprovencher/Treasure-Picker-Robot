@@ -19,9 +19,9 @@ class Robot(Thread):
         self.positionTresor = False
         self.positionDepot = False
         self.tacheTerminee = False
-        #self.demarrerConnectionTCP()
-        self.demarrerAlignement('tresor')
-        self.threadTensionCondensateurRobot = TensionCondensateurRobot()
+        self.demarrerConnectionTCP()
+        #self.demarrerAlignement('tresor')
+        #self.threadTensionCondensateurRobot = TensionCondensateurRobot()
 
 
     def run(self):

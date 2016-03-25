@@ -65,15 +65,13 @@ class Interface(QtGui.QWidget):
     def update_gui(self):
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
         QtGui.QApplication.processEvents()
-        if(not self.threadStationBase.carte.infoRobot is None):
-            self.orientation.setText(QString(str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y '+ str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
+        #if(not self.threadStationBase.carte.infoRobot is None):
+            #self.orientation.setText(QString(str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y '+ str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
         self.feed.repaint()
-        if(not self.threadStationBase.trajectoirePrevue is None):
-            self.dessinerDirection(self.threadStationBase.trajectoirePrevue[-1], self.threadStationBase.trajectoirePrevue[-2])
-        self.tensionCondensateur.setText(QString(self.threadTensionCondensateur.tension))
-        self.orientation.repaint()
-        self.direction.repaint()
-        self.tensionCondensateur.repaint()
+        #self.tensionCondensateur.setText(QString(self.threadTensionCondensateur.tension))
+        #self.orientation.repaint()
+        #self.direction.repaint()
+        #self.tensionCondensateur.repaint()
 
     def dessinerDirection(self, point1, point2):
         x1, y1 = point1

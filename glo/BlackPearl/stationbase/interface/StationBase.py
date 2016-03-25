@@ -1,4 +1,5 @@
 # import the necessary packages
+from __future__ import division
 from elements.Carte import Carte
 from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
 from stationbase.interface.FeedVideoStation import FeedVideoStation
@@ -59,11 +60,23 @@ class StationBase(Thread):
             self.destination = self.carte.stationRecharge.getCentre()
 
     def etapeStation(self):
+        print '--------------------------------------------------'
+        print 'Aller a la station de recharge'
+        print '--------------------------------------------------'
         self.identifierDestination('RECHARGE')
         self.trouverTrajectoirePrevu()
-        #while len(self.trajectoireReel > 1):
-        #    self.orienter()
-        #    self.deplacer()
+        while len(self.trajectoireReel) > 1:
+            self.orienter()
+            self.deplacer()
+        self.angleDesire = 90
+        self.orienter()
+        print '--------------------------------------------------'
+        print 'Arriver a la station de recharge!'
+        print '--------------------------------------------------'
+        self.allignement("allignementStation")
+        print '--------------------------------------------------'
+        print 'Recharge termine'
+        print '--------------------------------------------------'
 
     def trouverTrajectoirePrevu(self):
         while 1:
@@ -74,10 +87,10 @@ class StationBase(Thread):
             time.sleep(0.01)
 
     def trouverDeplacementOrientation(self):
-        arriver = self.trajectoireReel[1]
-        debut = self.getPositionRobot()
         if self.angleDesire is None:
-            self.angleDesire = self.trouverOrientationDesire()
+            arriver = self.trajectoireReel[-2]
+            debut = self.getPositionRobot()
+            self.angleDesire = self.trouverOrientationDesire(debut, arriver)
         angleRobot = self.getOrientationRobot()
         depDegre = angleRobot - self.angleDesire
         if depDegre < -180:
@@ -101,8 +114,8 @@ class StationBase(Thread):
 
 
     def trouverOrientationDesire(self, debut, arriver):
-        deltaX = debut[0]-arriver[0]
-        deltaY = -1*(debut[1]-arriver[1])
+        deltaX = arriver[0]-debut[0]
+        deltaY = -1*(arriver[1]-debut[1])
         if not deltaX == 0:
             pente = deltaY/deltaX
 
@@ -126,10 +139,11 @@ class StationBase(Thread):
     def orienter(self):
         while 1:
             angle = self.trouverDeplacementOrientation()
-            if angle <= 2 and angle >= -2:
+            if angle <= 3 and angle >= -3:
                 break
             RequeteJSON("rotate", angle)
             self.envoyerFichier = True
+            print 'envoyer rotation %d' % angle
             self.attendreRobot()
         self.angleDesire = None
 
@@ -155,15 +169,28 @@ class StationBase(Thread):
         return distance
 
     def deplacer(self):
-        arriver = self.trajectoireReel[1]
+        arriver = self.trajectoireReel[-2]
         debut = self.getPositionRobot()
         dep = self.distanceADestination(debut[0], debut[1], arriver[0], arriver[1])
-        if not dep <= 2:
-            RequeteJSON("forward", dep)
-            self.envoyerFichier = True
-            self.attendreRobot()
-        else:
-            self.trajectoireReel.pop(0)
+        RequeteJSON("forward", dep)
+        self.envoyerFichier = True
+        print 'envoyer deplacement %d' % dep
+        self.attendreRobot()
+        debut = self.getPositionRobot()
+        dep = self.distanceADestinationAuCarre(debut[0], debut[1], arriver[0], arriver[1])
+        if dep <= 25:
+            print 'etape de complete'
+            self.trajectoireReel.pop(-1)
+
+    def attendreRobot(self):
+        time.sleep(30)
+        print 'robot a fini'
+
+    def allignement(self, type):
+        RequeteJSON(type)
+        self.envoyerFichier = True
+        print 'envoyer ' +  type
+        self.attendreRobot()
 
 
 

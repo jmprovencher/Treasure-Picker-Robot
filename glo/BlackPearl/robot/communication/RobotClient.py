@@ -21,7 +21,7 @@ class RobotClient(Thread):
                 except Exception as e:
                     print e
                     print "Connection Lost, Trying to reconnect"
-                    time.sleep(10)
+                    time.sleep(1)
                     self.monClient = TCPClient()
 
             if data == -1:

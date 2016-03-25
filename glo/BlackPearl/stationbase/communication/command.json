@@ -12,5 +12,6 @@
 "commande": "cameraRight",
 "commande": "cameraFront",
 "commande": "cameraTreasure",
-"commande": "rotate"
+"commande": "rotate",
+"commande": "allignementStation"
 }

@@ -20,9 +20,9 @@ class StationServeur(Thread):
                 except:
                     #still not working, getting socket error : only one usage of each socket adress
                     print "Connection with the remote host lost, Trying to reconnect"
-                    monServer.closeConnection()
-                    monServer = TCPServer()
-                    print monServer.connectionEstablished
+                    self.monServer.closeConnection()
+                    self.monServer = TCPServer()
+                    print self.monServer.connectionEstablished
             time.sleep(0.01)
 
     def doitEnvoyerFichier(self):

@@ -8,8 +8,8 @@ class GrilleCellule():
         self.resolution = (1600, 1200)
         self.dimensionCrop = (1600, 855)
         self.dimensionReel = (300, 100)
-        self.incrementX = int((self.dimensionCrop[0]) // self.dimensionReel[0])
-        self.incrementY = int((self.dimensionCrop[1]) // self.dimensionReel[1])
+        self.incrementX = int((self.dimensionCrop[0]) / self.dimensionReel[0])
+        self.incrementY = int((self.dimensionCrop[1]) / self.dimensionReel[1])
         self.rayonBuffer = 15
         self.listeIles = None
 
@@ -21,13 +21,16 @@ class GrilleCellule():
                     self.listeCellules.append(Cellule(x, y, self.estAtteignable(x, y, listeIles)))
                 
     def depPixelXACentimetre(self, pix):
-        return int(round(pix * (self.dimensionReel[0]) // self.dimensionCrop[0]))
+        return int(round(pix * (self.dimensionReel[0]) / self.dimensionCrop[0]))
     
     def depPixelYACentimetre(self, pix):
-        return int(round(pix * (self.dimensionReel[1]) // self.dimensionCrop[1]))
+        return int(round(pix * (self.dimensionReel[1]) / self.dimensionCrop[1]))
 
     def depCentimetreYAPixel(self, cent):
-        return int(round(cent * (self.dimensionCrop[1]) // self.dimensionReel[1]))
+        return int(round(cent * (self.dimensionCrop[1]) / self.dimensionReel[1]))
+
+    def depCentimetreXAPixel(self, cent):
+        return int(round(cent * (self.dimensionCrop[0]) / self.dimensionReel[0]))
     
     def distanceAIleAuCarre(self, x, y, ile):
         distanceX = ile.centre_x - x
@@ -38,7 +41,7 @@ class GrilleCellule():
         return distanceCarre
                 
     def estAtteignable(self, x, y, listeIles):
-        if (y <= self.depCentimetreYAPixel(self.rayonBuffer)) or (y >= self.dimensionCrop[1]-self.depCentimetreYAPixel(self.rayonBuffer)):
+        if (y <= self.depCentimetreYAPixel(self.rayonBuffer)) or (y >= self.dimensionCrop[1]-self.depCentimetreYAPixel(self.rayonBuffer) or (x >= self.dimensionCrop[0]-self.depCentimetreXAPixel(self.rayonBuffer))):
             return False
         elif not self.listeIles is None:
             for ile in listeIles:

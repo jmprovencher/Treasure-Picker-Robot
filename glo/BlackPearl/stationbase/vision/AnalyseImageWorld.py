@@ -131,7 +131,6 @@ class AnalyseImageWorld(Thread):
             elif self.cntRobotPerdu > 25:
                 self.cntRobotPerdu = 0
                 self.stationBase.carte.infoRobot = None
-                print 1
             else:
                 self.cntRobotPerdu = self.cntRobotPerdu + 1
 

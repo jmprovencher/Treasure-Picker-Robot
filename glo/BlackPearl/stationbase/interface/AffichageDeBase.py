@@ -6,7 +6,7 @@ class AffichageDeBase():
     def __init__(self, qp):
         self.dessinerNoir(qp)
         qp.drawText(250, 80, QString('Trajectoire :'))
-        qp.drawText(50, 450 + 50, QString('Tension condensateur :'))
+        qp.drawText(600, 50, QString('Tension condensateur :'))
         qp.drawText(200, 50, QString('Position & Orientation Robot :'))
         qp.drawText(50, 550 + 50, QString('Ile cible :'))
         self.formatContours(qp)

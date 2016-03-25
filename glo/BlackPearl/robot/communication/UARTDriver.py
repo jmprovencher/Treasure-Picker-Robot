@@ -1,5 +1,6 @@
 import serial
 import time
+import struct
 
 
 class UARTDriver:
@@ -19,11 +20,19 @@ class UARTDriver:
     def cameraPositionTresor(self):
         self.UART.write(b'd'.encode())
 
+    def to_bytes(n, length, endianess='big'):
+        h = '%x' % n
+        s = ('0'*(len(h) % 2) + h).zfill(length*2).decode('hex')
+        return s if endianess == 'big' else s[::-1]
+
     def sendCommand(self, command, parameter):
 
-        if command == 'forward':
+	parameter = chr(parameter)
+	if command == 'forward':
             self.UART.write(b'8'.encode())
-            self.UART.write(str(parameter).encode())
+            self.UART.write(parameter)
+	    print  parameter
+            print  type(parameter)
 
         elif command == 'backward':
             self.UART.write(b'2'.encode())
@@ -48,6 +57,14 @@ class UARTDriver:
 
         elif command == 'stopCondensateur':
             self.UART.write(b'f'.encode())
+
+        elif command == 'rotateClockwise':
+            self.UART.write(b'9'.encode())
+            self.UART.write(parameter)
+
+        elif command == 'rotateAntiClockwise':
+            self.UART.write(b'7'.encode())
+            self.UART.write(parameter)
 
         elif command == 'cameraRight':
             self.UART.write(b'a'.encode())

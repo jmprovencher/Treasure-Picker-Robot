@@ -16,7 +16,7 @@ class StationServeur(Thread):
         while 1:
             if (self.doitEnvoyerFichier()):
                 try:
-                    self.monServeur.sendFile(ConfigPath.Config.appendToProjectPath('stationbase/communication/data.json'))
+                    self.monServeur.sendFile(self.stationBase.myRequest)
                     self.stationBase.envoyerFichier = False
                 except:
                     #still not working, getting socket error : only one usage of each socket adress

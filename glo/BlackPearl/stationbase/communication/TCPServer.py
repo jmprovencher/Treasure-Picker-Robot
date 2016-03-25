@@ -24,15 +24,11 @@ class TCPServer():
         print '\nconnection de: ', addr
         return conn
 
-    def sendFile(self, filename):
+    def sendFile(self, data):
         print '\nsending file'
-        f = open(filename, 'r')
-        data = f.read()
         while data:
             self.connection.send(data)
             print('Sent ', repr(data))
-            data = f.read()
-        f.close()
         print('Done sending file')
         return 1
 

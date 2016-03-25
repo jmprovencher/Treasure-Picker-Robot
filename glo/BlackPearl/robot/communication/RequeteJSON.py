@@ -5,7 +5,6 @@ class RequeteJSON():
         self.commande = commande
         self.parametre = parametre
         self.data = self._definirRequete(self.commande, self.parametre)
-        self._serialiser()
 
     def _definirRequete(self, commande, parametre):
         self.data = {
@@ -13,7 +12,3 @@ class RequeteJSON():
             'parametre': parametre,
         }
         return self.data
-
-    def _serialiser(self):
-        with open('data.json', 'w') as f:
-            json.dump(self.data, f)

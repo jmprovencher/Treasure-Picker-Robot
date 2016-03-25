@@ -143,7 +143,7 @@ class StationBase(Thread):
             angle = self.trouverDeplacementOrientation()
             if angle <= 3 and angle >= -3:
                 break
-            myRequest = RequeteJSON("rotate", angle)
+            self.myRequest = RequeteJSON("rotate", angle)
             self.envoyerFichier = True
             self.attendreRobot()
         self.angleDesire = None

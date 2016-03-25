@@ -11,10 +11,12 @@ class DetectionTresors(object):
 
     def detecter(self):
 
-        intervalleClair = np.array([37, 145, 145])
-        intervalleFoncer = np.array([6, 100, 100])
+        intervalleFoncer = np.array([50, 160, 160])
+        intervalleClair = np.array([6, 100, 100])
 
-        shapeTresorMasque = cv2.inRange(self.imageCamera, intervalleFoncer, intervalleClair)
+        shapeTresorMasque = cv2.inRange(self.imageCamera, intervalleClair, intervalleFoncer)
+        #cv2.imshow('tresore',shapeTresorMasque)
+        #cv2.waitKey(0)
         _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         contoursNegligeable = []
@@ -31,6 +33,6 @@ class DetectionTresors(object):
         if len(contoursTresor) > 0:
             for contours in contoursTresor:
                 formeTresor = contours, "Tresor", ""
-                print "Ajout tresor"
+                #print "Ajout tresor"
                 self.tresorIdentifies.append(formeTresor)
 

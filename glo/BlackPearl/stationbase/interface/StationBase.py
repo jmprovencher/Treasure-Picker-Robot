@@ -26,7 +26,7 @@ class StationBase(Thread):
         self.envoyerFichier = False
         self.commandeTermine = False
         self.attente = False
-        self.demarrerConnectionTCP()
+        #self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.demarrerAnalyseImageWorld()

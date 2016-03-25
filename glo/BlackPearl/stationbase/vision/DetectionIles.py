@@ -32,11 +32,11 @@ class DetectionIles(object):
         formeIdentifiee = contours, nomForme, couleur
 
         if (precision < 0.2):
-            print (nomForme, couleur, precision)
+            #print (nomForme, couleur, precision)
             self.ilesIdentifiees.append(formeIdentifiee)
             self.nombreIles += 1
-        else:
-            print "Forme non conforme detectee"
+        #else:
+        #    print "Forme non conforme detectee"
 
     def _detecterFormeCouleur(self, intervalleCouleur):
 

@@ -20,15 +20,11 @@ class TCPClient:
                 print("Connection failed with %s:%d. Exception is %s" % (self.host, self.port, e))
         return True
 
-    def sendFile(self, filename,):
+    def sendFile(self, data):
         print '\nsending file'
-        f = open(filename, 'r')
-        data = f.read()
         while data:
             self.s.send(data)
             print('Sent ', repr(data))
-            data = f.read()
-        f.close()
         print('Done sending file')
         return 1
 

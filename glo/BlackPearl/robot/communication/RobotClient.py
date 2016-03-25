@@ -39,7 +39,7 @@ class RobotClient(Thread):
                 myRequest = RequeteJSON("termine", 0)
                 while 1:
                     try:
-                        self.monClient.sendFile('data.json')
+                        self.monClient.sendFile(myRequest)
                         break
                     except Exception as e:
                         print e

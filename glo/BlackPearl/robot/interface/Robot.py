@@ -68,6 +68,7 @@ class Robot(Thread):
 
             self.demarrerAlignement(parametre)
         else:
-            print("Commande directe")
-            #self.uartDriver.sendCommand(commande, parametre)
+
+            self.uartDriver.sendCommand(commande, parametre)
+	print("Commande envoye")
 

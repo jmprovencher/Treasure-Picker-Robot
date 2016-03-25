@@ -78,5 +78,5 @@ class Interface(QtGui.QWidget):
         x2, y2 = point2
         vectorX = x2 - x1
         vectorY = y2 - y1
-        print(str(vectorX))
+        #print(str(vectorX))
         self.direction.setText(QString(str(math.atan(vectorY/vectorX)*180/math.pi)))

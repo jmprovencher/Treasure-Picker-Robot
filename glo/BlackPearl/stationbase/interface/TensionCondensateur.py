@@ -16,5 +16,5 @@ class TensionCondensateur(Thread):
         while 1:
             self.tensionInt += 1
             self.tension = str(self.tensionInt)+'V'
-            print(self.tension)
+            #print(self.tension)
             time.sleep(1)

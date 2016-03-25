@@ -97,8 +97,6 @@ class AlgorithmeTrajectoire():
             while (len(self.trajet) > i+2):
                 while ((len(self.trajet) > i+2) and (self.ligneDroiteEstPossible(self.trajet[i], self.trajet[i+2]))):
                     self.trajet.pop(i+1)
-                    print len(self.trajet)
-                    print i
                 i = i + 1
             longueurFinale = len(self.trajet)
 

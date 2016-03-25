@@ -12,6 +12,7 @@ import time
 import cv2
 import math
 from stationbase.communication.RequeteJSON import RequeteJSON
+import copy
 
 verrou = RLock()
 
@@ -83,7 +84,7 @@ class StationBase(Thread):
         while 1:
             if (not self.carte.infoRobot is None):
                 self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.getPositionRobot(), self.destination)
-                self.trajectoireReel = self.trajectoirePrevue
+                self.trajectoireReel = copy.deepcopy(self.trajectoirePrevue)
                 break
             time.sleep(0.01)
 

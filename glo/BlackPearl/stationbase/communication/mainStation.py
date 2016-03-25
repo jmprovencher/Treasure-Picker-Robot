@@ -6,17 +6,13 @@ while 1:
     command = raw_input('Enter your command: ')
     if command == 'exit':
         monServer.closeConnection()
+
     else:
         parameter = ''
-        if command == 'forward' or command == 'backward' or command == 'left' or command == 'right':
-            while True:
-                try:
-                    parameter = input('Enter parameter: ')
-                    if type(parameter) == int:
-                        break
-
-                except:
-                    print 'Error: Parameter must be a number!'
+        if command == 'forward' or command == 'backward' or command == 'left' or command == 'right' or command =='rotateClockwise' or command =='rotateAntiClockwise':
+            parameter = input('Enter parameter: ')
+            parameter = int(parameter)
+            print parameter
         else:
             parameter = ''
         myRequest = RequeteJSON(command, parameter)

@@ -1,6 +1,7 @@
 import socket
 from threading import Thread, RLock
 import time
+import json
 
 class TCPServer():
     def __init__(self):
@@ -15,7 +16,7 @@ class TCPServer():
         hostAddress = self.get_address(host)
         print ('Server address : '+hostAddress)
         self.s.bind((host, port))
-        self.s.listen(0)
+        self.s.listen(5)
         print '\nServeur ecoute'
 
     def _establishConnection(self):
@@ -24,15 +25,23 @@ class TCPServer():
         return conn
 
     def sendFile(self, filename):
+        print '\nsending file'
         f = open(filename, 'r')
         data = f.read()
         while data:
             self.connection.send(data)
-            print('\nSent ', repr(data))
+            print('Sent ', repr(data))
             data = f.read()
         f.close()
-        print('\nDone sending file')
+        print('Done sending file')
         return 1
+
+    def receiveFile(self):
+        print('\nreceiving data...')
+        data = self.connection.recv(1024)
+        jsonObject = json.loads(data)
+        print('data successfully received')
+        return jsonObject
 
     def closeConnection(self):
         self.connection.close()
@@ -40,9 +49,5 @@ class TCPServer():
 
     def get_address(self, host):
         address = socket.gethostbyname(host)
-        if not address or address.startswith('127.'):
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(('4.2.2.1', 0))
-            address = s.getsockname()[0]
         return address
 

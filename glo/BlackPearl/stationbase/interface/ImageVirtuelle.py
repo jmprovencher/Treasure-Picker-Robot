@@ -33,6 +33,7 @@ class ImageVirtuelle(Thread):
         for tresor in self.stationBase.carte.listeTresors:
             cv2.putText(self.imageVirtuelle, tresor.forme, (tresor.centre_x - 25, tresor.centre_y),
                         self.police, 0.5, self.getColor('Jaune'), 1, cv2.LINE_AA)
+
         self.dessinerRobot()
 
     def dessinerTrajetPrevu(self):
@@ -46,14 +47,17 @@ class ImageVirtuelle(Thread):
                     cv2.arrowedLine(self.imageVirtuelle, pointFinal, pointInitial, (0, 255, 0), 2)
                     pointInitial = pointFinal
         else:
-            cv2.putText(self.imageVirtuelle, 'Aucun trajet disponible', (1000, 800), self.police, 1.5,
-                    (0, 0, 255), 1, cv2.LINE_AA)
+            cv2.putText(self.imageVirtuelle, 'Aucun trajet calcule', (1000, 800), self.police, 1,
+                    (0, 0, 0), 1, cv2.LINE_AA)
 
     def dessinerDebutFinTrajetPrevu(self, debut, fin):
         debut_x, debut_y = debut
         fin_x, fin_y = fin
-        cv2.putText(self.imageVirtuelle, 'Debut', (debut_x - 25, debut_y), self.police, 1, (0, 0, 0), 1, cv2.LINE_AA)
-        cv2.putText(self.imageVirtuelle, 'Fin', (fin_x, fin_y), self.police, 1, (0, 0, 0), 1, cv2.LINE_AA)
+        cv2.putText(self.imageVirtuelle, 'debut', (debut_x - 25, debut_y), self.police, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
+        cv2.putText(self.imageVirtuelle, 'fin', (fin_x, fin_y), self.police, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
+
+        cv2.putText(self.imageVirtuelle, 'suivant', (self.stationBase.trajectoireReel[-2][0] - 25, self.stationBase.trajectoireReel[-2][1]),
+                        self.police, 0.5, self.getColor('noir'), 1, cv2.LINE_AA)
 
     def dessinerRobot(self):
         if (not self.stationBase.carte.infoRobot is None):

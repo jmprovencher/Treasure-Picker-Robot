@@ -1,6 +1,4 @@
 import json
-import ConfigPath
-
 
 class RequeteJSON():
     def __init__(self, commande, parametre):
@@ -17,5 +15,5 @@ class RequeteJSON():
         return self.data
 
     def _serialiser(self):
-        with open(ConfigPath.Config.appendToProjectPath('stationbase/communication/data.json'), 'w') as f:
+        with open('data.json', 'w') as f:
             json.dump(self.data, f)

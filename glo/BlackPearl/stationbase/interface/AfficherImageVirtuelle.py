@@ -21,6 +21,3 @@ class AfficherImageVirtuelle(QThread):
             self.imageConvertie = QtGui.QPixmap.fromImage(imageEnConvertion)
             self.emit(QtCore.SIGNAL("update()"))
             time.sleep(0.02)
-
-
-

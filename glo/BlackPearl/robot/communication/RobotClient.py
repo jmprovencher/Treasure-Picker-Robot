@@ -2,6 +2,7 @@ from UARTDriver import UARTDriver
 from TCPClient import TCPClient
 from threading import Thread, RLock
 import time
+from robot.communication.RequeteJSON import RequeteJSON
 
 verrou = RLock()
 
@@ -21,7 +22,7 @@ class RobotClient(Thread):
                 except Exception as e:
                     print e
                     print "Connection Lost, Trying to reconnect"
-                    time.sleep(10)
+                    time.sleep(1)
                     self.monClient = TCPClient()
 
             if data == -1:
@@ -31,8 +32,20 @@ class RobotClient(Thread):
                 commande = data['commande']
                 parametre = data['parametre']
 
-                self.robot.traiterCommande(commande, parametre)
+                #self.robot.traiterCommande(commande, parametre)
                 #monUart.sendCommand(commande, parametre)
+
+                time.sleep(30)
+                myRequest = RequeteJSON("termine", 0)
+                while 1:
+                    try:
+                        self.monClient.sendFile('data.json')
+                        break
+                    except Exception as e:
+                        print e
+                        print "Connection Lost, Trying to reconnect"
+                        time.sleep(1)
+                        self.monClient = TCPClient()
 
     def tacheTerminee(self):
         with verrou:

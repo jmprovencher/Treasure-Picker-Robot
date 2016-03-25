@@ -78,11 +78,6 @@ class UARTDriver:
         elif command == 'cameraTreasure':
             self.UART.write(b'd'.encode())
 
-        elif command == 'readVoltage':
-            self.UART.write(b'z'.encode())
-            voltage = self.UART.read(4)
-            voltage.decode()
-
 
 
         #To implement when arduino will return command completion confirmation

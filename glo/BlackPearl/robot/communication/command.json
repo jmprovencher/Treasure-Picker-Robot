@@ -15,5 +15,6 @@
 "commande": "rotate",
 "commande": "allignementStation",
 "commande": "termine",
-"commande": "tension"
+"commande": "tension",
+"commande": "robotPret"
 }

@@ -13,6 +13,7 @@ class Robot(Thread):
         print("Robot init")
         self.uartDriver = uartDriver
         self.instructions = []
+        self.robotPret = False
         self.alignementTresor = False
         self.alignementDepot = False
         self.positionTresor = False

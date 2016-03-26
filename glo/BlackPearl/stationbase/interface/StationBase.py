@@ -27,6 +27,7 @@ class StationBase(Thread):
         self.arriver = False
         self.envoyerCommande = False
         self.commandeTermine = False
+        self.robotEstPret == False
         self.attenteDuRobot = False
         #self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
@@ -35,7 +36,10 @@ class StationBase(Thread):
         self.demarrerImageVirtuelle()
 
     def run(self):
-        self.demarerRoutine()
+        while 1:
+            if self.robotEstPret == True:
+                self.demarerRoutine()
+            time.sleep(0.1)
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoStation()
@@ -61,6 +65,8 @@ class StationBase(Thread):
     def identifierDestination(self, etape):
         if (etape == 'RECHARGE'):
             self.destination = self.carte.stationRecharge.getCentre()
+        elif (etape == 'TRESORE'):
+            self.destin
 
     def etapeStation(self):
         print '\n--------------------------------------------------'

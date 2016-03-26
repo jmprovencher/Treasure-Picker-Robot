@@ -15,5 +15,7 @@ class LectureUART(Thread):
             info = struct.unpack('f', info)
             if (info == 10.0):
                 self.robot.commandeTerminee = True
+            elif (info == 20.0):
+                self.robot.robotPret = True
             else:
                 self.robot.tensionCondensateur = info

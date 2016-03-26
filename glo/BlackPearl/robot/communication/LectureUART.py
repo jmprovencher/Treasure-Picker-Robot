@@ -12,10 +12,9 @@ class LectureUART(Thread):
     def run(self):
         while 1:
             info = self.robot.uartDriver.UART.read(4)
-            info = struct.unpack('f', info)
-            if (info == 10.0):
+            if (info == 'done'):
                 self.robot.commandeTerminee = True
-            elif (info == 20.0):
+            elif (info == 'pret'):
                 self.robot.robotPret = True
             else:
                 self.robot.tensionCondensateur = info

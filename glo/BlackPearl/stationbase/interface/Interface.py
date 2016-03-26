@@ -67,14 +67,7 @@ class Interface(QtGui.QWidget):
         #if(not self.threadStationBase.carte.infoRobot is None):
             #self.orientation.setText(QString(str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y '+ str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
         self.feed.repaint()
+        #self.tensionCondensateur.setText(QString(self.threadStationBase.threadCommunication.tensionCondensateur + 'V'))
         #self.orientation.repaint()
         #self.direction.repaint()
         #self.tensionCondensateur.repaint()
-
-    def dessinerDirection(self, point1, point2): #TODO: Laurent je peux supprimer cette fonction?
-        x1, y1 = point1
-        x2, y2 = point2
-        vectorX = x2 - x1
-        vectorY = y2 - y1
-        #print(str(vectorX))
-        self.direction.setText(QString(str(math.atan(vectorY/vectorX)*180/math.pi)))

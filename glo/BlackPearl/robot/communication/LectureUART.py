@@ -14,7 +14,5 @@ class LectureUART(Thread):
             info = self.robot.uartDriver.UART.read(4)
             if (info == 'done'):
                 self.robot.commandeTerminee = True
-            elif (info == 'pret'):
-                self.robot.robotPret = True
             else:
                 self.robot.tensionCondensateur = info

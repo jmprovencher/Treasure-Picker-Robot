@@ -9,6 +9,8 @@ int incomingByte = 0;
 boolean mode = false;
 // string used to print on the serial
 String action = "";
+// string used to signal a completed command
+String commandComplete = String("done");
 
 const int pinsDrive[4] = {3, 6, 7, 8};
 const int pinsDirection[8] = {9, 10, 11, 12, 15, 16, 26, 28};
@@ -120,10 +122,18 @@ float readCapacitorVoltage(){
   return capacitorVoltage;
   }
 
+void writeString(String stringData) { // Used to serially push out a String with Serial.write()
+
+  for (int i = 0; i < stringData.length(); i++)
+  {
+      Serial.write(stringData[i]);   // Push each char 1 by 1 on each loop pass
+  }
+
+}// end writeString
+
 void serialEvent(){
     // read the incoming byte:
     incomingByte = Serial.read();
-    Serial.write(incomingByte);
     
     if(!mode){
       duration = 0;
@@ -134,6 +144,7 @@ void serialEvent(){
           spdWheels[i] = straightAhead[i];
         }
         mode = true;
+        writeString(commandComplete);
       }
       else if(incomingByte == 50){
         action = "Moving backwards ";
@@ -142,6 +153,7 @@ void serialEvent(){
           spdWheels[i] = backwardsMov[i];
         }
         mode = true;
+        writeString(commandComplete);
       }
       else if(incomingByte == 52){
         action = "Moving left ";
@@ -150,6 +162,7 @@ void serialEvent(){
           spdWheels[i] = straightLeft[i];
         }
         mode = true;
+        writeString(commandComplete);
       }
       else if(incomingByte == 54){
         action = "Moving right ";
@@ -158,6 +171,7 @@ void serialEvent(){
           spdWheels[i] = straightRight[i];
         }
         mode = true;
+        writeString(commandComplete);
       }
       else if(incomingByte == 55){
         action = "Turning left ";
@@ -166,6 +180,7 @@ void serialEvent(){
           spdWheels[i] = turnLeft[i];
         }
         mode = true;
+        writeString(commandComplete);
       }
       else if(incomingByte == 57){
         action = "Turning right ";
@@ -174,6 +189,7 @@ void serialEvent(){
           spdWheels[i] = turnRight[i];
         }
         mode = true;
+        writeString(commandComplete);
       } 
       else if(incomingByte == 103){
         action = "Pickup Treasure";
@@ -186,6 +202,7 @@ void serialEvent(){
         prehenseurMaestro.setTarget(1, 4044);
         digitalWrite(pinActivateElectroAimant, LOW);
         analogWrite(pinElectroAimant, 0); // Magnet off
+        writeString(commandComplete);
       }
       else if(incomingByte == 104){
         action = "Drop Treasure";
@@ -197,39 +214,46 @@ void serialEvent(){
         analogWrite(pinElectroAimant, 0); // Magnet off
         prehenseurMaestro.setTarget(0, 6000); //Servo up
         prehenseurMaestro.setTarget(1, 4044);
-   
+        writeString(commandComplete);
       }
       else if(incomingByte == 98){
         action = "Camera Left ";
         maestro.setTarget(0, 2400);
         maestro.setTarget(1, 6200);
+        writeString(commandComplete);
       }
       else if(incomingByte == 97){
         action = "Camera Right ";
         maestro.setTarget(0, 9600);
         maestro.setTarget(1, 6200);
+        writeString(commandComplete);
       }
       else if(incomingByte == 99){
         action = "Camera Front ";
         maestro.setTarget(0, 6000);
         maestro.setTarget(1,6200);
+        writeString(commandComplete);
       }
       else if(incomingByte == 100){
         action = "Camera Treasure ";
         maestro.setTarget(0,6000);
         maestro.setTarget(1, 4044);
+        writeString(commandComplete);
       }
       else if(incomingByte == 101){
         action = "Charger condensateur";
         digitalWrite(pinCondensateur, HIGH);
+        writeString(commandComplete);
       }
       else if(incomingByte == 102){
         action = "Stop condensateur";
         digitalWrite(pinCondensateur, LOW);
+        writeString(commandComplete);
       }
       else{
         action = "Invalid action ";
-        stopWheels();        
+        stopWheels();
+        writeString(commandComplete);        
       }
     }
     else if(mode){

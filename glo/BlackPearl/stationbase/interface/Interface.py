@@ -32,6 +32,8 @@ class Interface(QtGui.QWidget):
         qp = QPainter()
         qp.begin(self)
         self.affichageDeBase = AffichageDeBase(qp)
+        #if(self.threadStationBase.threadCommunication.robotEstPret):
+            #self.dessinerRobotActive(qp)
         qp.end()
 
 
@@ -71,3 +73,8 @@ class Interface(QtGui.QWidget):
         #self.orientation.repaint()
         #self.direction.repaint()
         #self.tensionCondensateur.repaint()
+
+    def dessinerRobotActive(self, qp):
+        qp.setBrush(QtGui.QColor(0, 200, 120, 250))
+        qp.setPen(QtGui.QColor(0, 200, 120))
+        qp.drawEllipse(1405, 55, 40, 40)

@@ -14,43 +14,51 @@ class StationServeur(Thread):
 
     def run(self):
         while 1:
-            if (self.doitEnvoyerFichier()):
-                try:
-                    self.monServeur.sendFile(self.stationBase.myRequest)
-                    self.stationBase.envoyerFichier = False
-                except:
-                    #still not working, getting socket error : only one usage of each socket adress
-                    print "Connection with the remote host lost, Trying to reconnect"
-                    self.monServeur.closeConnection()
-                    self.monServeur = TCPServer()
-                    print self.monServeur.connectionEstablished
-            elif (self.attenteDuRobot()):
-                try:
-                    data = self.monServeur.receiveFile()
-                except Exception as e:
-                    print e
-                    #still not working, getting socket error : only one usage of each socket adress
-                    print "Connection with the remote host lost, Trying to reconnect"
-                    self.monServeur.closeConnection()
-                    self.monServeur = TCPServer()
-                    print self.monServeur.connectionEstablished
+            if (self.stationBase.envoyerCommande):
+                self.envoyerCommande()
+            elif (self.stationBase.attenteDuRobot):
+                data = self.attendreInfoRobot()
+                self.traiterInfoRobot(data)
+            else:
+                time.sleep(0.1)
 
-                if data == -1:
-                    print('Error while receiving file')
-                else:
-                    print data
-                    commande = data['commande']
-                    parametre = data['parametre']
-                    if (commande == "termine"):
-                        self.stationBase.commandeTermine = True
-                        self.stationBase.attente = False
+    def envoyerCommande(self):
+        while 1:
+            try:
+                self.monServeur.sendFile(self.stationBase.myRequest)
+                self.stationBase.envoyerCommande = False
+            except:
+                #still not working, getting socket error : only one usage of each socket adress
+                print "Connection with the remote host lost, Trying to reconnect"
+                self.monServeur.closeConnection()
+                self.monServeur = TCPServer()
+                print self.monServeur.connectionEstablished
 
-            time.sleep(0.01)
+    def attendreInfoRobot(self):
+        while 1:
+            try:
+                data = self.monServeur.receiveFile()
+            except Exception as e:
+                print e
+                #still not working, getting socket error : only one usage of each socket adress
+                print "Connection with the remote host lost, Trying to reconnect"
+                self.monServeur.closeConnection()
+                self.monServeur = TCPServer()
+                print self.monServeur.connectionEstablished
 
-    def doitEnvoyerFichier(self):
-        return self.stationBase.envoyerFichier
+            if data == -1:
+                print('Error while receiving file')
 
-    def attenteDuRobot(self):
-        return self.stationBase.attente
+            return data
+
+    def traiterInfoRobot(self, data):
+        print data
+        commande = data['commande']
+        parametre = data['parametre']
+        if (commande == "tension"):
+            self.stationBase.tensionCondensateur = parametre
+        elif (commande == "termine"):
+            self.stationBase.commandeTermine = True
+            self.stationBase.attenteDuRobot = False
 
 

@@ -5,6 +5,7 @@ class InfoRobot(ElementCartographique):
     def __init__(self, centre, orientation):
         self.centre_x, self.centre_y = centre
         self.orientation = orientation
+        self.tensionCondensateur = 0
 
     def afficher(self):
         print "ROBOT"

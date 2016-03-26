@@ -18,7 +18,6 @@ import math
 import sys
 import ConfigPath
 from stationbase.interface.StationBase import StationBase
-from stationbase.interface.TensionCondensateur import TensionCondensateur
 from stationbase.interface.AfficherImageVirtuelle import AfficherImageVirtuelle
 from stationbase.interface.AffichageDeBase import AffichageDeBase
 import time
@@ -27,8 +26,6 @@ class Interface(QtGui.QWidget):
     def __init__(self):
         super(Interface, self).__init__()
         self.threadAfficherImageVirtuelle = AfficherImageVirtuelle(self)
-        self.threadTensionCondensateur = TensionCondensateur()
-        self.threadTensionCondensateur.start()
         self.initUI()
 
     def paintEvent(self, e):
@@ -65,16 +62,16 @@ class Interface(QtGui.QWidget):
 
     def update_gui(self):
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
+        #self.tensionCondensateur.setText(QString(self.threadStationBase.tensionCondensateur))
         QtGui.QApplication.processEvents()
         #if(not self.threadStationBase.carte.infoRobot is None):
             #self.orientation.setText(QString(str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y '+ str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
         self.feed.repaint()
-        self.tensionCondensateur.setText(QString(self.threadTensionCondensateur.tension))
         #self.orientation.repaint()
         #self.direction.repaint()
-        self.tensionCondensateur.repaint()
+        #self.tensionCondensateur.repaint()
 
-    def dessinerDirection(self, point1, point2):
+    def dessinerDirection(self, point1, point2): #TODO: Laurent je peux supprimer cette fonction?
         x1, y1 = point1
         x2, y2 = point2
         vectorX = x2 - x1

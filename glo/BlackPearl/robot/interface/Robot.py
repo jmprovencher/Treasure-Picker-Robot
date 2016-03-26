@@ -2,7 +2,6 @@
 from robot.communication.RobotClient import RobotClient
 from robot.vision.AnalyseImageEmbarquee import AnalyseImageEmbarquee
 from robot.interface.FeedVideoRobot import FeedVideoRobot
-from robot.interface.TensionCondensateurRobot import TensionCondensateurRobot
 from threading import Thread, RLock
 import time
 
@@ -19,11 +18,11 @@ class Robot(Thread):
         self.positionTresor = False
         self.positionDepot = False
         self.tacheTerminee = False
+        self.commandeTerminee = False
+        self.tensionCondensateur = 0
         self.demarrerConnectionTCP()
+        self.demarrerLectureUART()
         #self.demarrerAlignement('tresor')
-        self.threadTensionCondensateurRobot = TensionCondensateurRobot(self.uartDriver)
-        self.threadTensionCondensateurRobot.start()
-
 
     def run(self):
         print("Robot run")
@@ -36,6 +35,9 @@ class Robot(Thread):
         print("Demarre TCP Client")
         self.robotClient = RobotClient(self)
         self.robotClient.start()
+
+    def demarrerLectureUART(self):
+        print "Demarer lecture UART"
 
     def demarrerAlignement(self, typeAlignement):
         #self.demarrerFeedVideo()
@@ -66,10 +68,7 @@ class Robot(Thread):
     def traiterCommande(self, commande, parametre):
         if (commande == 'alignement'):
             print("Commence phase alignement: %s", parametre)
-
             self.demarrerAlignement(parametre)
         else:
-
             self.uartDriver.sendCommand(commande, parametre)
-	print("Commande envoye")
-
+            print("Commande envoye au UART")

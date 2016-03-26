@@ -26,13 +26,11 @@ class UARTDriver:
         return s if endianess == 'big' else s[::-1]
 
     def sendCommand(self, command, parameter):
+        parameter = chr(parameter)
 
-	parameter = chr(parameter)
-	if command == 'forward':
+        if command == 'forward':
             self.UART.write(b'8'.encode())
             self.UART.write(parameter)
-	    print  parameter
-            print  type(parameter)
 
         elif command == 'backward':
             self.UART.write(b'2'.encode())
@@ -77,8 +75,6 @@ class UARTDriver:
 
         elif command == 'cameraTreasure':
             self.UART.write(b'd'.encode())
-
-
 
         #To implement when arduino will return command completion confirmation
         #commandComplete = self.UART.read(2)

@@ -23,10 +23,11 @@ class StationBase(Thread):
         self.trajectoireReel = None
         self.trajectoirePrevue = None
         self.angleDesire = None
+        self.tensionCondensateur = 0
         self.arriver = False
-        self.envoyerFichier = False
+        self.envoyerCommande = False
         self.commandeTermine = False
-        self.attente = False
+        self.attenteDuRobot = False
         #self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
         self.carte = Carte()
@@ -144,14 +145,14 @@ class StationBase(Thread):
             if angle <= 3 and angle >= -3:
                 break
             self.myRequest = RequeteJSON("rotate", angle)
-            self.envoyerFichier = True
+            self.envoyerCommande = True
             self.attendreRobot()
         self.angleDesire = None
 
     def attendreRobot(self):
-        self.attente = True
+        self.attenteDuRobot = True
         while not self.commandeTermine:
-            time.sleep(0.01)
+            time.sleep(0.1)
         self.commandeTermine = False
 
     def distanceADestinationAuCarre(self, x, y, destX, destY):
@@ -175,7 +176,7 @@ class StationBase(Thread):
         debut = self.getPositionRobot()
         dep = self.distanceADestination(debut[0], debut[1], arriver[0], arriver[1])
         RequeteJSON("forward", dep)
-        self.envoyerFichier = True
+        self.envoyerCommande = True
         self.attendreRobot()
         debut = self.getPositionRobot()
         dep = self.distanceADestinationAuCarre(debut[0], debut[1], arriver[0], arriver[1])
@@ -185,7 +186,7 @@ class StationBase(Thread):
 
     def allignement(self, type):
         RequeteJSON(type, 0)
-        self.envoyerFichier = True
+        self.envoyerCommande = True
         self.attendreRobot()
 
 

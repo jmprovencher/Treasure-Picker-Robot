@@ -14,5 +14,6 @@
 "commande": "cameraTreasure",
 "commande": "rotate",
 "commande": "allignementStation",
-"commande": "termine"
+"commande": "termine",
+"commande": "robotPret"
 }

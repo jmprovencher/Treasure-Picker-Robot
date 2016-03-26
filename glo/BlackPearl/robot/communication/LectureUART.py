@@ -1,5 +1,6 @@
 from threading import Thread, RLock
 import time
+import struct
 
 verrou = RLock()
 
@@ -10,8 +11,9 @@ class LectureUART(Thread):
 
     def run(self):
         while 1:
-            info = self.robot.uartDriver.UART.read(1) #TODO: Pas sur du type reçu...
-            if (info == '???'): #TODO: Avec quoi comparer lorsque la commande est termine
+            info = self.robot.uartDriver.UART.read(4)
+            info = struct.unpack('f', info)
+            if (info == 10.0):
                 self.robot.commandeTerminee = True
             else:
-                self.robot.tensionCondensateur = info #TODO: Pas sur du type de info...
+                self.robot.tensionCondensateur = info

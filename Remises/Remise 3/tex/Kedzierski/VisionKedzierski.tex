@@ -10,12 +10,12 @@ Tout d'abord, il est important de spécifier que la station de base gère les dépl
 \medbreak
 Les phases d'alignement regroupent plusieurs petites étapes. Tout commence avec le changement de l'orientation de la caméra embarquée. Celle-ci possède plusieurs positions prédéfinies, ce qui facilite grandement le déroulement du processus d'alignement.
 
-\subsection{Dépôt du trésor}
-Pour le dépôt du trésor, la caméra se positionnera face à la surface de jeu et analysera la position de l'île cible pour calculer le déplacement vertical et horizontal à effectuer. Une fois ces ajustements calculés, des commandes de déplacements sont envoyés. Finalement, une fois l'alignement terminé, le système valide la position de l'île cible par rapport à la zone de dépôt sécuritaire déterminée par des tests. Le trésor est soit déposé ou un autre alignement est effectué.
-\textbf{AJOUTER IMAGE}
-
 \subsection{Capture du trésor}
 Pour la capture du trésor, la caméra est placée en "position trésor" afin d'identifier le trésor et évaluer la distance le séparant du robot. Encore une fois, connaissant la position du préhenseur sur le robot, le robot calcule les ajustements nécessaires et les commandes appropriées sont envoyés. Une fois la commande de déplacement vertical effectuée, l'électroaimant sera activé et le robot reculera afin de valider que le trésor a bel et bien été capturé. La phase de préhension de trésor se termine donc et la station de base reprendra le contrôle du robot.  
+\textbf{AJOUTER IMAGE}
+
+\subsection{Dépôt du trésor}
+Pour le dépôt du trésor, la caméra se positionnera face à la surface de jeu et analysera la position de l'île cible pour calculer le déplacement vertical et horizontal à effectuer. Une fois ces ajustements calculés, des commandes de déplacements sont envoyés. Finalement, une fois l'alignement terminé, le système valide la position de l'île cible par rapport à la zone de dépôt sécuritaire déterminée par des tests. Le trésor est soit déposé ou un autre alignement est effectué.
 \textbf{AJOUTER IMAGE}
 
 \subsection{Recharge du condensateur}

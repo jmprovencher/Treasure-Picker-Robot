@@ -15,6 +15,7 @@ class TCPServer():
         port = 60000
         self.s = socket.socket()
         host = socket.gethostname()
+        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         hostAddress = self.get_address(host)
         print 'adresse serveur: '+hostAddress
         self.s.bind((hostAddress, port))
@@ -53,8 +54,9 @@ class TCPServer():
     def get_address(self, host):
         address = socket.gethostbyname(host)
         if not address or address.startswith('127.'):
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(('4.2.2.1', 0))
-            address = s.getsockname()[0]
+            tmp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            tmp.connect(('4.2.2.1', 0))
+            address = tmp.getsockname()[0]
+            tmp.close()
         return  address
 

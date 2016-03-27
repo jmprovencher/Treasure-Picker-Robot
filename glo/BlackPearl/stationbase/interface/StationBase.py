@@ -139,15 +139,18 @@ class StationBase(Thread):
     def trouverTrajectoirePrevu(self, destination):
         print '\nTrouve la trajectoire prevu...'
         while 1:
-            if (not self.carte.infoRobot is None):
-                self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.getPositionRobot(), destination)
-                if self.trajectoirePrevue is None:
-                    print 'erreur! Aucun trajet trouve.'
-                else:
-                    print 'trajet trouve.'
-                self.trajectoireReel = copy.deepcopy(self.trajectoirePrevue)
-                break
-            time.sleep(0.01)
+            try:
+                if (not self.carte.infoRobot is None):
+                    self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.getPositionRobot(), destination)
+                    if self.trajectoirePrevue is None:
+                        print 'erreur! Aucun trajet trouve.'
+                    else:
+                        print 'trajet trouve.'
+                    self.trajectoireReel = copy.deepcopy(self.trajectoirePrevue)
+                    break
+                time.sleep(0.01)
+            except:
+                time.sleep(0.01)
 
     def trouverDeplacementOrientation(self):
         if self.angleDesire is None:
@@ -169,8 +172,8 @@ class StationBase(Thread):
     def getPositionRobot(self):
         while 1:
             if (not self.carte.infoRobot is None):
-                return self.carte.infoRobot.getCentre()
-            time.sleep(0.01)
+                return copy.deepcopy(self.carte.infoRobot.getCentre())
+            time.sleep(0.03)
 
     def getOrientationRobot(self):
         while 1:
@@ -215,7 +218,7 @@ class StationBase(Thread):
             self.angleDesire = None
 
     def attendreRobot(self):
-        print 'Attente du robot...'
+        print '\nAttente du robot...'
         self.attenteDuRobot = True
         while not self.commandeTermine:
             time.sleep(0.1)

@@ -46,8 +46,8 @@ class Interface(QtGui.QWidget):
     def demarerRoutine(self):
         self.threadStationBase = StationBase()
         self.threadStationBase.start()
-        #self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
-        #self.threadAfficherImageVirtuelle.start()
+        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
+        self.threadAfficherImageVirtuelle.start()
 
 
     def update_gui(self):
@@ -57,6 +57,7 @@ class Interface(QtGui.QWidget):
         #if(not self.threadStationBase.carte.infoRobot is None):
             #self.orientation.setText(QString(str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y '+ str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
         self.feed.repaint()
+        self.text.repaint()
         #self.tensionCondensateur.setText(QString(self.threadStationBase.threadCommunication.tensionCondensateur + 'V'))
         #self.orientation.repaint()
         #self.direction.repaint()

@@ -5,11 +5,8 @@ from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
 from stationbase.interface.FeedVideoStation import FeedVideoStation
 from stationbase.communication.StationServeur import StationServeur
 from stationbase.interface.ImageVirtuelle import ImageVirtuelle
-import time
-import sys
 from threading import Thread, RLock
 import time
-import cv2
 import math
 from stationbase.communication.RequeteJSON import RequeteJSON
 import copy
@@ -19,7 +16,6 @@ verrou = RLock()
 class StationBase(Thread):
     def __init__(self):
         Thread.__init__(self)
-        self.destination = None
         self.trajectoireReel = None
         self.trajectoirePrevue = None
         self.angleDesire = None
@@ -33,11 +29,14 @@ class StationBase(Thread):
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.demarrerAnalyseImageWorld()
+        self.initialisationTrajectoire()
         self.demarrerImageVirtuelle()
 
     def run(self):
+        print '\nAttendre que le robot soit pret...'
         while 1:
             if self.robotEstPret == True:
+                print 'Robot est pret'
                 self.demarerRoutine()
             time.sleep(0.1)
 
@@ -58,43 +57,50 @@ class StationBase(Thread):
         self.threadImageVirtuelle.start()
 
     def demarerRoutine(self):
-        self.carte.trajectoire.initGrilleCellule(self.carte.listeIles)
         self.etapeStation()
         self.etapeTresor()
         self.etapeIle()
         time.sleep(100000)
 
-    def identifierDestination(self, etape):
-        if (etape == 'RECHARGE'):
-            self.destination = self.carte.stationRecharge.getCentre()
-        elif (etape == 'TRESOR'):
-            self.destination = self.carte.cible.tresorChoisi.getCentre()
-        elif (etape == 'ILE'):
-            self.destination = self.carte.cible.tresorChoisi.getCentre()
+    def initialisationTrajectoire(self):
+        self.carte.trajectoire.initGrilleCellule(self.carte.listeIles)
 
-    def etapeTresor(self):
+    def identifierDestination(self, etape):
+        print '\nIndentifier destination'
+        destination = None
+        if (etape == 'RECHARGE'):
+            destination = self.carte.stationRecharge.getCentre()
+        elif (etape == 'TRESOR'):
+            destination = self.carte.cible.tresorChoisi.getCentre()
+        elif (etape == 'ILE'):
+            destination = self.carte.cible.ileChoisie.getCentre()
+        if destination is None:
+            print 'erreur! Aucune destination trouvee.'
+        return destination
+
+    def etapeIle(self):
         print '\n--------------------------------------------------'
-        print 'Aller a l''ile cible'
+        print 'Aller a l''ile cible...'
         print '--------------------------------------------------'
-        self.identifierDestination('ILE')
-        self.trouverTrajectoirePrevu()
+        destination = self.identifierDestination('ILE')
+        self.trouverTrajectoirePrevu(destination)
         while len(self.trajectoireReel) > 1:
             self.orienter()
             self.deplacer()
         print '\n--------------------------------------------------'
-        print 'Arriver a l''ile'
+        print 'Arriver a l''ile.'
         print '--------------------------------------------------'
         self.allignement("allignementIle")
         print '\n--------------------------------------------------'
-        print 'Depot termine'
+        print 'Depot termine.'
         print '--------------------------------------------------'
 
     def etapeTresor(self):
         print '\n--------------------------------------------------'
-        print 'Aller au tresor'
+        print 'Aller au tresor...'
         print '--------------------------------------------------'
-        self.identifierDestination('TRESOR')
-        self.trouverTrajectoirePrevu()
+        destination = self.identifierDestination('TRESOR')
+        self.trouverTrajectoirePrevu(destination)
         while len(self.trajectoireReel) > 1:
             self.orienter()
             self.deplacer()
@@ -104,36 +110,41 @@ class StationBase(Thread):
             self.angleDesire = 270
         self.orienter()
         print '\n--------------------------------------------------'
-        print 'Arriver au tresor'
+        print 'Arriver au tresor.'
         print '--------------------------------------------------'
         self.allignement("allignementTresor")
         print '\n--------------------------------------------------'
-        print 'Capture termine'
+        print 'Capture termine.'
         print '--------------------------------------------------'
 
     def etapeStation(self):
         print '\n--------------------------------------------------'
-        print 'Aller a la station de recharge'
+        print 'Aller a la station de recharge...'
         print '--------------------------------------------------'
-        self.identifierDestination('RECHARGE')
-        self.trouverTrajectoirePrevu()
+        destination = self.identifierDestination('RECHARGE')
+        self.trouverTrajectoirePrevu(destination)
         while len(self.trajectoireReel) > 1:
             self.orienter()
             self.deplacer()
         self.angleDesire = 90
         self.orienter()
         print '\n--------------------------------------------------'
-        print 'Arriver a la station de recharge!'
+        print 'Arriver a la station de recharge.'
         print '--------------------------------------------------'
         self.allignement("allignementStation")
         print '\n--------------------------------------------------'
-        print 'Recharge termine'
+        print 'Recharge termine.'
         print '--------------------------------------------------'
 
-    def trouverTrajectoirePrevu(self):
+    def trouverTrajectoirePrevu(self, destination):
+        print '\nTrouve la trajectoire prevu...'
         while 1:
             if (not self.carte.infoRobot is None):
-                self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.getPositionRobot(), self.destination)
+                self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.getPositionRobot(), destination)
+                if self.trajectoirePrevue is None:
+                    print 'erreur! Aucun trajet trouve.'
+                else:
+                    print 'trajet trouve.'
                 self.trajectoireReel = copy.deepcopy(self.trajectoirePrevue)
                 break
             time.sleep(0.01)
@@ -144,11 +155,14 @@ class StationBase(Thread):
             debut = self.getPositionRobot()
             self.angleDesire = self.trouverOrientationDesire(debut, arriver)
         angleRobot = self.getOrientationRobot()
+        print 'angle du robot: ', angleRobot
+        print 'angle desire: ', self.angleDesire
         depDegre = angleRobot - self.angleDesire
         if depDegre < -180:
             depDegre = depDegre + 360
         elif depDegre > 180:
             depDegre = depDegre - 360
+        print 'correction: ', depDegre
 
         return depDegre
 
@@ -189,20 +203,24 @@ class StationBase(Thread):
         return angle
 
     def orienter(self):
+        print '\nOrienter'
         while 1:
             angle = self.trouverDeplacementOrientation()
-            if angle <= 3 and angle >= -3:
+            if angle <= 2 and angle >= -2:
+                print '\nOrientation termine.'
                 break
             self.myRequest = RequeteJSON("rotate", angle)
             self.envoyerCommande = True
             self.attendreRobot()
-        self.angleDesire = None
+            self.angleDesire = None
 
     def attendreRobot(self):
+        print 'Attente du robot...'
         self.attenteDuRobot = True
         while not self.commandeTermine:
             time.sleep(0.1)
         self.commandeTermine = False
+        print 'Robot a fini.'
 
     def distanceADestinationAuCarre(self, x, y, destX, destY):
         distanceX = destX - x
@@ -221,16 +239,18 @@ class StationBase(Thread):
         return distance
 
     def deplacer(self):
+        print '\nDeplacer'
         arriver = self.trajectoireReel[-2]
         debut = self.getPositionRobot()
         dep = self.distanceADestination(debut[0], debut[1], arriver[0], arriver[1])
+        print 'deplacement: ', dep
         self.myRequest = RequeteJSON("forward", dep)
         self.envoyerCommande = True
         self.attendreRobot()
         debut = self.getPositionRobot()
         dep = self.distanceADestinationAuCarre(debut[0], debut[1], arriver[0], arriver[1])
         if dep <= 25:
-            print '\netape de complete'
+            print '\nArriver.'
             self.trajectoireReel.pop(-1)
 
     def allignement(self, type):

@@ -68,9 +68,7 @@ class StationServeur(Thread):
         while 1:
             try:
                 data = self.monServeur.receiveFile()
-                print data
                 commande = data['commande']
-                parametre = data['parametre']
                 if (commande == "robotPret"):
                     self.stationBase.robotEstPret = True
                     break

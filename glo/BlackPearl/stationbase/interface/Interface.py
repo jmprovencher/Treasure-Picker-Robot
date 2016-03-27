@@ -1,26 +1,13 @@
 # import the necessary packages
 from PyQt4 import QtGui, QtCore
-from PyQt4.QtCore import QVariant
-from PyQt4.QtCore import QMetaObject
-from PyQt4.QtGui import QAction
-from PyQt4.QtGui import QApplication
-from PyQt4.QtGui import QButtonGroup
-from PyQt4.QtGui import QDialog
-from PyQt4.QtGui import QHeaderView
 from PyQt4.QtGui import QPushButton
 from PyQt4.QtGui import QLabel
 from PyQt4.QtGui import QPainter
-from PyQt4.QtCore import QString
-
-import math
-
-
-import sys
-import ConfigPath
 from stationbase.interface.StationBase import StationBase
 from stationbase.interface.AfficherImageVirtuelle import AfficherImageVirtuelle
 from stationbase.interface.AffichageDeBase import AffichageDeBase
-import time
+from Tkinter import *
+from stationbase.interface.RedirigeurTexte import RedirigeurTexte
 
 class Interface(QtGui.QWidget):
     def __init__(self):
@@ -54,12 +41,13 @@ class Interface(QtGui.QWidget):
         self.btnDemarer.clicked.connect(self.demarerRoutine)
         self.tensionCondensateur = QLabel(self)
         self.tensionCondensateur.setGeometry(480, 22, 640, 50)
+        self.initTextBox()
 
     def demarerRoutine(self):
         self.threadStationBase = StationBase()
         self.threadStationBase.start()
-        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
-        self.threadAfficherImageVirtuelle.start()
+        #self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
+        #self.threadAfficherImageVirtuelle.start()
 
 
     def update_gui(self):
@@ -78,3 +66,26 @@ class Interface(QtGui.QWidget):
         qp.setBrush(QtGui.QColor(0, 200, 120, 250))
         qp.setPen(QtGui.QColor(0, 200, 120))
         qp.drawEllipse(1405, 55, 40, 40)
+
+    def initTextBox(self):
+        self.text = QtGui.QTextEdit(self)
+        self.text.setGeometry(500, 10, 600, 125)
+        self.text.setReadOnly(True)
+        self.text.setLineWrapMode(QtGui.QTextEdit.NoWrap)
+        font = self.text.font()
+        font.setFamily("Courier")
+        font.setPointSize(10)
+        self.text.moveCursor(QtGui.QTextCursor.End)
+        self.text.setCurrentFont(font)
+        sb = self.text.verticalScrollBar()
+        sb.setValue(sb.maximum())
+        self.text.ensureCursorVisible()
+        pal = QtGui.QPalette()
+        bgc = QtGui.QColor(0, 0, 0)
+        pal.setColor(QtGui.QPalette.Base, bgc)
+        self.text.setPalette(pal)
+        self.text.setTextColor(QtCore.Qt.white)
+        self.text.insertPlainText('Black Perl\n')
+        sys.stdout = RedirigeurTexte(self.text, "stdout")
+        sys.stderr = RedirigeurTexte(self.text, "stderr")
+

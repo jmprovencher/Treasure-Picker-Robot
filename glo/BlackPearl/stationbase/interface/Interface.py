@@ -28,8 +28,9 @@ class Interface(QtGui.QWidget):
         self.setWindowTitle('Interface')
         self.resize(1600, 1000)
         self.setAutoFillBackground(False)
+        self.initTextBox()
         self.feed = QLabel(self)
-        self.feed.setGeometry(0, 145, 1600, 855)
+        self.feed.setGeometry(0, 145, 1400, 855)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
         self.orientation = QLabel(self)
         self.orientation.setGeometry(380, 22, 440, 50)
@@ -41,7 +42,6 @@ class Interface(QtGui.QWidget):
         self.btnDemarer.clicked.connect(self.demarerRoutine)
         self.tensionCondensateur = QLabel(self)
         self.tensionCondensateur.setGeometry(480, 22, 640, 50)
-        self.initTextBox()
 
     def demarerRoutine(self):
         self.threadStationBase = StationBase()
@@ -57,7 +57,6 @@ class Interface(QtGui.QWidget):
         #if(not self.threadStationBase.carte.infoRobot is None):
             #self.orientation.setText(QString(str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y '+ str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
         self.feed.repaint()
-        self.text.repaint()
         #self.tensionCondensateur.setText(QString(self.threadStationBase.threadCommunication.tensionCondensateur + 'V'))
         #self.orientation.repaint()
         #self.direction.repaint()
@@ -66,11 +65,11 @@ class Interface(QtGui.QWidget):
     def dessinerRobotActive(self, qp):
         qp.setBrush(QtGui.QColor(0, 200, 120, 250))
         qp.setPen(QtGui.QColor(0, 200, 120))
-        qp.drawEllipse(1405, 55, 40, 40)
+        qp.drawEllipse(1405-200, 55, 40, 40)
 
     def initTextBox(self):
         self.text = QtGui.QTextEdit(self)
-        self.text.setGeometry(500, 10, 600, 125)
+        self.text.setGeometry(1400, 10, 200, 800)
         self.text.setReadOnly(True)
         self.text.setLineWrapMode(QtGui.QTextEdit.NoWrap)
         font = self.text.font()
@@ -89,4 +88,3 @@ class Interface(QtGui.QWidget):
         self.text.insertPlainText('Black Perl\n')
         #sys.stdout = RedirigeurTexte(self.text, "stdout")
         #sys.stderr = RedirigeurTexte(self.text, "stderr")
-

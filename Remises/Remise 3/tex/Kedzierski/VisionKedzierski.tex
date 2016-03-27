@@ -1,12 +1,27 @@
-\section{Localisation des iles}
-Pour localiser les îles, chacune des quatre couleurs est filtrée et placée dans un masque afin d'avoir un traitement individuel. Ensuite, puisque le système possède en mémoire les contours des formes qui pourraient représenter les îles, celui-ci est en mesure d'identifier la forme qui possède le plus haut taux de compatibilité avec les formes en mémoire.
-
+\section{Localisation des iles et des trésors}
+Le processus de localisation des îles est effectué une seule fois, au tout début de la routine. Pour localiser les îles, chacune des quatre couleurs est filtrée et placée dans un masque afin d'effectuer un traitement individuel. Ensuite, le système compare les contours des formes filtrées avec les formes géométriques en mémoire. De ce fait, celui-ci est en mesure d'identifier la forme qui possède le plus haut taux de compatibilité avec celles en mémoire.
+\medbreak
+Pour ce qui est de la localisation des trésors, un processus similaire est utilisé. L'image est filtrée avec la couleur des trésor, puis les formes détectées sont retenues ou non dépendamment de l'aire de celles-ci.
 
 \section{Localisation du robot}
 
-\section{Alignement du robot}
+\section{Phases d'alignement du robot}
+Tout d'abord, il est important de spécifier que la station de base gère les déplacements principaux du robot alors que le robot gère lui-même les phases d'alignements. Ceci dit, lorsque le robot est dirigé vers une position cible, la station de base lui indiquera quelle type d'alignement il doit effectuer. Il y a une phase d'alignement unique pour la capture d'un trésor, le dépôt de celui-ci sur l'île cible ainsi que pour l'amarrage du robot avec la station de recharge.
+\medbreak
+Les phases d'alignement regroupent plusieurs petites étapes. Tout commence avec le changement de l'orientation de la caméra embarquée. Celle-ci possède plusieurs positions prédéfinies, ce qui facilite grandement le déroulement du processus d'alignement.
 
-OUAOUA
+\subsection{Dépôt du trésor}
+Pour le dépôt du trésor, la caméra se positionnera face à la surface de jeu et analysera la position de l'île cible pour calculer le déplacement vertical et horizontal à effectuer. Une fois ces ajustements calculés, des commandes de déplacements sont envoyés. Finalement, une fois l'alignement terminé, le système valide la position de l'île cible par rapport à la zone de dépôt sécuritaire déterminée par des tests. Le trésor est soit déposé ou un autre alignement est effectué.
+\textbf{AJOUTER IMAGE}
+
+\subsection{Capture du trésor}
+Pour la capture du trésor, la caméra est placée en "position trésor" afin d'identifier le trésor et évaluer la distance le séparant du robot. Encore une fois, connaissant la position du préhenseur sur le robot, le robot calcule les ajustements nécessaires et les commandes appropriées sont envoyés. Une fois la commande de déplacement vertical effectuée, l'électroaimant sera activé et le robot reculera afin de valider que le trésor a bel et bien été capturé. La phase de préhension de trésor se termine donc et la station de base reprendra le contrôle du robot.  
+\textbf{AJOUTER IMAGE}
+
+\subsection{Recharge du condensateur}
+La phase d'alignement avec la station de recharge est une étape cruciale dans le déroulement de la routine. En effet, un mauvais alignement aura comme conséquence un plus long temps de recharge ou aucune recharge dans le pire des cas. Il est donc indispensable que le robot soit parfaitement aligné avec la station de recharge afin que la recharge à induction soit optimale, mais aussi afin que le code Manchester soit transmis avec succès par le système LED à LED. 
+\textbf{A COMPLETER}
+
 %Exemple d'insertion de figure
 
 %\begin{figure}[htp]

@@ -11,6 +11,7 @@ class Carte():
         self.listeTresors = []
         self.infoRobot = None
         self.cible = None
+        self.stationRecharge = StationRecharge()
         self.trajectoire = Trajectoire()
 
     def ajouterElementCarto(self, elementCartographiques):

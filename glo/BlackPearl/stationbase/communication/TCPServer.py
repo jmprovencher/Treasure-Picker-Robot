@@ -28,10 +28,13 @@ class TCPServer():
 
     def sendFile(self, data):
         print '\nEssaye d''envoyer une requete au robot...'
+        f = open('data.json', 'r')
+        data = f.read()
         while data:
-            dataJSON = json.dumps(data)
-            self.s.send(dataJSON)
-            print 'requete: ', repr(data)
+            self.s.send(data)
+            print('Sent: ', repr(data))
+            data = f.read()
+        f.close()
         print 'Envoie reussi.'
         return 1
 

@@ -79,13 +79,12 @@ class RobotClient(Thread):
     def envoyerPretAStation(self):
         myRequest = RequeteJSON("robotPret", 0)
         while 1:
-            if (self.robot.robotPret):
-                try:
-                    self.monClient.sendFile(myRequest)
-                    break
-                except Exception as e:
-                    print e
-                    print "Connection Lost, Trying to reconnect"
-                    time.sleep(0.1)
-                    self.monClient = TCPClient()
+            try:
+                self.monClient.sendFile(myRequest)
+                break
+            except Exception as e:
+                print e
+                print "Connection Lost, Trying to reconnect"
+                time.sleep(0.1)
+                self.monClient = TCPClient()
             time.sleep(0.1)

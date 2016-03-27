@@ -7,6 +7,7 @@ class RequeteJSON():
         self.commande = commande
         self.parametre = parametre
         self.data = self._definirRequete(self.commande, self.parametre)
+        self._serialiser()
 
     def _definirRequete(self, commande, parametre):
         self.data = {
@@ -15,4 +16,7 @@ class RequeteJSON():
         }
         return self.data
 
+    def _serialiser(self):
+        with open(ConfigPath.Config.appendToProjectPath('stationbase/communication/data.json'), 'w') as f:
+            json.dump(self.data, f)
 

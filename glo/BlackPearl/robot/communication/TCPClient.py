@@ -6,8 +6,7 @@ class TCPClient:
     def __init__(self):
         self.s = socket.socket()
         self.port = 60000
-        #self.host = '10.248.144.128'
-        self.host = '127.0.1.1'
+        self.host = '10.248.4.183'
         #self.host = '192.168.1.37' #If on embedded computer in local network
         self.connectionEstablished = self._connectToServer()
 
@@ -22,10 +21,13 @@ class TCPClient:
 
     def sendFile(self, data):
         print '\nsending file'
+        f = open('data.json', 'r')
+        data = f.read()
         while data:
-            dataJSON = json.dumps(data)
-            self.s.send(dataJSON)
-            print('Sent ', repr(data))
+            self.s.send(data)
+            print('Sent: ', repr(data))
+            data = f.read()
+        f.close()
         print('Done sending file')
         return 1
 

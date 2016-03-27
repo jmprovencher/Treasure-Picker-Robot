@@ -66,7 +66,6 @@ class Robot(Thread):
         self.instructions.append(instructions)
 
     def traiterCommande(self, commande, parametre):
-        self.
         if (commande == 'alignement'):
             print("Commence phase alignement: %s", parametre)
             self.demarrerAlignement(parametre)

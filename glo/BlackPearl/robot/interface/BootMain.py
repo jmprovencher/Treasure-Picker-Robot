@@ -6,7 +6,7 @@ import time
 
 def main():
     #monUART = UARTDriver('COM8', 9600) #on Windows
-    #monUART = UARTDriver('/dev/ttyACM1', 115200) #on linux
+    #monUART = UARTDriver('/dev/ttyACM0', 115200) #on linux
     monUART = None
     robot = Robot(monUART)
     robot.start()

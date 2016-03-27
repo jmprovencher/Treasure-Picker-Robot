@@ -86,6 +86,6 @@ class Interface(QtGui.QWidget):
         self.text.setPalette(pal)
         self.text.setTextColor(QtCore.Qt.white)
         self.text.insertPlainText('Black Perl\n')
-        sys.stdout = RedirigeurTexte(self.text, "stdout")
-        sys.stderr = RedirigeurTexte(self.text, "stderr")
+        #sys.stdout = RedirigeurTexte(self.text, "stdout")
+        #sys.stderr = RedirigeurTexte(self.text, "stderr")
 

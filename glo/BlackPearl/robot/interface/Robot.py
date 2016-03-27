@@ -13,14 +13,17 @@ class Robot(Thread):
         print("Robot init")
         self.uartDriver = uartDriver
         self.instructions = []
+        self.robotPret = False
         self.alignementTresor = False
         self.alignementDepot = False
         self.positionTresor = False
         self.positionDepot = False
         self.tacheTerminee = False
-        #self.demarrerConnectionTCP()
-        self.demarrerAlignement('tresor')
-
+        self.commandeTerminee = False
+        self.tensionCondensateur = 0
+        self.demarrerConnectionTCP()
+        self.demarrerLectureUART()
+        #self.demarrerAlignement('tresor')
 
     def run(self):
         print("Robot run")
@@ -33,6 +36,9 @@ class Robot(Thread):
         print("Demarre TCP Client")
         self.robotClient = RobotClient(self)
         self.robotClient.start()
+
+    def demarrerLectureUART(self):
+        print "Demarer lecture UART"
 
     def demarrerAlignement(self, typeAlignement):
         #self.demarrerFeedVideo()
@@ -63,9 +69,7 @@ class Robot(Thread):
     def traiterCommande(self, commande, parametre):
         if (commande == 'alignement'):
             print("Commence phase alignement: %s", parametre)
-
             self.demarrerAlignement(parametre)
         else:
-            print("Commande directe")
             self.uartDriver.sendCommand(commande, parametre)
-
+            print("Commande envoye au UART")

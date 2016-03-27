@@ -70,7 +70,7 @@ class AnalyseImageWorld(Thread):
         self.trouverElementsCartographiques()
 
     def trouverElementsCartographiques(self):
-        print("\ndetection des iles")
+        print("\nDetection des iles...")
         self.detectionIles = DetectionIles(self.image)
         self.detectionIles.detecter()
         for ile in self.detectionIles.ilesIdentifiees:
@@ -79,13 +79,13 @@ class AnalyseImageWorld(Thread):
             with verrou:
                 self.stationBase.carte.listeIles.append(Ile(centreForme, couleurForme, nomForme))
 
-        print("\ndetection des tresors")
+        print("\nDetection des tresors...")
         self.detectionTresors = DetectionTresors(self.image)
         self.detectionTresors.detecter()
-        for tresor in self.detectionTresors.tresorIdentifies:
-            contoursForme, _, _ = tresor
-            centreForme = self.trouverCentreForme(contoursForme)
-            with verrou:
+        if len(self.detectionTresors.tresorIdentifies) > 0:
+            for tresor in self.detectionTresors.tresorIdentifies:
+                contoursForme, _, _ = tresor
+                centreForme = self.trouverCentreForme(contoursForme)
                 self.stationBase.carte.listeTresors.append(Tresor(centreForme))
 
         self.trouverRobot()
@@ -131,7 +131,6 @@ class AnalyseImageWorld(Thread):
             elif self.cntRobotPerdu > 25:
                 self.cntRobotPerdu = 0
                 self.stationBase.carte.infoRobot = None
-                print 1
             else:
                 self.cntRobotPerdu = self.cntRobotPerdu + 1
 

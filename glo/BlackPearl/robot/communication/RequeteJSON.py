@@ -1,6 +1,4 @@
 import json
-import ConfigPath
-
 
 class RequeteJSON():
     def __init__(self, commande, parametre):
@@ -14,5 +12,3 @@ class RequeteJSON():
             'parametre': parametre,
         }
         return self.data
-
-

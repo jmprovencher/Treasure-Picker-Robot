@@ -16,6 +16,20 @@ class Trajectoire():
         self.trajectoire = algoTrajectoire.trouverTrajet(depart, arriver)
         return self.trajectoire
 
+    def trouverLongueurTrajetPixCarre(self, trajet):
+        distance = 0
+        for i in range(1,len(trajet)):
+            distance = distance + self.distanceADestinationAuCarre(trajet[i-1][0], trajet[i-1][1], trajet[i][0], trajet[i][1])
+        return distance
+
+    def distanceADestinationAuCarre(self, x, y, destX, destY):
+        distanceX = destX - x
+        distanceY = destY - y
+        distanceX = self.carte.trajectoire.grilleCellule.depPixelXACentimetre(distanceX)
+        distanceY = self.carte.trajectoire.grilleCellule.depPixelYACentimetre(distanceY)
+        distanceCarre = distanceX**2 + distanceY**2
+        return distanceCarre
+
     def afficherTrajectoire(self):
         print "\n******************************************************************************"
         print "Trajectoire:"

@@ -6,9 +6,9 @@ class TCPClient:
     def __init__(self):
         self.s = socket.socket()
         self.port = 60000
-        self.host = '10.248.144.128'
+        #self.host = '10.248.144.128'
+        self.host = '127.0.1.1'
         #self.host = '192.168.1.37' #If on embedded computer in local network
-        #self.host = '192.168.2.47' #If on embedded computer in local network
         self.connectionEstablished = self._connectToServer()
 
     def _connectToServer(self):
@@ -20,19 +20,16 @@ class TCPClient:
                 print("Connection failed with %s:%d. Exception is %s" % (self.host, self.port, e))
         return True
 
-    def sendFile(self, filename,):
-        f = open(filename, 'r')
-        data = f.read()
+    def sendFile(self, data):
+        print '\nsending file'
         while data:
             self.s.send(data)
             print('Sent ', repr(data))
-            data = f.read()
-        f.close()
         print('Done sending file')
         return 1
 
     def receiveFile(self):
-        print('receiving data...')
+        print('\nreceiving data...')
         data = self.s.recv(1024)
         jsonObject = json.loads(data)
         print('data successfully received')

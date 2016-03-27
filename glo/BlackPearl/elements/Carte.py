@@ -10,8 +10,7 @@ class Carte():
         self.listeIles = []
         self.listeTresors = []
         self.infoRobot = None
-        self.stationRecharge = StationRecharge()
-        self.trajectoire = Trajectoire()
+        self.cible = None
 
     def ajouterElementCarto(self, elementCartographiques):
         for elementCarte in elementCartographiques:
@@ -27,8 +26,8 @@ class Carte():
     def getIles(self, informationIleCible):
         retour = []
         for ile in self.listeIles:
-            if (ile.couleur == informationIleCible):
-                retour += ile
+            if (ile.couleur == informationIleCible or ile.forme == informationIleCible):
+                retour.append(ile)
         return retour
 
     def getTresor(self):

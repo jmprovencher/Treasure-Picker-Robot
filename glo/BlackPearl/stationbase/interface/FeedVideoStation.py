@@ -10,7 +10,7 @@ class FeedVideoStation(Thread):
     def __init__(self):
         Thread.__init__(self)
         self.video = None
-        self.initVideo(0)
+        self.initVideo(1)
         self.captureTable = None
         self.feedEstDemare = False
 

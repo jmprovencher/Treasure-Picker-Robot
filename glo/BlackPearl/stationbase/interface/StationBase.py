@@ -22,7 +22,6 @@ class StationBase(Thread):
         self.tensionCondensateur = 0
         self.arriver = False
         self.envoyerCommande = False
-        self.commandeTermine = False
         self.robotEstPret = False
         self.attenteDuRobot = False
         self.demarrerConnectionTCP()
@@ -220,9 +219,8 @@ class StationBase(Thread):
     def attendreRobot(self):
         print '\nAttente du robot...'
         self.attenteDuRobot = True
-        while not self.commandeTermine:
+        while not self.attenteDuRobot:
             time.sleep(0.1)
-        self.commandeTermine = False
         print 'Robot a fini.'
 
     def distanceADestinationAuCarre(self, x, y, destX, destY):

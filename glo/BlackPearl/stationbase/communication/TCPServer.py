@@ -15,9 +15,9 @@ class TCPServer():
         port = 60000
         self.s = socket.socket()
         host = socket.gethostname()
-        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         hostAddress = self.get_address(host)
         print 'adresse serveur: '+hostAddress
+        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.s.bind((hostAddress, port))
         self.s.listen(5)
         print 'le serveur ecoute...'

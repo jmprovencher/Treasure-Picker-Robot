@@ -36,9 +36,10 @@ class StationServeur(Thread):
                 print self.monServeur.connectionEstablished
 
     def attendreInfoRobot(self):
-        while 1:
+        while self.stationBase.attenteDuRobot:
             try:
                 data = self.monServeur.receiveFile()
+                self.traiterInfoRobot(data)
             except Exception as e:
                 print e
                 #still not working, getting socket error : only one usage of each socket adress
@@ -61,7 +62,6 @@ class StationServeur(Thread):
         elif (commande == "robotPret"):
             self.stationBase.robotEstPret = True
         elif (commande == "termine"):
-            self.stationBase.commandeTermine = True
             self.stationBase.attenteDuRobot = False
 
     def attendreWakeUpRobot(self):

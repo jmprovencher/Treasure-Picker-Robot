@@ -23,7 +23,8 @@ class TCPClient:
     def sendFile(self, data):
         print '\nsending file'
         while data:
-            self.s.send(data)
+            dataJSON = json.dumps(data)
+            self.s.send(dataJSON)
             print('Sent ', repr(data))
         print('Done sending file')
         return 1

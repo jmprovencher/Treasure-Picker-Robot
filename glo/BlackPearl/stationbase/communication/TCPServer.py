@@ -17,7 +17,7 @@ class TCPServer():
         host = socket.gethostname()
         hostAddress = self.get_address(host)
         print 'adresse serveur: '+hostAddress
-        self.s.bind((host, port))
+        self.s.bind((hostAddress, port))
         self.s.listen(5)
         print 'le serveur ecoute...'
 
@@ -29,7 +29,8 @@ class TCPServer():
     def sendFile(self, data):
         print '\nEssaye d''envoyer une requete au robot...'
         while data:
-            self.connection.send(data)
+            dataJSON = json.dumps(data)
+            self.s.send(dataJSON)
             print 'requete: ', repr(data)
         print 'Envoie reussi.'
         return 1

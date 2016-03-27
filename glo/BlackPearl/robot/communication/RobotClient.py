@@ -50,6 +50,7 @@ class RobotClient(Thread):
         commande = data['commande']
         parametre = data['parametre']
         self.robot.traiterCommande(commande, parametre)
+        self.termineeAEteEnvoyerAStation = False
 
     def envoyerTension(self):
         myRequest = RequeteJSON("tension", self.robot.tensionCondensateur)

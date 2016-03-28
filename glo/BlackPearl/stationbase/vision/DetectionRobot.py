@@ -27,7 +27,8 @@ class DetectionRobot(object):
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme
         aire = cv2.contourArea(contours)
-        if (precision < 0.2):
+        print precision
+        if (precision < 1):
             if (nomForme == 'Avant' and precision < self.precisionAvant):
                 self.precisionAvant = precision
                 self.formeAvant = formeIdentifiee
@@ -63,7 +64,7 @@ class DetectionRobot(object):
             self.robotIdentifiee = (self.formeAvant[0], self.formeArriere[0])
 
     def _definirIntervalleRobot(self):
-        self.intervalleRobot = np.array([25, 0, 50]), np.array([180, 130, 210])
+        self.intervalleRobot = np.array([25, 0, 50]), np.array([100, 70, 150])
 
     def _definirPatronsFormes(self):
         patronRobotAvant = cv2.imread(ConfigPath.Config().appendToProjectPath('images/xPattern.png'), 0)

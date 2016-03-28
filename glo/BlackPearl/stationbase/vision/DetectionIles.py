@@ -14,7 +14,7 @@ class DetectionIles(object):
         self._definirPatronsFormes()
 
     def detecter(self):
-        self._detecterFormeCouleur(self.intervalleRouge)
+        #self._detecterFormeCouleur(self.intervalleRouge)
         self._detecterFormeCouleur(self.intervalleBleu)
         self._detecterFormeCouleur(self.intervalleJaune)
         self._detecterFormeCouleur(self.intervalleVert)

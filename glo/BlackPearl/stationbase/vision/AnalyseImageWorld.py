@@ -29,6 +29,7 @@ class AnalyseImageWorld(Thread):
         while 1:
             self.chargerImage()
             self.trouverRobot()
+            print '\n'
             time.sleep(0.01)
 
     def attendreFeed(self):
@@ -125,14 +126,17 @@ class AnalyseImageWorld(Thread):
             centreForme, orientation = self.trouverInfoRobot(self.detectionRobot.robotIdentifiee)
             if self.stationBase.carte.infoRobot is None:
                 self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
+                print orientation
             elif self.deplacementPlausible(centreForme):
                 self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
+                print orientation
                 self.cntRobotPerdu = 0
             elif self.cntRobotPerdu > 25:
                 self.cntRobotPerdu = 0
                 self.stationBase.carte.infoRobot = None
             else:
                 self.cntRobotPerdu = self.cntRobotPerdu + 1
+                self.stationBase.carte.infoRobot = None
 
     def deplacementPlausible(self, centreForme):
         x, y = centreForme

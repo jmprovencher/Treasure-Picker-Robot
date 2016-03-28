@@ -20,10 +20,10 @@ class AffichageDeBase():
         #qp.drawRect(780, 110, 5, 30)
         #qp.drawRect(900, 110, 5, 30)
         self.dessinerNoir(qp)
-        qp.drawText(1280, 80, QString('Robot connecte?'))
-        qp.drawEllipse(1400, 50, 50, 50)
+        qp.drawText(880, 80, QString('Robot connecte?'))
+        qp.drawEllipse(1000, 50, 50, 50)
         self.dessinerRouge(qp)
-        qp.drawEllipse(1405, 55, 40, 40)
+        qp.drawEllipse(1005, 55, 40, 40)
 
     def dessinerOrange(self, qp):
         qp.setBrush(QtGui.QColor(252, 100, 0, 250))

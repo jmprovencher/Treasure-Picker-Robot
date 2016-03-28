@@ -26,8 +26,9 @@ class StationServeur(Thread):
     def envoyerCommande(self):
         while 1:
             try:
-                self.monServeur.sendFile(self.stationBase.myRequest)
+                self.monServeur.sendFile()
                 self.stationBase.envoyerCommande = False
+                break
             except:
                 #still not working, getting socket error : only one usage of each socket adress
                 print "Connection with the remote host lost, Trying to reconnect"
@@ -36,6 +37,7 @@ class StationServeur(Thread):
                 print self.monServeur.connectionEstablished
 
     def attendreInfoRobot(self):
+        print '\nAttente du robot...'
         while self.stationBase.attenteDuRobot:
             try:
                 data = self.monServeur.receiveFile()

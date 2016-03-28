@@ -17,14 +17,13 @@ class FeedVideoStation(Thread):
     def run(self):
         while 1:
             success, self.captureTable = self.video.read()
-            #if (success):
-                #cv2.imshow('Feed', self.captureTable)
             time.sleep(0.01)
 
     def initVideo(self, portCamera):
-        self.video = cv2.VideoCapture(portCamera)
-        self.video.set(3,1600)
-        self.video.set(4,1200)
+        #self.video = cv2.VideoCapture(portCamera)
+        self.video = cv2.VideoCapture('test.webm')
+        #self.video.set(3,1600)
+        #self.video.set(4,1200)
         while (not self.video.isOpened()):
             print('\na la recherche de la camera')
             self.video = cv2.VideoCapture(portCamera)

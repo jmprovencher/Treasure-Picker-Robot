@@ -1,6 +1,5 @@
 import socket
-from threading import Thread, RLock
-import time
+import ConfigPath
 import json
 
 class TCPServer():
@@ -27,9 +26,9 @@ class TCPServer():
         print 'connection a l''adresse: ', addr
         return conn
 
-    def sendFile(self, data):
-        print '\nEssaye d''envoyer une requete au robot...'
-        f = open('data.json', 'r')
+    def sendFile(self):
+        print 'Essaye denvoyer une requete au robot...'
+        f = open(ConfigPath.Config.appendToProjectPath('stationbase/communication/data.json'), 'r')
         data = f.read()
         while data:
             self.s.send(data)
@@ -42,8 +41,9 @@ class TCPServer():
     def receiveFile(self):
         print('\nEn attente de requete...')
         data = self.connection.recv(1024)
-        jsonObject = json.loads(data)
         print('requete recu.')
+        jsonObject = json.loads(data)
+        print 'requete decode.'
         print 'requete: ', repr(data)
         return jsonObject
 

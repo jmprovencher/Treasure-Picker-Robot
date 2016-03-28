@@ -10,7 +10,8 @@ class AfficherImageVirtuelle(QThread):
     def __init__(self, interface):
         QThread.__init__(self)
         self.interface = interface
-        self.imageConvertie = QtGui.QPixmap(ConfigPath.Config.appendToProjectPath('images/BlackPerl.png')).scaled(1200, 800, QtCore.Qt.KeepAspectRatio)
+        self.imageNonConvertie = QtGui.QPixmap(ConfigPath.Config.appendToProjectPath('images/BlackPerl.png'))
+        self.imageConvertie = self.imageNonConvertie.scaled(1200, 800, QtCore.Qt.KeepAspectRatio)
 
 
     def run(self):
@@ -19,6 +20,7 @@ class AfficherImageVirtuelle(QThread):
         while 1:
             imageEnConvertion = cv2.cvtColor(self.interface.threadStationBase.threadImageVirtuelle.imageVirtuelle, cv2.COLOR_BGR2RGB)
             imageEnConvertion = QtGui.QImage(imageEnConvertion, imageEnConvertion.shape[1], imageEnConvertion.shape[0], QtGui.QImage.Format_RGB888)
-            self.imageConvertie = QtGui.QPixmap.fromImage(imageEnConvertion).scaled(1200, 800, QtCore.Qt.KeepAspectRatio)
+            self.imageNonConvertie = QtGui.QPixmap.fromImage(imageEnConvertion)
+            self.imageConvertie = self.imageNonConvertie.scaled(1200, 800, QtCore.Qt.KeepAspectRatio)
             self.emit(QtCore.SIGNAL("update()"))
             time.sleep(0.02)

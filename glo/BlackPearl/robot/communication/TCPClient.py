@@ -1,12 +1,12 @@
 import socket
 import json
 
-
 class TCPClient:
     def __init__(self):
         self.s = socket.socket()
         self.port = 60000
-        self.host = '10.248.4.183'
+        #self.host = '10.248.4.183'
+        self.host = '192.168.0.47'
         #self.host = '192.168.1.37' #If on embedded computer in local network
         self.connectionEstablished = self._connectToServer()
 
@@ -19,7 +19,7 @@ class TCPClient:
                 print("Connection failed with %s:%d. Exception is %s" % (self.host, self.port, e))
         return True
 
-    def sendFile(self, data):
+    def sendFile(self):
         print '\nsending file'
         f = open('data.json', 'r')
         data = f.read()
@@ -34,8 +34,9 @@ class TCPClient:
     def receiveFile(self):
         print('\nreceiving data...')
         data = self.s.recv(1024)
+        print 'fichier recu.'
         jsonObject = json.loads(data)
-        print('data successfully received')
+        print('data successfully decoded')
         return jsonObject
 
     def closeConnection(self):

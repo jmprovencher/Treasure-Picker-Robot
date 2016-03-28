@@ -53,10 +53,10 @@ class RobotClient(Thread):
         self.termineeAEteEnvoyerAStation = False
 
     def envoyerTension(self):
-        myRequest = RequeteJSON("tension", self.robot.tensionCondensateur)
+        RequeteJSON("tension", self.robot.tensionCondensateur)
         while 1:
             try:
-                self.monClient.sendFile(myRequest)
+                self.monClient.sendFile()
                 break
             except Exception as e:
                 print e
@@ -65,10 +65,10 @@ class RobotClient(Thread):
                 self.monClient = TCPClient()
 
     def envoyerCommandeTerminee(self):
-        myRequest = RequeteJSON("termine", 0)
+        RequeteJSON("termine", 0)
         while 1:
             try:
-                self.monClient.sendFile(myRequest)
+                self.monClient.sendFile()
                 break
             except Exception as e:
                 print e
@@ -78,10 +78,10 @@ class RobotClient(Thread):
         self.robot.commandeTerminee = False
 
     def envoyerPretAStation(self):
-        myRequest = RequeteJSON("robotPret", 0)
+        RequeteJSON("robotPret", 0)
         while 1:
             try:
-                self.monClient.sendFile(myRequest)
+                self.monClient.sendFile()
                 break
             except Exception as e:
                 print e

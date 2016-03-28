@@ -211,13 +211,16 @@ class StationBase(Thread):
             if angle <= 2 and angle >= -2:
                 print '\nOrientation termine.'
                 break
-            self.myRequest = RequeteJSON("rotate", angle)
+            if angle >= 0:
+                self.myRequest = RequeteJSON("rotateClock", angle)
+            else:
+                self.myRequest = RequeteJSON("rotateAntiClock", abs(angle))
+            print 'Signaler que la comande est prete a envoyer.'
             self.envoyerCommande = True
             self.attendreRobot()
             self.angleDesire = None
 
     def attendreRobot(self):
-        print '\nAttente du robot...'
         self.attenteDuRobot = True
         while self.attenteDuRobot:
             time.sleep(0.1)

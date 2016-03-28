@@ -26,7 +26,7 @@ class Interface(QtGui.QWidget):
 
     def initUI(self):
         self.setWindowTitle('Interface')
-        self.resize(1600, 1000)
+        self.resize(1605, 1000)
         self.setAutoFillBackground(False)
         self.initTextBox()
         print('QUelque chose de tres long pour voir si ca sort bien dans le textt box, oui monsieur, on continue a ecrire encore et encore et encore')
@@ -70,7 +70,7 @@ class Interface(QtGui.QWidget):
 
     def initTextBox(self):
         self.text = QtGui.QTextEdit(self)
-        self.text.setGeometry(1200, 10, 400, 800)
+        self.text.setGeometry(1200, 10, 400, 890)
         self.text.setReadOnly(True)
         self.text.setLineWrapMode(QtGui.QTextEdit.NoWrap)
         font = self.text.font()

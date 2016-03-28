@@ -31,8 +31,8 @@ class DetectionIles(object):
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme, couleur
 
-        if (precision < 0.2):
-            #print (nomForme, couleur, precision)
+        if (precision < 0.1):
+            print (nomForme, couleur, precision)
             self.ilesIdentifiees.append(formeIdentifiee)
             self.nombreIles += 1
         #else:
@@ -42,6 +42,9 @@ class DetectionIles(object):
 
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
+        #if couleurForme == 'Rouge':
+            #cv2.imshow('rouge', masqueCouleur)
+            #cv2.waitKey(0)
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
@@ -66,7 +69,7 @@ class DetectionIles(object):
         return nombreIles
 
     def _definirIntervallesCouleurs(self):
-        self.intervalleRouge = np.array([15, 0, 75]), np.array([100, 65, 200]),"Rouge"
+        self.intervalleRouge = np.array([15, 0, 75]), np.array([140, 65, 200]),"Rouge"
         self.intervalleBleu = np.array([102, 102, 0]), np.array([255, 255, 102]), "Bleu"
         self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
         self.intervalleVert = np.array([0, 102, 0]), np.array([102, 255, 102]), "Vert"

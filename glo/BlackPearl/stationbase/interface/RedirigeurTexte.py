@@ -1,4 +1,5 @@
 from PyQt4 import QtGui, QtCore
+import textwrap
 
 class RedirigeurTexte():
     def __init__(self, widget, tag):
@@ -6,6 +7,7 @@ class RedirigeurTexte():
         self.tag = tag
 
     def write(self, str):
+        str = textwrap.fill(str, 67)
         if self.tag == "stdout":
             self.widget.setTextColor(QtCore.Qt.green)
         elif self.tag == "stderr":

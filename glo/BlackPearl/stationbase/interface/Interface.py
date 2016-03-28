@@ -29,7 +29,7 @@ class Interface(QtGui.QWidget):
         self.resize(1600, 1000)
         self.setAutoFillBackground(False)
         self.initTextBox()
-        print('QUelque chose de tres long pour voir si ca sort bien dans le textbox, oui monsieur, on continue a ecrire encore et encore et encore')
+        print('QUelque chose de tres long pour voir si ca sort bien dans le textt box, oui monsieur, on continue a ecrire encore et encore et encore')
         self.feed = QLabel(self)
         self.feed.setGeometry(0, 145, 1400, 855)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)

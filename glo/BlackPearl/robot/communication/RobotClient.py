@@ -23,10 +23,10 @@ class RobotClient(Thread):
                     self.traiterCommande(data)
                 else:
                     if (self.robot.commandeTerminee):
-                        self.envoyerTension()
+                        #self.envoyerTension()
                         self.envoyerCommandeTerminee()
                     else:
-                        self.envoyerTension()
+                        #self.envoyerTension()
                         time.sleep(0.1)
 
     def attendreCommande(self):

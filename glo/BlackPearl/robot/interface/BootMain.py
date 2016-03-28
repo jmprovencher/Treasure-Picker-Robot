@@ -5,8 +5,8 @@ from robot.interface.Robot import Robot
 import time
 
 def main():
-    #monUART = UARTDriver('/dev/ttyACM0', 115200) #on linux
-    monUART = None
+    monUART = UARTDriver('/dev/ttyACM0', 115200) #on linux
+    #monUART = None
     robot = Robot(monUART)
     robot.start()
 

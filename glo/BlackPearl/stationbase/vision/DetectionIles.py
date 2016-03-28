@@ -47,7 +47,7 @@ class DetectionIles(object):
 
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            if ((aire < 1000) or (aire > 6000)):
+            if ((aire < 2000) or (aire > 6000)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):

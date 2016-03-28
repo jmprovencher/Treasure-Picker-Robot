@@ -219,7 +219,7 @@ class StationBase(Thread):
     def attendreRobot(self):
         print '\nAttente du robot...'
         self.attenteDuRobot = True
-        while not self.attenteDuRobot:
+        while self.attenteDuRobot:
             time.sleep(0.1)
         print 'Robot a fini.'
 

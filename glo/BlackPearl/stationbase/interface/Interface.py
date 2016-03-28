@@ -31,7 +31,7 @@ class Interface(QtGui.QWidget):
         self.initTextBox()
         print('QUelque chose de tres long pour voir si ca sort bien dans le textt box, oui monsieur, on continue a ecrire encore et encore et encore')
         self.feed = QLabel(self)
-        self.feed.setGeometry(0, 145, 1400, 855)
+        self.feed.setGeometry(0, 145, 1200, 855)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
         self.orientation = QLabel(self)
         self.orientation.setGeometry(380, 22, 440, 50)

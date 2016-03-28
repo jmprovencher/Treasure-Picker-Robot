@@ -12,6 +12,8 @@ class LectureUART(Thread):
     def run(self):
         while 1:
             info = self.robot.uartDriver.UART.read(4)
+	    print "Lecture UART: "
+	    print info
             if (info == 'done'):
                 self.robot.commandeTerminee = True
             else:

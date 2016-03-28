@@ -29,6 +29,7 @@ class Interface(QtGui.QWidget):
         self.resize(1600, 1000)
         self.setAutoFillBackground(False)
         self.initTextBox()
+        print('QUelque chose de tres long pour voir si ca sort bien dans le textbox, oui monsieur, on continue a ecrire encore et encore et encore')
         self.feed = QLabel(self)
         self.feed.setGeometry(0, 145, 1400, 855)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
@@ -65,11 +66,11 @@ class Interface(QtGui.QWidget):
     def dessinerRobotActive(self, qp):
         qp.setBrush(QtGui.QColor(0, 200, 120, 250))
         qp.setPen(QtGui.QColor(0, 200, 120))
-        qp.drawEllipse(1405-200, 55, 40, 40)
+        qp.drawEllipse(1005, 55, 40, 40)
 
     def initTextBox(self):
         self.text = QtGui.QTextEdit(self)
-        self.text.setGeometry(1400, 10, 200, 800)
+        self.text.setGeometry(1200, 10, 400, 800)
         self.text.setReadOnly(True)
         self.text.setLineWrapMode(QtGui.QTextEdit.NoWrap)
         font = self.text.font()
@@ -86,5 +87,5 @@ class Interface(QtGui.QWidget):
         self.text.setPalette(pal)
         self.text.setTextColor(QtCore.Qt.white)
         self.text.insertPlainText('Black Perl\n')
-        #sys.stdout = RedirigeurTexte(self.text, "stdout")
-        #sys.stderr = RedirigeurTexte(self.text, "stderr")
+        sys.stdout = RedirigeurTexte(self.text, "stdout")
+        sys.stderr = RedirigeurTexte(self.text, "stderr")

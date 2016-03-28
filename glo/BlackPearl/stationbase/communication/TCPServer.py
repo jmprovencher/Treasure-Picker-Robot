@@ -22,16 +22,16 @@ class TCPServer():
         print 'le serveur ecoute...'
 
     def _establishConnection(self):
-        conn, addr = self.s.accept()  # Establish connection with client.
+        connection, addr = self.s.accept()  # Establish connection with client.
         print 'connection a l''adresse: ', addr
-        return conn
+        return connection
 
     def sendFile(self):
         print 'Essaye denvoyer une requete au robot...'
         f = open(ConfigPath.Config.appendToProjectPath('stationbase/communication/data.json'), 'r')
         data = f.read()
         while data:
-            self.s.send(data)
+            self.connection.send(data)
             print('Sent: ', repr(data))
             data = f.read()
         f.close()
@@ -58,5 +58,5 @@ class TCPServer():
             tmp.connect(('4.2.2.1', 0))
             address = tmp.getsockname()[0]
             tmp.close()
-        return  address
+        return address
 

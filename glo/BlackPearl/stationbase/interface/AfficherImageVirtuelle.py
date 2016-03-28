@@ -10,8 +10,8 @@ class AfficherImageVirtuelle(QThread):
     def __init__(self, interface):
         QThread.__init__(self)
         self.interface = interface
-        self.imageConvertie = QtGui.QPixmap(ConfigPath.Config.appendToProjectPath('images/BlackPerl.png'))
 
+        self.imageConvertie = QtGui.QPixmap(ConfigPath.Config.appendToProjectPath('images/BlackPerl.png'))
 
     def run(self):
         while self.interface.threadStationBase.threadImageVirtuelle is None or self.interface.threadStationBase.threadImageVirtuelle.imageVirtuelle is None:

@@ -13,9 +13,11 @@ boolean rotation = false;
 String action = "";
 
 const int pinsDrive[4] = {3, 6, 7, 8};
-const int pinsDirection[8] = {32, 34, 36, 38, 40, 42, 46, 48};
+const int pinsDirection[8] = {32, 34, 36, 38, 40, 42, 41, 43};
 const int pinsRead[4] = {19, 21, 17, 20};
 const int pinElectroAimant = 5;
+const int pinPontDiodes = 22;
+const int pinActiveAimant = 24;
 int spdWheels[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 
@@ -55,15 +57,21 @@ void setup() {
   for(int i = 0; i < 8; i++){
     pinMode(pinsDirection[i], OUTPUT);
   }
+  pinMode(pinElectroAimant, OUTPUT);
+  pinMode(pinPontDiodes, OUTPUT);
+  pinMode(pinActiveAimant, OUTPUT);
+  
   for(int i = 0; i < 4; i++){
     pinMode(pinsRead[i], INPUT);
     pidList[i].SetMode(AUTOMATIC);
     pidList[i].SetOutputLimits(0, 120);
     pidList[i].SetSampleTime(15);
   }
+  
+  analogWrite(pinElectroAimant, 165);
+  
   attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
   attachInterrupt(digitalPinToInterrupt(21), decrementDuration, FALLING);
-
   
   maestro.setSpeed(3, 12);
   maestro.setAcceleration(3, 120);
@@ -203,15 +211,25 @@ void serialEvent(){
         }
         rotation = true;
         mode = true;
-      } 
-      else if(incomingByte == 93){
-        action = "Activate Magnet";
-        analogWrite(pinElectroAimant, 255);
+      }
+      else if(incomingByte == 101){
+        action = "Charging Capacitor";
+        digitalWrite(pinPontDiodes, HIGH);
         writeString(commandComplete);
       }
-      else if(incomingByte == 94){
+      else if(incomingByte == 102){
+        action = "Stop charging";
+        digitalWrite(pinPontDiodes, LOW);
+        writeString(commandComplete);
+      }
+      else if(incomingByte == 103){
+        action = "Activate Magnet";
+        digitalWrite(pinActiveAimant, HIGH);
+        writeString(commandComplete);
+      }
+      else if(incomingByte == 104){
         action = "Deactivate Magnet";
-        analogWrite(pinElectroAimant, 0);
+        digitalWrite(pinActiveAimant, LOW);
         writeString(commandComplete);
       }
       else if(incomingByte == 80){
@@ -258,10 +276,10 @@ void serialEvent(){
         Output[i] = 0;
       }
       if(rotation == false){
-        duration = incomingByte*52;
+        duration = incomingByte*60;
       }
       else{
-        duration = incomingByte*107;
+        duration = incomingByte*24;
       }
       mode = false;
     }

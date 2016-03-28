@@ -27,7 +27,7 @@ class DetectionRobot(object):
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme
         aire = cv2.contourArea(contours)
-        if (precision < 0.3):
+        if (precision < 0.2):
             if (nomForme == 'Avant' and precision < self.precisionAvant):
                 self.precisionAvant = precision
                 self.formeAvant = formeIdentifiee

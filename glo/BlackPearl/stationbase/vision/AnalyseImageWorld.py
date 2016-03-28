@@ -11,6 +11,7 @@ from stationbase.vision.DetectionIles import DetectionIles
 from stationbase.vision.DetectionTresors import DetectionTresors
 from stationbase.vision.DetectionRobot import DetectionRobot
 import math
+import copy
 
 verrou = RLock()
 
@@ -29,7 +30,7 @@ class AnalyseImageWorld(Thread):
         while 1:
             self.chargerImage()
             self.trouverRobot()
-            print '\n'
+            #print '\n'
             time.sleep(0.01)
 
     def attendreFeed(self):
@@ -123,19 +124,22 @@ class AnalyseImageWorld(Thread):
         self.detectionRobot = DetectionRobot(self.image)
         self.detectionRobot.detecter()
         if (not self.detectionRobot.robotIdentifiee is None):
-            centreForme, orientation = self.trouverInfoRobot(self.detectionRobot.robotIdentifiee)
+            centreForme, orientation = self.trouverInfoRobot(copy.deepcopy(self.detectionRobot.robotIdentifiee))
             if self.stationBase.carte.infoRobot is None:
                 self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
-                print orientation
+                #print orientation
             elif self.deplacementPlausible(centreForme):
                 self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
-                print orientation
+                #print orientation
                 self.cntRobotPerdu = 0
             elif self.cntRobotPerdu > 25:
                 self.cntRobotPerdu = 0
                 self.stationBase.carte.infoRobot = None
             else:
                 self.cntRobotPerdu = self.cntRobotPerdu + 1
+        else:
+            self.cntRobotPerdu = self.cntRobotPerdu + 1
+            if self.cntRobotPerdu > 25:
                 self.stationBase.carte.infoRobot = None
 
     def deplacementPlausible(self, centreForme):

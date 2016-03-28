@@ -77,6 +77,8 @@ class DetectionIles(object):
     def _definirPatronsFormes(self):
         patronTriangle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/triangle.png'), 0)
         patronCercle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/cercle.png'), 0)
+        #cv2.imshow('test2', patronCercle)
+        #cv2.waitKey(0)
         patronCarre = cv2.imread(ConfigPath.Config().appendToProjectPath('images/carre.png'), 0)
         patronPentagone = cv2.imread(ConfigPath.Config().appendToProjectPath('images/pentagone.png'), 0)
 

@@ -57,8 +57,8 @@ class StationBase(Thread):
 
     def demarerRoutine(self):
         self.etapeStation()
-        self.etapeTresor()
-        self.etapeIle()
+        #self.etapeTresor()
+        #self.etapeIle()
         time.sleep(100000)
 
     def initialisationTrajectoire(self):
@@ -126,7 +126,7 @@ class StationBase(Thread):
             self.orienter()
             self.deplacer()
         self.angleDesire = 90
-        self.orienter()
+        self.orientationFinaleStation()
         print '\n--------------------------------------------------'
         print 'Arriver a la station de recharge.'
         print '--------------------------------------------------'
@@ -172,7 +172,8 @@ class StationBase(Thread):
         while 1:
             if (not self.carte.infoRobot is None):
                 return copy.deepcopy(self.carte.infoRobot.getCentre())
-            time.sleep(0.03)
+            print 'robot introuvable'
+            time.sleep(0.01)
 
     def getOrientationRobot(self):
         while 1:
@@ -208,7 +209,7 @@ class StationBase(Thread):
         print '\nOrienter'
         while 1:
             angle = self.trouverDeplacementOrientation()
-            if angle <= 2 and angle >= -2:
+            if angle <= 5 and angle >= -5:
                 print '\nOrientation termine.'
                 break
             if angle >= 0:
@@ -219,6 +220,19 @@ class StationBase(Thread):
             self.envoyerCommande = True
             self.attendreRobot()
             self.angleDesire = None
+
+    def orientationFinaleStation(self):
+        angleRobot = self.getOrientationRobot()
+        print 'angle du robot: ', angleRobot
+        print 'angle desire: ', self.angleDesire
+        depDegre = angleRobot - self.angleDesire
+        if depDegre < -180:
+            depDegre = depDegre + 360
+        elif depDegre > 180:
+            depDegre = depDegre - 360
+        print 'correction: ', depDegre
+
+        return depDegre
 
     def attendreRobot(self):
         self.attenteDuRobot = True

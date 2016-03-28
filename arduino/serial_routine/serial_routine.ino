@@ -18,6 +18,10 @@ const int pinsRead[4] = {19, 21, 17, 20};
 const int pinElectroAimant = 5;
 int spdWheels[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
+
+// string used to signal a completed command
+String commandComplete = String("done");
+
 unsigned long spdBuffer = 0;
 int duration = 0;
 
@@ -34,7 +38,6 @@ double Input[4] = {3000, 3000, 3000, 3000};
 double Output[4];
 
 MicroMaestro maestro(Serial2);
-MicroMaestro prehenseurMaestro(Serial3);
 
 PID firstPID(&Input[0], &Output[0], &Setpoint[0], 0.00006, 0.2, 0, REVERSE);
 PID secondPID(&Input[1], &Output[1], &Setpoint[1], 0.00006, 0.225, 0, REVERSE);
@@ -60,6 +63,10 @@ void setup() {
   }
   attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
   attachInterrupt(digitalPinToInterrupt(21), decrementDuration, FALLING);
+
+  
+  maestro.setSpeed(3, 12);
+  maestro.setAcceleration(3, 120);
 }
 
 void loop() {
@@ -103,7 +110,7 @@ void loop() {
   else if(duration == 1){
     duration = 0;
     stopWheels();
-    //Serial.print(1);
+    writeString(commandComplete);
   }
 }
 
@@ -120,6 +127,21 @@ void stopWheels(){
       analogWrite(pinsDirection[i], 0);
   }
 }
+
+float readCapacitorVoltage(){
+  int capacitorVoltageValue = analogRead(A0);
+  float capacitorVoltage = capacitorVoltageValue * (5.0 / 1023.0);
+  return capacitorVoltage;
+}
+
+void writeString(String stringData) { // Used to serially push out a String with Serial.write()
+
+  for (int i = 0; i < stringData.length(); i++)
+  {
+      Serial.write(stringData[i]);   // Push each char 1 by 1 on each loop pass
+  }
+
+}// end writeString
 
 void serialEvent(){
     // read the incoming byte:
@@ -185,40 +207,46 @@ void serialEvent(){
       else if(incomingByte == 93){
         action = "Activate Magnet";
         analogWrite(pinElectroAimant, 255);
+        writeString(commandComplete);
       }
       else if(incomingByte == 94){
         action = "Deactivate Magnet";
         analogWrite(pinElectroAimant, 0);
+        writeString(commandComplete);
       }
-      else if(incomingByte == 95){
+      else if(incomingByte == 80){
         action = "Prehenseur down";
-        prehenseurMaestro.setTarget(0, 6000);
-        prehenseurMaestro.setTarget(1, 6200);
+        maestro.setTarget(3, 9100);
+        writeString(commandComplete);
       }
-      else if(incomingByte == 96){
+      else if(incomingByte == 81){
         action = "Prehenseur up ";
-        prehenseurMaestro.setTarget(0, 6000);
-        prehenseurMaestro.setTarget(1, 4044);
+        maestro.setTarget(3, 2127);
+        writeString(commandComplete);
       }
       else if(incomingByte == 97){
         action = "Camera Left ";
         maestro.setTarget(1, 2400);
         maestro.setTarget(2, 6200);
+        writeString(commandComplete);
       }
       else if(incomingByte == 98){
         action = "Camera Right ";
         maestro.setTarget(1, 9600);
         maestro.setTarget(2, 6200);
+        writeString(commandComplete);
       }
       else if(incomingByte == 99){
         action = "Camera Front ";
         maestro.setTarget(1, 6000);
         maestro.setTarget(2,6200);
+        writeString(commandComplete);
       }
       else if(incomingByte == 100){
         action = "Camera Treasure ";
         maestro.setTarget(1,6000);
         maestro.setTarget(2, 4044);
+        writeString(commandComplete);
       }
       else{
         action = "Invalid action ";

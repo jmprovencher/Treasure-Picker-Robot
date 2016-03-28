@@ -30,6 +30,7 @@ class RobotClient(Thread):
                         time.sleep(0.1)
 
     def attendreCommande(self):
+        data = -1
         while 1:
             try:
                 data = self.monClient.receiveFile()
@@ -76,6 +77,7 @@ class RobotClient(Thread):
                 time.sleep(0.1)
                 self.monClient = TCPClient()
         self.robot.commandeTerminee = False
+        self.termineeAEteEnvoyerAStation = True
 
     def envoyerPretAStation(self):
         RequeteJSON("robotPret", 0)

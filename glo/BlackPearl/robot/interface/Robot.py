@@ -15,6 +15,7 @@ class Robot(Thread):
         self.uartDriver = uartDriver
         self.instructions = []
         self.alignement = False
+        self.alignementDepot = False
         self.positionTresor = False
         self.positionDepot = False
         self.tacheTerminee = False

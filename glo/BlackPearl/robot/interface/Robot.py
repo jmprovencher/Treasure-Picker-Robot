@@ -43,6 +43,7 @@ class Robot(Thread):
 
     def demarrerAlignement(self, typeAlignement):
         self.demarrerFeedVideo()
+        self.alignement = True
         if (typeAlignement == "0"):
             self.alignementStation = True
             #self.uartDriver.cameraPositionTresor()

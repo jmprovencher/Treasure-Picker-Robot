@@ -93,7 +93,6 @@ class DetectionIle(object):
 
     def _definirIntervallesCouleurs(self):
         self.intervalleRouge = np.array([15, 0, 75]), np.array([100, 65, 200]), "Rouge"
-        self.intervalleOrange = np.array([50, 100, 100]), np.array([80, 120, 180]), "Orange"
         self.intervalleBleu = np.array([100, 100, 0]), np.array([190, 170, 80]), "Bleu"
         self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
         self.intervalleVert = np.array([50, 120, 40]), np.array([100, 170, 80]), "Vert"

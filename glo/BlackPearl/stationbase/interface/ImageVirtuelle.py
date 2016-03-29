@@ -55,8 +55,8 @@ class ImageVirtuelle(Thread):
         fin_x, fin_y = fin
         cv2.putText(self.imageVirtuelle, 'debut', (debut_x - 25, debut_y), self.police, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
         cv2.putText(self.imageVirtuelle, 'fin', (fin_x, fin_y), self.police, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
-
-        cv2.putText(self.imageVirtuelle, 'suivant', (self.stationBase.trajectoireReel[-2][0] - 25, self.stationBase.trajectoireReel[-2][1]),
+        if not self.stationBase.trajectoireReel is None:
+            cv2.putText(self.imageVirtuelle, 'suivant', (self.stationBase.trajectoireReel[-2][0] - 25, self.stationBase.trajectoireReel[-2][1]),
                         self.police, 0.5, self.getColor('noir'), 1, cv2.LINE_AA)
 
     def dessinerRobot(self):

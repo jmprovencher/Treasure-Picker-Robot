@@ -5,7 +5,7 @@ import json
 class TCPServer():
     def __init__(self):
         self.creeConnection()
-        self.connection = self._establishConnection()
+        self.connection = None
         
     def creeConnection(self):
         print '\n-------------------------------------------------------------'

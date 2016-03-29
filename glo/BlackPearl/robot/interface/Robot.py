@@ -2,6 +2,7 @@
 from robot.communication.RobotClient import RobotClient
 from robot.vision.AnalyseImageEmbarquee import AnalyseImageEmbarquee
 from robot.interface.FeedVideoRobot import FeedVideoRobot
+from robot.communication.LectureUART import LectureUART
 from threading import Thread, RLock
 import time
 
@@ -22,7 +23,6 @@ class Robot(Thread):
         self.demarrerConnectionTCP()
         self.demarrerLectureUART()
 
-
     def run(self):
         print("Robot run")
 
@@ -37,6 +37,8 @@ class Robot(Thread):
 
     def demarrerLectureUART(self):
         print "Demarer lecture UART"
+        threadLecture = LectureUART(self)
+        threadLecture.start()
 
     def demarrerAlignement(self, typeAlignement):
         self.demarrerFeedVideo()

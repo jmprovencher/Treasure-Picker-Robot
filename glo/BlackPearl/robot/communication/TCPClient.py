@@ -8,7 +8,6 @@ class TCPClient:
         #self.host = '10.248.4.183'
         self.host = '192.168.0.47'
         #self.host = '192.168.1.37' #If on embedded computer in local network
-        self.connectionEstablished = self._connectToServer()
 
     def _connectToServer(self):
         while True:

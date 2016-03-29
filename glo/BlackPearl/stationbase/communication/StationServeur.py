@@ -2,7 +2,6 @@ import socket
 from threading import Thread, RLock
 import time
 from stationbase.communication.TCPServer import TCPServer
-import  ConfigPath
 
 verrou = RLock()
 
@@ -13,6 +12,7 @@ class StationServeur(Thread):
         self.monServeur = TCPServer()
 
     def run(self):
+        self.monServeur.connection = self.monServeur._establishConnection()
         self.attendreWakeUpRobot()
         while 1:
             if (self.stationBase.envoyerCommande):
@@ -20,8 +20,9 @@ class StationServeur(Thread):
             elif (self.stationBase.attenteDuRobot):
                 data = self.attendreInfoRobot()
                 self.traiterInfoRobot(data)
+                time.sleep(2)
             else:
-                time.sleep(0.1)
+                time.sleep(2)
 
     def envoyerCommande(self):
         while 1:
@@ -34,10 +35,12 @@ class StationServeur(Thread):
                 print "Connection with the remote host lost, Trying to reconnect"
                 self.monServeur.closeConnection()
                 self.monServeur = TCPServer()
-                print self.monServeur.connectionEstablished
+                self.monServeur.connection = self.monServeur._establishConnection()
+                print 'Connection retablite'
 
     def attendreInfoRobot(self):
         print '\nAttente du robot...'
+        data = -1
         while self.stationBase.attenteDuRobot:
             try:
                 data = self.monServeur.receiveFile()
@@ -48,7 +51,8 @@ class StationServeur(Thread):
                 print "Connection with the remote host lost, Trying to reconnect"
                 self.monServeur.closeConnection()
                 self.monServeur = TCPServer()
-                print self.monServeur.connectionEstablished
+                self.monServeur.connection = self.monServeur._establishConnection()
+                print 'connection retablite.'
 
             if data == -1:
                 print('Error while receiving file')
@@ -64,9 +68,11 @@ class StationServeur(Thread):
         elif (commande == "robotPret"):
             self.stationBase.robotEstPret = True
         elif (commande == "termine"):
+            print 'commande termine recu et traite'
             self.stationBase.attenteDuRobot = False
 
     def attendreWakeUpRobot(self):
+        data = -1
         while 1:
             try:
                 data = self.monServeur.receiveFile()
@@ -80,7 +86,8 @@ class StationServeur(Thread):
                 print "Connection with the remote host lost, Trying to reconnect"
                 self.monServeur.closeConnection()
                 self.monServeur = TCPServer()
-                print self.monServeur.connectionEstablished
+                self.monServeur.connection = self.monServeur._establishConnection()
+                print 'connection retablite'
 
             if data == -1:
                 print('Error while receiving file')

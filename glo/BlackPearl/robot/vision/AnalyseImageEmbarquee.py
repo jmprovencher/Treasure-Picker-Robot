@@ -29,7 +29,8 @@ class AnalyseImageEmbarquee(Thread):
             if (self.robot.alignementDepot):
                 self.evaluerPositionDepot(COULEUR_CIBLE)
             else:
-                self.evaluerPositionTresor()
+                self.evaluerPositionDepot(COULEUR_CIBLE)
+                #self.evaluerPositionTresor()
                 self.afficherFeed()
             time.sleep(1)
         print("Pret a soumettre ajustement")

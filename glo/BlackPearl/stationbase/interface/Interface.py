@@ -39,14 +39,17 @@ class Interface(QtGui.QWidget):
         #self.orientation.setGeometry(380, 22, 440, 50)
         #self.direction = QLabel(self)
         #self.direction.setGeometry(380, 52, 400, 80)
+
         self.btnDemarer = QPushButton(self)
         self.btnDemarer.setText('Debuter')
         self.btnDemarer.setGeometry(40, 25, 200, 27)
-        self.btnDemarer.clicked.connect(self.demarerRoutine)
-        self.btnDemarer = QPushButton(self)
-        self.btnDemarer.setText('Deplacement station')
-        self.btnDemarer.setGeometry(40, 70, 200, 27)
-        self.btnDemarer.clicked.connect(self.demarerRoutine)
+        self.btnDemarer.clicked.connect(self.demarerRoutineComplete)
+
+        self.btnDepStation = QPushButton(self)
+        self.btnDepStation.setText('Deplacement station')
+        self.btnDepStation.setGeometry(40, 70, 200, 27)
+        self.btnDepStation.clicked.connect(self.demarerDepStation)
+
         self.btnDemarer = QPushButton(self)
         self.btnDemarer.setText('Se charger')
         self.btnDemarer.setGeometry(40, 100, 200, 27)
@@ -63,20 +66,78 @@ class Interface(QtGui.QWidget):
         self.btnDemarer.setText('Deplacement ile cible')
         self.btnDemarer.setGeometry(40, 190, 200, 27)
         self.btnDemarer.clicked.connect(self.demarerRoutine)
-        self.btnDemarer = QPushButton(self)
-        self.btnDemarer.setText('Depot tresor')
-        self.btnDemarer.setGeometry(40, 220, 200, 27)
-        self.btnDemarer.clicked.connect(self.demarerRoutine)
+        self.btnAliDepot = QPushButton(self)
+        self.btnAliDepot.setText('Depot tresor')
+        self.btnAliDepot.setGeometry(40, 220, 200, 27)
+        self.btnAliDepot.clicked.connect(self.demarerAlignementIle)
         #self.tensionCondensateur = QLabel(self)
         #self.tensionCondensateur.setGeometry(480, 22, 640, 50)
         self.initTextBox()
 
+    def demarerRoutineComplete(self):
+        self.threadStationBase = StationBase('routine complete')
+        self.demarerRoutine()
+
+    def demarerDepStation(self):
+        self.threadStationBase = StationBase('deplacement station')
+        self.demarerRoutine()
+
+    def demarerAlignementStation(self):
+        self.threadStationBase = StationBase('alignement station')
+        self.demarerRoutine()
+
+    def demarerDepTresor(self):
+        self.threadStationBase = StationBase('deplacement tresor')
+        self.demarerRoutine()
+
+    def demarerAlignementTresor(self):
+        self.threadStationBase = StationBase('alignement tresor')
+        self.demarerRoutine()
+
+    def demarerDepIle(self):
+        self.threadStationBase = StationBase('deplacement ile')
+        self.demarerRoutine()
+
+    def demarerAlignementIle(self):
+        self.threadStationBase = StationBase('alignement ile')
+        self.demarerRoutine()
+
     def demarerRoutine(self):
-        self.threadStationBase = StationBase()
         self.threadStationBase.start()
         self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
         self.threadAfficherImageVirtuelle.start()
 
+    '''
+    def demarerRoutine(self):
+        self.threadStationBase = StationBase('routine complete')
+        self.threadStationBase.start()
+        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
+        self.threadAfficherImageVirtuelle.start()
+
+    def demarerRoutine(self):
+        self.threadStationBase = StationBase('routine complete')
+        self.threadStationBase.start()
+        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
+        self.threadAfficherImageVirtuelle.start()
+
+    def demarerRoutine(self):
+        self.threadStationBase = StationBase('routine complete')
+        self.threadStationBase.start()
+        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
+        self.threadAfficherImageVirtuelle.start()
+
+    def demarerRoutine(self):
+        self.threadStationBase = StationBase('routine complete')
+        self.threadStationBase.start()
+        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
+        self.threadAfficherImageVirtuelle.start()
+
+    def demarerRoutine(self):
+        self.threadStationBase = StationBase('routine complete')
+        self.threadStationBase.start()
+        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
+        self.threadAfficherImageVirtuelle.start()
+    '''
 
     def update_gui(self):
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)

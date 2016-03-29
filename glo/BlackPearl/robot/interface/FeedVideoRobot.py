@@ -22,7 +22,6 @@ class FeedVideoRobot(Thread):
                 self.connecter = True
                 break
             except Exception as e:
-                print e
                 print('Mauvais index de camera...')
 
     def run(self):
@@ -35,3 +34,6 @@ class FeedVideoRobot(Thread):
     def getImageCapture(self):
         ("Streamed image was accessed...")
         return self.imageCapture
+
+    def libererCamera(self):
+        self.video.release()

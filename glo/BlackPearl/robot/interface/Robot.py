@@ -22,7 +22,6 @@ class Robot(Thread):
         self.commandeTerminee = False
         self.tensionCondensateur = 0
         self.demarrerConnectionTCP()
-        self.demarrerFeedVideo()
         self.demarrerLectureUART()
 
     def run(self):
@@ -43,6 +42,7 @@ class Robot(Thread):
         self.threadLecture.start()
 
     def demarrerAlignementIle(self):
+        self.demarrerFeedVideo()
         self.alignementEnCours = True
         self.uartDriver.descendrePrehenseur()
         while not (self.commandeTerminee):

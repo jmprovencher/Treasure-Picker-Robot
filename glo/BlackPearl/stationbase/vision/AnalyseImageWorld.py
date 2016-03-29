@@ -30,7 +30,7 @@ class AnalyseImageWorld(Thread):
         while 1:
             self.chargerImage()
             self.trouverRobot()
-            #print '\n'
+            print '\n'
             time.sleep(0.01)
 
     def attendreFeed(self):

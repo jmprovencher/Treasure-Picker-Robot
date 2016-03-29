@@ -22,6 +22,7 @@ class UARTDriver:
 
     def descendrePrehenseur(self):
         self.UART.write(b'P'.encode())
+        print("Supposed to be down")
 
     def monterPrehenseur(self):
         self.UART.write(b'Q'.encode())

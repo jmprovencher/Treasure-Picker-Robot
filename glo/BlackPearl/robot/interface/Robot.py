@@ -55,10 +55,11 @@ class Robot(Thread):
             self.uartDriver.descendrePrehenseur()
         elif (typeAlignement == "2"):
             self.alignementDepot = True
-            self.uartDriver.cameraPositionDepot()
+            self.uartDriver.descendrePrehenseur()
             while not (self.commandeTerminee):
                 time.sleep(1)
-            self.uartDriver.descendrePrehenseur()
+            self.uartDriver.cameraPositionDepot()
+
         time.sleep(2)
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
         self.analyseImageEmbarquee.start()

@@ -26,7 +26,7 @@ class AnalyseImageEmbarquee(Thread):
         self.chargerImage()
         while not (self.ajustementsCalcules):
             print("Thread analyseEmbarque run...")
-            if (self.alignementDepot):
+            if (self.robot.alignementDepot):
                 self.evaluerPositionDepot(COULEUR_CIBLE)
             else:
                 self.evaluerPositionTresor()

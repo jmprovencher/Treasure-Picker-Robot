@@ -70,6 +70,7 @@ class Robot(Thread):
     def effectuerAlignement(self):
         for inst in self.instructions:
             print("Envoie instruction alignement au UART")
+            self.commandeTerminee = False
             self.uartDriver.sendCommand(inst)
             while not (self.commandeTerminee):
                 time.sleep(0.5)

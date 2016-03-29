@@ -2,7 +2,7 @@ import cv2
 from threading import Thread
 import time
 
-CAMERA_INDEX = 0
+CAMERA_INDEX = 1
 
 
 class FeedVideoRobot(Thread):
@@ -18,13 +18,13 @@ class FeedVideoRobot(Thread):
         self.video = cv2.VideoCapture(portCamera)
         while not (self.video.isOpened()):
             print("Camera introuvable, essaye un autre index...")
-            self.video = cv2.VideoCapture(1)
+            self.video = cv2.VideoCapture(0)
 
     def run(self):
         while 1:
             print ("RobotFeed thread is running...")
             _, self.imageCapture = self.video.read()
-            cv2.imshow("LIVE FEED", self.imageCapture)
+            #cv2.imshow("LIVE FEED", self.imageCapture)
             time.sleep(0.2)
 
 

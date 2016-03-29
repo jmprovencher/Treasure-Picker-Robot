@@ -30,7 +30,7 @@ class AnalyseImageWorld(Thread):
         while 1:
             self.chargerImage()
             self.trouverRobot()
-            #print '\n'
+            print '\n'
             time.sleep(0.01)
 
     def attendreFeed(self):
@@ -91,7 +91,13 @@ class AnalyseImageWorld(Thread):
             for tresor in self.detectionTresors.tresorIdentifies:
                 contoursForme, _, _ = tresor
                 centreForme = self.trouverCentreForme(contoursForme)
-                self.stationBase.carte.listeTresors.append(Tresor(centreForme))
+                x, y = centreForme
+                #table2 = celle noir, x < 1347
+                #table1ou2 = + - 45 pour y (max y = 45)
+                #en ce moment c'est sette pour la table 5
+                if ((y < 100) or (y > 755)) and (x < 1314):
+                    print('WHHHHHATTTSSSUP')
+                    self.stationBase.carte.listeTresors.append(Tresor(centreForme))
 
         self.trouverRobot()
 

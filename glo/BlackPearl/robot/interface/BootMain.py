@@ -10,16 +10,15 @@ def main():
 	for j in range(0, 20):
 		try:
 			port = prefixPort + str(j)
-			#monUART = UARTDriver(port, 115200)
+			monUART = UARTDriver(port, 115200)
 			print('le bon port est: ' + port)
-			#robot = Robot(monUART)
-			robot = Robot(None)
+			robot = Robot(monUART)
+			#robot = Robot(None)
 			robot.start()
 			break
 		except Exception as e:
 			print e
 			print('mauvais port')
-
 
 if __name__ == '__main__':
 	main()

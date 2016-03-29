@@ -14,7 +14,7 @@ class Robot(Thread):
         print("Robot init")
         self.uartDriver = uartDriver
         self.instructions = []
-        self.alignement = False
+        self.alignementEnCours = False
         self.alignementDepot = False
         self.positionTresor = False
         self.positionDepot = False
@@ -22,6 +22,7 @@ class Robot(Thread):
         self.commandeTerminee = False
         self.tensionCondensateur = 0
         self.demarrerConnectionTCP()
+        self.demarrerFeedVideo()
         self.demarrerLectureUART()
 
     def run(self):
@@ -41,49 +42,61 @@ class Robot(Thread):
         self.threadLecture = LectureUART(self)
         self.threadLecture.start()
 
-    def demarrerAlignement(self, typeAlignement):
-        self.alignement = True
-        if (typeAlignement == 0):
-            self.alignementStation = True
-            #self.uartDriver.cameraPositionTresor()
-        if (typeAlignement == 1):
-            self.alignementTresor = True
-            self.uartDriver.cameraPositionTresor()
-            while not (self.commandeTerminee):
-                time.sleep(1)
-            self.uartDriver.descendrePrehenseur()
-        elif (typeAlignement == 2):
-            self.alignementDepot = True
-            self.uartDriver.descendrePrehenseur()
-            print("DROPPPED")
-            while not (self.commandeTerminee):
-                time.sleep(1)
-            self.uartDriver.cameraPositionDepot()
+    def demarrerAlignementIle(self):
+        self.alignementEnCours = True
+        self.uartDriver.descendrePrehenseur()
+        while not (self.commandeTerminee):
+            print("If this prints, this is useful")
+            time.sleep(1)
+        self.uartDriver.cameraPositionDepot()
+        print("######### Camera and Arm DOWN #########")
         time.sleep(2)
-        self.demarrerFeedVideo()
+        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'bleu')
+        self.analyseImageEmbarquee.start()
+        self.analyseImageEmbarquee.join()
+
+        self.executerAlignement()
+        print("Envoie les commandes d'ajustements (FROM ROBOT)")
+
+    def demarrerAlignementTresor(self):
+        self.alignementEnCours = True
+        self.uartDriver.descendrePrehenseur()
+        while not (self.commandeTerminee):
+            print("If this prints, this is useful")
+            time.sleep(1)
+        self.uartDriver.cameraPositionDepot()
+        print("######### Camera and Arm DOWN #########")
+        time.sleep(2)
+
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
         print("Envoie les commandes d'ajustements (FROM ROBOT)")
-        self.effectuerAlignement()
 
-    def effectuerAlignement(self):
+        self.executerAlignement()
+
+    def executerAlignement(self):
         for inst in self.instructions:
-            print("Envoie instruction alignement au UART")
             self.commandeTerminee = False
             self.uartDriver.sendCommand(inst)
+            print("Commande envoyee: %s" %inst)
             while not (self.commandeTerminee):
+                print("Commande en cours execution")
                 time.sleep(0.5)
+            print("Commande effectuee")
             self.commandeTerminee = True
-        self.alignement = False
+        self.alignementEnCours = False
 
-    def ajouterCommande(self, instructions):
+    def ajouterDirectives(self, instructions):
         self.instructions.append(instructions)
 
     def traiterCommande(self, commande, parametre):
-        if (commande == 'alignement'):
+        if (commande == 'alignement_ile'):
             print("Commence phase alignement: %s" % parametre)
-            self.demarrerAlignement(parametre)
+            self.demarrerAlignementIle()
+        elif (commande == 'aligenemt_tresor'):
+            print("Commence phase alignement: %s" % parametre)
+            self.demarrerAlignementTresor()
         else:
             self.uartDriver.sendCommand(commande, parametre)
             print("Commande envoye au UART")

@@ -5,43 +5,39 @@ from robot.vision.DetectionTresor import DetectionTresor
 from threading import Thread
 import time
 
-COULEUR_CIBLE = "Bleu"
-
-
 class AnalyseImageEmbarquee(Thread):
-    def __init__(self, robot):
+    def __init__(self, robot, parametre):
         Thread.__init__(self)
         self.robot = robot
+        self.parametre = parametre
         self.imageCamera = None
-        self.detectionTresor = False
         self.alignementDepot = False
         self.ajustementsCalcules = False
         self.ajustements = []
 
-    def attendreFeedVideo(self):
-        while self.robot.threadVideo.getImageCapture() is None:
-            time.sleep(0.01)
-
     def run(self):
-        self.chargerImage()
         while not (self.ajustementsCalcules):
+            self._chargerImage()
             print("Thread analyseEmbarque run...")
-            if (self.robot.alignementDepot):
-                self.evaluerPositionDepot(COULEUR_CIBLE)
-            else:
-                self.evaluerPositionDepot(COULEUR_CIBLE)
-                #self.evaluerPositionTresor()
-                self.afficherFeed()
-            time.sleep(1)
-        print("Pret a soumettre ajustement")
-        self.soumettreAjustements()
+            self.choisirAlignement(self.parametre)
+            time.sleep(2)
 
-    def chargerImage(self):
-        #peut etre pas necessaire
-        #self.attendreFeedVideo()
-        #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('images/camera_robot/tresors/test_image5.png'))
-        self.imageCamera = self.robot.threadVideo.getImageCapture()
-        self._estomperImage()
+        self.soumettreAjustements()
+        print("Analyse terminee, ajustement soumis")
+
+    def choisirAlignement(self, parametre):
+        if (parametre == 'bleu'):
+            self.evaluerPositionDepot('bleu')
+        elif (parametre == 'vert'):
+            self.evaluerPositionDepot('vert')
+        elif (parametre == 'rouge'):
+            self.evaluerPositionDepot('rouge')
+        elif (parametre == 'jaune'):
+            self.evaluerPositionDepot('jaune')
+        elif (parametre == 'tresor'):
+            self.evaluerPositionTresor()
+        else:
+            print("CRITICAL ERROR")
 
     def evaluerPositionTresor(self):
         self.detectionTresor = DetectionTresor(self.imageCamera)
@@ -64,11 +60,20 @@ class AnalyseImageEmbarquee(Thread):
     def soumettreAjustements(self):
         for instructions in self.ajustements:
             print("Commandes envoyees a liste attente:" , instructions)
-            self.robot.ajouterCommande(instructions)
+            self.robot.ajouterDirectives(instructions)
 
     def afficherFeed(self):
         cv2.imshow("Analyse", self.imageCamera)
         #cv2.waitKey(0)
+
+    def _chargerImage(self):
+        self.imageCamera = self.robot.threadVideo.getImageCapture()
+        self._estomperImage()
+
+    def _attendreFeedVideo(self):
+        while self.robot.threadVideo.getImageCapture() is None:
+            time.sleep(0.1)
+            print("Problem here....")
 
     def _estomperImage(self):
         blur = cv2.GaussianBlur(self.imageCamera, (5, 5), 0)

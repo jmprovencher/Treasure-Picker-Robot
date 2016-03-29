@@ -23,29 +23,24 @@ class AnalyseImageEmbarquee(Thread):
             time.sleep(0.01)
 
     def run(self):
+        self.chargerImage()
         while not (self.ajustementsCalcules):
             print("Thread analyseEmbarque run...")
-            self.chargerImage()
             if (self.robot.alignementDepot):
                 self.evaluerPositionDepot(COULEUR_CIBLE)
             else:
                 self.evaluerPositionTresor()
                 self.afficherFeed()
             time.sleep(1)
-            print("Pret a soumettre ajustement")
-            self.soumettreAjustements()
+        print("Pret a soumettre ajustement")
+        self.soumettreAjustements()
 
     def chargerImage(self):
         #peut etre pas necessaire
         #self.attendreFeedVideo()
-        #self.imageCamera = self.robot.threadVideo.getImageCapture()
-        self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('images/camera_robot/tresors/test_image5.png'))
-        self.estomperImage()
-
-    def estomperImage(self):
-        blur = cv2.GaussianBlur(self.imageCamera, (5, 5), 0)
-        cv2.imwrite(ConfigPath.Config().appendToProjectPath('Cropped.png'), blur)
-        self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('Cropped.png'))
+        #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('images/camera_robot/tresors/test_image5.png'))
+        self.imageCamera = self.robot.threadVideo.getImageCapture()
+        self._estomperImage()
 
     def evaluerPositionTresor(self):
         self.detectionTresor = DetectionTresor(self.imageCamera)
@@ -55,7 +50,7 @@ class AnalyseImageEmbarquee(Thread):
             print("Commandes ajustements PICKUP pretes")
             self.ajustementsCalcules = True
         else:
-            print ("Oups")
+            print ("Ajustements non calculees (analyseimageembarque)")
 
     def evaluerPositionDepot(self, couleurIleCible):
         self.detectionIle = DetectionIle(self.imageCamera, couleurIleCible)
@@ -73,3 +68,8 @@ class AnalyseImageEmbarquee(Thread):
     def afficherFeed(self):
         cv2.imshow("Analyse", self.imageCamera)
         #cv2.waitKey(0)
+
+    def _estomperImage(self):
+        blur = cv2.GaussianBlur(self.imageCamera, (5, 5), 0)
+        cv2.imwrite(ConfigPath.Config().appendToProjectPath('Cropped.png'), blur)
+        self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('Cropped.png'))

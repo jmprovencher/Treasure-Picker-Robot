@@ -20,6 +20,5 @@ def main():
 			print e
 			print('mauvais port')
 
-
 if __name__ == '__main__':
 	main()

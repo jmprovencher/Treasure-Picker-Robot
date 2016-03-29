@@ -23,8 +23,8 @@ class RobotClient(Thread):
                     data = self.attendreCommande()
                     self.traiterCommande(data)
                 else:
-                    if (self.robot.commandeTerminee):
-                        #self.envoyerTension()
+                    if (self.robot.commandeTerminee) and not self.robot.alignement:
+                        self.envoyerTension()
                         self.envoyerCommandeTerminee()
                     else:
                         #self.envoyerTension()

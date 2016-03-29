@@ -21,7 +21,6 @@ class UARTDriver:
         self.UART.write(b'd'.encode())
 
     def descendrePrehenseur(self):
-        print("Supposed to be down")
         self.UART.write(b'P'.encode())
 
     def monterPrehenseur(self):
@@ -32,6 +31,32 @@ class UARTDriver:
 
     def desactiverAimant(self):
         self.UART.write(b'h'.encode())
+
+    def postAlignementTresor(self):
+        # Recule
+        print("### BEEEEEEP BEEEEEEEEEEP ###")
+        self.UART.write(b'2'.encode())
+        self.UART.write(str('2').encode())
+        print("### PREHENSEUR UP ###")
+        self.monterPrehenseur()
+        time.sleep(1)
+        print("### MAGNET OFF ###")
+        self.desactiverAimant()
+
+    def postAlignementIle(self):
+        print("### MAGNET ON ###")
+        self.activerAimant()
+        time.sleep(1)
+        print("### PREHENSEUR DOWN ###")
+        self.descendrePrehenseur()
+        time.sleep(1)
+        print("### MAGNET OFF ###")
+        self.desactiverAimant()
+        time.sleep(0.5)
+        #Recule
+        print("### BEEEEEEP BEEEEEEEEEEP ###")
+        self.UART.write(b'2'.encode())
+        self.UART.write(str('2').encode())
 
     def to_bytes(n, length, endianess='big'):
         h = '%x' % n

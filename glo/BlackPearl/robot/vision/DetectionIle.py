@@ -21,13 +21,13 @@ class DetectionIle(object):
         self.detecterIle()
 
     def detecterIle(self):
-        if (self.couleurIle == "Vert"):
+        if (self.couleurIle == "vert"):
             self._detecterFormeCouleur(self.intervalleVert)
-        elif (self.couleurIle == "Jaune"):
+        elif (self.couleurIle == "jaune"):
             self._detecterFormeCouleur(self.intervalleJaune)
-        elif (self.couleurIle == "Bleu"):
+        elif (self.couleurIle == "bleu"):
             self._detecterFormeCouleur(self.intervalleBleu)
-        elif (self.couleurIle == "Rouge"):
+        elif (self.couleurIle == "rouge"):
             self._detecterFormeCouleur(self.intervalleRouge)
 
     def evaluerEmplacement(self, contoursIle):

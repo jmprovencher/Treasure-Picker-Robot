@@ -37,8 +37,8 @@ class Robot(Thread):
 
     def demarrerLectureUART(self):
         print "Demarer lecture UART"
-        threadLecture = LectureUART(self)
-        threadLecture.start()
+        self.threadLecture = LectureUART(self)
+        self.threadLecture.start()
 
     def demarrerAlignement(self, typeAlignement):
         self.demarrerFeedVideo()
@@ -47,10 +47,16 @@ class Robot(Thread):
             #self.uartDriver.cameraPositionTresor()
         if (typeAlignement == "1"):
             self.alignementTresor = True
-            self.uartDriver.sendCommand("cameraTreasure", "")
+            self.uartDriver.cameraPositionTresor()
+            while not (self.commandeTerminee):
+                time.sleep(1)
+            self.uartDriver.descendrePrehenseur()
         elif (typeAlignement == "2"):
             self.alignementDepot = True
-            self.uartDriver.sendCommand("cameraTreasure", "")
+            self.uartDriver.cameraPositionDepot()
+            while not (self.commandeTerminee):
+                time.sleep(1)
+            self.uartDriver.descendrePrehenseur()
         time.sleep(2)
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
         self.analyseImageEmbarquee.start()
@@ -64,7 +70,6 @@ class Robot(Thread):
             self.uartDriver.sendCommand(inst)
             while not (self.commandeTerminee):
                 time.sleep(0.5)
-
             self.commandeTerminee = True
         self.alignement = False
 

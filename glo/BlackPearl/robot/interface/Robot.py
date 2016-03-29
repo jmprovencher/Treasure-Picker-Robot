@@ -54,7 +54,8 @@ class Robot(Thread):
             self.uartDriver.descendrePrehenseur()
         elif (typeAlignement == "2"):
             self.alignementDepot = True
-            self.uartDriver.descendrePrehenseur()
+            self.uartDriver.sendCommand("drop", 0)
+            print("DROPPPED")
             while not (self.commandeTerminee):
                 time.sleep(1)
             self.uartDriver.cameraPositionDepot()

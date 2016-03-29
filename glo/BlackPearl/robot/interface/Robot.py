@@ -42,7 +42,6 @@ class Robot(Thread):
         self.threadLecture.start()
 
     def demarrerAlignement(self, typeAlignement):
-        self.demarrerFeedVideo()
         self.alignement = True
         if (typeAlignement == "0"):
             self.alignementStation = True
@@ -59,8 +58,8 @@ class Robot(Thread):
             while not (self.commandeTerminee):
                 time.sleep(1)
             self.uartDriver.cameraPositionDepot()
-
         time.sleep(2)
+        self.demarrerFeedVideo()
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
@@ -82,7 +81,7 @@ class Robot(Thread):
 
     def traiterCommande(self, commande, parametre):
         if (commande == 'alignement'):
-            print("Commence phase alignement: %s", parametre)
+            print("Commence phase alignement: %s" % parametre)
             self.demarrerAlignement(parametre)
         else:
             self.uartDriver.sendCommand(commande, parametre)

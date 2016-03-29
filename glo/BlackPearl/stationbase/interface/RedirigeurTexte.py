@@ -7,8 +7,7 @@ class RedirigeurTexte():
         self.tag = tag
 
     def write(self, str):
-        str = '\n' + str
-        str = textwrap.fill(str, self.widget.frameGeometry().width()/8)
+        #str = textwrap.fill(str, self.widget.frameGeometry().width()/8)
         if self.tag == "stdout":
             self.widget.setTextColor(QtCore.Qt.green)
         elif self.tag == "stderr":
@@ -17,3 +16,4 @@ class RedirigeurTexte():
         c = self.widget.textCursor()
         c.movePosition(QtGui.QTextCursor.End)
         self.widget.setTextCursor(c)
+        QtGui.QApplication.processEvents()

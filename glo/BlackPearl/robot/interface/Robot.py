@@ -52,7 +52,7 @@ class Robot(Thread):
             while not (self.commandeTerminee):
                 time.sleep(1)
             self.uartDriver.descendrePrehenseur()
-        elif (typeAlignement == 3):
+        elif (typeAlignement == 2):
             self.alignementDepot = True
             self.uartDriver.descendrePrehenseur()
             print("DROPPPED")

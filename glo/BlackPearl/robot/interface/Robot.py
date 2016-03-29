@@ -8,10 +8,10 @@ import time
 
 verrou = RLock()
 
+
 class Robot(Thread):
     def __init__(self, uartDriver):
         Thread.__init__(self)
-        print("Robot init")
         self.uartDriver = uartDriver
         self.instructions = []
         self.alignementEnCours = False
@@ -26,7 +26,7 @@ class Robot(Thread):
         self.demarrerLectureUART()
 
     def run(self):
-        print("Robot run")
+        print("Robot initialized")
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoRobot()
@@ -38,7 +38,7 @@ class Robot(Thread):
         self.robotClient.start()
 
     def demarrerLectureUART(self):
-        print "Demarer lecture UART"
+        print "Demarrer lecture UART"
         self.threadLecture = LectureUART(self)
         self.threadLecture.start()
 
@@ -79,7 +79,7 @@ class Robot(Thread):
         for inst in self.instructions:
             self.commandeTerminee = False
             self.uartDriver.sendCommand(inst)
-            print("Commande envoyee: %s" %inst)
+            print("Commande envoyee: %s" % inst)
             while not (self.commandeTerminee):
                 print("Commande en cours execution")
                 time.sleep(0.5)

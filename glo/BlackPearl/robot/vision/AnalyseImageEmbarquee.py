@@ -5,6 +5,7 @@ from robot.vision.DetectionTresor import DetectionTresor
 from threading import Thread
 import time
 
+
 class AnalyseImageEmbarquee(Thread):
     def __init__(self, robot, parametre):
         Thread.__init__(self)
@@ -59,12 +60,12 @@ class AnalyseImageEmbarquee(Thread):
 
     def soumettreAjustements(self):
         for instructions in self.ajustements:
-            print("Commandes envoyees a liste attente:" , instructions)
+            print("Commandes envoyees a liste attente:", instructions)
             self.robot.ajouterDirectives(instructions)
 
     def afficherFeed(self):
         cv2.imshow("Analyse", self.imageCamera)
-        #cv2.waitKey(0)
+        # cv2.waitKey(0)
 
     def _chargerImage(self):
         self.imageCamera = self.robot.threadVideo.getImageCapture()

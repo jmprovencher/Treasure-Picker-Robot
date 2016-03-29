@@ -13,8 +13,7 @@ class Robot(Thread):
         print("Robot init")
         self.uartDriver = uartDriver
         self.instructions = []
-        self.alignementTresor = False
-        self.alignementDepot = False
+        self.alignement = False
         self.positionTresor = False
         self.positionDepot = False
         self.tacheTerminee = False
@@ -22,7 +21,7 @@ class Robot(Thread):
         self.tensionCondensateur = 0
         self.demarrerConnectionTCP()
         self.demarrerLectureUART()
-        #self.demarrerAlignement('tresor')
+
 
     def run(self):
         print("Robot run")
@@ -40,14 +39,16 @@ class Robot(Thread):
         print "Demarer lecture UART"
 
     def demarrerAlignement(self, typeAlignement):
-        #self.demarrerFeedVideo()
-        if (typeAlignement == "depot"):
-            self.alignementDepot = True
-            #self.uartDriver.cameraPositionDepot()
-        if (typeAlignement == "tresor"):
-            self.alignementTresor = True
+        self.demarrerFeedVideo()
+        if (typeAlignement == "0"):
+            self.alignementStation = True
             #self.uartDriver.cameraPositionTresor()
-
+        if (typeAlignement == "1"):
+            self.alignementTresor = True
+            self.uartDriver.sendCommand("cameraTreasure", "")
+        elif (typeAlignement == "2"):
+            self.alignementDepot = True
+            self.uartDriver.sendCommand("cameraTreasure", "")
         time.sleep(2)
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
         self.analyseImageEmbarquee.start()
@@ -58,9 +59,12 @@ class Robot(Thread):
     def effectuerAlignement(self):
         for inst in self.instructions:
             print("Envoie instruction alignement au UART")
-            #self.uartDriver.sendCommand(inst)
-            #Attendre que la commande soit faite, trouver autre moyen plus tard
-            time.sleep(2)
+            self.uartDriver.sendCommand(inst)
+            while not (self.commandeTerminee):
+                time.sleep(0.5)
+
+            self.commandeTerminee = True
+        self.alignement = False
 
     def ajouterCommande(self, instructions):
         self.instructions.append(instructions)

@@ -24,7 +24,7 @@ class FeedVideoRobot(Thread):
         while 1:
             print ("RobotFeed thread is running...")
             _, self.imageCapture = self.video.read()
-            cv2.imshow("LIVE FEED", self.imageCapture)
+            #cv2.imshow("LIVE FEED", self.imageCapture)
             time.sleep(0.2)
 
 

@@ -59,8 +59,10 @@ class AnalyseImageWorld(Thread):
     def identifierForme(self, forme):
         contoursForme, nomForme, couleurForme = forme
         centreForme = self.trouverCentreForme(contoursForme)
-
+        x, y = centreForme
         if (couleurForme == ""):
+            #Il est à noter que je n'ai pas exactement les bonnes valeurs, pour l'instant, je ferai des tests pour être certain.
+            #if ((x < 1200 & (y < 200 | y > 800)) | x < 200):
             tresor = Tresor(centreForme)
             self.elementsCartographiques.append(tresor)
         else:

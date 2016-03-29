@@ -15,10 +15,23 @@ class UARTDriver:
         return UART
 
     def cameraPositionDepot(self):
-        self.UART.write(b'e'.encode())
+        self.UART.write(b'd'.encode())
 
     def cameraPositionTresor(self):
         self.UART.write(b'd'.encode())
+
+    def descendrePrehenseur(self):
+        print("Supposed to be down")
+        self.UART.write(b'P'.encode())
+
+    def monterPrehenseur(self):
+        self.UART.write(b'Q'.encode())
+
+    def activerAimant(self):
+        self.UART.write(b'g'.encode())
+
+    def desactiverAimant(self):
+        self.UART.write(b'h'.encode())
 
     def to_bytes(n, length, endianess='big'):
         h = '%x' % n

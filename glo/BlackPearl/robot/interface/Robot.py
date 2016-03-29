@@ -15,6 +15,7 @@ class Robot(Thread):
         self.uartDriver = uartDriver
         self.instructions = []
         self.alignement = False
+        self.alignementDepot = False
         self.positionTresor = False
         self.positionDepot = False
         self.tacheTerminee = False
@@ -37,21 +38,29 @@ class Robot(Thread):
 
     def demarrerLectureUART(self):
         print "Demarer lecture UART"
-        threadLecture = LectureUART(self)
-        threadLecture.start()
+        self.threadLecture = LectureUART(self)
+        self.threadLecture.start()
 
     def demarrerAlignement(self, typeAlignement):
-        self.demarrerFeedVideo()
-        if (typeAlignement == "0"):
+        self.alignement = True
+        if (typeAlignement == 0):
             self.alignementStation = True
             #self.uartDriver.cameraPositionTresor()
-        if (typeAlignement == "1"):
+        if (typeAlignement == 1):
             self.alignementTresor = True
-            self.uartDriver.sendCommand("cameraTreasure", "")
-        elif (typeAlignement == "2"):
+            self.uartDriver.cameraPositionTresor()
+            while not (self.commandeTerminee):
+                time.sleep(1)
+            self.uartDriver.descendrePrehenseur()
+        elif (typeAlignement == 2):
             self.alignementDepot = True
-            self.uartDriver.sendCommand("cameraTreasure", "")
+            self.uartDriver.descendrePrehenseur()
+            print("DROPPPED")
+            while not (self.commandeTerminee):
+                time.sleep(1)
+            self.uartDriver.cameraPositionDepot()
         time.sleep(2)
+        self.demarrerFeedVideo()
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
@@ -61,10 +70,10 @@ class Robot(Thread):
     def effectuerAlignement(self):
         for inst in self.instructions:
             print("Envoie instruction alignement au UART")
+            self.commandeTerminee = False
             self.uartDriver.sendCommand(inst)
             while not (self.commandeTerminee):
                 time.sleep(0.5)
-
             self.commandeTerminee = True
         self.alignement = False
 
@@ -73,7 +82,7 @@ class Robot(Thread):
 
     def traiterCommande(self, commande, parametre):
         if (commande == 'alignement'):
-            print("Commence phase alignement: %s", parametre)
+            print("Commence phase alignement: %s" % parametre)
             self.demarrerAlignement(parametre)
         else:
             self.uartDriver.sendCommand(commande, parametre)

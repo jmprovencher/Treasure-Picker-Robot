@@ -14,8 +14,9 @@ import copy
 verrou = RLock()
 
 class StationBase(Thread):
-    def __init__(self):
+    def __init__(self, etape):
         Thread.__init__(self)
+        self.etape = etape
         self.trajectoireReel = None
         self.trajectoirePrevue = None
         self.angleDesire = None
@@ -24,7 +25,7 @@ class StationBase(Thread):
         self.envoyerCommande = False
         self.robotEstPret = False
         self.attenteDuRobot = False
-        self.demarrerConnectionTCP()
+        #self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.demarrerAnalyseImageWorld()
@@ -36,8 +37,25 @@ class StationBase(Thread):
         while 1:
             if self.robotEstPret == True:
                 print 'Robot est pret'
-            self.demarerRoutine()
+                break
             time.sleep(0.1)
+        self.choisirEtape(self.etape)
+
+    def choisirEtape(self, etape):
+        if (etape == 'routine complete'):
+            self.demarerRoutine()
+        elif (etape == 'deplacement station'):
+            self.deplacementStation()
+        elif (etape == 'alignement station'):
+            self.alignerStation()
+        elif (etape == 'deplacement tresor'):
+            self.deplacementTresor()
+        elif (etape == 'alignement tresor'):
+            self.alignerTresor()
+        elif (etape == 'deplacement ile'):
+            self.deplacementIle()
+        elif (etape == 'alignement ile'):
+            self.alignerIle()
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoStation()
@@ -56,9 +74,12 @@ class StationBase(Thread):
         self.threadImageVirtuelle.start()
 
     def demarerRoutine(self):
-        self.etapeStation()
-        #self.etapeTresor()
-        #self.etapeIle()
+        self.deplacementStation()
+        self.alignerStation()
+        self.deplacementTresor()
+        self.alignerTresor()
+        self.deplacementIle()
+        self.alignerIle()
         time.sleep(100000)
 
     def initialisationTrajectoire(self):
@@ -77,7 +98,7 @@ class StationBase(Thread):
             print 'erreur! Aucune destination trouvee.'
         return destination
 
-    def etapeIle(self):
+    def deplacementIle(self):
         print '\n--------------------------------------------------'
         print 'Aller a l''ile cible...'
         print '--------------------------------------------------'
@@ -89,12 +110,14 @@ class StationBase(Thread):
         print '\n--------------------------------------------------'
         print 'Arriver a l''ile.'
         print '--------------------------------------------------'
-        self.allignement("allignementIle")
+
+    def alignerIle(self):
+        self.allignement("alignement", 2)
         print '\n--------------------------------------------------'
         print 'Depot termine.'
         print '--------------------------------------------------'
 
-    def etapeTresor(self):
+    def deplacementTresor(self):
         print '\n--------------------------------------------------'
         print 'Aller au tresor...'
         print '--------------------------------------------------'
@@ -111,12 +134,14 @@ class StationBase(Thread):
         print '\n--------------------------------------------------'
         print 'Arriver au tresor.'
         print '--------------------------------------------------'
-        self.allignement("allignementTresor")
+
+    def alignerTresor(self):
+        self.allignement("alignement", 1)
         print '\n--------------------------------------------------'
         print 'Capture termine.'
         print '--------------------------------------------------'
 
-    def etapeStation(self):
+    def deplacementStation(self):
         print '\n--------------------------------------------------'
         print 'Aller a la station de recharge...'
         print '--------------------------------------------------'
@@ -130,6 +155,8 @@ class StationBase(Thread):
         print '\n--------------------------------------------------'
         print 'Arriver a la station de recharge.'
         print '--------------------------------------------------'
+
+    def alignerStation(self):
         self.allignement("allignement", 0)
         print '\n--------------------------------------------------'
         print 'Recharge termine.'
@@ -275,6 +302,7 @@ class StationBase(Thread):
         self.myRequest = RequeteJSON(commande, parametre)
         self.envoyerCommande = True
         self.attendreRobot()
+        
 
 
 

@@ -47,16 +47,22 @@ class DetectionRobot(object):
         masqueRobot = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         #cv2.imshow('test', masqueRobot)
         #cv2.waitKey(0)
-        _, contoursRobot, _ = cv2.findContours(masqueRobot.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        contoursNegligeable = []
+        _, contoursRobot, hierarchy = cv2.findContours(masqueRobot.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        indiceContoursNegligeable = []
 
-        for contours in range(len(contoursRobot)):
-            aire = cv2.contourArea(contoursRobot[contours])
-            if ((aire < 100) or (aire > 1500)):
-                contoursNegligeable.append(contours)
+        for i in range(len(contoursRobot)):
+            aire = cv2.contourArea(contoursRobot[i])
+            aireTrou = 0
+            if not hierarchy[i][2] == -1:
+                aireTrou = cv2.contourArea(contoursRobot[hierarchy[i][2]])
+            if ((aire < 2000) or (aire > 6000)):
+                indiceContoursNegligeable.append(i)
+            elif ((aireTrou < 500) or (aireTrou > 5000)):
+                indiceContoursNegligeable.append(i)
 
-        if (len(contoursNegligeable) > 0):
-            contoursRobot = np.delete(contoursRobot, contoursNegligeable)
+        if (len(indiceContoursNegligeable) > 0):
+            contoursRobot = np.delete(contoursRobot, indiceContoursNegligeable)
+            hierarchy = np.delete(hierarchy, indiceContoursNegligeable)
 
         self.precisionDroit = 5
         self.precisionGauche = 5

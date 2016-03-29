@@ -7,10 +7,10 @@ import copy
 class DetectionRobot(object):
     def __init__(self, image):
         self.imageCamera = image
-        self.formeAvant = None
-        self.formeArriere = None
-        self.precisionArriere = 5
-        self.precisionAvant = 5
+        self.formeDroit = None
+        self.formeGauche = None
+        self.precisionGauche = 5
+        self.precisionDroit = 5
         self._definirIntervalleRobot()
         self._definirPatronsFormes()
         self.robotIdentifiee = None
@@ -21,27 +21,27 @@ class DetectionRobot(object):
     def _trouverForme(self, contours):
 
         resultatsMatch = []
-        resultatsMatch.append((cv2.matchShapes(contours, self.cntRobotAvant, 1, 0.0), contours, 'Avant'))
-        resultatsMatch.append((cv2.matchShapes(contours, self.cntRobotArriere, 1, 0.0), contours, 'Arriere'))
+        resultatsMatch.append((cv2.matchShapes(contours, self.cntRobotDroit, 1, 0.0), contours, 'Droit'))
+        resultatsMatch.append((cv2.matchShapes(contours, self.cntRobotGauche, 1, 0.0), contours, 'Gauche'))
 
         meilleurMatch = min(resultatsMatch)
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme
         aire = cv2.contourArea(contours)
-        if (precision < 0.03):
-            if (nomForme == 'Avant' and (precision < self.precisionAvant)):
+        if (precision < 0.1):
+            if (nomForme == 'Droit' and (precision < self.precisionDroit)):
                 #print 'form avant trouve:'
                 #print precision
-                self.precisionAvant = precision
-                self.formeAvant = copy.deepcopy(formeIdentifiee)
-            elif (nomForme == 'Arriere' and (precision < self.precisionArriere)):
+                self.precisionDroit = precision
+                self.formeDroit = copy.deepcopy(formeIdentifiee)
+            elif (nomForme == 'Gauche' and (precision < self.precisionGauche)):
                 #print 'forme arriere trouve:'
                 #print precision
-                self.precisionArriere = precision
-                self.formeArriere = copy.deepcopy(formeIdentifiee)
+                self.precisionGauche = precision
+                self.formeGauche = copy.deepcopy(formeIdentifiee)
 
     def _detecterForme(self):
-        self.formeArriere = None
+        self.formeGauche = None
         intervalleFonce, intervalleClair = self.intervalleRobot
         masqueRobot = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         #cv2.imshow('test', masqueRobot)
@@ -57,31 +57,29 @@ class DetectionRobot(object):
         if (len(contoursNegligeable) > 0):
             contoursRobot = np.delete(contoursRobot, contoursNegligeable)
 
-        self.precisionAvant = 5
-        self.precisionArriere = 5
+        self.precisionDroit = 5
+        self.precisionGauche = 5
         for contoursForme in contoursRobot:
             self._trouverForme(contoursForme)
 
-        if ((self.precisionArriere == 5) or (self.precisionAvant == 5)):
+        if ((self.precisionGauche == 5) or (self.precisionDroit == 5)):
             self.robotIdentifiee = None
         else:
-            self.robotIdentifiee = (self.formeAvant[0], self.formeArriere[0])
+            self.robotIdentifiee = (self.formeDroit[0], self.formeGauche[0])
 
     def _definirIntervalleRobot(self):
-        self.intervalleRobot = np.array([25, 0, 50]), np.array([150, 100, 200])
+        self.intervalleRobot = np.array([102, 102, 0]), np.array([255, 255, 102])
 
     def _definirPatronsFormes(self):
-        patronRobotAvant = cv2.imread(ConfigPath.Config().appendToProjectPath('images/xPattern.png'), 0)
-        _, threshRobotAvant = cv2.threshold(patronRobotAvant, 127, 255, cv2.THRESH_BINARY_INV)
-        #cv2.imshow('test', threshRobotAvant)
-        #cv2.waitKey(0)
-        _, contoursRobotAvant, _ = cv2.findContours(threshRobotAvant, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        self.cntRobotAvant = contoursRobotAvant[0]
+        patronRobotDroit = cv2.imread(ConfigPath.Config().appendToProjectPath('images/cercle.png'), 0)
+        _, threshRobotDroit = cv2.threshold(patronRobotDroit, 127, 255, cv2.THRESH_BINARY_INV)
+        _, contoursRobotDroit, _ = cv2.findContours(threshRobotDroit, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        self.cntRobotDroit = contoursRobotDroit[0]
 
-        patronRobotArriere = cv2.imread(ConfigPath.Config().appendToProjectPath('images/etoilePattern.png'), 0)
-        _, threshRobotArriere = cv2.threshold(patronRobotArriere, 127, 255, cv2.THRESH_BINARY_INV)
-        _, contoursRobotArriere, _ = cv2.findContours(threshRobotArriere, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        self.cntRobotArriere = contoursRobotArriere[0]
+        patronRobotGauche = cv2.imread(ConfigPath.Config().appendToProjectPath('images/carre.png'), 0)
+        _, threshRobotGauche = cv2.threshold(patronRobotGauche, 127, 255, cv2.THRESH_BINARY_INV)
+        _, contoursRobotGauche, _ = cv2.findContours(threshRobotGauche, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        self.cntRobotGauche = contoursRobotGauche[0]
 
 
 

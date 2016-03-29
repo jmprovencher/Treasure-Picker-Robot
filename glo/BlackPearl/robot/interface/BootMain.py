@@ -5,19 +5,21 @@ from robot.interface.Robot import Robot
 import time
 
 def main():
-	listePorts = '/dev/ttyACM'
+	prefixPort = '/dev/ttyACM'
+	monUART = None
 	for j in range(0, 20):
-	    try:
-                maVariable = listePorts + str(j)
-    	        monUART = UARTDriver(maVariable, 115200) #on linux
-    	        #monUART = None
-    	        robot = Robot(monUART)
-		print('le bon port est: ')
-		print(j)
-	        break
-	    except:
-	        print('mauvais port')
-	robot.start()
+		try:
+			port = prefixPort + str(j)
+			#monUART = UARTDriver(port, 115200)
+			print('le bon port est: ' + port)
+			#robot = Robot(monUART)
+			robot = Robot(None)
+			robot.start()
+			break
+		except Exception as e:
+			print e
+			print('mauvais port')
+
 
 if __name__ == '__main__':
-    main()
+	main()

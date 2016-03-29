@@ -93,12 +93,12 @@ class AnalyseImageWorld(Thread):
         self.trouverRobot()
 
     def trouverInfoRobot(self, formesDetectees):
-        contourAvant, contourArriere = formesDetectees
-        centreAvant = self.trouverCentreForme(contourAvant)
-        centrearriere = self.trouverCentreForme(contourArriere)
-        centreRobot = (int(round((centreAvant[0]+centrearriere[0])/2)), int(round((centreAvant[1]+centrearriere[1])/2)))
-        deltaX = centreAvant[0]-centrearriere[0]
-        deltaY = -1*(centreAvant[1]-centrearriere[1])
+        contourDroit, contourGauche = formesDetectees
+        centreDroit = self.trouverCentreForme(contourDroit)
+        centreGauche = self.trouverCentreForme(contourGauche)
+        centreRobot = (int(round((centreDroit[0]+centreGauche[0])/2)), int(round((centreDroit[1]+centreGauche[1])/2)))
+        deltaX = centreDroit[0]-centreGauche[0]
+        deltaY = -1*(centreDroit[1]-centreGauche[1])
         if not deltaX == 0:
             pente = deltaY/deltaX
 
@@ -117,6 +117,10 @@ class AnalyseImageWorld(Thread):
         elif deltaX < 0:
             angle = 180 + int(round(math.degrees(math.atan(pente))))
 
+        angle = angle + 90
+        if angle >= 360:
+            angle = angle - 360
+
         return (centreRobot, angle)
 
     def trouverRobot(self):
@@ -132,14 +136,14 @@ class AnalyseImageWorld(Thread):
                 self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
                 #print orientation
                 self.cntRobotPerdu = 0
-            elif self.cntRobotPerdu > 25:
+            elif self.cntRobotPerdu > 10:
                 self.cntRobotPerdu = 0
                 self.stationBase.carte.infoRobot = None
             else:
                 self.cntRobotPerdu = self.cntRobotPerdu + 1
         else:
             self.cntRobotPerdu = self.cntRobotPerdu + 1
-            if self.cntRobotPerdu > 25:
+            if self.cntRobotPerdu > 10:
                 self.stationBase.carte.infoRobot = None
 
     def deplacementPlausible(self, centreForme):

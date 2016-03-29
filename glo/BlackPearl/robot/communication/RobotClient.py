@@ -14,6 +14,7 @@ class RobotClient(Thread):
         self.monClient = TCPClient()
 
     def run(self):
+        self.monClient._connectToServer()
         while not (self.robot.tacheTerminee):
             print("Robot Client running")
             self.envoyerPretAStation()
@@ -40,6 +41,7 @@ class RobotClient(Thread):
                 print "Connection Lost, Trying to reconnect"
                 time.sleep(0.1)
                 self.monClient = TCPClient()
+                self.monClient._connectToServer()
         if data == -1:
             print('Error while receiving file')
 
@@ -64,6 +66,7 @@ class RobotClient(Thread):
                 print "Connection Lost, Trying to reconnect"
                 time.sleep(0.1)
                 self.monClient = TCPClient()
+                self.monClient._connectToServer()
 
     def envoyerCommandeTerminee(self):
         RequeteJSON("termine", 0)
@@ -76,6 +79,7 @@ class RobotClient(Thread):
                 print "Connection Lost, Trying to reconnect"
                 time.sleep(0.1)
                 self.monClient = TCPClient()
+                self.monClient._connectToServer()
         self.robot.commandeTerminee = False
         self.termineeAEteEnvoyerAStation = True
 
@@ -90,4 +94,5 @@ class RobotClient(Thread):
                 print "Connection Lost, Trying to reconnect"
                 time.sleep(0.1)
                 self.monClient = TCPClient()
+                self.monClient._connectToServer()
             time.sleep(0.1)

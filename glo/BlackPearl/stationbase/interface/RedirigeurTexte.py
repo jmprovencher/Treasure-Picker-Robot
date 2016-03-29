@@ -7,7 +7,8 @@ class RedirigeurTexte():
         self.tag = tag
 
     def write(self, str):
-        str = textwrap.fill(str, 50)
+        str = '\n' + str
+        str = textwrap.fill(str, self.widget.frameGeometry().width()/8)
         if self.tag == "stdout":
             self.widget.setTextColor(QtCore.Qt.green)
         elif self.tag == "stderr":

@@ -22,7 +22,7 @@ class Robot(Thread):
         self.commandeTerminee = False
         self.tensionCondensateur = 0
         self.demarrerConnectionTCP()
-        self.demarrerLectureUART()
+        #self.demarrerLectureUART()
         #self.demarrerAlignement('tresor')
 
     def run(self):
@@ -40,7 +40,7 @@ class Robot(Thread):
     def demarrerLectureUART(self):
         print "Demarer lecture UART"
         threadLecture = LectureUART(self)
-	threadLecture.start()
+        threadLecture.start()
 
     def demarrerAlignement(self, typeAlignement):
         #self.demarrerFeedVideo()

@@ -25,7 +25,7 @@ class StationBase(Thread):
         self.envoyerCommande = False
         self.robotEstPret = False
         self.attenteDuRobot = False
-        self.demarrerConnectionTCP()
+        #self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.demarrerAnalyseImageWorld()

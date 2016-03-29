@@ -107,38 +107,6 @@ class Interface(QtGui.QWidget):
         self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
         self.threadAfficherImageVirtuelle.start()
 
-    '''
-    def demarerRoutine(self):
-        self.threadStationBase = StationBase('routine complete')
-        self.threadStationBase.start()
-        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
-        self.threadAfficherImageVirtuelle.start()
-
-    def demarerRoutine(self):
-        self.threadStationBase = StationBase('routine complete')
-        self.threadStationBase.start()
-        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
-        self.threadAfficherImageVirtuelle.start()
-
-    def demarerRoutine(self):
-        self.threadStationBase = StationBase('routine complete')
-        self.threadStationBase.start()
-        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
-        self.threadAfficherImageVirtuelle.start()
-
-    def demarerRoutine(self):
-        self.threadStationBase = StationBase('routine complete')
-        self.threadStationBase.start()
-        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
-        self.threadAfficherImageVirtuelle.start()
-
-    def demarerRoutine(self):
-        self.threadStationBase = StationBase('routine complete')
-        self.threadStationBase.start()
-        self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
-        self.threadAfficherImageVirtuelle.start()
-    '''
-
     def update_gui(self):
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
         #self.tensionCondensateur.setText(QString(self.threadStationBase.tensionCondensateur))
@@ -175,5 +143,5 @@ class Interface(QtGui.QWidget):
         self.text.setPalette(pal)
         self.text.setTextColor(QtCore.Qt.white)
         self.text.insertPlainText('Black Pearl\n')
-        sys.stdout = RedirigeurTexte(self.text, "stdout")
-        sys.stderr = RedirigeurTexte(self.text, "stderr")
+        #sys.stdout = RedirigeurTexte(self.text, "stdout")
+        #sys.stderr = RedirigeurTexte(self.text, "stderr")

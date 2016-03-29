@@ -95,7 +95,6 @@ class AnalyseImageWorld(Thread):
                 #table1ou2 = + - 45 pour y (max y = 45)
                 #en ce moment c'est sette pour la table 5
                 if ((y < 100) or (y > 755)) and (x < 1314):
-                    print('WHHHHHATTTSSSUP')
                     self.stationBase.carte.listeTresors.append(Tresor(centreForme))
 
         self.trouverRobot()

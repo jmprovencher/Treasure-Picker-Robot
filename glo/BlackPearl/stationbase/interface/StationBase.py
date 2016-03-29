@@ -36,7 +36,7 @@ class StationBase(Thread):
         while 1:
             if self.robotEstPret == True:
                 print 'Robot est pret'
-                self.demarerRoutine()
+            self.demarerRoutine()
             time.sleep(0.1)
 
     def demarrerFeedVideo(self):
@@ -130,7 +130,7 @@ class StationBase(Thread):
         print '\n--------------------------------------------------'
         print 'Arriver a la station de recharge.'
         print '--------------------------------------------------'
-        self.allignement("allignementStation")
+        self.allignement("allignement", 0)
         print '\n--------------------------------------------------'
         print 'Recharge termine.'
         print '--------------------------------------------------'
@@ -271,8 +271,8 @@ class StationBase(Thread):
             print '\nArriver.'
             self.trajectoireReel.pop(-1)
 
-    def allignement(self, type):
-        self.myRequest = RequeteJSON(type, 0)
+    def allignement(self, commande, parametre):
+        self.myRequest = RequeteJSON(commande, parametre)
         self.envoyerCommande = True
         self.attendreRobot()
 

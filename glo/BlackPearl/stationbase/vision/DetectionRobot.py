@@ -28,7 +28,8 @@ class DetectionRobot(object):
         precision, contours, nomForme = meilleurMatch
         formeIdentifiee = contours, nomForme
         aire = cv2.contourArea(contours)
-        if (precision < 0.1):
+        #print precision
+        if (precision < 1):
             if (nomForme == 'Droit' and (precision < self.precisionDroit)):
                 #print 'form avant trouve:'
                 #print precision
@@ -51,7 +52,7 @@ class DetectionRobot(object):
 
         for contours in range(len(contoursRobot)):
             aire = cv2.contourArea(contoursRobot[contours])
-            if ((aire < 1000) or (aire > 6000)):
+            if ((aire < 100) or (aire > 1500)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):
@@ -68,16 +69,16 @@ class DetectionRobot(object):
             self.robotIdentifiee = (self.formeDroit[0], self.formeGauche[0])
 
     def _definirIntervalleRobot(self):
-        self.intervalleRobot = np.array([102, 102, 0]), np.array([255, 255, 102])
+        self.intervalleRobot = np.array([0, 5, 10]), np.array([80, 70, 60])
 
     def _definirPatronsFormes(self):
         patronRobotDroit = cv2.imread(ConfigPath.Config().appendToProjectPath('images/cercle.png'), 0)
-        _, threshRobotDroit = cv2.threshold(patronRobotDroit, 127, 255, cv2.THRESH_BINARY_INV)
+        _, threshRobotDroit = cv2.threshold(patronRobotDroit, 127, 255, cv2.THRESH_BINARY)
         _, contoursRobotDroit, _ = cv2.findContours(threshRobotDroit, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.cntRobotDroit = contoursRobotDroit[0]
 
         patronRobotGauche = cv2.imread(ConfigPath.Config().appendToProjectPath('images/carre.png'), 0)
-        _, threshRobotGauche = cv2.threshold(patronRobotGauche, 127, 255, cv2.THRESH_BINARY_INV)
+        _, threshRobotGauche = cv2.threshold(patronRobotGauche, 127, 255, cv2.THRESH_BINARY)
         _, contoursRobotGauche, _ = cv2.findContours(threshRobotGauche, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.cntRobotGauche = contoursRobotGauche[0]
 

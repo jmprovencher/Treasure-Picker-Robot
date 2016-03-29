@@ -48,15 +48,21 @@ class Robot(Thread):
         while not (self.commandeTerminee):
             print("If this prints, this is useful")
             time.sleep(1)
+
         self.uartDriver.cameraPositionDepot()
-        print("######### Camera and Arm DOWN #########")
+        print("######### CAMERA DOWN #########")
         time.sleep(2)
+
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'bleu')
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
 
         self.executerAlignement()
-        print("Envoie les commandes d'ajustements (FROM ROBOT)")
+        time.sleep(0.5)
+        print("######### COMMENCE AUTO PILOT #########")
+        self.uartDriver.postAlignementIle()
+        print("======== ALIGNEMENT TERMINER ========")
+        self.alignementEnCours = False
 
     def demarrerAlignementTresor(self):
         self.alignementEnCours = True
@@ -68,12 +74,16 @@ class Robot(Thread):
         print("######### Camera and Arm DOWN #########")
         time.sleep(2)
 
-        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
+        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
-        print("Envoie les commandes d'ajustements (FROM ROBOT)")
 
         self.executerAlignement()
+        time.sleep(0.5)
+        print("######### COMMENCE AUTO PILOT #########")
+        self.uartDriver.postAlignementTresor()
+        print("======== ALIGNEMENT TERMINER ========")
+        self.alignementEnCours = False
 
     def executerAlignement(self):
         for inst in self.instructions:
@@ -85,7 +95,6 @@ class Robot(Thread):
                 time.sleep(0.5)
             print("Commande effectuee")
             self.commandeTerminee = True
-        self.alignementEnCours = False
 
     def ajouterDirectives(self, instructions):
         self.instructions.append(instructions)

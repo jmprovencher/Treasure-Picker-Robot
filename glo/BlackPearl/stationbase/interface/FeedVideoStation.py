@@ -17,8 +17,8 @@ class FeedVideoStation(Thread):
     def run(self):
         while 1:
             success, self.captureTable = self.video.read()
-            cv2.imshow('feed', self.captureTable)
-            cv2.waitKey(1)
+            #cv2.imshow('feed', self.captureTable)
+            #cv2.waitKey(1)
 
     def initVideo(self):
         for camera_index in range(1, 10):

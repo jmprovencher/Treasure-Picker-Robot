@@ -89,7 +89,8 @@ class Robot(Thread):
     def executerAlignement(self):
         for inst in self.instructions:
             self.commandeTerminee = False
-            self.uartDriver.sendCommand(inst)
+            commande, parametre = inst
+            self.uartDriver.sendCommand(commande, parametre)
             print("Commande envoyee: %s" % inst)
             time.sleep(5)
             while not (self.commandeTerminee):

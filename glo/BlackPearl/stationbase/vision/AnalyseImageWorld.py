@@ -46,7 +46,8 @@ class AnalyseImageWorld(Thread):
         self.image = self.image[155:1010, 0:1600]
 
     def estomperImage(self):
-        self.image = cv2.GaussianBlur(self.image, (5, 5), 0)
+        self.image = cv2.GaussianBlur(self.image, (9, 9), 0)
+        self.image = cv2.fastNlMeansDenoisingColored(self.image, None, 10, 10, 7, 21)
 
     def trouverCentreForme(self, contoursForme):
         MatriceCentreMasse = cv2.moments(contoursForme)

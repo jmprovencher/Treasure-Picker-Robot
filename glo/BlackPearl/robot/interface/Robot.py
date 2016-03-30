@@ -22,12 +22,12 @@ class Robot(Thread):
         self.commandeTerminee = False
         self.tensionCondensateur = 0
         self.demarrerConnectionTCP()
-        self.demarrerLectureUART()
+        #self.demarrerLectureUART()
 
     def run(self):
         print("Robot initialized")
-        self.uartDriver.monterPrehenseur()
-        self.uartDriver.cameraPositionFace()
+        #self.uartDriver.monterPrehenseur()
+        #self.uartDriver.cameraPositionFace()
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoRobot()

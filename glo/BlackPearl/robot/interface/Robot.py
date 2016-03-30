@@ -44,14 +44,6 @@ class Robot(Thread):
     def demarrerAlignementIle(self):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
-        self.uartDriver.descendrePrehenseur()
-        self.uartDriver.sendCommand('forward', 3)
-        print("Decendre prehenseur")
-        self.uartDriver.sendCommand('drop', 0)
-
-        while not (self.commandeTerminee):
-            print("If this prints, this is useful")
-            time.sleep(1)
 
         self.uartDriver.cameraPositionDepot()
         print("######### CAMERA DOWN #########")
@@ -61,9 +53,9 @@ class Robot(Thread):
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
 
+        print("######### COMMENCE AUTO PILOT #########")
         self.executerAlignement()
         time.sleep(0.5)
-        print("######### COMMENCE AUTO PILOT #########")
         self.uartDriver.postAlignementIle()
         print("======== ALIGNEMENT TERMINER ========")
         self.alignementEnCours = False
@@ -72,17 +64,19 @@ class Robot(Thread):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
         self.uartDriver.descendrePrehenseur()
+        print("######### PREHENSEUR DOWN #########")
         while not (self.commandeTerminee):
             print("If this prints, this is useful")
             time.sleep(1)
         self.uartDriver.cameraPositionDepot()
-        print("######### Camera and Arm DOWN #########")
+        print("######### CAMERA DOWN #########")
         time.sleep(2)
 
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
-
+        self.uartDriver.activerAimant()
+        time.sleep(0.5)
         self.executerAlignement()
         time.sleep(0.5)
         print("######### COMMENCE AUTO PILOT #########")
@@ -95,6 +89,7 @@ class Robot(Thread):
             self.commandeTerminee = False
             self.uartDriver.sendCommand(inst)
             print("Commande envoyee: %s" % inst)
+            time.sleep(5)
             while not (self.commandeTerminee):
                 print("Commande en cours execution")
                 time.sleep(0.5)

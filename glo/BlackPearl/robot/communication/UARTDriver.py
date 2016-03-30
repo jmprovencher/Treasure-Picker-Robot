@@ -22,7 +22,6 @@ class UARTDriver:
 
     def descendrePrehenseur(self):
         self.UART.write(b'P'.encode())
-        print("ALLO")
 
     def monterPrehenseur(self):
         self.UART.write(b'Q'.encode())

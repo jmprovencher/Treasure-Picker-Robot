@@ -16,5 +16,14 @@ class LectureUART(Thread):
             print info
             if (info == 'done'):
                 self.robot.commandeTerminee = True
+            elif ()
             else:
                 self.robot.tensionCondensateur = info
+
+    def analyserLecture(self, info):
+        lettre_manchester = info[0]
+        if (info.count(lettre_manchester) == 4):
+            self.robot.lettreObtenue = lettre_manchester
+            print("Lettre obtenue : %s" %lettre_manchester)
+        elif (info == 'done'):
+            self.robot.commandeTerminee = True

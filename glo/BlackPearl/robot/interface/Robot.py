@@ -21,6 +21,7 @@ class Robot(Thread):
         self.tacheTerminee = False
         self.commandeTerminee = False
         self.tensionCondensateur = 0
+        self.lettreObtenue = None
         #self.demarrerLectureUART()
         #self.demarrerConnectionTCP()
         self.demarrerAlignementTresor()

@@ -33,7 +33,7 @@ class FeedVideoRobot(Thread):
             #cv2.imshow("LIVE FEED", self.imageCapture)
 
     def getImageCapture(self):
-        ("Streamed image was accessed...")
+        print("Streamed image was accessed...")
         return self.imageCapture
 
     def libererCamera(self):

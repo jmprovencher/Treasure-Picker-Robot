@@ -23,7 +23,7 @@ class Robot(Thread):
         self.tensionCondensateur = 0
         #self.demarrerLectureUART()
         #self.demarrerConnectionTCP()
-        #self.demarrerAlignementTresor()
+        self.demarrerAlignementTresor()
 
     def run(self):
         print("Robot initialized")
@@ -64,7 +64,7 @@ class Robot(Thread):
         self.alignementEnCours = False
 
     def demarrerAlignementTresor(self):
-        #self.demarrerFeedVideo()
+        self.demarrerFeedVideo()
         self.alignementEnCours = True
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
         self.analyseImageEmbarquee.start()

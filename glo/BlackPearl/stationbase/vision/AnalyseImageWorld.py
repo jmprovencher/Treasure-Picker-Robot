@@ -154,7 +154,7 @@ class AnalyseImageWorld(Thread):
         return (centreRobot, angle)
 
     def trouverRobot(self):
-        print("\ndetection du robot")
+        #print("\ndetection du robot")
         self.detectionRobot = DetectionRobot(self.image)
         self.detectionRobot.detecter()
         if (not self.detectionRobot.robotIdentifiee is None):

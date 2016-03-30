@@ -31,7 +31,7 @@ class AlgorithmeTrajectoire():
                 self.simplifierTrajet()
                 #self.sectionnerTrajet()
                 return self.trajet
-            elif (self.cellulePlusPres is None) and (cellule.atteignable) and ((self.distanceADestinationAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y) >= (self.grilleCellule.rayonBuffer**2))):
+            elif (self.cellulePlusPres is None) and (cellule.atteignable) and ((self.distanceADestinationAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y) >= (self.grilleCellule.distanceMur))):
                 self.cellulePlusPres = cellule
             elif ((cellule.atteignable) and (not cellule.parent is None)) and ((self.distanceADestinationAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y) <= (self.distanceADestinationAuCarre(self.cellulePlusPres.x, self.cellulePlusPres.y, self.arriver.x, self.arriver.y)))):
                 self.cellulePlusPres = cellule

@@ -15,7 +15,7 @@ class FeedVideoRobot(Thread):
         self.connecter = False
 
     def initialiserVideo(self):
-        for camera_index in range(0, 4):
+        for camera_index in range(1, 4):
             try:
                 self.video = cv2.VideoCapture(camera_index)
                 _, self.imageCapture = self.video.read()
@@ -25,7 +25,7 @@ class FeedVideoRobot(Thread):
                 print('Mauvais index de camera...')
 
     def run(self):
-        while self.connecter:
+        while 1:
             print ("Streaming only...")
             _, self.imageCapture = self.video.read()
             time.sleep(0.5)

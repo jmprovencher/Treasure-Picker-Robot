@@ -45,6 +45,8 @@ class Robot(Thread):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
         self.uartDriver.descendrePrehenseur()
+        print("Decendre prehenseur")
+        self.uartDriver.sendCommand('drop', 0)
         while not (self.commandeTerminee):
             print("If this prints, this is useful")
             time.sleep(1)
@@ -65,6 +67,7 @@ class Robot(Thread):
         self.alignementEnCours = False
 
     def demarrerAlignementTresor(self):
+        self.demarrerFeedVideo()
         self.alignementEnCours = True
         self.uartDriver.descendrePrehenseur()
         while not (self.commandeTerminee):

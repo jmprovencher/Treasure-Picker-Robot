@@ -17,6 +17,9 @@ class UARTDriver:
     def cameraPositionDepot(self):
         self.UART.write(b'd'.encode())
 
+    def cameraPositionFace(self):
+        self.UART.write(b'c'.encode())
+
     def cameraPositionTresor(self):
         self.UART.write(b'd'.encode())
 
@@ -55,8 +58,8 @@ class UARTDriver:
         time.sleep(0.5)
         #Recule
         print("### BEEEEEEP BEEEEEEEEEEP ###")
-        self.UART.write(b'2'.encode())
-        self.UART.write(str('2').encode())
+        self.sendCommand('backward', 10)
+
 
     def to_bytes(n, length, endianess='big'):
         h = '%x' % n

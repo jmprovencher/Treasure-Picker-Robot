@@ -26,6 +26,8 @@ class Robot(Thread):
 
     def run(self):
         print("Robot initialized")
+        self.uartDriver.monterPrehenseur()
+        self.uartDriver.cameraPositionFace()
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoRobot()

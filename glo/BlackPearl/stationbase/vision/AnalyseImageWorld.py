@@ -53,7 +53,7 @@ class AnalyseImageWorld(Thread):
 
     def estomperImage(self):
         self.image = cv2.GaussianBlur(self.image, (9, 9), 0)
-        self.image = cv2.fastNlMeansDenoisingColored(self.image, None, 10, 10, 7, 21)
+        #self.image = cv2.fastNlMeansDenoisingColored(self.image, None, 10, 10, 7, 21)
 
     def trouverCentreForme(self, contoursForme):
         MatriceCentreMasse = cv2.moments(contoursForme)
@@ -113,7 +113,7 @@ class AnalyseImageWorld(Thread):
                 contoursForme, _, _ = tresor
                 centreForme = self.trouverCentreForme(contoursForme)
                 x, y = centreForme
-                print(str(x) + 'x' + str(y))
+                #print(str(x) + 'x' + str(y))
                 #table2 = celle noir, x < 1347
                 #table1 = x < 1321
                 #table1ou2 = + - 45 pour y (max y = 45)
@@ -175,14 +175,14 @@ class AnalyseImageWorld(Thread):
                 self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
                 #print orientation
                 self.cntRobotPerdu = 0
-            elif self.cntRobotPerdu > 25:
+            elif self.cntRobotPerdu > 10:
                 self.cntRobotPerdu = 0
                 self.stationBase.carte.infoRobot = None
             else:
                 self.cntRobotPerdu = self.cntRobotPerdu + 1
         else:
             self.cntRobotPerdu = self.cntRobotPerdu + 1
-            if self.cntRobotPerdu > 25:
+            if self.cntRobotPerdu > 10:
                 self.stationBase.carte.infoRobot = None
 
     def trouverRobotInitiale(self):

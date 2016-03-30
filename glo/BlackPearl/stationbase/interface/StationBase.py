@@ -239,7 +239,7 @@ class StationBase(Thread):
         print '\nOrienter'
         while 1:
             angle = self.trouverDeplacementOrientation()
-            if angle <= 5 and angle >= -5:
+            if angle <= 3 and angle >= -3:
                 print '\nOrientation termine.'
                 break
             if angle >= 0:

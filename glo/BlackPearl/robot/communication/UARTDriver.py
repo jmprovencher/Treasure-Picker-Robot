@@ -114,6 +114,9 @@ class UARTDriver:
         elif command == 'cameraTreasure':
             self.UART.write(b'd'.encode())
 
+        elif command == 'readManchester':
+            self.UART.write(b'i'.encode())
+
         #To implement when arduino will return command completion confirmation
         #commandComplete = self.UART.read(2)
         #return commandComplete

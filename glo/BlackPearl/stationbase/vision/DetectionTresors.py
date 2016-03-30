@@ -22,7 +22,7 @@ class DetectionTresors(object):
         #intervalleClair = np.array([0 , 53 ,50])
 
         shapeTresorMasque = cv2.inRange(self.imageCamera, intervalleClair, intervalleFoncer)
-        cv2.imshow('tresore',shapeTresorMasque)
+        #cv2.imshow('tresore',shapeTresorMasque)
         #cv2.waitKey(0)
         _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 

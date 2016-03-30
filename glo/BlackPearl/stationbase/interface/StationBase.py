@@ -34,12 +34,12 @@ class StationBase(Thread):
         self.demarrerImageVirtuelle()
 
     def run(self):
-        #print '\nAttendre que le robot soit pret...'
-        #while 1:
-        #    if self.robotEstPret == True:
-        #        print 'Robot est pret'
-        #        break
-        #    time.sleep(0.01)
+        print '\nAttendre que le robot soit pret...'
+        while 1:
+            if self.robotEstPret == True:
+                print 'Robot est pret'
+                break
+            time.sleep(0.01)
         self.choisirEtape(self.etape)
         time.sleep(0.01)
 
@@ -239,7 +239,7 @@ class StationBase(Thread):
         print '\nOrienter'
         while 1:
             angle = self.trouverDeplacementOrientation()
-            if angle <= 5 and angle >= -5:
+            if angle <= 3 and angle >= -3:
                 print '\nOrientation termine.'
                 break
             if angle >= 0:

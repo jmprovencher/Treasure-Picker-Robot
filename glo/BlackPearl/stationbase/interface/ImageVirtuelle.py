@@ -23,7 +23,7 @@ class ImageVirtuelle(Thread):
             time.sleep(0.01)
 
     def chargerImageVirtuelle(self):
-        self.imageVirtuelle = self.stationBase.threadAnalyseImageWorld.imageCropper
+        self.imageVirtuelle = self.stationBase.threadAnalyseImageWorld.imageCropper.copy()
         self.dessinerElementCarto()
 
     def dessinerElementCarto(self):

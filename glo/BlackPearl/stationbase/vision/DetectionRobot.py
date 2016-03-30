@@ -45,7 +45,7 @@ class DetectionRobot(object):
         self.formeGauche = None
         intervalleFonce, intervalleClair = self.intervalleRobot
         masqueRobot = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        #cv2.imshow('test', masqueRobot)
+        cv2.imshow('test', masqueRobot)
         #cv2.waitKey(0)
         _, contoursRobot, hierarchy = cv2.findContours(masqueRobot.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
         indiceContoursNegligeable = []
@@ -75,7 +75,7 @@ class DetectionRobot(object):
 
     def _definirIntervalleRobot(self):
         #self.intervalleRobot = np.array([100, 45, 5]), np.array([170, 110, 75])
-        self.intervalleRobot = np.array([40, 0, 0]), np.array([190, 110, 100])
+        self.intervalleRobot = np.array([30, 5, 140]), np.array([145, 140, 245])
 
     def _definirPatronsFormes(self):
         patronRobotDroit = cv2.imread(ConfigPath.Config().appendToProjectPath('images/cercle.png'), 0)

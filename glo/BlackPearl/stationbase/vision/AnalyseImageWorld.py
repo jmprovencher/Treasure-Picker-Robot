@@ -42,6 +42,11 @@ class AnalyseImageWorld(Thread):
         self.imageCropper = self.image
         self.estomperImage()
 
+    def chargerImagePrimaire(self):
+        self.image = self.stationBase.threadVideo.captureTable
+        self.recadrerImage()
+        self.imageCropper = self.image
+
     def recadrerImage(self):
         self.image = self.image[155:1010, 0:1600]
 
@@ -69,7 +74,7 @@ class AnalyseImageWorld(Thread):
             self.elementsCartographiques.append(ile)
 
     def detectionPrimaire(self):
-        self.chargerImage()
+        self.chargerImagePrimaire()
         self.trouverElementsCartographiques()
 
     def trouverElementsCartographiques(self):

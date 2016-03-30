@@ -99,9 +99,10 @@ class AnalyseImageWorld(Thread):
                 centreForme = self.trouverCentreForme(contoursForme)
                 x, y = centreForme
                 #table2 = celle noir, x < 1347
+                #table1 = x < 1314
                 #table1ou2 = + - 45 pour y (max y = 45)
                 #en ce moment c'est sette pour la table 5
-                if ((y < 100) or (y > 755)) and (x < 1314):
+                if ((y < 30) or (y > 810)) and (x < 1347):
                     self.stationBase.carte.listeTresors.append(Tresor(centreForme))
         #self.trouverRobot()
 

@@ -74,7 +74,8 @@ class DetectionRobot(object):
             self.robotIdentifiee = (self.formeDroit[0], self.formeGauche[0])
 
     def _definirIntervalleRobot(self):
-        self.intervalleRobot = np.array([100, 45, 5]), np.array([170, 110, 75])
+        #self.intervalleRobot = np.array([100, 45, 5]), np.array([170, 110, 75])
+        self.intervalleRobot = np.array([40, 0, 0]), np.array([190, 110, 100])
 
     def _definirPatronsFormes(self):
         patronRobotDroit = cv2.imread(ConfigPath.Config().appendToProjectPath('images/cercle.png'), 0)

@@ -54,12 +54,10 @@ class DetectionRobot(object):
             aireTrou = 0
             enfant = hierarchy[0][i][2]
             if not enfant < 0:
-                tmp = cv2.contourArea(contoursRobot[hierarchy[0][i][2]])
-                if tmp > aireTrou:
-                    aireTrou = tmp
-            if ((aire < 2000) or (aire > 10000)):
+                aireTrou = cv2.contourArea(contoursRobot[hierarchy[0][i][2]])
+            if ((aire < 1500) or (aire > 10000)):
                 indiceContoursNegligeable.append(i)
-            elif ((aireTrou < 100) or (aireTrou > 6000)):
+            elif ((aireTrou < 10) or (aireTrou > 5000)):
                 indiceContoursNegligeable.append(i)
 
         if (len(indiceContoursNegligeable) > 0):
@@ -76,7 +74,7 @@ class DetectionRobot(object):
             self.robotIdentifiee = (self.formeDroit[0], self.formeGauche[0])
 
     def _definirIntervalleRobot(self):
-        self.intervalleRobot = np.array([10, 0, 0]), np.array([255, 255, 102])
+        self.intervalleRobot = np.array([100, 45, 15]), np.array([170, 110, 75])
 
     def _definirPatronsFormes(self):
         patronRobotDroit = cv2.imread(ConfigPath.Config().appendToProjectPath('images/cercle.png'), 0)

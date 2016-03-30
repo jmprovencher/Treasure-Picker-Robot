@@ -20,15 +20,18 @@ class FeedVideoStation(Thread):
             time.sleep(0.01)
 
     def initVideo(self, portCamera):
-        self.video = cv2.VideoCapture(portCamera)
-        #self.video = cv2.VideoCapture('test.webm')
-        self.video.set(3,1600)
-        self.video.set(4,1200)
-        while (not self.video.isOpened()):
-            print('\na la recherche de la camera')
-            self.video = cv2.VideoCapture(portCamera)
-        success, self.captureTable = self.video.read()
-        self.feedEstDemare = True
+        for camera_index in range(1, 10):
+            try:
+                self.video = cv2.VideoCapture(camera_index)
+                #self.video = cv2.VideoCapture('test.webm')
+                self.video.set(3,1600)
+                self.video.set(4,1200)
+                success, self.captureTable = self.video.read()
+                self.feedEstDemare = True
+                break
+            except Exception as e:
+                print('Mauvais index de camera...')
+
 
 
 

@@ -25,7 +25,7 @@ class StationBase(Thread):
         self.envoyerCommande = False
         self.robotEstPret = False
         self.attenteDuRobot = False
-        #self.demarrerConnectionTCP()
+        self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.demarrerAnalyseImageWorld()
@@ -112,7 +112,7 @@ class StationBase(Thread):
         print '--------------------------------------------------'
 
     def alignerIle(self):
-        self.allignement("alignement", 2)
+        self.allignement("alignement_ile", 0)
         print '\n--------------------------------------------------'
         print 'Depot termine.'
         print '--------------------------------------------------'
@@ -136,7 +136,7 @@ class StationBase(Thread):
         print '--------------------------------------------------'
 
     def alignerTresor(self):
-        self.allignement("alignement", 1)
+        self.allignement("alignement_tresor", 0)
         print '\n--------------------------------------------------'
         print 'Capture termine.'
         print '--------------------------------------------------'
@@ -157,7 +157,7 @@ class StationBase(Thread):
         print '--------------------------------------------------'
 
     def alignerStation(self):
-        self.allignement("allignement", 0)
+        self.allignement("allignement_station", 0)
         print '\n--------------------------------------------------'
         print 'Recharge termine.'
         print '--------------------------------------------------'
@@ -175,7 +175,8 @@ class StationBase(Thread):
                     self.trajectoireReel = copy.deepcopy(self.trajectoirePrevue)
                     break
                 time.sleep(0.01)
-            except:
+            except Exception as e:
+                print e
                 time.sleep(0.01)
 
     def trouverDeplacementOrientation(self):

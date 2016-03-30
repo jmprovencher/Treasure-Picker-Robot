@@ -7,14 +7,13 @@ import ConfigPath
 class DetectionIles(object):
     def __init__(self, image):
         self.imageCamera = image
-        self.formesConnues = []
         self.ilesIdentifiees = []
         self.nombreIles = 0
         self._definirIntervallesCouleurs()
         self._definirPatronsFormes()
 
     def detecter(self):
-        #self._detecterFormeCouleur(self.intervalleRouge)
+        self._detecterFormeCouleur(self.intervalleRouge)
         self._detecterFormeCouleur(self.intervalleBleu)
         self._detecterFormeCouleur(self.intervalleJaune)
         self._detecterFormeCouleur(self.intervalleVert)
@@ -42,13 +41,19 @@ class DetectionIles(object):
 
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
+        #cv2.imshow(couleurForme, masqueCouleur)
         _, contoursCouleur, hierarchy = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
         for i in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[i])
-            if ((aire < 2000) or (aire > 6000)) and hierarchy[0][i][2]<0:
+            if (aire < 2000) or (aire > 6000):
                 contoursNegligeable.append(i)
+            else:
+                aireTrou = 0
+                enfant = hierarchy[0][i][2]
+                if cv2.contourArea(contoursCouleur[hierarchy[0][i][2]]) > 50:
+                    contoursNegligeable.append(i)
 
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
@@ -66,10 +71,17 @@ class DetectionIles(object):
         return nombreIles
 
     def _definirIntervallesCouleurs(self):
-        self.intervalleRouge = np.array([15, 0, 75]), np.array([140, 65, 200]),"Rouge"
+        #table 5-6 :
+        #self.intervalleRouge = np.array([15, 0, 75]), np.array([100, 65, 200]),"Rouge"
+        #self.intervalleBleu = np.array([102, 102, 0]), np.array([255, 255, 102]), "Bleu"
+        #self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
+        #self.intervalleVert = np.array([0, 102, 0]), np.array([102, 255, 102]), "Vert"
+
+        #table 2 le soir:
+        self.intervalleRouge = np.array([0, 0, 70]), np.array([70, 50, 200]),"Rouge"
         self.intervalleBleu = np.array([102, 102, 0]), np.array([255, 255, 102]), "Bleu"
-        self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
-        self.intervalleVert = np.array([0, 102, 0]), np.array([102, 255, 102]), "Vert"
+        self.intervalleJaune = np.array([0, 90, 91]), np.array([50, 194, 210]), "Jaune"
+        self.intervalleVert = np.array([0, 70, 0]), np.array([100, 200, 80]), "Vert"
 
     def _definirPatronsFormes(self):
         patronTriangle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/triangle.png'), 0)
@@ -93,8 +105,5 @@ class DetectionIles(object):
         _, contoursPentagone, _ = cv2.findContours(threshPentagone, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.cntPentagone = contoursPentagone[0]
 
-        self.formesConnues.append(self.cntTriangle)
-        self.formesConnues.append(self.cntCarre)
-        self.formesConnues.append(self.cntCercle)
-        self.formesConnues.append(self.cntPentagone)
+
 

@@ -12,6 +12,7 @@ from stationbase.vision.DetectionTresors import DetectionTresors
 from stationbase.vision.DetectionRobot import DetectionRobot
 import math
 import copy
+import numpy as np
 
 verrou = RLock()
 
@@ -42,11 +43,17 @@ class AnalyseImageWorld(Thread):
         self.imageCropper = self.image
         self.estomperImage()
 
+    def chargerImagePrimaire(self):
+        self.image = self.stationBase.threadVideo.captureTable
+        self.recadrerImage()
+        self.imageCropper = self.image
+
     def recadrerImage(self):
         self.image = self.image[155:1010, 0:1600]
 
     def estomperImage(self):
-        self.image = cv2.GaussianBlur(self.image, (5, 5), 0)
+        self.image = cv2.GaussianBlur(self.image, (9, 9), 0)
+        self.image = cv2.fastNlMeansDenoisingColored(self.image, None, 10, 10, 7, 21)
 
     def trouverCentreForme(self, contoursForme):
         MatriceCentreMasse = cv2.moments(contoursForme)
@@ -68,26 +75,35 @@ class AnalyseImageWorld(Thread):
             self.elementsCartographiques.append(ile)
 
     def detectionPrimaire(self):
-        self.chargerImage()
+        self.chargerImagePrimaire()
         self.trouverElementsCartographiques()
-
-    def trouverElementsCartographiques(self):
+        self.estomperImage()
         print("\nDetection du robot...")
-        self.trouverRobot()
-        print("\nDetection des iles...")
+        self.trouverRobotInitiale()
+        self.eliminerContoursProcheRobot()
+
+    def eliminerContoursProcheRobot(self):
         xDuRobotMax = self.stationBase.getPositionRobot()[0] + 50
         xDuRobotMin = self.stationBase.getPositionRobot()[0] - 50
         yDuRobotMax = self.stationBase.getPositionRobot()[1] + 50
         yDuRobotMin = self.stationBase.getPositionRobot()[1] - 50
+        eleASup = []
+        for i in range(len(self.stationBase.carte.listeIles)):
+            x, y = self.stationBase.carte.listeIles[i].getCentre()
+            if (xDuRobotMax > x) and (xDuRobotMin < x) and (yDuRobotMax > y) and (yDuRobotMin < y):
+                eleASup.append(i)
+        if (len(eleASup) > 0):
+            contoursCouleur = np.delete(self.stationBase.carte.listeIles, eleASup)
+
+
+    def trouverElementsCartographiques(self):
+        print("\nDetection des iles...")
         self.detectionIles = DetectionIles(self.image)
         self.detectionIles.detecter()
         for ile in self.detectionIles.ilesIdentifiees:
             contoursForme, nomForme, couleurForme = ile
             centreForme = self.trouverCentreForme(contoursForme)
-            x, y = centreForme
-            if not ((xDuRobotMax > x) and (xDuRobotMin < x) and (yDuRobotMax > y) and (yDuRobotMin < y)):
-                with verrou:
-                    self.stationBase.carte.listeIles.append(Ile(centreForme, couleurForme, nomForme))
+            self.stationBase.carte.listeIles.append(Ile(centreForme, couleurForme, nomForme))
 
         print("\nDetection des tresors...")
         self.detectionTresors = DetectionTresors(self.image)
@@ -97,10 +113,14 @@ class AnalyseImageWorld(Thread):
                 contoursForme, _, _ = tresor
                 centreForme = self.trouverCentreForme(contoursForme)
                 x, y = centreForme
+                print(str(x) + 'x' + str(y))
                 #table2 = celle noir, x < 1347
+                #table1 = x < 1321
                 #table1ou2 = + - 45 pour y (max y = 45)
-                #en ce moment c'est sette pour la table 5
-                if ((y < 100) or (y > 755)) and (x < 1314):
+                #table 5:
+                #if ((y < 30) or (y > 810)) and (x < 1321):
+                #table 1:
+                if ((y < 45) or (y > 750)) and (x < 1321):
                     self.stationBase.carte.listeTresors.append(Tresor(centreForme))
         #self.trouverRobot()
 
@@ -136,6 +156,29 @@ class AnalyseImageWorld(Thread):
         return (centreRobot, angle)
 
     def trouverRobot(self):
+        #print("\ndetection du robot")
+        self.detectionRobot = DetectionRobot(self.image)
+        self.detectionRobot.detecter()
+        if (not self.detectionRobot.robotIdentifiee is None):
+            centreForme, orientation = self.trouverInfoRobot(copy.deepcopy(self.detectionRobot.robotIdentifiee))
+            if self.stationBase.carte.infoRobot is None:
+                self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
+                #print orientation
+            elif self.deplacementPlausible(centreForme):
+                self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
+                #print orientation
+                self.cntRobotPerdu = 0
+            elif self.cntRobotPerdu > 25:
+                self.cntRobotPerdu = 0
+                self.stationBase.carte.infoRobot = None
+            else:
+                self.cntRobotPerdu = self.cntRobotPerdu + 1
+        else:
+            self.cntRobotPerdu = self.cntRobotPerdu + 1
+            if self.cntRobotPerdu > 25:
+                self.stationBase.carte.infoRobot = None
+
+    def trouverRobotInitiale(self):
         #print("\ndetection du robot")
         self.detectionRobot = DetectionRobot(self.image)
         self.detectionRobot.detecter()

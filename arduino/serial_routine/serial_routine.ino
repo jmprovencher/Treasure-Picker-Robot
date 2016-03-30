@@ -18,6 +18,7 @@ const int pinsRead[4] = {19, 21, 17, 20};
 const int pinElectroAimant = 5;
 const int pinPontDiodes = 22;
 const int pinActiveAimant = 24;
+int positionCamera = 6400;
 int spdWheels[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 
@@ -73,7 +74,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
   attachInterrupt(digitalPinToInterrupt(21), decrementDuration, FALLING);
   
-  maestro.setSpeed(3, 12);
+  maestro.setSpeed(3, 20);
   maestro.setAcceleration(3, 120);
 }
 
@@ -239,7 +240,13 @@ void serialEvent(){
       }
       else if(incomingByte == 81){
         action = "Prehenseur up ";
-        maestro.setTarget(3, 2127);
+        maestro.setTarget(3, 2100);
+        writeString(commandComplete);
+      }
+      else if(incomingByte == 120){
+        action = "Camera Depot ";
+        maestro.setTarget(1,6000);
+        maestro.setTarget(2, 4044);
         writeString(commandComplete);
       }
       else if(incomingByte == 97){
@@ -257,13 +264,21 @@ void serialEvent(){
       else if(incomingByte == 99){
         action = "Camera Front ";
         maestro.setTarget(1, 6000);
-        maestro.setTarget(2,6200);
+        maestro.setTarget(2,6400);
+        positionCamera = 6400;
         writeString(commandComplete);
       }
       else if(incomingByte == 100){
         action = "Camera Treasure ";
-        maestro.setTarget(1,6000);
-        maestro.setTarget(2, 4044);
+        maestro.setTarget(1, 6000);
+        maestro.setTarget(2,5000);
+        positionCamera = 5000;
+        writeString(commandComplete);
+      }
+      else if(incomingByte == 121){
+        action = "Touch and go ";
+        positionCamera = positionCamera - 100;
+        maestro.setTarget(2,positionCamera);
         writeString(commandComplete);
       }
       else{

@@ -33,13 +33,14 @@ class StationBase(Thread):
         self.demarrerImageVirtuelle()
 
     def run(self):
-        print '\nAttendre que le robot soit pret...'
-        while 1:
-            if self.robotEstPret == True:
-                print 'Robot est pret'
-                break
-            time.sleep(0.1)
+        #print '\nAttendre que le robot soit pret...'
+        #while 1:
+        #    if self.robotEstPret == True:
+        #        print 'Robot est pret'
+        #        break
+        #    time.sleep(0.01)
         self.choisirEtape(self.etape)
+        time.sleep(0.01)
 
     def choisirEtape(self, etape):
         if (etape == 'routine complete'):
@@ -112,7 +113,7 @@ class StationBase(Thread):
         print '--------------------------------------------------'
 
     def alignerIle(self):
-        self.allignement("alignement", 2)
+        self.allignement("alignement_ile", 0)
         print '\n--------------------------------------------------'
         print 'Depot termine.'
         print '--------------------------------------------------'
@@ -136,7 +137,7 @@ class StationBase(Thread):
         print '--------------------------------------------------'
 
     def alignerTresor(self):
-        self.allignement("alignement", 1)
+        self.allignement("alignement_tresor", 0)
         print '\n--------------------------------------------------'
         print 'Capture termine.'
         print '--------------------------------------------------'
@@ -157,7 +158,7 @@ class StationBase(Thread):
         print '--------------------------------------------------'
 
     def alignerStation(self):
-        self.allignement("allignement", 0)
+        self.allignement("allignement_station", 0)
         print '\n--------------------------------------------------'
         print 'Recharge termine.'
         print '--------------------------------------------------'
@@ -175,7 +176,8 @@ class StationBase(Thread):
                     self.trajectoireReel = copy.deepcopy(self.trajectoirePrevue)
                     break
                 time.sleep(0.01)
-            except:
+            except Exception as e:
+                print e
                 time.sleep(0.01)
 
     def trouverDeplacementOrientation(self):
@@ -264,7 +266,7 @@ class StationBase(Thread):
     def attendreRobot(self):
         self.attenteDuRobot = True
         while self.attenteDuRobot:
-            time.sleep(0.1)
+            time.sleep(0.01)
         print 'Robot a fini.'
 
     def distanceADestinationAuCarre(self, x, y, destX, destY):
@@ -294,7 +296,7 @@ class StationBase(Thread):
         self.attendreRobot()
         debut = self.getPositionRobot()
         dep = self.distanceADestinationAuCarre(debut[0], debut[1], arriver[0], arriver[1])
-        if dep <= 25:
+        if dep <= 64:
             print '\nArriver.'
             self.trajectoireReel.pop(-1)
 

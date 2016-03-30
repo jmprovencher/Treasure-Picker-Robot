@@ -18,7 +18,7 @@ class Trajectoire():
 
     def trouverLongueurTrajetPixCarre(self, trajet):
         distance = 0
-        for i in range(1,len(trajet)):
+        for i in range(1, len(trajet)):
             distance = distance + self.distanceADestinationAuCarre(trajet[i-1][0], trajet[i-1][1], trajet[i][0], trajet[i][1])
         return distance
 

@@ -47,6 +47,7 @@ class DetectionIle(object):
             self.ajustements = []
         else:
             self.ajustements = self.alignementIle.calculerAjustement(distance_x, distance_y)
+            print("Ajustements calculees")
 
         self._afficherFeed()
 

@@ -29,7 +29,7 @@ class AlgorithmeTrajectoire():
             cellule.calculerDistance(self.arriver)
             if self.estArriver(cellule):
                 self.simplifierTrajet()
-                #self.sectionnerTrajet()
+                self.sectionnerTrajet()
                 return self.trajet
             elif (self.cellulePlusPres is None) and (cellule.atteignable) and ((self.distanceADestinationAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y) >= (self.grilleCellule.distanceMur))):
                 self.cellulePlusPres = cellule
@@ -48,8 +48,25 @@ class AlgorithmeTrajectoire():
 
         self.arriver = self.cellulePlusPres
         self.simplifierTrajet()
-        #self.sectionnerTrajet()
+        self.sectionnerTrajet()
         return self.trajet
+
+    def sectionnerTrajet(self):
+        i = 0
+        while i < len(self.trajet)-1:
+            debut = self.trajet[i]
+            fin = self.trajet[i+1]
+            if (self.distanceADestinationAuCarre(debut[0], debut[1], fin[0], fin[1]) > 900):
+                point = self.getPointMilieu(debut, fin)
+                self.trajet = self.trajet[:i+1] + [point] + self.trajet[i+1:]
+            else:
+                i = i + 1
+
+    def getPointMilieu(self, debut, fin):
+        x = int(round(fin[0] + debut[0])/2)
+        y = int(round(fin[1] + debut[1])/2)
+        return (x, y)
+
 
     def distanceADestinationAuCarre(self, x, y, destX, destY):
         distanceX = destX - x

@@ -296,7 +296,7 @@ class StationBase(Thread):
         self.attendreRobot()
         debut = self.getPositionRobot()
         dep = self.distanceADestinationAuCarre(debut[0], debut[1], arriver[0], arriver[1])
-        if dep <= 25:
+        if dep <= 64:
             print '\nArriver.'
             self.trajectoireReel.pop(-1)
 

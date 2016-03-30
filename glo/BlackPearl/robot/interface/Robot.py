@@ -21,8 +21,9 @@ class Robot(Thread):
         self.tacheTerminee = False
         self.commandeTerminee = False
         self.tensionCondensateur = 0
-        self.demarrerConnectionTCP()
-        self.demarrerLectureUART()
+        #self.demarrerConnectionTCP()
+        #self.demarrerLectureUART()
+        self.demarrerAlignementTresor()
 
     def run(self):
         print("Robot initialized")
@@ -65,19 +66,18 @@ class Robot(Thread):
     def demarrerAlignementTresor(self):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
-        self.uartDriver.descendrePrehenseur()
+        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
+        self.analyseImageEmbarquee.start()
+        self.analyseImageEmbarquee.join()
+        #self.uartDriver.descendrePrehenseur()
         print("######### PREHENSEUR DOWN #########")
         while not (self.commandeTerminee):
             print("If this prints, this is useful")
             time.sleep(1)
-        self.uartDriver.cameraPositionDepot()
+        #self.uartDriver.cameraPositionDepot()
         print("######### CAMERA DOWN #########")
         time.sleep(2)
-
-        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
-        self.analyseImageEmbarquee.start()
-        self.analyseImageEmbarquee.join()
-        self.uartDriver.activerAimant()
+        #self.uartDriver.activerAimant()
         time.sleep(0.5)
         self.executerAlignement()
         time.sleep(0.5)

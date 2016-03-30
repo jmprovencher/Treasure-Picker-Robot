@@ -15,13 +15,16 @@ class UARTDriver:
         return UART
 
     def cameraPositionDepot(self):
-        self.UART.write(b'd'.encode())
+        self.UART.write(b'x'.encode())
 
     def cameraPositionFace(self):
         self.UART.write(b'c'.encode())
 
     def cameraPositionTresor(self):
         self.UART.write(b'd'.encode())
+
+    def cameraDescendre(self):
+        self.UART.write(b'y'.encode())
 
     def descendrePrehenseur(self):
         self.UART.write(b'P'.encode())

@@ -18,4 +18,6 @@
 "commande": "robotPret",
 "commande": "rotateClock",
 "commande": "rotateAntiClock"
+"commande": "man: ?"
+"commande": "cible: ??????"
 }

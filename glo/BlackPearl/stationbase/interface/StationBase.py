@@ -21,6 +21,7 @@ class StationBase(Thread):
         self.trajectoirePrevue = None
         self.angleDesire = None
         self.tensionCondensateur = 0
+        self.manchester = "?"
         self.arriver = False
         self.envoyerCommande = False
         self.robotEstPret = False

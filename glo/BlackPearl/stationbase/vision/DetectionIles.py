@@ -7,7 +7,6 @@ import ConfigPath
 class DetectionIles(object):
     def __init__(self, image):
         self.imageCamera = image
-        self.formesConnues = []
         self.ilesIdentifiees = []
         self.nombreIles = 0
         self._definirIntervallesCouleurs()
@@ -48,7 +47,7 @@ class DetectionIles(object):
 
         for i in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[i])
-            if ((aire < 2000) or (aire > 6000)) and hierarchy[0][i][2]<0:
+            if (aire < 2000) or (aire > 6000):
                 contoursNegligeable.append(i)
             else:
                 aireTrou = 0
@@ -90,28 +89,14 @@ class DetectionIles(object):
         precision, threshPentagone = cv2.threshold(patronPentagone, 127, 255, 0)
 
         _, contoursTriangle, _ = cv2.findContours(threshTriangle, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        if len(contoursTriangle) > 1:
-            self.cntTriangle = contoursTriangle[0]
-        else:
-            self.cntTriangle = contoursTriangle
+        self.cntTriangle = contoursTriangle[0]
         _, contoursCercle, _ = cv2.findContours(threshCercle, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        if len(contoursCercle) > 1:
-            self.cntCercle = contoursCercle[0]
-        else:
-            self.cntCercle = contoursCercle
+        self.cntCercle = contoursCercle[0]
         _, contoursCarre, _ = cv2.findContours(threshCarre, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        if len(contoursCarre) > 1:
-            self.cntCarre = contoursCarre[0]
-        else:
-            self.cntCarre = contoursCarre
+        self.cntCarre = contoursCarre[0]
         _, contoursPentagone, _ = cv2.findContours(threshPentagone, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        if len(contoursPentagone) > 1:
-            self.cntPentagone = contoursPentagone[0]
-        else:
-            self.cntPentagone = contoursPentagone
+        self.cntPentagone = contoursPentagone[0]
 
-        self.formesConnues.append(self.cntTriangle)
-        self.formesConnues.append(self.cntCarre)
-        self.formesConnues.append(self.cntCercle)
-        self.formesConnues.append(self.cntPentagone)
+
+
 

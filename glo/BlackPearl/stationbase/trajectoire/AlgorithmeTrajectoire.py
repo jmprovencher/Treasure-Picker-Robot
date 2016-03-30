@@ -29,6 +29,7 @@ class AlgorithmeTrajectoire():
             cellule.calculerDistance(self.arriver)
             if self.estArriver(cellule):
                 self.simplifierTrajet()
+                self.sectionnerTrajet()
                 return self.trajet
             elif (self.cellulePlusPres is None) and (cellule.atteignable) and ((self.distanceADestinationAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y) >= (self.grilleCellule.rayonBuffer**2))):
                 self.cellulePlusPres = cellule
@@ -47,6 +48,7 @@ class AlgorithmeTrajectoire():
 
         self.arriver = self.cellulePlusPres
         self.simplifierTrajet()
+        self.sectionnerTrajet()
         return self.trajet
 
     def distanceADestinationAuCarre(self, x, y, destX, destY):

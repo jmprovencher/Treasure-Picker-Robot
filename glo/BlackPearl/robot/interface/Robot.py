@@ -47,6 +47,7 @@ class Robot(Thread):
         self.uartDriver.descendrePrehenseur()
         print("Decendre prehenseur")
         self.uartDriver.sendCommand('drop', 0)
+        
         while not (self.commandeTerminee):
             print("If this prints, this is useful")
             time.sleep(1)

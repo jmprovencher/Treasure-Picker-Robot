@@ -88,10 +88,8 @@ class AnalyseImageWorld(Thread):
         yDuRobotMax = self.stationBase.getPositionRobot()[1] + 50
         yDuRobotMin = self.stationBase.getPositionRobot()[1] - 50
         eleASup = []
-        for i in len(self.stationBase.carte.listeIles):
-            contoursForme, nomForme, couleurForme = self.stationBase.carte.listeIles[i]
-            centreForme = self.trouverCentreForme(contoursForme)
-            x, y = centreForme
+        for i in range(len(self.stationBase.carte.listeIles)):
+            x, y = self.stationBase.carte.listeIles[i].getCentre()
             if (xDuRobotMax > x) and (xDuRobotMin < x) and (yDuRobotMax > y) and (yDuRobotMin < y):
                 eleASup.append(i)
         if (len(eleASup) > 0):
@@ -100,19 +98,12 @@ class AnalyseImageWorld(Thread):
 
     def trouverElementsCartographiques(self):
         print("\nDetection des iles...")
-        xDuRobotMax = self.stationBase.getPositionRobot()[0] + 50
-        xDuRobotMin = self.stationBase.getPositionRobot()[0] - 50
-        yDuRobotMax = self.stationBase.getPositionRobot()[1] + 50
-        yDuRobotMin = self.stationBase.getPositionRobot()[1] - 50
         self.detectionIles = DetectionIles(self.image)
         self.detectionIles.detecter()
         for ile in self.detectionIles.ilesIdentifiees:
             contoursForme, nomForme, couleurForme = ile
             centreForme = self.trouverCentreForme(contoursForme)
-            x, y = centreForme
-            if not ((xDuRobotMax > x) and (xDuRobotMin < x) and (yDuRobotMax > y) and (yDuRobotMin < y)):
-                with verrou:
-                    self.stationBase.carte.listeIles.append(Ile(centreForme, couleurForme, nomForme))
+            self.stationBase.carte.listeIles.append(Ile(centreForme, couleurForme, nomForme))
 
         print("\nDetection des tresors...")
         self.detectionTresors = DetectionTresors(self.image)

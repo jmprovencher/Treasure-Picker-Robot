@@ -52,7 +52,7 @@ class UARTDriver:
         time.sleep(1)
         print("### PREHENSEUR DOWN ###")
         self.descendrePrehenseur()
-        time.sleep(1)
+        time.sleep(5)
         print("### MAGNET OFF ###")
         self.desactiverAimant()
         time.sleep(0.5)

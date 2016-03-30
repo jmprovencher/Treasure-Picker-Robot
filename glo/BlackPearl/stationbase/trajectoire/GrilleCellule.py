@@ -7,7 +7,7 @@ class GrilleCellule():
         self.listeCellules = []
         self.resolution = (1600, 1200)
         self.dimensionCrop = (1600, 855)
-        self.dimensionReel = (2.2, 1.2)
+        self.dimensionReel = (230, 115)
         self.incrementX = int((self.dimensionCrop[0]) / self.dimensionReel[0])
         self.incrementY = int((self.dimensionCrop[1]) / self.dimensionReel[1])
         self.rayonBuffer = 30
@@ -22,10 +22,10 @@ class GrilleCellule():
                     self.listeCellules.append(Cellule(x, y, self.estAtteignable(x, y, listeIles)))
                 
     def depPixelXACentimetre(self, pix):
-        return int(round(pix * (self.dimensionReel[0]) / self.dimensionCrop[0]))
+        return pix * (self.dimensionReel[0] / self.dimensionCrop[0])
     
     def depPixelYACentimetre(self, pix):
-        return int(round(pix * (self.dimensionReel[1]) / self.dimensionCrop[1]))
+        return pix * (self.dimensionReel[1] / self.dimensionCrop[1])
 
     def depCentimetreYAPixel(self, cent):
         return int(round(cent * (self.dimensionCrop[1]) / self.dimensionReel[1]))
@@ -39,7 +39,7 @@ class GrilleCellule():
         distanceX = self.depPixelXACentimetre(distanceX)
         distanceY = self.depPixelYACentimetre(distanceY)
         distanceCarre = distanceX**2 + distanceY**2
-        return distanceCarre
+        return int(round(distanceCarre))
                 
     def estAtteignable(self, x, y, listeIles):
         if (y <= self.depCentimetreYAPixel(self.distanceMur)) or (y >= self.dimensionCrop[1]-self.depCentimetreYAPixel(self.distanceMur)) or (x >= self.dimensionCrop[0]-self.depCentimetreXAPixel(self.distanceMur)):

@@ -42,16 +42,13 @@ class DetectionIles(object):
 
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        #if couleurForme == 'Rouge':
-            #cv2.imshow('rouge', masqueCouleur)
-            #cv2.waitKey(0)
-        _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursCouleur, hierarchy = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
-        for contours in range(len(contoursCouleur)):
-            aire = cv2.contourArea(contoursCouleur[contours])
-            if ((aire < 2000) or (aire > 6000)):
-                contoursNegligeable.append(contours)
+        for i in range(len(contoursCouleur)):
+            aire = cv2.contourArea(contoursCouleur[i])
+            if ((aire < 2000) or (aire > 6000)) and hierarchy[0][i][2]<0:
+                contoursNegligeable.append(i)
 
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)

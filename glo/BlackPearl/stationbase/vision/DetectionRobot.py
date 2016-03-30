@@ -47,16 +47,23 @@ class DetectionRobot(object):
         masqueRobot = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         #cv2.imshow('test', masqueRobot)
         #cv2.waitKey(0)
-        _, contoursRobot, _ = cv2.findContours(masqueRobot.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        contoursNegligeable = []
+        _, contoursRobot, hierarchy = cv2.findContours(masqueRobot.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+        indiceContoursNegligeable = []
+        for i in range(0, len(contoursRobot)):
+            aire = cv2.contourArea(contoursRobot[i])
+            aireTrou = 0
+            enfant = hierarchy[0][i][2]
+            if not enfant < 0:
+                tmp = cv2.contourArea(contoursRobot[hierarchy[0][i][2]])
+                if tmp > aireTrou:
+                    aireTrou = tmp
+            if ((aire < 2000) or (aire > 10000)):
+                indiceContoursNegligeable.append(i)
+            elif ((aireTrou < 100) or (aireTrou > 6000)):
+                indiceContoursNegligeable.append(i)
 
-        for contours in range(len(contoursRobot)):
-            aire = cv2.contourArea(contoursRobot[contours])
-            if ((aire < 100) or (aire > 1500)):
-                contoursNegligeable.append(contours)
-
-        if (len(contoursNegligeable) > 0):
-            contoursRobot = np.delete(contoursRobot, contoursNegligeable)
+        if (len(indiceContoursNegligeable) > 0):
+            contoursRobot = np.delete(contoursRobot, indiceContoursNegligeable)
 
         self.precisionDroit = 5
         self.precisionGauche = 5
@@ -69,7 +76,7 @@ class DetectionRobot(object):
             self.robotIdentifiee = (self.formeDroit[0], self.formeGauche[0])
 
     def _definirIntervalleRobot(self):
-        self.intervalleRobot = np.array([0, 5, 10]), np.array([80, 70, 60])
+        self.intervalleRobot = np.array([10, 0, 0]), np.array([255, 255, 102])
 
     def _definirPatronsFormes(self):
         patronRobotDroit = cv2.imread(ConfigPath.Config().appendToProjectPath('images/cercle.png'), 0)

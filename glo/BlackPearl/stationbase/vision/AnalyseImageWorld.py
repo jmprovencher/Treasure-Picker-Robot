@@ -30,7 +30,6 @@ class AnalyseImageWorld(Thread):
         while 1:
             self.chargerImage()
             self.trouverRobot()
-            print '\n'
             time.sleep(0.01)
 
     def attendreFeed(self):
@@ -62,8 +61,6 @@ class AnalyseImageWorld(Thread):
         #x, y = centreForme
 
         if (couleurForme == ""):
-            #Il est a noter que je nai pas exactement les bonnes valeurs, pour linstant, je ferai des tests pour etre certain.
-            #if ((x < 200 & (y < 200 | y > 800)) | x < 200):
             tresor = Tresor(centreForme)
             self.elementsCartographiques.append(tresor)
         else:
@@ -96,7 +93,6 @@ class AnalyseImageWorld(Thread):
                 #table1ou2 = + - 45 pour y (max y = 45)
                 #en ce moment c'est sette pour la table 5
                 if ((y < 100) or (y > 755)) and (x < 1314):
-                    print('WHHHHHATTTSSSUP')
                     self.stationBase.carte.listeTresors.append(Tresor(centreForme))
 
         self.trouverRobot()
@@ -145,14 +141,14 @@ class AnalyseImageWorld(Thread):
                 self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
                 #print orientation
                 self.cntRobotPerdu = 0
-            elif self.cntRobotPerdu > 10:
+            elif self.cntRobotPerdu > 25:
                 self.cntRobotPerdu = 0
                 self.stationBase.carte.infoRobot = None
             else:
                 self.cntRobotPerdu = self.cntRobotPerdu + 1
         else:
             self.cntRobotPerdu = self.cntRobotPerdu + 1
-            if self.cntRobotPerdu > 10:
+            if self.cntRobotPerdu > 25:
                 self.stationBase.carte.infoRobot = None
 
     def deplacementPlausible(self, centreForme):
@@ -168,14 +164,14 @@ class AnalyseImageWorld(Thread):
 
     def depXPlausible(self, x):
         depX = self.stationBase.carte.trajectoire.grilleCellule.depPixelXACentimetre(x)
-        if depX < 30:
+        if depX < 50:
             return True
         else:
             return False
 
     def depYPlausible(self, y):
         depY = self.stationBase.carte.trajectoire.grilleCellule.depPixelXACentimetre(y)
-        if depY < 30:
+        if depY < 50:
             return True
         else:
             return False

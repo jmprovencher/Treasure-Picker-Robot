@@ -22,7 +22,7 @@ class AlignementIle():
         elif (distance_x > 0):
             commande = 'right'
 
-        return commande, distance_x
+        return commande, distance_x/10
 
     def _ajusterPositionY(self, distance_y):
         if (distance_y < 0):
@@ -30,4 +30,4 @@ class AlignementIle():
         elif (distance_y > 0):
             commande = 'forward'
 
-        return commande, distance_y
+        return commande, distance_y/10

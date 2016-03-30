@@ -17,6 +17,9 @@ class UARTDriver:
     def cameraPositionDepot(self):
         self.UART.write(b'd'.encode())
 
+    def cameraPositionFace(self):
+        self.UART.write(b'c'.encode())
+
     def cameraPositionTresor(self):
         self.UART.write(b'd'.encode())
 
@@ -49,14 +52,20 @@ class UARTDriver:
         time.sleep(1)
         print("### PREHENSEUR DOWN ###")
         self.descendrePrehenseur()
-        time.sleep(1)
+        time.sleep(5)
         print("### MAGNET OFF ###")
         self.desactiverAimant()
         time.sleep(0.5)
         #Recule
         print("### BEEEEEEP BEEEEEEEEEEP ###")
-        self.UART.write(b'2'.encode())
-        self.UART.write(str('2').encode())
+        self.sendCommand('backward', 1)
+
+
+    def showtime(self):
+        self.cameraPositionFace()
+        time.sleep(0.3)
+
+
 
     def to_bytes(n, length, endianess='big'):
         h = '%x' % n
@@ -113,6 +122,9 @@ class UARTDriver:
 
         elif command == 'cameraTreasure':
             self.UART.write(b'd'.encode())
+
+        elif command == 'readManchester':
+            self.UART.write(b'i'.encode())
 
         #To implement when arduino will return command completion confirmation
         #commandComplete = self.UART.read(2)

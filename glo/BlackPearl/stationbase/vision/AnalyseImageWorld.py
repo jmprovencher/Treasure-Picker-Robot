@@ -72,14 +72,22 @@ class AnalyseImageWorld(Thread):
         self.trouverElementsCartographiques()
 
     def trouverElementsCartographiques(self):
+        print("\nDetection du robot...")
+        self.trouverRobot()
         print("\nDetection des iles...")
+        xDuRobotMax = self.stationBase.getPositionRobot()[0] + 50
+        xDuRobotMin = self.stationBase.getPositionRobot()[0] - 50
+        yDuRobotMax = self.stationBase.getPositionRobot()[1] + 50
+        yDuRobotMin = self.stationBase.getPositionRobot()[1] - 50
         self.detectionIles = DetectionIles(self.image)
         self.detectionIles.detecter()
         for ile in self.detectionIles.ilesIdentifiees:
             contoursForme, nomForme, couleurForme = ile
             centreForme = self.trouverCentreForme(contoursForme)
-            with verrou:
-                self.stationBase.carte.listeIles.append(Ile(centreForme, couleurForme, nomForme))
+            x, y = centreForme
+            if not ((xDuRobotMax > x) and (xDuRobotMin < x) and (yDuRobotMax > y) and (yDuRobotMin < y)):
+                with verrou:
+                    self.stationBase.carte.listeIles.append(Ile(centreForme, couleurForme, nomForme))
 
         print("\nDetection des tresors...")
         self.detectionTresors = DetectionTresors(self.image)
@@ -94,8 +102,7 @@ class AnalyseImageWorld(Thread):
                 #en ce moment c'est sette pour la table 5
                 if ((y < 100) or (y > 755)) and (x < 1314):
                     self.stationBase.carte.listeTresors.append(Tresor(centreForme))
-
-        self.trouverRobot()
+        #self.trouverRobot()
 
     def trouverInfoRobot(self, formesDetectees):
         contourDroit, contourGauche = formesDetectees

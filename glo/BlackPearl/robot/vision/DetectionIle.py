@@ -47,6 +47,7 @@ class DetectionIle(object):
             self.ajustements = []
         else:
             self.ajustements = self.alignementIle.calculerAjustement(distance_x, distance_y)
+            print("Ajustements calculees")
 
         self._afficherFeed()
 
@@ -69,7 +70,7 @@ class DetectionIle(object):
         #cv2.imshow(couleurForme, masqueCouleur)
         #cv2.waitKey(0)
 
-        _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
         for contours in range(len(contoursCouleur)):

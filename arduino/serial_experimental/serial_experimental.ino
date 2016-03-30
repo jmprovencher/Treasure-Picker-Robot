@@ -289,7 +289,9 @@ void serialEvent(){
         writeString(commandComplete);
       }
       else if(incomingByte = 105){
+        Serial.write("woah");
         action = "Reading Manchester";
+        stopWheels();
         detachInterrupt(digitalPinToInterrupt(20));
         detachInterrupt(digitalPinToInterrupt(21));
         attachInterrupt(digitalPinToInterrupt(pinClock), Reading, RISING);
@@ -301,11 +303,23 @@ void serialEvent(){
             stateClock = digitalRead(pinClock);
             stateManchester = digitalRead(pinManchester);
             bitDecode = stateClock ^ stateManchester;
+            
+    Serial.print(stateManchester);
+    Serial.print("-");
+    Serial.print(stateClock);
+    Serial.print("-");
+    Serial.println(bitDecode);
             arrayCode[compteur] = bitDecode;
             compteur++;
           } 
           if (compteur == 32 && complete == false)
           {
+    Serial.print("Reception:");
+    for(int h=0;h<32;h++)
+    {
+      Serial.print(arrayCode[h]);
+    }
+    Serial.println(".");
               for (int i = 0; i < 32; i++)
               {
                 if (arrayCode[i] == 1)

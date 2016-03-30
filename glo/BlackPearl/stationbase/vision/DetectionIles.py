@@ -41,7 +41,7 @@ class DetectionIles(object):
 
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        #cv2.imshow(couleurForme, masqueCouleur)
+        cv2.imshow(couleurForme, masqueCouleur)
         _, contoursCouleur, hierarchy = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
@@ -54,7 +54,6 @@ class DetectionIles(object):
                 enfant = hierarchy[0][i][2]
                 if cv2.contourArea(contoursCouleur[hierarchy[0][i][2]]) > 50:
                     contoursNegligeable.append(i)
-                print aire
 
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
@@ -80,6 +79,8 @@ class DetectionIles(object):
     def _definirPatronsFormes(self):
         patronTriangle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/triangle.png'), 0)
         patronCercle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/cercle.png'), 0)
+        #cv2.imshow('test2', patronCercle)
+        #cv2.waitKey(0)
         patronCarre = cv2.imread(ConfigPath.Config().appendToProjectPath('images/carre.png'), 0)
         patronPentagone = cv2.imread(ConfigPath.Config().appendToProjectPath('images/pentagone.png'), 0)
 
@@ -96,7 +97,6 @@ class DetectionIles(object):
         self.cntCarre = contoursCarre[0]
         _, contoursPentagone, _ = cv2.findContours(threshPentagone, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         self.cntPentagone = contoursPentagone[0]
-
 
 
 

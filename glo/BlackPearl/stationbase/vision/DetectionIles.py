@@ -41,7 +41,7 @@ class DetectionIles(object):
 
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        cv2.imshow(couleurForme, masqueCouleur)
+        #cv2.imshow(couleurForme, masqueCouleur)
         _, contoursCouleur, hierarchy = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 

@@ -58,7 +58,7 @@ class AlgorithmeTrajectoire():
             fin = self.trajet[i+1]
             if (self.distanceADestinationAuCarre(debut[0], debut[1], fin[0], fin[1]) > 900):
                 point = self.getPointMilieu(debut, fin)
-                self.trajet = self.trajet[:i+1] + [point] + self.trajet[i+1:]
+                self.trajet = self.trajet[:i+1] + [point]  + self.trajet[i+1:]
             else:
                 i = i + 1
 

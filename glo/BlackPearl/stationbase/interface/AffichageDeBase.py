@@ -8,7 +8,7 @@ class AffichageDeBase():
         qp.drawText(200, 80, QString('Orientation du robot : '))
         qp.drawText(200, 110, QString('Tension condensateur : '))
         qp.drawText(200, 50, QString('Position du robot : '))
-        qp.drawText(50, 550 + 50, QString('Ile cible :'))
+        qp.drawText(50, 550 + 50, QString('Ile cible : '))
         self.formatContours(qp)
         self.dessinerNoir(qp)
         qp.drawText(275, 400 + 50, QString('88.95''N  15.10''O '))

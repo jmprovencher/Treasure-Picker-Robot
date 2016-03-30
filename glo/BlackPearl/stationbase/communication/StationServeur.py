@@ -2,6 +2,7 @@ import socket
 from threading import Thread, RLock
 import time
 from stationbase.communication.TCPServer import TCPServer
+from elements.Cible import Cible
 
 verrou = RLock()
 
@@ -67,6 +68,11 @@ class StationServeur(Thread):
             self.stationBase.tensionCondensateur = parametre
         elif (commande == "robotPret"):
             self.stationBase.robotEstPret = True
+        elif (commande.startswith("cible: ")):
+             indice = commande[7:]
+             self.stationBase.carte.cible = Cible(self.stationBase.carte, indice)
+        elif (commande.startswith("man: ")):
+            self.stationBase.manchester = commande[-1]
         elif (commande == "termine"):
             print 'commande termine recu et traite'
             self.stationBase.attenteDuRobot = False

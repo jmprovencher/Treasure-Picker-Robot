@@ -10,12 +10,19 @@ class DetectionTresors(object):
         self.tresorIdentifies = []
 
     def detecter(self):
+        #table 2
+        #intervalleFoncer = np.array([50, 160, 160])
+        #intervalleClair = np.array([6, 100, 100])
 
-        intervalleFoncer = np.array([50, 160, 160])
-        intervalleClair = np.array([6, 100, 100])
+        #table 1
+        intervalleFoncer = np.array([30, 160, 150])
+        intervalleClair = np.array([0, 53, 50])
+
+        #intervalleFoncer = np.array([41, 70, 84])
+        #intervalleClair = np.array([0 , 53 ,50])
 
         shapeTresorMasque = cv2.inRange(self.imageCamera, intervalleClair, intervalleFoncer)
-        #cv2.imshow('tresore',shapeTresorMasque)
+        cv2.imshow('tresore',shapeTresorMasque)
         #cv2.waitKey(0)
         _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 

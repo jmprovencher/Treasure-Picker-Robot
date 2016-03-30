@@ -18,9 +18,11 @@ class AnalyseImageEmbarquee(Thread):
 
     def run(self):
         while not (self.ajustementsCalcules):
-            self._chargerImage()
             print("Thread analyseEmbarque run...")
+            time.sleep(2)
+            self._chargerImage()
             self.choisirAlignement(self.parametre)
+            print("alignement choisi")
             time.sleep(2)
 
         self.soumettreAjustements()
@@ -36,6 +38,7 @@ class AnalyseImageEmbarquee(Thread):
         elif (parametre == 'jaune'):
             self.evaluerPositionDepot('jaune')
         elif (parametre == 'tresor'):
+            print("TRESOR")
             self.evaluerPositionTresor()
         else:
             print("CRITICAL ERROR")
@@ -65,15 +68,16 @@ class AnalyseImageEmbarquee(Thread):
 
     def afficherFeed(self):
         cv2.imshow("Analyse", self.imageCamera)
-        # cv2.waitKey(0)
+        cv2.waitKey(0)
 
     def _chargerImage(self):
         self.imageCamera = self.robot.threadVideo.getImageCapture()
         self._estomperImage()
+        #self.afficherFeed()
 
     def _attendreFeedVideo(self):
         while self.robot.threadVideo.getImageCapture() is None:
-            time.sleep(0.1)
+            time.sleep(0.5)
             print("Problem here....")
 
     def _estomperImage(self):

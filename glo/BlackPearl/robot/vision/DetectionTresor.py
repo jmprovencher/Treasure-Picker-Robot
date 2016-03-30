@@ -4,7 +4,7 @@ import numpy as np
 import math
 from robot.alignement.AlignementTresor import AlignementTresor
 
-KNOWN_DISTANCE = 14.0
+KNOWN_DISTANCE = 15.8
 KNOWN_WIDTH = 1.0
 FOCAL_LENGTH = 1512
 HAUTEUR_ROBOT = 12.0
@@ -70,6 +70,7 @@ class DetectionTresor(object):
         return (largeurTresor * longueurFocale) / referenceLargeur
 
     def _detecterFormeCouleur(self, intervalleCouleur):
+        print("Detection")
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
 
@@ -99,7 +100,8 @@ class DetectionTresor(object):
 
 
     def _definirIntervallesCouleurs(self):
-        self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
+        #self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
+        self.intervalleJaune = np.array([10, 180, 180]), np.array([60, 255, 255]), "Jaune"
 
     def _dessinerZoneCible(self):
         cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)

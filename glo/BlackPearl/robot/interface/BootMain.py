@@ -9,6 +9,7 @@ import time
 def main():
     prefixPort = '/dev/ttyACM'
     monUART = None
+
     for j in range(0, 20):
         try:
             port = prefixPort + str(j)
@@ -21,7 +22,6 @@ def main():
         except Exception as e:
             print e
             print('mauvais port')
-
 
 if __name__ == '__main__':
     main()

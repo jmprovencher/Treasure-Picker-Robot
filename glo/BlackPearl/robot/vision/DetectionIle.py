@@ -49,7 +49,7 @@ class DetectionIle(object):
             self.ajustements = self.alignementIle.calculerAjustement(distance_x, distance_y)
             print("Ajustements calculees")
 
-        self._afficherFeed()
+        #self._afficherFeed()
 
     def dessinerZoneCible(self):
         cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)
@@ -100,3 +100,4 @@ class DetectionIle(object):
 
     def _afficherFeed(self):
         cv2.imshow("Image", self.imageCamera)
+        cv2.waitKey(0)

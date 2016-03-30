@@ -7,7 +7,8 @@ class FeedVideoRobot(Thread):
     def __init__(self):
         Thread.__init__(self)
         self.video = None
-        self.initialiserVideo()
+        #self.initialiserVideo()
+        self.video = cv2.VideoCapture(0)
         self.video.set(3, 1600)
         self.video.set(4, 1200)
         self.imageCapture = None
@@ -29,7 +30,7 @@ class FeedVideoRobot(Thread):
             print ("Streaming only...")
             _, self.imageCapture = self.video.read()
             time.sleep(0.5)
-            # cv2.imshow("LIVE FEED", self.imageCapture)
+            #cv2.imshow("LIVE FEED", self.imageCapture)
 
     def getImageCapture(self):
         ("Streamed image was accessed...")

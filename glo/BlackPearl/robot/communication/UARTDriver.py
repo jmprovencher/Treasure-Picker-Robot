@@ -59,6 +59,7 @@ class UARTDriver:
         #Recule
         print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.sendCommand('backward', 5)
+        time.sleep(5)
         self.showtime()
 
     def showtime(self):

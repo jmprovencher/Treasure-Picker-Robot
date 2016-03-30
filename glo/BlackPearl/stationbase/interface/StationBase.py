@@ -34,12 +34,12 @@ class StationBase(Thread):
         self.demarrerImageVirtuelle()
 
     def run(self):
-        #print '\nAttendre que le robot soit pret...'
-        #while 1:
-        #    if self.robotEstPret == True:
-        #        print 'Robot est pret'
-        #        break
-        #    time.sleep(0.01)
+        print '\nAttendre que le robot soit pret...'
+        while 1:
+            if self.robotEstPret == True:
+                print 'Robot est pret'
+                break
+            time.sleep(0.01)
         self.choisirEtape(self.etape)
         time.sleep(0.01)
 

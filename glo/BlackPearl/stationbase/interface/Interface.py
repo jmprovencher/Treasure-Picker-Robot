@@ -3,6 +3,7 @@ from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QPushButton
 from PyQt4.QtGui import QLabel
 from PyQt4.QtGui import QPainter
+from PyQt4.QtCore import QString
 from stationbase.interface.StationBase import StationBase
 from stationbase.interface.AfficherImageVirtuelle import AfficherImageVirtuelle
 from stationbase.interface.AffichageDeBase import AffichageDeBase
@@ -19,8 +20,14 @@ class Interface(QtGui.QWidget):
         qp = QPainter()
         qp.begin(self)
         #self.affichageDeBase = AffichageDeBase(qp)
-        #if(self.threadStationBase.threadCommunication.robotEstPret):
-            #self.dessinerRobotActive(qp)
+        #result = None
+        #while result is None:
+            #try:
+                #result = self.threadStationBase.threadCommunication.robotEstPret
+                #if(result):
+                    #self.dessinerRobotActive(qp)
+            #except:
+                #pass
         qp.end()
 
 
@@ -35,10 +42,10 @@ class Interface(QtGui.QWidget):
         self.buffer = 25
         self.feed.setGeometry(5, self.hauteur-(600+self.buffer+5), 800, 600)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
-        #self.orientation = QLabel(self)
-        #self.orientation.setGeometry(380, 22, 440, 50)
-        #self.direction = QLabel(self)
-        #self.direction.setGeometry(380, 52, 400, 80)
+        self.orientation = QLabel(self)
+        self.orientation.setGeometry(380, 22, 440, 50)
+        self.direction = QLabel(self)
+        self.direction.setGeometry(380, 52, 400, 80)
 
         self.btnDemarer = QPushButton(self)
         self.btnDemarer.setText('Debuter')
@@ -111,11 +118,11 @@ class Interface(QtGui.QWidget):
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
         #self.tensionCondensateur.setText(QString(self.threadStationBase.tensionCondensateur))
         QtGui.QApplication.processEvents()
-        #if(not self.threadStationBase.carte.infoRobot is None):
-            #self.orientation.setText(QString(str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y '+ str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
+        if(not self.threadStationBase.carte.infoRobot is None):
+            self.orientation.setText(QString(str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y '+ str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
         self.feed.repaint()
         #self.tensionCondensateur.setText(QString(self.threadStationBase.threadCommunication.tensionCondensateur + 'V'))
-        #self.orientation.repaint()
+        self.orientation.repaint()
         #self.direction.repaint()
         #self.tensionCondensateur.repaint()
 

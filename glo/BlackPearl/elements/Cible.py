@@ -3,12 +3,14 @@ from elements.ElementCartographique import ElementCartographique
 from elements.Ile import Ile
 
 class Cible():
-    def __init__(self, carte, indice):
-        self.carte = carte
-        self.indice = indice
-        self.tresorChoisi = None
-        self.ileChoisie = None
-        self.trouverIleCible()
+    def __init__(self, args):
+        self.carte = args[0]
+        if (len(args) == 1):
+            self.ileChoisie = None
+            self.tresorChoisi = None
+        else:
+            self.indice = args[1]
+            self.trouverIleCible()
 
     def trouverIleCible(self):
         ilesPotentielle = self.carte.getIles(self.indice)

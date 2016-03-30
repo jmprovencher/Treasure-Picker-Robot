@@ -15,7 +15,7 @@ class FeedVideoRobot(Thread):
         self.connecter = False
 
     def initialiserVideo(self):
-        for camera_index in range(1, 10):
+        for camera_index in range(0, 10):
             try:
                 self.video = cv2.VideoCapture(camera_index)
                 _, self.imageCapture = self.video.read()

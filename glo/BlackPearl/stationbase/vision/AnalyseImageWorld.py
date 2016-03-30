@@ -166,14 +166,14 @@ class AnalyseImageWorld(Thread):
                 self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
                 #print orientation
                 self.cntRobotPerdu = 0
-            elif self.cntRobotPerdu > 25:
+            elif self.cntRobotPerdu > 60:
                 self.cntRobotPerdu = 0
                 self.stationBase.carte.infoRobot = None
             else:
                 self.cntRobotPerdu = self.cntRobotPerdu + 1
         else:
             self.cntRobotPerdu = self.cntRobotPerdu + 1
-            if self.cntRobotPerdu > 25:
+            if self.cntRobotPerdu > 60:
                 self.stationBase.carte.infoRobot = None
 
     def trouverRobotInitiale(self):

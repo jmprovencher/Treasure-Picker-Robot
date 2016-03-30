@@ -100,3 +100,4 @@ class DetectionIle(object):
 
     def _afficherFeed(self):
         cv2.imshow("Image", self.imageCamera)
+        cv2.waitKey(0)

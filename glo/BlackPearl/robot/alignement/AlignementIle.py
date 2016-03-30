@@ -17,9 +17,9 @@ class AlignementIle():
 
 
     def _ajusterPositionX(self, distance_x):
-        if (distance_x < 0):
+        if (distance_x > 0):
             commande = 'left'
-        elif (distance_x > 0):
+        elif (distance_x < 0):
             commande = 'right'
         print("Ajustement en X PIXEL: %d" % distance_x)
         return commande, distance_x/10
@@ -30,4 +30,4 @@ class AlignementIle():
         elif (distance_y > 0):
             commande = 'forward'
         print("Ajustement en Y PIXEL: %d" %distance_y)
-        return commande, distance_y/10
+        return commande, distance_y/15

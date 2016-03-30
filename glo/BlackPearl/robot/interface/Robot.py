@@ -91,7 +91,7 @@ class Robot(Thread):
             self.commandeTerminee = False
             commande, parametre = inst
             self.uartDriver.sendCommand(commande, parametre)
-            print("Commande envoyee: %s, %s", commande, parametre)
+            print("Commande envoyee:", commande, parametre)
             time.sleep(5)
             while not (self.commandeTerminee):
                 print("Commande en cours execution")

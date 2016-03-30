@@ -1,6 +1,7 @@
 import cv2
 import ConfigPath
 from robot.vision.DetectionIle import DetectionIle
+from robot.vision.DetectionStation import DetectionStation
 from robot.vision.DetectionTresor import DetectionTresor
 from threading import Thread
 import time
@@ -40,6 +41,9 @@ class AnalyseImageEmbarquee(Thread):
         elif (parametre == 'tresor'):
             print("TRESOR")
             self.evaluerPositionTresor()
+        elif (parametre == 'station'):
+            print("STATION")
+            self.evaluerPositionStation()
         else:
             print("CRITICAL ERROR")
 
@@ -49,6 +53,16 @@ class AnalyseImageEmbarquee(Thread):
 
         if (self.ajustements != []):
             print("Commandes ajustements PICKUP pretes")
+            self.ajustementsCalcules = True
+        else:
+            print ("Ajustements non calculees (analyseimageembarque)")
+
+    def evaluerPositionStation(self):
+        self.detectionStation = DetectionStation(self.imageCamera)
+        self.ajustements = self.detectionStation.ajustements
+
+        if (self.ajustements != []):
+            print("Commandes ajustements RECHARGE pretes")
             self.ajustementsCalcules = True
         else:
             print ("Ajustements non calculees (analyseimageembarque)")
@@ -71,7 +85,7 @@ class AnalyseImageEmbarquee(Thread):
         cv2.waitKey(0)
 
     def _chargerImage(self):
-        self.imageCamera = self.robot.threadVideo.getImageCapture()
+        self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('tresor.png'))#self.robot.threadVideo.getImageCapture()
         self._estomperImage()
         #self.afficherFeed()
 

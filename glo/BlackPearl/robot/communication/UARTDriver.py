@@ -39,7 +39,6 @@ class UARTDriver:
         self.UART.write(b'h'.encode())
 
     def postAlignementTresor(self):
-        # Recule
         print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.UART.write(b'2'.encode())
         self.UART.write(str('2').encode())
@@ -48,6 +47,17 @@ class UARTDriver:
         time.sleep(1)
         print("### MAGNET OFF ###")
         self.desactiverAimant()
+
+    def postAlignementStation(self):
+        print("### DECODING MANCHESTER ###")
+        self.sendCommand('readManchester', 0)
+        time.sleep(10)
+        print("### BEEEEEEP BEEEEEEEEEEP ###")
+        self.sendCommand('backward', 5)
+        time.sleep(1)
+        self.sendCommand('rotateAntiClockwise', 120)
+        time.sleep(1)
+
 
     def postAlignementIle(self):
         print("### MAGNET ON ###")
@@ -58,11 +68,11 @@ class UARTDriver:
         time.sleep(5)
         print("### MAGNET OFF ###")
         self.desactiverAimant()
-        time.sleep(0.5)
+        time.sleep(1)
         #Recule
         print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.sendCommand('backward', 5)
-        time.sleep(5)
+        time.sleep(3)
         self.showtime()
 
     def showtime(self):

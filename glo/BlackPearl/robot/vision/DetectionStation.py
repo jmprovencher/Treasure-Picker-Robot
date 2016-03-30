@@ -2,16 +2,17 @@ from __future__ import division
 import cv2
 import numpy as np
 import math
-from robot.alignement.AlignementTresor import AlignementTresor
+
+from robot.alignement.AlignementStation import AlignementStation
 
 KNOWN_DISTANCE = 15.8
 KNOWN_WIDTH = 1.0
 FOCAL_LENGTH = 1512
 HAUTEUR_ROBOT = 30.40
 
-class DetectionTresor(object):
+class DetectionStation(object):
     def __init__(self, image):
-        self.alignementTresor = AlignementTresor()
+        self.alignementStation = AlignementStation()
         self.imageCamera = image
         self.positionZone = (810, 730)
         self.rayonZone = 20
@@ -19,7 +20,7 @@ class DetectionTresor(object):
         self._dessinerZoneCible()
         self.alignementTerminer = False
         self.ajustements = []
-        
+
         self.trouverAjustements()
 
     def trouverAjustements(self):
@@ -60,10 +61,8 @@ class DetectionTresor(object):
         focalLength = (zoneTresor[1][0] * KNOWN_DISTANCE) / KNOWN_WIDTH
         print("Focal length: %d" %focalLength)
 
-        distanceCamera_cm = self._calculerDistanceCamera(KNOWN_WIDTH, FOCAL_LENGTH, zoneTresor[1][0])*2.54
-        print("Distance Tresor-Cam: %d" %distanceCamera_cm)
-        distanceMur = math.sqrt(math.pow(distanceCamera_cm, 2) - math.pow(HAUTEUR_ROBOT, 2))
-        print("Distance Robot-Mur: %d" %distanceMur)
+        distanceMur = self._calculerDistanceCamera(KNOWN_WIDTH, FOCAL_LENGTH, zoneTresor[1][0])*2.54
+        print("Distance Robot - Station: %d" %distanceMur)
         return distanceMur
 
     def _calculerDistanceCamera(self, largeurTresor, longueurFocale, referenceLargeur):

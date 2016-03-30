@@ -12,12 +12,14 @@ class AlignementTresor():
 
 
     def _ajusterPositionX(self, distance_x):
-        if (distance_x < 0):
+        if (distance_x > 0):
             commande = 'left'
-        elif (distance_x > 0):
+        elif (distance_x < 0):
             commande = 'right'
-
-        return commande, distance_x
+        dist_x = abs(distance_x/5)
+        print("Ajustement en X PIXEL: %d" % distance_x)
+        print("Ajustement en X en CM: %d" %dist_x )
+        return commande, abs(dist_x)
 
     def _ajusterPositionY(self, distance_y):
         if (distance_y < 0):
@@ -25,4 +27,5 @@ class AlignementTresor():
         elif (distance_y > 0):
             commande = 'forward'
 
+        print("Ajustement en Y en CM: %d" % abs(distance_y))
         return commande, distance_y

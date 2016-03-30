@@ -122,7 +122,14 @@ class AnalyseImageWorld(Thread):
                 #table 1:
                 if ((y < 45) or (y > 750)) and (x < 1321):
                     self.stationBase.carte.listeTresors.append(Tresor(centreForme))
-        #self.trouverRobot()
+        if (not self.stationBase.carte.listeIles is None):
+            self.stationBase.carte.cible.ileChoisie = self.stationBase.carte.listeIles[0]
+        else:
+            self.stationBase.carte.ileChoisie = Ile((500, 500), "Rouge", "Triangle")
+        if (not self.stationBase.carte.cible.tresorChoisi is None):
+            self.stationBase.carte.cible.tresorChoisi = self.stationBase.carte.listeTresors[0]
+        else:
+            self.stationBase.carte.cible.tresorChoisi = Tresor((1000, 855))
 
     def trouverInfoRobot(self, formesDetectees):
         contourDroit, contourGauche = formesDetectees

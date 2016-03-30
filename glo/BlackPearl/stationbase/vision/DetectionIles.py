@@ -42,7 +42,7 @@ class DetectionIles(object):
 
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        #cv2.imshow(couleurForme, masqueCouleur)
+        cv2.imshow(couleurForme, masqueCouleur)
         _, contoursCouleur, hierarchy = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
@@ -55,7 +55,6 @@ class DetectionIles(object):
                 enfant = hierarchy[0][i][2]
                 if cv2.contourArea(contoursCouleur[hierarchy[0][i][2]]) > 50:
                     contoursNegligeable.append(i)
-                print aire
 
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
@@ -81,6 +80,8 @@ class DetectionIles(object):
     def _definirPatronsFormes(self):
         patronTriangle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/triangle.png'), 0)
         patronCercle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/cercle.png'), 0)
+        #cv2.imshow('test2', patronCercle)
+        #cv2.waitKey(0)
         patronCarre = cv2.imread(ConfigPath.Config().appendToProjectPath('images/carre.png'), 0)
         patronPentagone = cv2.imread(ConfigPath.Config().appendToProjectPath('images/pentagone.png'), 0)
 
@@ -90,25 +91,13 @@ class DetectionIles(object):
         precision, threshPentagone = cv2.threshold(patronPentagone, 127, 255, 0)
 
         _, contoursTriangle, _ = cv2.findContours(threshTriangle, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        if len(contoursTriangle) > 1:
-            self.cntTriangle = contoursTriangle[0]
-        else:
-            self.cntTriangle = contoursTriangle
+        self.cntTriangle = contoursTriangle[0]
         _, contoursCercle, _ = cv2.findContours(threshCercle, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        if len(contoursCercle) > 1:
-            self.cntCercle = contoursCercle[0]
-        else:
-            self.cntCercle = contoursCercle
+        self.cntCercle = contoursCercle[0]
         _, contoursCarre, _ = cv2.findContours(threshCarre, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        if len(contoursCarre) > 1:
-            self.cntCarre = contoursCarre[0]
-        else:
-            self.cntCarre = contoursCarre
+        self.cntCarre = contoursCarre[0]
         _, contoursPentagone, _ = cv2.findContours(threshPentagone, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        if len(contoursPentagone) > 1:
-            self.cntPentagone = contoursPentagone[0]
-        else:
-            self.cntPentagone = contoursPentagone
+        self.cntPentagone = contoursPentagone[0]
 
         self.formesConnues.append(self.cntTriangle)
         self.formesConnues.append(self.cntCarre)

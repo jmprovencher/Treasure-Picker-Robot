@@ -10,7 +10,7 @@ class FeedVideoStation(Thread):
     def __init__(self):
         Thread.__init__(self)
         self.video = None
-        self.initVideo(3)
+        self.initVideo()
         self.captureTable = None
         self.feedEstDemare = False
 
@@ -19,7 +19,7 @@ class FeedVideoStation(Thread):
             success, self.captureTable = self.video.read()
             time.sleep(0.01)
 
-    def initVideo(self, portCamera):
+    def initVideo(self):
         for camera_index in range(1, 10):
             try:
                 self.video = cv2.VideoCapture(camera_index)

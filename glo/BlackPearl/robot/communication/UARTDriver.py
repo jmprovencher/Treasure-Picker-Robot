@@ -59,13 +59,14 @@ class UARTDriver:
         #Recule
         print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.sendCommand('backward', 5)
-
+        self.showtime()
 
     def showtime(self):
-        self.cameraPositionFace()
-        time.sleep(0.3)
-
-
+        for j in range (0,5):
+            self.cameraPositionFace()
+            time.sleep(0.3)
+            self.cameraPositionDepot()
+            time.sleep(0.3)
 
     def to_bytes(n, length, endianess='big'):
         h = '%x' % n

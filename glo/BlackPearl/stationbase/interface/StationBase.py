@@ -25,7 +25,7 @@ class StationBase(Thread):
         self.envoyerCommande = False
         self.robotEstPret = False
         self.attenteDuRobot = False
-        #self.demarrerConnectionTCP()
+        self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.demarrerAnalyseImageWorld()
@@ -33,12 +33,12 @@ class StationBase(Thread):
         self.demarrerImageVirtuelle()
 
     def run(self):
-        #print '\nAttendre que le robot soit pret...'
-        #while 1:
-        #    if self.robotEstPret == True:
-        #        print 'Robot est pret'
-        #        break
-        #    time.sleep(0.1)
+        print '\nAttendre que le robot soit pret...'
+        while 1:
+            if self.robotEstPret == True:
+                print 'Robot est pret'
+                break
+            time.sleep(0.1)
         self.choisirEtape(self.etape)
 
     def choisirEtape(self, etape):

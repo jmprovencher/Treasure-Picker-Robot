@@ -49,15 +49,16 @@ class UARTDriver:
         self.desactiverAimant()
 
     def postAlignementStation(self):
-        print("### DECODING MANCHESTER ###")
-        self.sendCommand('readManchester', 0)
-        time.sleep(10)
         print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.sendCommand('backward', 5)
         time.sleep(1)
         self.sendCommand('rotateAntiClockwise', 120)
         time.sleep(1)
 
+    def decoderManchester(self):
+        print("### DECODING MANCHESTER ###")
+        self.sendCommand('readManchester', 0)
+        time.sleep(1)
 
     def postAlignementIle(self):
         print("### MAGNET ON ###")

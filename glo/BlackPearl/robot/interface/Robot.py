@@ -3,6 +3,8 @@ from robot.communication.RobotClient import RobotClient
 from robot.vision.AnalyseImageEmbarquee import AnalyseImageEmbarquee
 from robot.interface.FeedVideoRobot import FeedVideoRobot
 from robot.communication.LectureUART import LectureUART
+from robot.communication.RequeteJSON import RequeteJSON
+from robot.communication.islandServerRequest import islandServerRequest
 from threading import Thread, RLock
 import time
 
@@ -22,9 +24,15 @@ class Robot(Thread):
         self.commandeTerminee = False
         self.tensionCondensateur = 0
         self.lettreObtenue = None
+        self.pretEnvoyerLettre = False
+
+        #self.adresseIP = '10.248.184.232'
+        self.adresseIP = '132.203.14.228'
         #self.demarrerLectureUART()
         #self.demarrerConnectionTCP()
-        self.demarrerAlignementTresor()
+        cible = self.effectuerRequeteServeur('X')
+        self.determinerCible(cible)
+        #self.demarrerAlignementTresor()
 
     def run(self):
         print("Robot initialized")
@@ -37,7 +45,7 @@ class Robot(Thread):
 
     def demarrerConnectionTCP(self):
         print("Demarre TCP Client")
-        self.robotClient = RobotClient(self)
+        self.robotClient = RobotClient(self, self.adresseIP)
         self.robotClient.start()
 
     def demarrerLectureUART(self):
@@ -106,7 +114,30 @@ class Robot(Thread):
         print("######### COMMENCE AUTO PILOT #########")
         self.uartDriver.postAlignementStation()
         print("======== ALIGNEMENT TERMINER ========")
+
+        self.uartDriver.decoderManchester()
+        self.attendreReceptionLettre()
+        reponse = self.effectuerRequeteServeur(self.lettreObtenue)
+        self.determinerCible(reponse)
+
         self.alignementEnCours = False
+
+    def determinerCible(self, reponse):
+        if "forme" in reponse:
+            print("Indice est une forme")
+        elif "couleur" in reponse:
+            print("Indice est une couleur")
+
+    def attendreReceptionLettre(self):
+        while (self.lettreObtenue is None):
+            time.sleep(0.2)
+        print("Lettre recu par le robot : %s" %self.lettreObtenue)
+
+        self.pretEnvoyerLettre = True
+
+    def effectuerRequeteServeur(self, lettre):
+        reponse = islandServerRequest(self.adresseIP, lettre)
+        return reponse
 
     def executerAlignement(self):
         for inst in self.instructions:

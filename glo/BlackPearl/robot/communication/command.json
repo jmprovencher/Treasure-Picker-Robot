@@ -17,7 +17,7 @@
 "commande": "tension",
 "commande": "robotPret",
 "commande": "rotateClock",
-"commande": "rotateAntiClock"
-"commande": "man: ?"
+"commande": "rotateAntiClock",
+"commande": "man: ?",
 "commande": "cible: ??????"
 }

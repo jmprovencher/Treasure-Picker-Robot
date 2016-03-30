@@ -14,11 +14,7 @@ class LectureUART(Thread):
             info = self.robot.uartDriver.UART.read(4)
             print "Lecture UART: "
             print info
-            if (info == 'done'):
-                self.robot.commandeTerminee = True
-            elif ()
-            else:
-                self.robot.tensionCondensateur = info
+            self.analyserLecture(info)
 
     def analyserLecture(self, info):
         lettre_manchester = info[0]
@@ -27,3 +23,5 @@ class LectureUART(Thread):
             print("Lettre obtenue : %s" %lettre_manchester)
         elif (info == 'done'):
             self.robot.commandeTerminee = True
+        else:
+            self.robot.tensionCondensateur = info

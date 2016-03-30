@@ -1,5 +1,5 @@
 from PyQt4 import QtGui, QtCore
-import textwrap
+import sys
 
 class RedirigeurTexte():
     def __init__(self, widget, tag):

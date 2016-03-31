@@ -77,6 +77,7 @@ class AnalyseImageWorld(Thread):
     def detectionPrimaire(self):
         self.chargerImagePrimaire()
         self.trouverElementsCartographiques()
+        while self.
         self.estomperImage()
         print("\nDetection du robot...")
         self.trouverRobotInitiale()

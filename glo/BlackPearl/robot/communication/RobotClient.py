@@ -22,6 +22,7 @@ class RobotClient(Thread):
             while 1:
                 if (self.robot.pretEnvoyerLettre):
                     self.envoyerLettre()
+
                 if (self.robot.pretEnvoyerIndice):
                     self.envoyerIndice()
                 if (self.termineeAEteEnvoyerAStation):
@@ -32,6 +33,7 @@ class RobotClient(Thread):
                         self.envoyerTension()
                         self.envoyerCommandeTerminee()
                         time.sleep(0.5)
+                time.sleep(4)
 
     def attendreCommande(self):
         data = -1
@@ -77,7 +79,6 @@ class RobotClient(Thread):
             try:
                 self.monClient.sendFile()
                 self.robot.pretEnvoyerLettre = False
-                time.sleep(5)
                 break
             except Exception as e:
                 print e
@@ -92,7 +93,6 @@ class RobotClient(Thread):
             try:
                 self.monClient.sendFile()
                 self.robot.pretEnvoyerIndice = False
-                time.sleep(5)
                 break
             except Exception as e:
                 print e

@@ -29,14 +29,15 @@ class Robot(Thread):
         self.pretEnvoyerLettre = False
         self.pretEnvoyerIndice = False
         # self.demarrerAlignementIle()
-        self.adresseIP = '10.248.184.232'
+        #self.adresseIP = '10.248.184.232'
         # self.adresseIP = '132.203.14.228'
+        self.adresseIP = '192.168.0.45' #Design 3109
         self.demarrerLectureUART()
-        # self.demarrerObtenirTension()
+        #self.demarrerObtenirTension()
         self.demarrerConnectionTCP()
-        # cible = self.effectuerRequeteServeur('X')
-        # self.determinerCible(cible)
-        # self.demarrerAlignementTresor()
+        #cible = self.effectuerRequeteServeur('X')
+        #self.determinerCible(cible)
+        #self.demarrerAlignementTresor()
 
     def run(self):
         print("Robot initialized")
@@ -80,14 +81,16 @@ class Robot(Thread):
         time.sleep(0.5)
         self.uartDriver.postAlignementIle()
         print("======== ALIGNEMENT TERMINER ========")
+        time.sleep(2)
+        self.decoderManchester()
         self.alignementEnCours = False
 
     def demarrerAlignementTresor(self):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
-        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
-        self.analyseImageEmbarquee.start()
-        self.analyseImageEmbarquee.join()
+        #self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
+        #self.analyseImageEmbarquee.start()
+        #self.analyseImageEmbarquee.join()
         self.uartDriver.descendrePrehenseur()
         time.sleep(6)
         print("######### PREHENSEUR DOWN #########")
@@ -100,7 +103,7 @@ class Robot(Thread):
         self.uartDriver.activerAimant()
         time.sleep(0.5)
         self.executerAlignement()
-        self.uartDriver.sendCommand('forward', 20)
+        self.uartDriver.sendCommand('forward', 10)
         time.sleep(4)
         print("######### COMMENCE AUTO PILOT #########")
         self.uartDriver.postAlignementTresor()
@@ -121,25 +124,24 @@ class Robot(Thread):
             time.sleep(1)
         self.uartDriver.cameraPositionFace()
         print("######### CAMERA FRONT #########")
-        # time.sleep(2)
-        # #self.executerAlignement()
-        # self.uartDriver.chargerCondensateur()
-        # time.sleep(1)
-        # print("######### CONDENSATEUR ON ##########")
-        # self.uartDriver.sendCommand('forward', 10)
-        # time.sleep(3)
-        # print("######### COMMENCE RECHARGE #########")
-        #
-        # print("TENSION AVANT RECHARGE: %s" %self.tensionCondensateur)
-        #
-        # while(float(self.tensionCondensateur) < 4.60):
-        #     print(self.tensionCondensateur)
-        #     print("Tension condensateur: %s" %self.tensionCondensateur)
-        #     time.sleep(0.5)
+        time.sleep(2)
+        #self.executerAlignement()
+        self.uartDriver.chargerCondensateur()
+        time.sleep(1)
+        print("######### CONDENSATEUR ON ##########")
+        self.uartDriver.sendCommand('forward', 10)
+        time.sleep(3)
+        print("######### COMMENCE RECHARGE #########")
+        print("TENSION AVANT RECHARGE: %s" %self.tensionCondensateur)
 
-        # self.uartDriver.stopCondensateur()
-        # print("######### CONDENSATEUR OFF ##########")
-        # time.sleep(2)
+        while(float(self.tensionCondensateur) < 4.60):
+             print(self.tensionCondensateur)
+             print("Tension condensateur: %s" %self.tensionCondensateur)
+             time.sleep(0.5)
+
+        self.uartDriver.stopCondensateur()
+        print("######### CONDENSATEUR OFF ##########")
+        time.sleep(2)
 
         print("Envoie signal pour decoder le manchester")
         self.decoderManchester()
@@ -183,8 +185,6 @@ class Robot(Thread):
             self.pretEnvoyerIndice = True
         else:
             print("Something wrong")
-
-
 
     def attendreReceptionLettre(self):
         while (self.lettreObtenue is None):

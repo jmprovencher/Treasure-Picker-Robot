@@ -13,6 +13,6 @@ class ObtenirTension(Thread):
         while 1:
             self.robot.uartDriver.sendCommand('checkCapacity', 0)
             print "Demande de tension..."
-            time.sleep(0.5)
+            time.sleep(5)
 
 

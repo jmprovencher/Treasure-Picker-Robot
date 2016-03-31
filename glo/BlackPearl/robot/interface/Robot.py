@@ -34,9 +34,9 @@ class Robot(Thread):
         self.demarrerLectureUART()
         #self.demarrerObtenirTension()
         self.demarrerConnectionTCP()
-        # cible = self.effectuerRequeteServeur('X')
-        # self.determinerCible(cible)
-        # self.demarrerAlignementTresor()
+        #cible = self.effectuerRequeteServeur('X')
+        #self.determinerCible(cible)
+        #self.demarrerAlignementTresor()
 
     def run(self):
         print("Robot initialized")
@@ -100,7 +100,7 @@ class Robot(Thread):
         self.uartDriver.activerAimant()
         time.sleep(0.5)
         self.executerAlignement()
-        self.uartDriver.sendCommand('forward', 20)
+        self.uartDriver.sendCommand('forward', 10)
         time.sleep(4)
         print("######### COMMENCE AUTO PILOT #########")
         self.uartDriver.postAlignementTresor()

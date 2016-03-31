@@ -162,6 +162,7 @@ class Robot(Thread):
                 self.indiceObtenu = "cercle"
             elif "triangle" in reponse:
                 self.indiceObtenu = "triangle"
+            self.pretEnvoyerIndice = True
         elif "couleur" in reponse:
             if "rouge" in reponse:
                 self.indiceObtenu = "rouge"
@@ -171,10 +172,11 @@ class Robot(Thread):
                 self.indiceObtenu = "vert"
             elif "jaune" in reponse:
                 self.indiceObtenu = "jaune"
+            self.pretEnvoyerIndice = True
         else:
             print("Something wrong")
 
-        self.pretEnvoyerIndice = True
+
 
     def attendreReceptionLettre(self):
         while (self.lettreObtenue is None):

@@ -76,6 +76,18 @@ class Interface(QtGui.QWidget):
         self.robotNonActif = QLabel(self)
         self.robotNonActif.setGeometry(380, 142, 640, 170)
         self.robotNonActif.setText(QString('Robot :'))
+        self.tensionCondensateur.setText(QString('Tension condensateur : ?'))
+        self.orientation.setText(QString('Orientation du robot : ?'))
+        self.ileCible.setText(QString('Ile cible : ?'))
+        self.manchester.setText(QString('Manchester : ?'))
+        self.position.setText(QString('Position du robot : ?'))
+        self.robotPretAffiche.setText(QString('Non Connecte'))
+        self.position.update()
+        self.orientation.update()
+        self.robotPretAffiche.update()
+        self.tensionCondensateur.update()
+        self.ileCible.update()
+        self.manchester.update()
         self.robotNonActif.update()
         self.initTextBox()
 
@@ -127,8 +139,6 @@ class Interface(QtGui.QWidget):
         if(self.threadStationBase.robotEstPret):
             self.robotPretAffiche.setStyleSheet('color: green')
             self.robotPretAffiche.setText(QString('Connecte'))
-        else:
-            self.robotPretAffiche.setText(QString('Non Connecte'))
         self.robotPretAffiche.repaint()
         self.manchester.repaint()
         self.ileCible.repaint()

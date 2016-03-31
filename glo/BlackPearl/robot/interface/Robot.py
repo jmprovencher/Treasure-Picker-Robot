@@ -85,9 +85,9 @@ class Robot(Thread):
     def demarrerAlignementTresor(self):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
-        # self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
-        # self.analyseImageEmbarquee.start()
-        # self.analyseImageEmbarquee.join()
+        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
+        self.analyseImageEmbarquee.start()
+        self.analyseImageEmbarquee.join()
         self.uartDriver.descendrePrehenseur()
         time.sleep(6)
         print("######### PREHENSEUR DOWN #########")

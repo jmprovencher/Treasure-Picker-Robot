@@ -5,9 +5,9 @@ class AlignementTresor():
 
     def calculerAjustement(self, distance_x, distance_y):
         ajustements_x = self._ajusterPositionX(distance_x)
-        ajustements_y = self._ajusterPositionY(distance_y)
+        #ajustements_y = self._ajusterPositionY(distance_y)
         self.ajustements.append(ajustements_x)
-        self.ajustements.append(ajustements_y)
+        #elf.ajustements.append(ajustements_y)
         return self.ajustements
 
 

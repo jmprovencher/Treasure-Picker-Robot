@@ -71,7 +71,7 @@ class Interface(QtGui.QWidget):
         self.ileCible = QLabel(self)
         self.ileCible.setGeometry(380, 122, 640, 150)
         self.robotPretAffiche = QLabel(self)
-        self.robotPretAffiche.setGeometry(420, 142, 640, 170)
+        self.robotPretAffiche.setGeometry(444, 142, 660, 170)
         self.robotPretAffiche.setStyleSheet('color: red')
         self.robotNonActif = QLabel(self)
         self.robotNonActif.setGeometry(380, 142, 640, 170)

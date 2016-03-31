@@ -7,6 +7,7 @@ from robot.communication.RequeteJSON import RequeteJSON
 from robot.communication.islandServerRequest import islandServerRequest
 from threading import Thread, RLock
 import time
+from robot.communication.ObtenirTension import ObtenirTension
 
 verrou = RLock()
 
@@ -29,8 +30,8 @@ class Robot(Thread):
         self.adresseIP = '10.248.84.146'
         #self.adresseIP = '132.203.14.228'
         self.demarrerLectureUART()
-        self.demarrerConnectionTCP()
         self.demarrerObtenirTension()
+        self.demarrerConnectionTCP()
         #cible = self.effectuerRequeteServeur('X')
         #self.determinerCible(cible)
         #self.demarrerAlignementTresor()
@@ -42,9 +43,6 @@ class Robot(Thread):
         time.sleep(1)
         self.uartDriver.cameraPositionFace()
         print("Prehenseur et camera position defaut")
-        while 1:
-            self.uartDriver.sendCommand('checkCapacity', 0)
-            time.sleep(1)
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoRobot()
@@ -59,6 +57,11 @@ class Robot(Thread):
         print "Demarrer lecture UART"
         self.threadLecture = LectureUART(self)
         self.threadLecture.start()
+
+    def demarrerObtenirTension(self):
+        print "Demarrer obtention tension."
+        self.obtenirTension = ObtenirTension()
+        self.obtenirTension.start()
 
     def demarrerAlignementIle(self):
         self.demarrerFeedVideo()

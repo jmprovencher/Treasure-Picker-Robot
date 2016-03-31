@@ -22,6 +22,7 @@ class LectureUART(Thread):
         print("Premiere lettre lecture: %s" %lettre_manchester)
         if (info.count(lettre_manchester) == 4):
             self.robot.lettreObtenue = lettre_manchester
+            self.robot.pretEnvoyerLettre = True
             print("Lettre obtenue : %s" %lettre_manchester)
         elif (info == 'done'):
             print("AnalyserLecture: Commande est terminee")

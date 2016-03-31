@@ -25,16 +25,18 @@ class Robot(Thread):
         self.commandeTerminee = False
         self.tensionCondensateur = 0
         self.lettreObtenue = None
+        self.indiceObtenu = None
         self.pretEnvoyerLettre = False
-        #self.demarrerAlignementIle()
+        self.pretEnvoyerIndice = False
+        # self.demarrerAlignementIle()
         self.adresseIP = '10.248.84.146'
-        #self.adresseIP = '132.203.14.228'
+        # self.adresseIP = '132.203.14.228'
         self.demarrerLectureUART()
-        #self.demarrerObtenirTension()
+        # self.demarrerObtenirTension()
         self.demarrerConnectionTCP()
-        #cible = self.effectuerRequeteServeur('X')
-        #self.determinerCible(cible)
-        #self.demarrerAlignementTresor()
+        # cible = self.effectuerRequeteServeur('X')
+        # self.determinerCible(cible)
+        # self.demarrerAlignementTresor()
 
     def run(self):
         print("Robot initialized")
@@ -83,9 +85,9 @@ class Robot(Thread):
     def demarrerAlignementTresor(self):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
-        #self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
-        #self.analyseImageEmbarquee.start()
-        #self.analyseImageEmbarquee.join()
+        # self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
+        # self.analyseImageEmbarquee.start()
+        # self.analyseImageEmbarquee.join()
         self.uartDriver.descendrePrehenseur()
         time.sleep(6)
         print("######### PREHENSEUR DOWN #########")
@@ -97,7 +99,7 @@ class Robot(Thread):
         time.sleep(2)
         self.uartDriver.activerAimant()
         time.sleep(0.5)
-        #self.executerAlignement()
+        # self.executerAlignement()
         self.uartDriver.sendCommand('forward', 10)
         time.sleep(4)
         print("######### COMMENCE AUTO PILOT #########")
@@ -108,9 +110,9 @@ class Robot(Thread):
     def demarrerAlignementStation(self):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
-        #self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'station')
-        #self.analyseImageEmbarquee.start()
-        #self.analyseImageEmbarquee.join()
+        # self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'station')
+        # self.analyseImageEmbarquee.start()
+        # self.analyseImageEmbarquee.join()
         self.uartDriver.monterPrehenseur()
         time.sleep(5)
         print("######### PREHENSEUR UP #########")
@@ -135,9 +137,9 @@ class Robot(Thread):
         #     print("Tension condensateur: %s" %self.tensionCondensateur)
         #     time.sleep(0.5)
 
-        #self.uartDriver.stopCondensateur()
-        #print("######### CONDENSATEUR OFF ##########")
-        #time.sleep(2)
+        # self.uartDriver.stopCondensateur()
+        # print("######### CONDENSATEUR OFF ##########")
+        # time.sleep(2)
 
         print("Envoie signal pour decoder le manchester")
         self.uartDriver.decoderManchester()
@@ -148,20 +150,35 @@ class Robot(Thread):
         self.uartDriver.postAlignementStation()
         print("======== ALIGNEMENT TERMINER ========")
 
-
         self.alignementEnCours = False
 
     def determinerCible(self, reponse):
         if "forme" in reponse:
-            print("Indice est une forme")
+            if (reponse.contains("carre")):
+                self.indiceObtenu = "carre"
+            elif (reponse.contains("pentagone")):
+                self.indiceObtenu = "pentagone"
+            elif (reponse.contains("cercle")):
+                self.indiceObtenu = "cercle"
+            elif (reponse.contains("triangle")):
+                self.indiceObtenu = "triangle"
         elif "couleur" in reponse:
-            print("Indice est une couleur")
+            if (reponse.contains("rouge")):
+                self.indiceObtenu = "rouge"
+            elif (reponse.contains("bleu")):
+                self.indiceObtenu = "bleu"
+            elif (reponse.contains("vert")):
+                self.indiceObtenu = "vert"
+            elif (reponse.contains("jaune")):
+                self.indiceObtenu = "jaune"
+
+        self.pretEnvoyerIndice = True
 
     def attendreReceptionLettre(self):
         while (self.lettreObtenue is None):
             print("Waiting for Manchester...")
             time.sleep(2)
-        print("Lettre recu par le robot : %s" %self.lettreObtenue)
+        print("Lettre recu par le robot : %s" % self.lettreObtenue)
 
         self.pretEnvoyerLettre = True
 

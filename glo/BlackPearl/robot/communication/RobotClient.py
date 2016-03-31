@@ -22,6 +22,8 @@ class RobotClient(Thread):
             while 1:
                 if (self.robot.pretEnvoyerLettre):
                     self.envoyerLettre()
+                if (self.robot.pretEnvoyerIndice):
+                    self.envoyerIndice()
                 if (self.termineeAEteEnvoyerAStation):
                     data = self.attendreCommande()
                     self.traiterCommande(data)
@@ -75,6 +77,20 @@ class RobotClient(Thread):
             try:
                 self.monClient.sendFile()
                 self.robot.pretEnvoyerLettre = False
+                break
+            except Exception as e:
+                print e
+                print "Connection Lost, Trying to reconnect"
+                time.sleep(0.1)
+                self.monClient = TCPClient(self.adresseIP)
+                self.monClient._connectToServer()
+
+    def envoyerIndice(self):
+        RequeteJSON("cible: " + self.robot.indiceObtenu, 0)
+        while 1:
+            try:
+                self.monClient.sendFile()
+                self.robot.pretEnvoyerIndice = False
                 break
             except Exception as e:
                 print e

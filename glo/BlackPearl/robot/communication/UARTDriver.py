@@ -66,10 +66,10 @@ class UARTDriver:
         time.sleep(1)
         print("### PREHENSEUR DOWN ###")
         self.descendrePrehenseur()
-        time.sleep(5)
+        time.sleep(6)
         print("### MAGNET OFF ###")
         self.desactiverAimant()
-        time.sleep(1)
+        time.sleep(2)
         #Recule
         print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.sendCommand('backward', 5)
@@ -83,11 +83,11 @@ class UARTDriver:
         self.sendCommand('stopCondensateur', 0)
 
     def showtime(self):
-        for j in range (0,5):
+        for j in range (0,6):
             self.cameraPositionFace()
-            time.sleep(0.3)
+            time.sleep(0.2)
             self.cameraPositionDepot()
-            time.sleep(0.3)
+            time.sleep(0.2)
 
     def to_bytes(n, length, endianess='big'):
         h = '%x' % n

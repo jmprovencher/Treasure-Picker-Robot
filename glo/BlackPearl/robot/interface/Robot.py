@@ -36,9 +36,9 @@ class Robot(Thread):
 
     def run(self):
         print("Robot initialized")
-        self.uartDriver.monterPrehenseur()
-        self.uartDriver.cameraPositionFace()
-        print("Prehenseur et camera position defaut")
+        #self.uartDriver.monterPrehenseur()
+        #self.uartDriver.cameraPositionFace()
+        #print("Prehenseur et camera position defaut")
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoRobot()
@@ -59,10 +59,10 @@ class Robot(Thread):
         self.alignementEnCours = True
         print("######### CAMERA DOWN #########")
         self.uartDriver.cameraPositionDepot()
-        time.sleep(1)
-        self.uartDriver.cameraPositionFace()
         time.sleep(2)
-
+        print("######### PREHENSEUR DOWN ########")
+        self.uartDriver.descendrePrehenseur()
+        time.sleep(2)
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'bleu')
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()

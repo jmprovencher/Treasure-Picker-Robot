@@ -24,6 +24,7 @@ class Interface(QtGui.QWidget):
         self.setAutoFillBackground(False)
         self.feed = QLabel(self)
         self.buffer = 25
+        self.table = None
         self.feed.setGeometry(5, self.hauteur-(600+self.buffer+5), 800, 600)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
         self.orientation = QLabel(self)
@@ -33,9 +34,19 @@ class Interface(QtGui.QWidget):
         #self.direction = QLabel(self)
         #self.direction.setGeometry(380, 52, 400, 80)
 
+        self.btnTableUn = QPushButton(self)
+        self.btnTableUn.clicked.connect(self.tableDesireUn)
+        self.btnTableUn.setText('Table 1')
+        self.btnTableUn.setGeometry(40, 10, 100, 27)
+
+        self.btnTableDeux = QPushButton(self)
+        self.btnTableDeux.clicked.connect(self.tableDesireDeux)
+        self.btnTableDeux.setText('Table 2')
+        self.btnTableDeux.setGeometry(140, 10, 100, 27)
+
         self.btnDemarer = QPushButton(self)
         self.btnDemarer.setText('Debuter')
-        self.btnDemarer.setGeometry(40, 25, 200, 27)
+        self.btnDemarer.setGeometry(40, 40, 200, 27)
         self.btnDemarer.clicked.connect(self.demarerRoutineComplete)
 
         self.btnDepStation = QPushButton(self)
@@ -90,32 +101,41 @@ class Interface(QtGui.QWidget):
         self.robotNonActif.update()
         self.initTextBox()
 
+
+    def tableDesireUn(self):
+        self.table = '1'
+        print('table' + self.table)
+
+    def tableDesireDeux(self):
+        self.table = '2'
+        print('table' + self.table)
+
     def demarerRoutineComplete(self):
-        self.threadStationBase = StationBase('routine complete')
+        self.threadStationBase = StationBase('routine complete', self.table)
         self.demarerRoutine()
 
     def demarerDepStation(self):
-        self.threadStationBase = StationBase('deplacement station')
+        self.threadStationBase = StationBase('deplacement station', self.table)
         self.demarerRoutine()
 
     def demarerAlignementStation(self):
-        self.threadStationBase = StationBase('alignement station')
+        self.threadStationBase = StationBase('alignement station', self.table)
         self.demarerRoutine()
 
     def demarerDepTresor(self):
-        self.threadStationBase = StationBase('deplacement tresor')
+        self.threadStationBase = StationBase('deplacement tresor', self.table)
         self.demarerRoutine()
 
     def demarerAlignementTresor(self):
-        self.threadStationBase = StationBase('alignement tresor')
+        self.threadStationBase = StationBase('alignement tresor', self.table)
         self.demarerRoutine()
 
     def demarerDepIle(self):
-        self.threadStationBase = StationBase('deplacement ile')
+        self.threadStationBase = StationBase('deplacement ile', self.table)
         self.demarerRoutine()
 
     def demarerAlignementIle(self):
-        self.threadStationBase = StationBase('alignement ile')
+        self.threadStationBase = StationBase('alignement ile', self.table)
         self.demarerRoutine()
 
     def demarerRoutine(self):

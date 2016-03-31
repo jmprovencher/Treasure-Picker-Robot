@@ -26,10 +26,10 @@ class Robot(Thread):
         self.lettreObtenue = None
         self.pretEnvoyerLettre = False
 
-        #self.adresseIP = '10.248.184.232'
-        self.adresseIP = '132.203.14.228'
-        #self.demarrerLectureUART()
-        #self.demarrerConnectionTCP()
+        self.adresseIP = '10.248.184.232'
+        #self.adresseIP = '132.203.14.228'
+        self.demarrerLectureUART()
+        self.demarrerConnectionTCP()
         cible = self.effectuerRequeteServeur('X')
         self.determinerCible(cible)
         #self.demarrerAlignementTresor()

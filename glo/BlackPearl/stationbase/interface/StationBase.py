@@ -21,12 +21,13 @@ class StationBase(Thread):
         self.trajectoirePrevue = None
         self.angleDesire = None
         self.tensionCondensateur = 0
+        self.descriptionIleCible = "?"
         self.manchester = "?"
         self.arriver = False
         self.envoyerCommande = False
         self.robotEstPret = False
         self.attenteDuRobot = False
-        #self.demarrerConnectionTCP()
+        self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
         self.carte = Carte()
         self.demarrerAnalyseImageWorld()
@@ -149,11 +150,12 @@ class StationBase(Thread):
         print '--------------------------------------------------'
         destination = self.identifierDestination('RECHARGE')
         self.trouverTrajectoirePrevu(destination)
-        while len(self.trajectoireReel) > 1:
+        while (self.trajectoireReel is None) or (len(self.trajectoireReel) > 1):
             self.orienter()
             self.deplacer()
         self.angleDesire = 90
         self.orientationFinaleStation()
+        self.reculer(5)
         print '\n--------------------------------------------------'
         print 'Arriver a la station de recharge.'
         print '--------------------------------------------------'
@@ -163,6 +165,13 @@ class StationBase(Thread):
         print '\n--------------------------------------------------'
         print 'Recharge termine.'
         print '--------------------------------------------------'
+
+    def reculer(self, dep):
+        print '\nDeplacer'
+        print 'deplacement: ', dep
+        self.myRequest = RequeteJSON("backward", dep)
+        self.envoyerCommande = True
+        self.attendreRobot()
 
     def trouverTrajectoirePrevu(self, destination):
         print '\nTrouve la trajectoire prevu...'
@@ -239,7 +248,7 @@ class StationBase(Thread):
         print '\nOrienter'
         while 1:
             angle = self.trouverDeplacementOrientation()
-            if angle <= 3 and angle >= -3:
+            if angle <= 5 and angle >= -5:
                 print '\nOrientation termine.'
                 break
             if angle >= 0:
@@ -251,18 +260,21 @@ class StationBase(Thread):
             self.attendreRobot()
             self.angleDesire = None
 
-    def orientationFinaleStation(self):
-        angleRobot = self.getOrientationRobot()
-        print 'angle du robot: ', angleRobot
-        print 'angle desire: ', self.angleDesire
-        depDegre = angleRobot - self.angleDesire
-        if depDegre < -180:
-            depDegre = depDegre + 360
-        elif depDegre > 180:
-            depDegre = depDegre - 360
-        print 'correction: ', depDegre
 
-        return depDegre
+    def orientationFinaleStation(self):
+        print '\nOrienter'
+        while 1:
+            angle = self.trouverDeplacementOrientation()
+            if angle <= 5 and angle >= -5:
+                print '\nOrientation termine.'
+                break
+            if angle >= 0:
+                self.myRequest = RequeteJSON("rotateClockwise", angle)
+            else:
+                self.myRequest = RequeteJSON("rotateAntiClockwise", abs(angle))
+            print 'Signaler que la comande est prete a envoyer.'
+            self.envoyerCommande = True
+            self.attendreRobot()
 
     def attendreRobot(self):
         self.attenteDuRobot = True
@@ -299,7 +311,10 @@ class StationBase(Thread):
         dep = self.distanceADestinationAuCarre(debut[0], debut[1], arriver[0], arriver[1])
         if dep <= 64:
             print '\nArriver.'
-            self.trajectoireReel.pop(-1)
+            if len(self.trajectoireReel) == 2:
+                self.trajectoireReel = None
+            else:
+                self.trajectoireReel.pop(-1)
 
     def allignement(self, commande, parametre):
         self.myRequest = RequeteJSON(commande, parametre)

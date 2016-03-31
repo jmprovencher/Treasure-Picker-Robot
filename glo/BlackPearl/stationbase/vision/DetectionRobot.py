@@ -45,7 +45,7 @@ class DetectionRobot(object):
         self.formeGauche = None
         intervalleFonce, intervalleClair = self.intervalleRobot
         masqueRobot = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        cv2.imshow('test', masqueRobot)
+        #cv2.imshow('test', masqueRobot)
         #cv2.waitKey(0)
         _, contoursRobot, hierarchy = cv2.findContours(masqueRobot.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
         indiceContoursNegligeable = []

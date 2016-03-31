@@ -124,21 +124,21 @@ class Robot(Thread):
         self.uartDriver.sendCommand('forward', 10)
         time.sleep(3)
         print("######### COMMENCE RECHARGE #########")
-        self.uartDriver.sendCommand('checkCapacity', 0)
-        while(self.tensionCondensateur < 4.3):
-            self.uartDriver.sendCommand('checkCapacity', 0)
+        while(float(self.tensionCondensateur) < 4.6):
             print("Tension condensateur: %d" %self.tensionCondensateur)
-            time.sleep(1)
+            time.sleep(0.5)
         self.uartDriver.stopCondensateur()
         print("######### CONDENSATEUR OFF ##########")
         time.sleep(2)
-        self.uartDriver.postAlignementStation()
-        print("======== ALIGNEMENT TERMINER ========")
         print("Envoie signal pour decoder le manchester")
         self.uartDriver.decoderManchester()
         self.attendreReceptionLettre()
         reponse = self.effectuerRequeteServeur(self.lettreObtenue)
         self.determinerCible(reponse)
+        time.sleep(10)
+        self.uartDriver.postAlignementStation()
+        print("======== ALIGNEMENT TERMINER ========")
+
 
         self.alignementEnCours = False
 

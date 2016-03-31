@@ -154,9 +154,10 @@ class StationBase(Thread):
             self.orienter()
             self.deplacer()
             self.angleDesire = None
-        self.angleDesire = 90
+        self.angleDesire = 87
         self.orientationFinaleStation()
         self.reculer(5)
+        self.depDroit(13)
         print '\n--------------------------------------------------'
         print 'Arriver a la station de recharge.'
         print '--------------------------------------------------'
@@ -166,6 +167,13 @@ class StationBase(Thread):
         print '\n--------------------------------------------------'
         print 'Recharge termine.'
         print '--------------------------------------------------'
+
+    def depDroit(self, dep):
+        print '\nDeplacer'
+        print 'deplacement: ', dep
+        self.myRequest = RequeteJSON("right", dep)
+        self.envoyerCommande = True
+        self.attendreRobot()
 
     def reculer(self, dep):
         print '\nDeplacer'
@@ -266,13 +274,13 @@ class StationBase(Thread):
         print '\nOrienter'
         while 1:
             angle = self.trouverDeplacementOrientation()
-            if angle <= 5 and angle >= -5:
+            if angle <= 3 and angle >= -3:
                 print '\nOrientation termine.'
                 break
             if angle >= 0:
-                self.myRequest = RequeteJSON("rotateClockwise", angle)
+                self.myRequest = RequeteJSON("rotateClockwise", angle-1)
             else:
-                self.myRequest = RequeteJSON("rotateAntiClockwise", abs(angle))
+                self.myRequest = RequeteJSON("rotateAntiClockwise", abs(angle)-1)
             print 'Signaler que la comande est prete a envoyer.'
             self.envoyerCommande = True
             self.attendreRobot()

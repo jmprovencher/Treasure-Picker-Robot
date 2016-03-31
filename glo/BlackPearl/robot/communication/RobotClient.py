@@ -33,7 +33,6 @@ class RobotClient(Thread):
                         self.envoyerTension()
                         self.envoyerCommandeTerminee()
                         time.sleep(0.5)
-                time.sleep(4)
 
     def attendreCommande(self):
         data = -1

@@ -16,21 +16,6 @@ class Interface(QtGui.QWidget):
         self.threadAfficherImageVirtuelle = AfficherImageVirtuelle(self)
         self.initUI()
 
-    def paintEvent(self, e):
-        qp = QPainter()
-        qp.begin(self)
-        #self.affichageDeBase = AffichageDeBase(qp)
-        #result = None
-        #while result is None:
-            #try:
-                #result = self.threadStationBase.threadCommunication.robotEstPret
-                #if(result):
-                    #self.dessinerRobotActive(qp)
-            #except:
-                #pass
-        qp.end()
-
-
     def initUI(self):
         self.setWindowTitle('Interface')
         screenShape = QtGui.QDesktopWidget().screenGeometry()
@@ -86,7 +71,12 @@ class Interface(QtGui.QWidget):
         self.ileCible = QLabel(self)
         self.ileCible.setGeometry(380, 122, 640, 150)
         self.robotPretAffiche = QLabel(self)
-        self.robotPretAffiche.setGeometry(380, 142, 640, 170)
+        self.robotPretAffiche.setGeometry(420, 142, 640, 170)
+        self.robotPretAffiche.setStyleSheet('color: red')
+        self.robotNonActif = QLabel(self)
+        self.robotNonActif.setGeometry(380, 142, 640, 170)
+        self.robotNonActif.setText(QString('Robot :'))
+        self.robotNonActif.update()
         self.initTextBox()
 
     def demarerRoutineComplete(self):
@@ -135,20 +125,16 @@ class Interface(QtGui.QWidget):
         #self.ileCible.setText(QString('Ile cible : ' + self.threadStationBase.descriptionIleCible.forme + ' ' + self.threadStationBase.carte.cible.ileChoisie.forme.couleur)
         self.manchester.setText(QString('Manchester : ' + self.threadStationBase.manchester))
         if(self.threadStationBase.robotEstPret):
-            self.robotPretAffiche(QString('Connecté'))
+            self.robotPretAffiche.setStyleSheet('color: green')
+            self.robotPretAffiche.setText(QString('Connecte'))
         else:
-            self.robotPretAffiche(QString('Non Connecté'))
+            self.robotPretAffiche.setText(QString('Non Connecte'))
         self.robotPretAffiche.repaint()
         self.manchester.repaint()
         self.ileCible.repaint()
         self.orientation.repaint()
         self.position.repaint()
         self.tensionCondensateur.repaint()
-
-    def dessinerRobotActive(self, qp):
-        qp.setBrush(QtGui.QColor(0, 200, 120, 250))
-        qp.setPen(QtGui.QColor(0, 200, 120))
-        qp.drawEllipse(1005, 55, 40, 40)
 
     def initTextBox(self):
         self.text = QtGui.QTextEdit(self)

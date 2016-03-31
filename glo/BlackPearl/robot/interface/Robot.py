@@ -132,7 +132,7 @@ class Robot(Thread):
 
         while(float(self.tensionCondensateur) < 4.60):
             print(self.tensionCondensateur)
-            print("Tension condensateur: %f" %self.tensionCondensateur)
+            print("Tension condensateur: %s" %self.tensionCondensateur)
             time.sleep(0.5)
 
         self.uartDriver.stopCondensateur()

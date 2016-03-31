@@ -148,6 +148,9 @@ class UARTDriver:
         elif command == 'readManchester':
             self.UART.write(b'z'.encode())
 
+        elif command == 'checkCapacity':
+            self.UART.write(b'k'.encode())
+
         #To implement when arduino will return command completion confirmation
         #commandComplete = self.UART.read(2)
         #return commandComplete

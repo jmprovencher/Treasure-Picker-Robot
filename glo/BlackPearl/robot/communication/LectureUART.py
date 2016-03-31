@@ -25,3 +25,4 @@ class LectureUART(Thread):
             self.robot.commandeTerminee = True
         else:
             self.robot.tensionCondensateur = info
+            print("Nouvelle tension :", info)

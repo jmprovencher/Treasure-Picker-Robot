@@ -118,7 +118,9 @@ class Robot(Thread):
         self.uartDriver.sendCommand('forward', 10)
         time.sleep(3)
         print("######### COMMENCE RECHARGE #########")
+        self.uartDriver.sendCommand('checkCapacity', 0)
         while(self.tensionCondensateur < 4.7):
+            self.uartDriver.sendCommand('checkCapacity', 0)
             print("Tension condensateur: %d" %self.tensionCondensateur)
             time.sleep(1)
         self.uartDriver.stopCondensateur()

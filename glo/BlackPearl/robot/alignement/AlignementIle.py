@@ -6,10 +6,10 @@ class AlignementIle():
     def calculerAjustement(self, distance_x, distance_y):
         ajustements_x = self._ajusterPositionX(distance_x)
         ajustements_y = self._ajusterPositionY(distance_y)
-
-        if (distance_x > 0):
-            self.ajustements.append()
-        if (distance_y > 0):
+        print("Distnace x : ", distance_x)
+        if (distance_x > 40):
+            self.ajustements.append(ajustements_x)
+        if (distance_y > 40):
             self.ajustements.append(ajustements_y)
         return self.ajustements
 

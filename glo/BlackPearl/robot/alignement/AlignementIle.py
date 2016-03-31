@@ -7,7 +7,7 @@ class AlignementIle():
         ajustements_x = self._ajusterPositionX(distance_x)
         ajustements_y = self._ajusterPositionY(distance_y)
         print("Distnace x : ", distance_x)
-        if (distance_x > 40):
+        if (abs(distance_x) > 40):
             self.ajustements.append(ajustements_x)
         if (distance_y > 40):
             self.ajustements.append(ajustements_y)

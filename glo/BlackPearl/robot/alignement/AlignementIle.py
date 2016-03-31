@@ -8,7 +8,7 @@ class AlignementIle():
         ajustements_y = self._ajusterPositionY(distance_y)
 
         if (distance_x > 0):
-            self.ajustements.append()
+            self.ajustements.append(ajustements_x)
         if (distance_y > 0):
             self.ajustements.append(ajustements_y)
         return self.ajustements

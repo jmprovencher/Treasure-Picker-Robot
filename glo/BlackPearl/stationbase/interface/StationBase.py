@@ -78,11 +78,15 @@ class StationBase(Thread):
         self.threadImageVirtuelle.start()
 
     def demarerRoutine(self):
-        self.deplacementStation()
-        self.alignerStation()
+        #self.deplacementStation()
+        #self.alignerStation()
+        self.carte.cible.trouverIleCible(self.getPositionRobot())
         self.deplacementTresor()
+        time.sleep(10)
         self.alignerTresor()
+        time.sleep(10)
         self.deplacementIle()
+        time.sleep(10)
         self.alignerIle()
         time.sleep(100000)
 
@@ -106,7 +110,6 @@ class StationBase(Thread):
         print '\n--------------------------------------------------'
         print 'Aller a l''ile cible...'
         print '--------------------------------------------------'
-        self.carte.cible.trouverIleCible(self.getPositionRobot())
         destination = self.identifierDestination('ILE')
         self.trouverTrajectoirePrevu(destination)
         while (not self.trajectoireReel is None) and len(self.trajectoireReel) > 1:
@@ -116,8 +119,6 @@ class StationBase(Thread):
         print '\n--------------------------------------------------'
         print 'Arriver a l''ile.'
         print '--------------------------------------------------'
-        time.sleep(10)
-        self.alignerIle()
 
     def alignerIle(self):
         self.allignement("alignement_ile", 0)
@@ -129,7 +130,6 @@ class StationBase(Thread):
         print '\n--------------------------------------------------'
         print 'Aller au tresor...'
         print '--------------------------------------------------'
-        self.carte.cible.trouverIleCible(self.getPositionRobot())
         destination = self.identifierDestination('TRESOR')
         self.trouverTrajectoirePrevu(destination)
         while (not self.trajectoireReel is None) and len(self.trajectoireReel) > 1:
@@ -141,18 +141,15 @@ class StationBase(Thread):
             self.angleDesire = 267
         self.orientationFinaleStation()
         self.reculer(10)
-        time.sleep(10)
         print '\n--------------------------------------------------'
         print 'Arriver au tresor.'
         print '--------------------------------------------------'
-        self.alignerTresor()
 
     def alignerTresor(self):
         self.allignement("alignement_tresor", 0)
         print '\n--------------------------------------------------'
         print 'Capture termine.'
         print '-------------------------------------------------'
-        time.sleep(10)
         self.deplacementIle()
 
 
@@ -166,13 +163,15 @@ class StationBase(Thread):
             self.orienter()
             self.deplacer()
             self.angleDesire = None
-        self.angleDesire = 87
+        self.angleDesire = 89
         self.orientationFinaleStation()
         self.reculer(5)
         self.depDroit(13)
         print '\n--------------------------------------------------'
         print 'Arriver a la station de recharge.'
         print '--------------------------------------------------'
+        time.sleep(10)
+        self.alignerStation()
 
     def alignerStation(self):
         self.allignement("alignement_station", 0)

@@ -24,7 +24,7 @@ class Interface(QtGui.QWidget):
         self.setAutoFillBackground(False)
         self.feed = QLabel(self)
         self.buffer = 25
-        self.table = None
+        self.table = '2'
         self.feed.setGeometry(5, self.hauteur-(600+self.buffer+5), 800, 600)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
         self.orientation = QLabel(self)

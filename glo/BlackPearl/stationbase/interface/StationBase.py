@@ -107,6 +107,7 @@ class StationBase(Thread):
         return destination
 
     def deplacementIle(self):
+        self.carte.cible.trouverIleCible(self.getPositionRobot())
         print '\n--------------------------------------------------'
         print 'Aller a l''ile cible...'
         print '--------------------------------------------------'
@@ -127,6 +128,7 @@ class StationBase(Thread):
         print '--------------------------------------------------'
 
     def deplacementTresor(self):
+        self.carte.cible.trouverIleCible(self.getPositionRobot())
         print '\n--------------------------------------------------'
         print 'Aller au tresor...'
         print '--------------------------------------------------'

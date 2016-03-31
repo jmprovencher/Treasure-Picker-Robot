@@ -111,6 +111,7 @@ class StationBase(Thread):
         while (not self.trajectoireReel is None) and len(self.trajectoireReel) > 1:
             self.orienter()
             self.deplacer()
+        self.orientationFinaleIle()
         print '\n--------------------------------------------------'
         print 'Arriver a l''ile.'
         print '--------------------------------------------------'
@@ -226,6 +227,22 @@ class StationBase(Thread):
 
         return depDegre
 
+    def trouverDeplacementOrientationIle(self):
+        arriver = self.carte.cible.ileChoisie.getCentre()
+        debut = self.getPositionRobot()
+        self.angleDesire = self.trouverOrientationDesire(debut, arriver)
+        angleRobot = self.getOrientationRobot()
+        print 'angle du robot: ', angleRobot
+        print 'angle desire: ', self.angleDesire
+        depDegre = angleRobot - self.angleDesire
+        if depDegre < -180:
+            depDegre = depDegre + 360
+        elif depDegre > 180:
+            depDegre = depDegre - 360
+        print 'correction: ', depDegre
+
+        return depDegre
+
     def getPositionRobot(self):
         while 1:
             if (not self.carte.infoRobot is None):
@@ -284,6 +301,21 @@ class StationBase(Thread):
         print '\nOrienter'
         while 1:
             angle = self.trouverDeplacementOrientation()
+            if angle <= 3 and angle >= -3:
+                print '\nOrientation termine.'
+                break
+            if angle >= 0:
+                self.myRequest = RequeteJSON("rotateClockwise", angle-1)
+            else:
+                self.myRequest = RequeteJSON("rotateAntiClockwise", abs(angle)-1)
+            print 'Signaler que la comande est prete a envoyer.'
+            self.envoyerCommande = True
+            self.attendreRobot()
+
+    def orientationFinaleIle(self):
+        print '\nOrienter'
+        while 1:
+            angle = self.trouverDeplacementOrientationIle()
             if angle <= 3 and angle >= -3:
                 print '\nOrientation termine.'
                 break

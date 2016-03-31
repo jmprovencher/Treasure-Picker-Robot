@@ -32,6 +32,9 @@ class UARTDriver:
     def monterPrehenseur(self):
         self.UART.write(b'Q'.encode())
 
+    def brasserPrehenseur(self):
+        self.UART.write(b'R'.encode())
+
     def activerAimant(self):
         self.UART.write(b'g'.encode())
 

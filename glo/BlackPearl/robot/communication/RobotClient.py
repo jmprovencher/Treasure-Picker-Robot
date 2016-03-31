@@ -77,6 +77,7 @@ class RobotClient(Thread):
             try:
                 self.monClient.sendFile()
                 self.robot.pretEnvoyerLettre = False
+                time.sleep(5)
                 break
             except Exception as e:
                 print e
@@ -91,6 +92,7 @@ class RobotClient(Thread):
             try:
                 self.monClient.sendFile()
                 self.robot.pretEnvoyerIndice = False
+                time.sleep(5)
                 break
             except Exception as e:
                 print e

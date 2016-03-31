@@ -21,6 +21,7 @@ class AnalyseImageWorld(Thread):
     def __init__(self, stationBase):
         Thread.__init__(self)
         self.stationBase = stationBase
+        self.table = stationBase.table
         self.police = cv2.FONT_HERSHEY_SIMPLEX
         self.image = None
         self.imageCropper = None
@@ -138,11 +139,12 @@ class AnalyseImageWorld(Thread):
                 #if ((y < 30) or (y > 810)) and (x < 1321):
 
                 #table 1:
-                if ((y < 45) or (y > 750)) and (x < 1321):
-                    self.stationBase.carte.listeTresors.append(Tresor(centreForme))
-                #table 2:
-                #if ((y < 45) or (y > 750)) and (x < 1321):
-                    #self.stationBase.carte.listeTresors.append(Tresor(centreForme))
+                if (self.table == '1'):
+                    if ((y < 45) or (y > 750)) and (x < 1321):
+                        self.stationBase.carte.listeTresors.append(Tresor(centreForme))
+                if (self.table == '2'):
+                    if ((y < 45) or (y > 810)) and (x < 1347):
+                        self.stationBase.carte.listeTresors.append(Tresor(centreForme))
 
         if (not self.stationBase.carte.listeIles == []):
             self.stationBase.carte.cible.ileChoisie = self.stationBase.carte.listeIles[0]

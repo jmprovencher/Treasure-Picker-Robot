@@ -150,7 +150,7 @@ class StationBase(Thread):
         print '--------------------------------------------------'
         destination = self.identifierDestination('RECHARGE')
         self.trouverTrajectoirePrevu(destination)
-        while (not self.trajectoireReel is None) or (len(self.trajectoireReel) > 1):
+        while (not self.trajectoireReel is None) and (len(self.trajectoireReel) > 1):
             self.orienter()
             self.deplacer()
             self.angleDesire = None

@@ -41,13 +41,13 @@ class UARTDriver:
     def postAlignementTresor(self):
         print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.sendCommand('backward', 2)
+        time.sleep(3)
         print("### PREHENSEUR UP ###")
         self.monterPrehenseur()
         time.sleep(5)
         print("### MAGNET OFF ###")
         self.desactiverAimant()
         time.sleep(2)
-        self.sendCommand('backward', 5)
 
     def postAlignementStation(self):
         print("### BEEEEEEP BEEEEEEEEEEP ###")

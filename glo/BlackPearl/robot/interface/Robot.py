@@ -80,6 +80,7 @@ class Robot(Thread):
         #self.analyseImageEmbarquee.start()
         #self.analyseImageEmbarquee.join()
         self.uartDriver.descendrePrehenseur()
+        time.sleep(5)
         print("######### PREHENSEUR DOWN #########")
         while not (self.commandeTerminee):
             print("If this prints, this is useful")
@@ -91,7 +92,7 @@ class Robot(Thread):
         time.sleep(0.5)
         #self.executerAlignement()
         self.uartDriver.sendCommand('forward', 10)
-        time.sleep(3)
+        time.sleep(10)
         print("######### COMMENCE AUTO PILOT #########")
         self.uartDriver.postAlignementTresor()
         print("======== ALIGNEMENT TERMINER ========")

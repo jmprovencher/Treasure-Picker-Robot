@@ -35,7 +35,7 @@ class TCPServer():
             print('Sent: ', repr(data))
             data = f.read()
         f.close()
-        print 'Envoie reussi.'
+        print 'Envoi reussi'
         return 1
 
     def receiveFile(self):

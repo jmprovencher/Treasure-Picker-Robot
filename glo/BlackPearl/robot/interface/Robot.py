@@ -142,15 +142,18 @@ class Robot(Thread):
         # time.sleep(2)
 
         print("Envoie signal pour decoder le manchester")
-        self.uartDriver.decoderManchester()
-        self.attendreReceptionLettre()
-        reponse = self.effectuerRequeteServeur(self.lettreObtenue)
-        self.determinerCible(reponse)
-        time.sleep(10)
+        self.decoderManchester()
+        time.sleep(5)
         self.uartDriver.postAlignementStation()
         print("======== ALIGNEMENT TERMINER ========")
 
         self.alignementEnCours = False
+
+    def decoderManchester(self):
+        self.uartDriver.decoderManchester()
+        self.attendreReceptionLettre()
+        reponse = self.effectuerRequeteServeur(self.lettreObtenue)
+        self.determinerCible(reponse)
 
     def determinerCible(self, reponse):
         if "forme" in reponse:

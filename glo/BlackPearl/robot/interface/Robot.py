@@ -30,7 +30,6 @@ class Robot(Thread):
         #self.adresseIP = '132.203.14.228'
         self.demarrerLectureUART()
         self.demarrerConnectionTCP()
-        self.demarrerObtenirTension()
         #cible = self.effectuerRequeteServeur('X')
         #self.determinerCible(cible)
         #self.demarrerAlignementTresor()
@@ -125,7 +124,9 @@ class Robot(Thread):
         self.uartDriver.sendCommand('forward', 10)
         time.sleep(3)
         print("######### COMMENCE RECHARGE #########")
+        self.uartDriver.sendCommand('checkCapacity', 0)
         while(float(self.tensionCondensateur) < 4.6):
+            self.uartDriver.sendCommand('checkCapacity', 0)
             print(self.tensionCondensateur)
             print("Tension condensateur: %f" %self.tensionCondensateur)
             time.sleep(0.5)

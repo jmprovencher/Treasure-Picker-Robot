@@ -140,7 +140,7 @@ class UARTDriver:
             self.UART.write(b'd'.encode())
 
         elif command == 'readManchester':
-            self.UART.write(b'i'.encode())
+            self.UART.write(b'z'.encode())
 
         #To implement when arduino will return command completion confirmation
         #commandComplete = self.UART.read(2)

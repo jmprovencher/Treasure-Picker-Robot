@@ -25,19 +25,19 @@ class Robot(Thread):
         self.tensionCondensateur = 0
         self.lettreObtenue = None
         self.pretEnvoyerLettre = False
-
+        self.demarrerAlignementTresor()
         self.adresseIP = '10.248.184.232'
         #self.adresseIP = '132.203.14.228'
-        self.demarrerLectureUART()
-        self.demarrerConnectionTCP()
-        cible = self.effectuerRequeteServeur('X')
-        self.determinerCible(cible)
+        #self.demarrerLectureUART()
+        #self.demarrerConnectionTCP()
+        #cible = self.effectuerRequeteServeur('X')
+        #self.determinerCible(cible)
         #self.demarrerAlignementTresor()
 
     def run(self):
         print("Robot initialized")
-        #self.uartDriver.monterPrehenseur()
-        #self.uartDriver.cameraPositionFace()
+        self.uartDriver.monterPrehenseur()
+        self.uartDriver.cameraPositionFace()
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoRobot()
@@ -91,22 +91,22 @@ class Robot(Thread):
         self.executerAlignement()
         time.sleep(0.5)
         print("######### COMMENCE AUTO PILOT #########")
-        self.uartDriver.postAlignementTresor()
+        #self.uartDriver.postAlignementTresor()
         print("======== ALIGNEMENT TERMINER ========")
         self.alignementEnCours = False
 
     def demarrerAlignementStation(self):
-        # self.demarrerFeedVideo()
+        self.demarrerFeedVideo()
         self.alignementEnCours = True
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'station')
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
-        #self.uartDriver.monterPrehenseur()
+        self.uartDriver.monterPrehenseur()
         print("######### PREHENSEUR UP #########")
         while not (self.commandeTerminee):
             print("If this prints, this is useful")
             time.sleep(1)
-        #self.uartDriver.cameraPositionFace()
+        self.uartDriver.cameraPositionFace()
         print("######### CAMERA FRONT #########")
         time.sleep(2)
         self.executerAlignement()

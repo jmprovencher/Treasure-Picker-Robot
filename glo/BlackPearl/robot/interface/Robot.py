@@ -154,22 +154,22 @@ class Robot(Thread):
 
     def determinerCible(self, reponse):
         if "forme" in reponse:
-            if (reponse.contains("carre")):
+            if "carre" in reponse:
                 self.indiceObtenu = "carre"
-            elif (reponse.contains("pentagone")):
+            elif "pentagone" in reponse:
                 self.indiceObtenu = "pentagone"
-            elif (reponse.contains("cercle")):
+            elif "cercle" in reponse:
                 self.indiceObtenu = "cercle"
-            elif (reponse.contains("triangle")):
+            elif "triangle" in reponse:
                 self.indiceObtenu = "triangle"
         elif "couleur" in reponse:
-            if (reponse.contains("rouge")):
+            if "rouge" in reponse:
                 self.indiceObtenu = "rouge"
-            elif (reponse.contains("bleu")):
+            elif "bleu" in reponse:
                 self.indiceObtenu = "bleu"
-            elif (reponse.contains("vert")):
+            elif "vert" in reponse:
                 self.indiceObtenu = "vert"
-            elif (reponse.contains("jaune")):
+            elif "jaune" in reponse:
                 self.indiceObtenu = "jaune"
 
         self.pretEnvoyerIndice = True

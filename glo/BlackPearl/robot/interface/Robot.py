@@ -85,9 +85,9 @@ class Robot(Thread):
     def demarrerAlignementTresor(self):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
-        # self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
-        # self.analyseImageEmbarquee.start()
-        # self.analyseImageEmbarquee.join()
+        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
+        self.analyseImageEmbarquee.start()
+        self.analyseImageEmbarquee.join()
         self.uartDriver.descendrePrehenseur()
         time.sleep(6)
         print("######### PREHENSEUR DOWN #########")
@@ -99,8 +99,8 @@ class Robot(Thread):
         time.sleep(2)
         self.uartDriver.activerAimant()
         time.sleep(0.5)
-        # self.executerAlignement()
-        self.uartDriver.sendCommand('forward', 10)
+        self.executerAlignement()
+        self.uartDriver.sendCommand('forward', 20)
         time.sleep(4)
         print("######### COMMENCE AUTO PILOT #########")
         self.uartDriver.postAlignementTresor()
@@ -143,7 +143,7 @@ class Robot(Thread):
 
         print("Envoie signal pour decoder le manchester")
         self.decoderManchester()
-        
+
         self.uartDriver.postAlignementStation()
         print("======== ALIGNEMENT TERMINER ========")
 

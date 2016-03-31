@@ -60,7 +60,7 @@ class Robot(Thread):
 
     def demarrerObtenirTension(self):
         print "Demarrer obtention tension."
-        self.obtenirTension = ObtenirTension()
+        self.obtenirTension = ObtenirTension(self)
         self.obtenirTension.start()
 
     def demarrerAlignementIle(self):

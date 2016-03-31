@@ -37,6 +37,8 @@ class Robot(Thread):
     def run(self):
         print("Robot initialized")
         self.uartDriver.monterPrehenseur()
+        self.uartDriver.cameraPositionDepot()
+        time.sleep(1)
         self.uartDriver.cameraPositionFace()
         print("Prehenseur et camera position defaut")
 

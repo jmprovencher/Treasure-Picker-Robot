@@ -30,7 +30,7 @@ class Robot(Thread):
         self.adresseIP = '10.248.84.146'
         #self.adresseIP = '132.203.14.228'
         self.demarrerLectureUART()
-        self.demarrerObtenirTension()
+        #self.demarrerObtenirTension()
         self.demarrerConnectionTCP()
         #cible = self.effectuerRequeteServeur('X')
         #self.determinerCible(cible)

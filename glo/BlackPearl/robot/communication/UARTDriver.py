@@ -76,6 +76,12 @@ class UARTDriver:
         time.sleep(3)
         self.showtime()
 
+    def chargerCondensateur(self):
+        self.sendCommand('chargeCondensateur', 0)
+
+    def stopCondensateur(self):
+        self.sendCommand('stopCondensateur', 0)
+
     def showtime(self):
         for j in range (0,5):
             self.cameraPositionFace()

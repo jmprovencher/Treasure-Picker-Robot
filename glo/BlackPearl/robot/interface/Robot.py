@@ -25,19 +25,22 @@ class Robot(Thread):
         self.tensionCondensateur = 0
         self.lettreObtenue = None
         self.pretEnvoyerLettre = False
-
-        #self.adresseIP = '10.248.184.232'
-        self.adresseIP = '132.203.14.228'
-        #self.demarrerLectureUART()
-        #self.demarrerConnectionTCP()
-        cible = self.effectuerRequeteServeur('X')
-        self.determinerCible(cible)
+        #self.demarrerAlignementIle()
+        self.adresseIP = '10.248.84.146'
+        #self.adresseIP = '132.203.14.228'
+        self.demarrerLectureUART()
+        self.demarrerConnectionTCP()
+        #cible = self.effectuerRequeteServeur('X')
+        #self.determinerCible(cible)
         #self.demarrerAlignementTresor()
 
     def run(self):
         print("Robot initialized")
-        #self.uartDriver.monterPrehenseur()
-        #self.uartDriver.cameraPositionFace()
+        self.uartDriver.monterPrehenseur()
+        self.uartDriver.cameraPositionDepot()
+        time.sleep(1)
+        self.uartDriver.cameraPositionFace()
+        print("Prehenseur et camera position defaut")
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoRobot()
@@ -56,11 +59,9 @@ class Robot(Thread):
     def demarrerAlignementIle(self):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
-
-        self.uartDriver.cameraPositionDepot()
         print("######### CAMERA DOWN #########")
+        self.uartDriver.cameraPositionDepot()
         time.sleep(2)
-
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'bleu')
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
@@ -75,46 +76,61 @@ class Robot(Thread):
     def demarrerAlignementTresor(self):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
-        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
-        self.analyseImageEmbarquee.start()
-        self.analyseImageEmbarquee.join()
-        #self.uartDriver.descendrePrehenseur()
+        #self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
+        #self.analyseImageEmbarquee.start()
+        #self.analyseImageEmbarquee.join()
+        self.uartDriver.descendrePrehenseur()
+        time.sleep(6)
         print("######### PREHENSEUR DOWN #########")
         while not (self.commandeTerminee):
             print("If this prints, this is useful")
             time.sleep(1)
-        #self.uartDriver.cameraPositionDepot()
+        self.uartDriver.cameraPositionTresor()
         print("######### CAMERA DOWN #########")
         time.sleep(2)
-        #self.uartDriver.activerAimant()
+        self.uartDriver.activerAimant()
         time.sleep(0.5)
-        self.executerAlignement()
-        time.sleep(0.5)
+        #self.executerAlignement()
+        self.uartDriver.sendCommand('forward', 10)
+        time.sleep(4)
         print("######### COMMENCE AUTO PILOT #########")
         self.uartDriver.postAlignementTresor()
         print("======== ALIGNEMENT TERMINER ========")
         self.alignementEnCours = False
 
     def demarrerAlignementStation(self):
-        # self.demarrerFeedVideo()
+        self.demarrerFeedVideo()
         self.alignementEnCours = True
-        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'station')
-        self.analyseImageEmbarquee.start()
-        self.analyseImageEmbarquee.join()
-        #self.uartDriver.monterPrehenseur()
+        #self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'station')
+        #self.analyseImageEmbarquee.start()
+        #self.analyseImageEmbarquee.join()
+        self.uartDriver.monterPrehenseur()
+        time.sleep(5)
         print("######### PREHENSEUR UP #########")
         while not (self.commandeTerminee):
             print("If this prints, this is useful")
             time.sleep(1)
-        #self.uartDriver.cameraPositionFace()
+        self.uartDriver.cameraPositionFace()
         print("######### CAMERA FRONT #########")
         time.sleep(2)
-        self.executerAlignement()
-        time.sleep(0.5)
-        print("######### COMMENCE AUTO PILOT #########")
+        #self.executerAlignement()
+        self.uartDriver.chargerCondensateur()
+        time.sleep(1)
+        print("######### CONDENSATEUR ON ##########")
+        self.uartDriver.sendCommand('forward', 10)
+        time.sleep(3)
+        print("######### COMMENCE RECHARGE #########")
+        self.uartDriver.sendCommand('checkCapacity', 0)
+        while(self.tensionCondensateur < 4.3):
+            self.uartDriver.sendCommand('checkCapacity', 0)
+            print("Tension condensateur: %d" %self.tensionCondensateur)
+            time.sleep(1)
+        self.uartDriver.stopCondensateur()
+        print("######### CONDENSATEUR OFF ##########")
+        time.sleep(2)
         self.uartDriver.postAlignementStation()
         print("======== ALIGNEMENT TERMINER ========")
-
+        print("Envoie signal pour decoder le manchester")
         self.uartDriver.decoderManchester()
         self.attendreReceptionLettre()
         reponse = self.effectuerRequeteServeur(self.lettreObtenue)
@@ -159,9 +175,12 @@ class Robot(Thread):
         if (commande == 'alignement_ile'):
             print("Commence phase alignement: %s" % parametre)
             self.demarrerAlignementIle()
-        elif (commande == 'aligenemt_tresor'):
+        elif (commande == 'alignement_tresor'):
             print("Commence phase alignement: %s" % parametre)
             self.demarrerAlignementTresor()
+        elif (commande == 'alignement_station'):
+            print("Commence phase alignement: %s" % parametre)
+            self.demarrerAlignementStation()
         else:
             self.uartDriver.sendCommand(commande, parametre)
             print("Commande envoye au UART")

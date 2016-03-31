@@ -16,21 +16,6 @@ class Interface(QtGui.QWidget):
         self.threadAfficherImageVirtuelle = AfficherImageVirtuelle(self)
         self.initUI()
 
-    def paintEvent(self, e):
-        qp = QPainter()
-        qp.begin(self)
-        #self.affichageDeBase = AffichageDeBase(qp)
-        #result = None
-        #while result is None:
-            #try:
-                #result = self.threadStationBase.threadCommunication.robotEstPret
-                #if(result):
-                    #self.dessinerRobotActive(qp)
-            #except:
-                #pass
-        qp.end()
-
-
     def initUI(self):
         self.setWindowTitle('Interface')
         screenShape = QtGui.QDesktopWidget().screenGeometry()
@@ -43,9 +28,11 @@ class Interface(QtGui.QWidget):
         self.feed.setGeometry(5, self.hauteur-(600+self.buffer+5), 800, 600)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
         self.orientation = QLabel(self)
-        self.orientation.setGeometry(380, 22, 440, 50)
-        self.direction = QLabel(self)
-        self.direction.setGeometry(380, 52, 400, 80)
+        self.orientation.setGeometry(380, 22, 640, 50)
+        self.position = QLabel(self)
+        self.position.setGeometry(380, 52, 640, 80)
+        #self.direction = QLabel(self)
+        #self.direction.setGeometry(380, 52, 400, 80)
 
         self.btnDemarer = QPushButton(self)
         self.btnDemarer.setText('Debuter')
@@ -57,28 +44,51 @@ class Interface(QtGui.QWidget):
         self.btnDepStation.setGeometry(40, 70, 200, 27)
         self.btnDepStation.clicked.connect(self.demarerDepStation)
 
+        self.btnAlignementStation = QPushButton(self)
+        self.btnAlignementStation.setText('Aligner station')
+        self.btnAlignementStation.setGeometry(40, 100, 200, 27)
+        self.btnAlignementStation.clicked.connect(self.demarerAlignementStation)
+        self.btnAlignementTresor = QPushButton(self)
+        self.btnAlignementTresor.setText('Aligner tresor')
+        self.btnAlignementTresor.setGeometry(40, 130, 200, 27)
+        self.btnAlignementTresor.clicked.connect(self.demarerAlignementTresor)
         self.btnDemarer = QPushButton(self)
-        self.btnDemarer.setText('Se charger')
-        self.btnDemarer.setGeometry(40, 100, 200, 27)
-        self.btnDemarer.clicked.connect(self.demarerRoutine)
-        self.btnDemarer = QPushButton(self)
-        self.btnDemarer.setText('Deplacement tresor')
-        self.btnDemarer.setGeometry(40, 130, 200, 27)
-        self.btnDemarer.clicked.connect(self.demarerRoutine)
-        self.btnDemarer = QPushButton(self)
-        self.btnDemarer.setText('Prendre tresor')
+        self.btnDemarer.setText('Sert a rien')
         self.btnDemarer.setGeometry(40, 160, 200, 27)
         self.btnDemarer.clicked.connect(self.demarerRoutine)
         self.btnDemarer = QPushButton(self)
-        self.btnDemarer.setText('Deplacement ile cible')
+        self.btnDemarer.setText('Sert a rien')
         self.btnDemarer.setGeometry(40, 190, 200, 27)
         self.btnDemarer.clicked.connect(self.demarerRoutine)
         self.btnAliDepot = QPushButton(self)
-        self.btnAliDepot.setText('Depot tresor')
+        self.btnAliDepot.setText('Alignement ile')
         self.btnAliDepot.setGeometry(40, 220, 200, 27)
         self.btnAliDepot.clicked.connect(self.demarerAlignementIle)
-        #self.tensionCondensateur = QLabel(self)
-        #self.tensionCondensateur.setGeometry(480, 22, 640, 50)
+        self.tensionCondensateur = QLabel(self)
+        self.tensionCondensateur.setGeometry(380, 82, 640, 110)
+        self.manchester = QLabel(self)
+        self.manchester.setGeometry(380, 102, 640, 130)
+        self.ileCible = QLabel(self)
+        self.ileCible.setGeometry(380, 122, 640, 150)
+        self.robotPretAffiche = QLabel(self)
+        self.robotPretAffiche.setGeometry(444, 142, 660, 170)
+        self.robotPretAffiche.setStyleSheet('color: red')
+        self.robotNonActif = QLabel(self)
+        self.robotNonActif.setGeometry(380, 142, 640, 170)
+        self.robotNonActif.setText(QString('Robot :'))
+        self.tensionCondensateur.setText(QString('Tension condensateur : ?'))
+        self.orientation.setText(QString('Orientation du robot : ?'))
+        self.ileCible.setText(QString('Ile cible : ?'))
+        self.manchester.setText(QString('Manchester : ?'))
+        self.position.setText(QString('Position du robot : ?'))
+        self.robotPretAffiche.setText(QString('Non Connecte'))
+        self.position.update()
+        self.orientation.update()
+        self.robotPretAffiche.update()
+        self.tensionCondensateur.update()
+        self.ileCible.update()
+        self.manchester.update()
+        self.robotNonActif.update()
         self.initTextBox()
 
     def demarerRoutineComplete(self):
@@ -119,17 +129,22 @@ class Interface(QtGui.QWidget):
         #self.tensionCondensateur.setText(QString(self.threadStationBase.tensionCondensateur))
         QtGui.QApplication.processEvents()
         if(not self.threadStationBase.carte.infoRobot is None):
-            self.orientation.setText(QString(str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y '+ str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
+            self.position.setText(QString('Position du robot : ' + str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y'))
+            self.orientation.setText(QString('Orientation du robot : ' + str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0'))
         self.feed.repaint()
-        #self.tensionCondensateur.setText(QString(self.threadStationBase.threadCommunication.tensionCondensateur + 'V'))
+        self.tensionCondensateur.setText(QString('Tension condensateur : ' + str(self.threadStationBase.tensionCondensateur) + 'V'))
+        self.ileCible.setText(QString('Ile cible : ' + '?'))
+        #self.ileCible.setText(QString('Ile cible : ' + self.threadStationBase.descriptionIleCible.forme + ' ' + self.threadStationBase.carte.cible.ileChoisie.forme.couleur)
+        self.manchester.setText(QString('Manchester : ' + self.threadStationBase.manchester))
+        if(self.threadStationBase.robotEstPret):
+            self.robotPretAffiche.setStyleSheet('color: green')
+            self.robotPretAffiche.setText(QString('Connecte'))
+        self.robotPretAffiche.repaint()
+        self.manchester.repaint()
+        self.ileCible.repaint()
         self.orientation.repaint()
-        #self.direction.repaint()
-        #self.tensionCondensateur.repaint()
-
-    def dessinerRobotActive(self, qp):
-        qp.setBrush(QtGui.QColor(0, 200, 120, 250))
-        qp.setPen(QtGui.QColor(0, 200, 120))
-        qp.drawEllipse(1005, 55, 40, 40)
+        self.position.repaint()
+        self.tensionCondensateur.repaint()
 
     def initTextBox(self):
         self.text = QtGui.QTextEdit(self)

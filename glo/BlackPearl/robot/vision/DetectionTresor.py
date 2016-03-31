@@ -4,10 +4,10 @@ import numpy as np
 import math
 from robot.alignement.AlignementTresor import AlignementTresor
 
-KNOWN_DISTANCE = 15.8
-KNOWN_WIDTH = 1.0
-FOCAL_LENGTH = 1512
-HAUTEUR_ROBOT = 30.40
+KNOWN_DISTANCE = 13
+KNOWN_WIDTH = 1
+FOCAL_LENGTH = 1105
+HAUTEUR_ROBOT = 32
 
 class DetectionTresor(object):
     def __init__(self, image):
@@ -34,8 +34,8 @@ class DetectionTresor(object):
         boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
         cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
         cv2.putText(self.imageCamera, "%.2f cm" % (distanceMur) ,(self.imageCamera.shape[1] - 300, self.imageCamera.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX,2.0, (0, 255, 0), 3)
-        cv2.imshow("image", self.imageCamera)
-        cv2.waitKey(0)
+        #cv2.imshow("image", self.imageCamera)
+        #cv2.waitKey(0)
 
     def trouverOffsetLateral(self, contoursTresor):
         position_x, position_y = self._trouverCentreForme(contoursTresor)
@@ -95,8 +95,10 @@ class DetectionTresor(object):
 
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
-
-        return contoursCouleur[0]
+        if (len(contoursCouleur) == 0):
+            print("No treasure found")
+        else:
+            return contoursCouleur[0]
 
 
     def _definirIntervallesCouleurs(self):

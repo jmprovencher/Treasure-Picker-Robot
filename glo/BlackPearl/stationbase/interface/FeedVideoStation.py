@@ -21,7 +21,7 @@ class FeedVideoStation(Thread):
             #cv2.waitKey(1)
 
     def initVideo(self):
-        for camera_index in range(1, 10):
+        for camera_index in range(0, 10):
             try:
                 self.video = cv2.VideoCapture(camera_index)
                 #self.video = cv2.VideoCapture('test.webm')

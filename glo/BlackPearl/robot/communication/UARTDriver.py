@@ -40,13 +40,14 @@ class UARTDriver:
 
     def postAlignementTresor(self):
         print("### BEEEEEEP BEEEEEEEEEEP ###")
-        self.UART.write(b'2'.encode())
-        self.UART.write(str('2').encode())
+        self.sendCommand('backward', 5)
+        time.sleep(3)
         print("### PREHENSEUR UP ###")
         self.monterPrehenseur()
-        time.sleep(1)
+        time.sleep(5)
         print("### MAGNET OFF ###")
         self.desactiverAimant()
+        time.sleep(2)
 
     def postAlignementStation(self):
         print("### BEEEEEEP BEEEEEEEEEEP ###")
@@ -66,22 +67,30 @@ class UARTDriver:
         time.sleep(1)
         print("### PREHENSEUR DOWN ###")
         self.descendrePrehenseur()
-        time.sleep(5)
+        time.sleep(6)
         print("### MAGNET OFF ###")
         self.desactiverAimant()
-        time.sleep(1)
+        time.sleep(2)
+        self.monterPrehenseur()
+        time.sleep(6)
         #Recule
         print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.sendCommand('backward', 5)
         time.sleep(3)
         self.showtime()
 
+    def chargerCondensateur(self):
+        self.sendCommand('chargeCondensateur', 0)
+
+    def stopCondensateur(self):
+        self.sendCommand('stopCondensateur', 0)
+
     def showtime(self):
-        for j in range (0,5):
+        for j in range (0,6):
             self.cameraPositionFace()
-            time.sleep(0.3)
+            time.sleep(0.2)
             self.cameraPositionDepot()
-            time.sleep(0.3)
+            time.sleep(0.2)
 
     def to_bytes(n, length, endianess='big'):
         h = '%x' % n
@@ -140,7 +149,10 @@ class UARTDriver:
             self.UART.write(b'd'.encode())
 
         elif command == 'readManchester':
-            self.UART.write(b'i'.encode())
+            self.UART.write(b'z'.encode())
+
+        elif command == 'checkCapacity':
+            self.UART.write(b'k'.encode())
 
         #To implement when arduino will return command completion confirmation
         #commandComplete = self.UART.read(2)

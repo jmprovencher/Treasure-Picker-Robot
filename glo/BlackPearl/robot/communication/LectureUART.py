@@ -22,6 +22,8 @@ class LectureUART(Thread):
             self.robot.lettreObtenue = lettre_manchester
             print("Lettre obtenue : %s" %lettre_manchester)
         elif (info == 'done'):
+            print("AnalyserLecture: Commande est terminee")
             self.robot.commandeTerminee = True
         else:
             self.robot.tensionCondensateur = info
+            print("Nouvelle tension :", info)

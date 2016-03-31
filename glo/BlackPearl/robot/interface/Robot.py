@@ -171,6 +171,8 @@ class Robot(Thread):
                 self.indiceObtenu = "vert"
             elif "jaune" in reponse:
                 self.indiceObtenu = "jaune"
+        else:
+            print("Something wrong")
 
         self.pretEnvoyerIndice = True
 
@@ -179,7 +181,6 @@ class Robot(Thread):
             print("Waiting for Manchester...")
             time.sleep(2)
         print("Lettre recu par le robot : %s" % self.lettreObtenue)
-
         self.pretEnvoyerLettre = True
 
     def effectuerRequeteServeur(self, lettre):

@@ -21,6 +21,7 @@ class StationServeur(Thread):
             elif (self.stationBase.attenteDuRobot):
                 data = self.attendreInfoRobot()
                 self.traiterInfoRobot(data)
+                print("Station lecture fichier")
                 time.sleep(1)
             else:
                 time.sleep(1)
@@ -69,10 +70,13 @@ class StationServeur(Thread):
         elif (commande == "robotPret"):
             self.stationBase.robotEstPret = True
         elif (commande.startswith("cible: ")):
+             print("COMMANDE:",commande)
              indice = commande[7:]
+             print("Indice recu par la station %s" % indice)
              self.stationBase.carte.cible = Cible(self.stationBase.carte, indice)
         elif (commande.startswith("man: ")):
             self.stationBase.manchester = commande[-1]
+            print("Code manchester recu par la station %s" % self.stationBase.manchester)
         elif (commande == "termine"):
             print 'commande termine recu et traite'
             self.stationBase.attenteDuRobot = False

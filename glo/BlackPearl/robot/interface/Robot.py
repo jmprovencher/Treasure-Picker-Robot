@@ -30,6 +30,7 @@ class Robot(Thread):
         #self.adresseIP = '132.203.14.228'
         self.demarrerLectureUART()
         self.demarrerConnectionTCP()
+        self.demarrerObtenirTension()
         #cible = self.effectuerRequeteServeur('X')
         #self.determinerCible(cible)
         #self.demarrerAlignementTresor()
@@ -41,6 +42,9 @@ class Robot(Thread):
         time.sleep(1)
         self.uartDriver.cameraPositionFace()
         print("Prehenseur et camera position defaut")
+        while 1:
+            self.uartDriver.sendCommand('checkCapacity', 0)
+            time.sleep(1)
 
     def demarrerFeedVideo(self):
         self.threadVideo = FeedVideoRobot()

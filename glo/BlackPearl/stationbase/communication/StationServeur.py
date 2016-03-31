@@ -69,7 +69,7 @@ class StationServeur(Thread):
             self.stationBase.tensionCondensateur = parametre
         elif (commande == "robotPret"):
             self.stationBase.robotEstPret = True
-        elif (commande.startswith("cible: ")):
+        elif (commande.startswith("X")):
              print("COMMANDE:",commande)
              indice = commande[7:]
              print("Indice recu par la station %s" % indice)

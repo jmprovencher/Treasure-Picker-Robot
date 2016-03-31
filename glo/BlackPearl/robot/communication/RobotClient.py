@@ -86,7 +86,7 @@ class RobotClient(Thread):
                 self.monClient._connectToServer()
 
     def envoyerIndice(self):
-        RequeteJSON("cible: " + self.robot.indiceObtenu, 0)
+        RequeteJSON("X" + self.robot.indiceObtenu, 0)
         while 1:
             try:
                 self.monClient.sendFile()

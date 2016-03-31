@@ -74,6 +74,8 @@ class UARTDriver:
         print("### MAGNET OFF ###")
         self.desactiverAimant()
         time.sleep(6)
+        self.brasserPrehenseur()
+        time.sleep(2)
         self.monterPrehenseur()
         time.sleep(6)
         #Recule

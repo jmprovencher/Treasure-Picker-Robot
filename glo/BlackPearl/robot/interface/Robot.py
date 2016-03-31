@@ -159,7 +159,8 @@ class Robot(Thread):
 
     def attendreReceptionLettre(self):
         while (self.lettreObtenue is None):
-            time.sleep(0.2)
+            print("Waiting for Manchester...")
+            time.sleep(2)
         print("Lettre recu par le robot : %s" %self.lettreObtenue)
 
         self.pretEnvoyerLettre = True

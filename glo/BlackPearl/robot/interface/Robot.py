@@ -138,6 +138,7 @@ class Robot(Thread):
         #self.uartDriver.stopCondensateur()
         #print("######### CONDENSATEUR OFF ##########")
         #time.sleep(2)
+
         print("Envoie signal pour decoder le manchester")
         self.uartDriver.decoderManchester()
         self.attendreReceptionLettre()

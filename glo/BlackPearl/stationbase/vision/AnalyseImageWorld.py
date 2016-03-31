@@ -13,6 +13,7 @@ from stationbase.vision.DetectionRobot import DetectionRobot
 import math
 import copy
 import numpy as np
+from collections import Counter
 
 verrou = RLock()
 
@@ -26,6 +27,7 @@ class AnalyseImageWorld(Thread):
         self.cntRobotPerdu = 0
         self.attendreFeed()
         self.detectionPrimaire()
+
 
     def run(self):
         while 1:
@@ -75,7 +77,6 @@ class AnalyseImageWorld(Thread):
             self.elementsCartographiques.append(ile)
 
     def detectionPrimaire(self):
-        self.chargerImagePrimaire()
         self.trouverElementsCartographiques()
         self.estomperImage()
         print("\nDetection du robot...")
@@ -98,16 +99,31 @@ class AnalyseImageWorld(Thread):
 
     def trouverElementsCartographiques(self):
         print("\nDetection des iles...")
-        self.detectionIles = DetectionIles(self.image)
-        self.detectionIles.detecter()
+        self.detectionIlesListe = []
+        self.nombreIlesListe = []
+        for i in range(0,10):
+            self.chargerImagePrimaire()
+            self.detectionIlesItere = DetectionIles(self.image)
+            self.detectionIlesItere.detecter()
+            self.detectionIlesListe.append(self.detectionIlesItere)
+            self.nombreIlesListe.append(self.detectionIlesItere)
+        self.detectionIles = self.detectionIlesListe[self.indexPlusCommunList(self.nombreIlesListe)]
+
         for ile in self.detectionIles.ilesIdentifiees:
             contoursForme, nomForme, couleurForme = ile
             centreForme = self.trouverCentreForme(contoursForme)
             self.stationBase.carte.listeIles.append(Ile(centreForme, couleurForme, nomForme))
 
         print("\nDetection des tresors...")
-        self.detectionTresors = DetectionTresors(self.image)
-        self.detectionTresors.detecter()
+        self.detectionTresorsListe = []
+        self.nombreTresorsListe = []
+        for i in range(0,10):
+            self.chargerImagePrimaire()
+            self.detectionTresorsItere = DetectionTresors(self.image)
+            self.detectionTresorsItere.detecter()
+            self.detectionTresorsListe.append(self.detectionTresorsItere)
+            self.nombreTresorsListe.append(self.detectionTresorsItere)
+        self.detectionTresors = self.detectionTresorsListe[self.indexPlusCommunList(self.nombreIlesListe)]
         if len(self.detectionTresors.tresorIdentifies) > 0:
             for tresor in self.detectionTresors.tresorIdentifies:
                 contoursForme, _, _ = tresor
@@ -119,9 +135,14 @@ class AnalyseImageWorld(Thread):
                 #table1ou2 = + - 45 pour y (max y = 45)
                 #table 5:
                 #if ((y < 30) or (y > 810)) and (x < 1321):
+
                 #table 1:
                 if ((y < 45) or (y > 750)) and (x < 1321):
                     self.stationBase.carte.listeTresors.append(Tresor(centreForme))
+                #table 2:
+                #if ((y < 45) or (y > 750)) and (x < 1321):
+                    #self.stationBase.carte.listeTresors.append(Tresor(centreForme))
+
         if (not self.stationBase.carte.listeIles == []):
             self.stationBase.carte.cible.ileChoisie = self.stationBase.carte.listeIles[0]
         else:
@@ -233,5 +254,7 @@ class AnalyseImageWorld(Thread):
         else:
             return False
 
-
+    def indexPlusCommunList(self, lst):
+        data = Counter(lst)
+        return lst.index(data.most_common(1)[0][0])
 

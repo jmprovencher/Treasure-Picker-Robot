@@ -29,8 +29,9 @@ class Robot(Thread):
         self.pretEnvoyerLettre = False
         self.pretEnvoyerIndice = False
         # self.demarrerAlignementIle()
-        self.adresseIP = '10.248.184.232'
+        #self.adresseIP = '10.248.184.232'
         # self.adresseIP = '132.203.14.228'
+        self.adresseIP = '192.168.0.45' #Design 3109
         self.demarrerLectureUART()
         #self.demarrerObtenirTension()
         self.demarrerConnectionTCP()

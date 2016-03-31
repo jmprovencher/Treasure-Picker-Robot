@@ -162,7 +162,7 @@ class StationBase(Thread):
         print '--------------------------------------------------'
 
     def alignerStation(self):
-        self.allignement("allignement_station", 0)
+        self.allignement("alignement_station", 0)
         print '\n--------------------------------------------------'
         print 'Recharge termine.'
         print '--------------------------------------------------'

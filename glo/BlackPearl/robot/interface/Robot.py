@@ -169,9 +169,12 @@ class Robot(Thread):
         if (commande == 'alignement_ile'):
             print("Commence phase alignement: %s" % parametre)
             self.demarrerAlignementIle()
-        elif (commande == 'aligenemt_tresor'):
+        elif (commande == 'alignement_tresor'):
             print("Commence phase alignement: %s" % parametre)
             self.demarrerAlignementTresor()
+        elif (commande == 'alignement_station'):
+            print("Commence phase alignement: %s" % parametre)
+            self.demarrerAlignementStation()
         else:
             self.uartDriver.sendCommand(commande, parametre)
             print("Commande envoye au UART")

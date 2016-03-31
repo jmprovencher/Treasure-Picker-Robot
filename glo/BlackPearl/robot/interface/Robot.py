@@ -119,25 +119,25 @@ class Robot(Thread):
             time.sleep(1)
         self.uartDriver.cameraPositionFace()
         print("######### CAMERA FRONT #########")
-        time.sleep(2)
-        #self.executerAlignement()
-        self.uartDriver.chargerCondensateur()
-        time.sleep(1)
-        print("######### CONDENSATEUR ON ##########")
-        self.uartDriver.sendCommand('forward', 10)
-        time.sleep(3)
-        print("######### COMMENCE RECHARGE #########")
+        # time.sleep(2)
+        # #self.executerAlignement()
+        # self.uartDriver.chargerCondensateur()
+        # time.sleep(1)
+        # print("######### CONDENSATEUR ON ##########")
+        # self.uartDriver.sendCommand('forward', 10)
+        # time.sleep(3)
+        # print("######### COMMENCE RECHARGE #########")
+        #
+        # print("TENSION AVANT RECHARGE: %s" %self.tensionCondensateur)
+        #
+        # while(float(self.tensionCondensateur) < 4.60):
+        #     print(self.tensionCondensateur)
+        #     print("Tension condensateur: %s" %self.tensionCondensateur)
+        #     time.sleep(0.5)
 
-        print("TENSION AVANT RECHARGE: %s" %self.tensionCondensateur)
-
-        while(float(self.tensionCondensateur) < 4.60):
-            print(self.tensionCondensateur)
-            print("Tension condensateur: %s" %self.tensionCondensateur)
-            time.sleep(0.5)
-
-        self.uartDriver.stopCondensateur()
-        print("######### CONDENSATEUR OFF ##########")
-        time.sleep(2)
+        #self.uartDriver.stopCondensateur()
+        #print("######### CONDENSATEUR OFF ##########")
+        #time.sleep(2)
         print("Envoie signal pour decoder le manchester")
         self.uartDriver.decoderManchester()
         self.attendreReceptionLettre()

@@ -143,7 +143,7 @@ class Robot(Thread):
 
         print("Envoie signal pour decoder le manchester")
         self.decoderManchester()
-        time.sleep(5)
+        
         self.uartDriver.postAlignementStation()
         print("======== ALIGNEMENT TERMINER ========")
 

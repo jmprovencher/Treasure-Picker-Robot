@@ -32,10 +32,9 @@ class RobotClient(Thread):
                     elif (not self.robot.commandeTerminee) and self.robot.alignementEnCours:
                         print("Envoie de la tension")
                         self.envoyerTension()
-                    else:
-                        print("SENDING TENSION....")
-                        self.envoyerTension()
-                        time.sleep(0.1)
+                print("SENDING TENSION....")
+                self.envoyerTension()
+                time.sleep(0.1)
 
     def attendreCommande(self):
         data = -1

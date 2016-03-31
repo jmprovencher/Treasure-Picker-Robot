@@ -76,21 +76,22 @@ class Robot(Thread):
     def demarrerAlignementTresor(self):
         self.demarrerFeedVideo()
         self.alignementEnCours = True
-        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
-        self.analyseImageEmbarquee.start()
-        self.analyseImageEmbarquee.join()
+        #self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, 'tresor')
+        #self.analyseImageEmbarquee.start()
+        #self.analyseImageEmbarquee.join()
         self.uartDriver.descendrePrehenseur()
         print("######### PREHENSEUR DOWN #########")
         while not (self.commandeTerminee):
             print("If this prints, this is useful")
             time.sleep(1)
-        self.uartDriver.cameraPositionDepot()
+        self.uartDriver.cameraPositionTresor()
         print("######### CAMERA DOWN #########")
         time.sleep(2)
         self.uartDriver.activerAimant()
         time.sleep(0.5)
-        self.executerAlignement()
-        time.sleep(0.5)
+        #self.executerAlignement()
+        self.uartDriver.sendCommand('forward', 10)
+        time.sleep(3)
         print("######### COMMENCE AUTO PILOT #########")
         self.uartDriver.postAlignementTresor()
         print("======== ALIGNEMENT TERMINER ========")
@@ -119,7 +120,7 @@ class Robot(Thread):
         time.sleep(3)
         print("######### COMMENCE RECHARGE #########")
         self.uartDriver.sendCommand('checkCapacity', 0)
-        while(self.tensionCondensateur < 4.7):
+        while(self.tensionCondensateur < 4.3):
             self.uartDriver.sendCommand('checkCapacity', 0)
             print("Tension condensateur: %d" %self.tensionCondensateur)
             time.sleep(1)

@@ -12,9 +12,10 @@ class LectureUART(Thread):
     def run(self):
         while 1:
             info = self.robot.uartDriver.UART.read(4)
+            self.analyserLecture(info)
             print "Lecture UART: "
             print info
-            self.analyserLecture(info)
+
 
     def analyserLecture(self, info):
         lettre_manchester = info[0]

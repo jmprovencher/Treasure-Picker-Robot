@@ -128,11 +128,9 @@ class Robot(Thread):
         time.sleep(3)
         print("######### COMMENCE RECHARGE #########")
 
-        self.uartDriver.sendCommand('checkCapacity', 0)
-        print("TENSION INITIALE: %s" %self.tensionCondensateur)
+        print("TENSION AVANT RECHARGE: %s" %self.tensionCondensateur)
 
         while(float(self.tensionCondensateur) < 4.60):
-            self.uartDriver.sendCommand('checkCapacity', 0)
             print(self.tensionCondensateur)
             print("Tension condensateur: %f" %self.tensionCondensateur)
             time.sleep(0.5)

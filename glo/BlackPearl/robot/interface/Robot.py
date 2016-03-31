@@ -92,7 +92,7 @@ class Robot(Thread):
         time.sleep(0.5)
         #self.executerAlignement()
         self.uartDriver.sendCommand('forward', 10)
-        time.sleep(10)
+        time.sleep(4)
         print("######### COMMENCE AUTO PILOT #########")
         self.uartDriver.postAlignementTresor()
         print("======== ALIGNEMENT TERMINER ========")

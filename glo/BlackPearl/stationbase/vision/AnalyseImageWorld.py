@@ -78,10 +78,10 @@ class AnalyseImageWorld(Thread):
 
     def detectionPrimaire(self):
         self.trouverElementsCartographiques()
-        while self.
-        self.estomperImage()
-        print("\nDetection du robot...")
-        self.trouverRobotInitiale()
+        while self.stationBase.carte.infoRobot is None:
+            self.estomperImage()
+            print("\nDetection du robot...")
+            self.trouverRobotInitiale()
         self.eliminerContoursProcheRobot()
 
     def eliminerContoursProcheRobot(self):

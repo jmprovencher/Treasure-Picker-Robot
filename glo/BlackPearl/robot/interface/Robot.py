@@ -80,7 +80,7 @@ class Robot(Thread):
         #self.analyseImageEmbarquee.start()
         #self.analyseImageEmbarquee.join()
         self.uartDriver.descendrePrehenseur()
-        time.sleep(5)
+        time.sleep(6)
         print("######### PREHENSEUR DOWN #########")
         while not (self.commandeTerminee):
             print("If this prints, this is useful")

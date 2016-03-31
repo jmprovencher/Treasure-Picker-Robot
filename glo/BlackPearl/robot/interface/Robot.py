@@ -100,7 +100,7 @@ class Robot(Thread):
         self.uartDriver.activerAimant()
         time.sleep(0.5)
         # self.executerAlignement()
-        self.uartDriver.sendCommand('forward', 10)
+        self.uartDriver.sendCommand('forward', 20)
         time.sleep(4)
         print("######### COMMENCE AUTO PILOT #########")
         self.uartDriver.postAlignementTresor()
@@ -143,7 +143,7 @@ class Robot(Thread):
 
         print("Envoie signal pour decoder le manchester")
         self.decoderManchester()
-        
+
         self.uartDriver.postAlignementStation()
         print("======== ALIGNEMENT TERMINER ========")
 

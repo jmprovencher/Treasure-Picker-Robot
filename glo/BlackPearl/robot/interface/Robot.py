@@ -43,6 +43,7 @@ class Robot(Thread):
         self.uartDriver.cameraPositionFace()
         print("Prehenseur et camera position defaut")
         while 1:
+            print("Robot check capacite")
             self.uartDriver.sendCommand('checkCapacity', 0)
             time.sleep(1)
 
@@ -125,7 +126,8 @@ class Robot(Thread):
         time.sleep(3)
         print("######### COMMENCE RECHARGE #########")
         while(float(self.tensionCondensateur) < 4.6):
-            print("Tension condensateur: %d" %self.tensionCondensateur)
+            print(self.tensionCondensateur)
+            print("Tension condensateur: %f" %self.tensionCondensateur)
             time.sleep(0.5)
         self.uartDriver.stopCondensateur()
         print("######### CONDENSATEUR OFF ##########")

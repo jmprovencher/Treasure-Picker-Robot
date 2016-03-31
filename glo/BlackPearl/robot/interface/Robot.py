@@ -80,6 +80,8 @@ class Robot(Thread):
         time.sleep(0.5)
         self.uartDriver.postAlignementIle()
         print("======== ALIGNEMENT TERMINER ========")
+        time.sleep(2)
+        self.decoderManchester()
         self.alignementEnCours = False
 
     def demarrerAlignementTresor(self):

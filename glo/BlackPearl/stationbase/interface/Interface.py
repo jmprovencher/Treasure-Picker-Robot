@@ -6,7 +6,6 @@ from PyQt4.QtGui import QPainter
 from PyQt4.QtCore import QString
 from stationbase.interface.StationBase import StationBase
 from stationbase.interface.AfficherImageVirtuelle import AfficherImageVirtuelle
-from stationbase.interface.AffichageDeBase import AffichageDeBase
 from Tkinter import *
 from stationbase.interface.RedirigeurTexte import RedirigeurTexte
 

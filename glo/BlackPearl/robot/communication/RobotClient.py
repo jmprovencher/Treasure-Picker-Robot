@@ -43,7 +43,7 @@ class RobotClient(Thread):
                 print e
                 print "Connection Lost, Trying to reconnect"
                 time.sleep(0.1)
-                self.monClient = TCPClient()
+                self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
         if data == -1:
             print('Error while receiving file')
@@ -68,7 +68,7 @@ class RobotClient(Thread):
                 print e
                 print "Connection Lost, Trying to reconnect"
                 time.sleep(0.1)
-                self.monClient = TCPClient()
+                self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
 
     def envoyerLettre(self):
@@ -82,7 +82,7 @@ class RobotClient(Thread):
                 print e
                 print "Connection Lost, Trying to reconnect"
                 time.sleep(0.1)
-                self.monClient = TCPClient()
+                self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
 
     def envoyerCommandeTerminee(self):
@@ -95,7 +95,7 @@ class RobotClient(Thread):
                 print e
                 print "Connection Lost, Trying to reconnect"
                 time.sleep(0.1)
-                self.monClient = TCPClient()
+                self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
         self.robot.commandeTerminee = False
         self.termineeAEteEnvoyerAStation = True
@@ -110,6 +110,6 @@ class RobotClient(Thread):
                 print e
                 print "Connection Lost, Trying to reconnect"
                 time.sleep(0.1)
-                self.monClient = TCPClient()
+                self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
             time.sleep(0.1)

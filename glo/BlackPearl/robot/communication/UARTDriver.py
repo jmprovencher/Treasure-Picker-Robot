@@ -51,6 +51,7 @@ class UARTDriver:
         print("### MAGNET OFF ###")
         self.desactiverAimant()
         time.sleep(2)
+        self.sendCommand('backward', 15)
 
     def postAlignementStation(self):
         print("### BEEEEEEP BEEEEEEEEEEP ###")

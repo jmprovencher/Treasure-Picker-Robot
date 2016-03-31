@@ -12,7 +12,7 @@ boolean rotation = false;
 // string used to print on the serial
 String action = "";
 
-const int pinsDrive[4] = {3, 6, 7, 8};
+const int pinsDrive[4] = {9, 6, 7, 8};
 const int pinsDirection[8] = {32, 34, 36, 38, 40, 42, 41, 43};
 const int pinsRead[4] = {19, 21, 17, 20};
 const int pinElectroAimant = 5;

@@ -12,15 +12,18 @@ boolean rotation = false;
 // string used to print on the serial
 String action = "";
 
-const int pinClock = 2;
+const int pinClock = 3;
 const int pinManchester = 50;
-const int pinsDrive[4] = {3, 6, 7, 8};
+const int pinsDrive[4] = {9, 6, 7, 8};
 const int pinsDirection[8] = {32, 34, 36, 38, 40, 42, 41, 43};
 const int pinsRead[4] = {19, 21, 17, 20};
 const int pinElectroAimant = 5;
 const int pinPontDiodes = 22;
 const int pinActiveAimant = 24;
+int positionCamera = 6400;
 int spdWheels[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+
+String manchesterCode = "";
 
 bool stateClock = 0;
 bool stateManchester = 0;
@@ -90,7 +93,7 @@ void setup() {
     pidList[i].SetSampleTime(15);
   }
   
-  analogWrite(pinElectroAimant, 165);
+  analogWrite(pinElectroAimant, 180);
   
   attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
   attachInterrupt(digitalPinToInterrupt(21), decrementDuration, FALLING);
@@ -179,7 +182,10 @@ void serialEvent(){
     
     if(!mode){
       duration = 0;
-      if(incomingByte == 56){
+      if(incomingByte == 122){
+        cool();
+      }
+      else if(incomingByte == 56){
         action = "Moving forward ";
         Setpoint[0] = 800; Setpoint[1] = 800; Setpoint[2] = 3000; Setpoint[3] = 3000;
         for(int i = 0; i<8; i++){
@@ -246,12 +252,18 @@ void serialEvent(){
       }
       else if(incomingByte == 103){
         action = "Activate Magnet";
+        analogWrite(pinElectroAimant, 180);
         digitalWrite(pinActiveAimant, HIGH);
         writeString(commandComplete);
       }
       else if(incomingByte == 104){
         action = "Deactivate Magnet";
         digitalWrite(pinActiveAimant, LOW);
+        for(int i = 0; i++; i < 10){
+          int myValue = 123.46*pow(2.718, -0.284*i);
+          analogWrite(pinElectroAimant, myValue);
+          delay(100);
+        }
         writeString(commandComplete);
       }
       else if(incomingByte == 80){
@@ -262,6 +274,12 @@ void serialEvent(){
       else if(incomingByte == 81){
         action = "Prehenseur up ";
         maestro.setTarget(3, 2127);
+        writeString(commandComplete);
+      }
+      else if(incomingByte == 120){
+        action = "Camera Depot ";
+        maestro.setTarget(1,6000);
+        maestro.setTarget(2, 4044);
         writeString(commandComplete);
       }
       else if(incomingByte == 97){
@@ -279,95 +297,26 @@ void serialEvent(){
       else if(incomingByte == 99){
         action = "Camera Front ";
         maestro.setTarget(1, 6000);
-        maestro.setTarget(2,6200);
+        maestro.setTarget(2,6400);
+        positionCamera = 6400;
         writeString(commandComplete);
       }
       else if(incomingByte == 100){
         action = "Camera Treasure ";
-        maestro.setTarget(1,6000);
-        maestro.setTarget(2, 4044);
+        maestro.setTarget(1, 6000);
+        maestro.setTarget(2,5000);
+        positionCamera = 5000;
         writeString(commandComplete);
       }
-      else if(incomingByte = 105){
-        Serial.write("woah");
-        action = "Reading Manchester";
-        stopWheels();
-        detachInterrupt(digitalPinToInterrupt(20));
-        detachInterrupt(digitalPinToInterrupt(21));
-        attachInterrupt(digitalPinToInterrupt(pinClock), Reading, RISING);
-
-        while (complete == false){
-          if (count != countLoop)
-          {
-            countLoop = count;
-            stateClock = digitalRead(pinClock);
-            stateManchester = digitalRead(pinManchester);
-            bitDecode = stateClock ^ stateManchester;
-            
-    Serial.print(stateManchester);
-    Serial.print("-");
-    Serial.print(stateClock);
-    Serial.print("-");
-    Serial.println(bitDecode);
-            arrayCode[compteur] = bitDecode;
-            compteur++;
-          } 
-          if (compteur == 32 && complete == false)
-          {
-    Serial.print("Reception:");
-    for(int h=0;h<32;h++)
-    {
-      Serial.print(arrayCode[h]);
-    }
-    Serial.println(".");
-              for (int i = 0; i < 32; i++)
-              {
-                if (arrayCode[i] == 1)
-                {
-                  for (int j = i; j < i+8; j++)
-                  {
-                    if (arrayCode[j+1] == 1)
-                    {
-                      nombreDeSuite++;
-                      
-                      if (nombreDeSuite > 7 && arrayCode[j+2] == 0)
-                      {
-                        Serial.println("Serie terminee, voici le code secret :");
-                        for (int k = 0; k < 7; k++)
-                        {
-                          arrayDecode[k] = arrayCode[k + j + 3];
-                        }
-                        for (int b=0;b<7;b++)
-                        {
-                          Serial.print(arrayDecode[b]);
-                        }
-                        Serial.println(".");
-                        codeSecret = 0;
-                        for (int u=0; u<7; u++)
-                        {
-                          codeSecret= codeSecret*2+arrayDecode[u];
-                        }
-                        Serial.println(codeSecret);
-                        Serial.println(char(codeSecret));
-                        memcpy(arrayCode, arrayBigReset, 32);
-                        memcpy(arrayDecode, arraySmallReset, 7);
-                        complete = true;
-                        i = 32;
-                        break;
-                      }
-                    }
-                    else{
-                      nombreDeSuite = 1;
-                    }
-                  }
-                }
-              }
-              compteur = 0;
-            }
-        }
-        detachInterrupt(digitalPinToInterrupt(pinClock));
-        attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
-        attachInterrupt(digitalPinToInterrupt(21), decrementDuration, FALLING);
+      else if(incomingByte == 107){
+        action = "Checking capacity ";
+        writeString(String(readCapacitorVoltage()));
+      }
+      else if(incomingByte == 121){
+        action = "Touch and go ";
+        positionCamera = positionCamera - 100;
+        maestro.setTarget(2,positionCamera);
+        writeString(commandComplete);
       }
       else{
         action = "Invalid action ";
@@ -394,5 +343,63 @@ void Reading()
   if(digitalRead(pinClock) == HIGH){
     count++;
   }
+}
+
+void cool()
+{
+        action = "Reading Manchester";
+        stopWheels();
+        attachInterrupt(digitalPinToInterrupt(pinClock), Reading, RISING);
+      
+        while (complete == false){
+          if (count != countLoop)
+          {
+            countLoop = count;
+            stateClock = digitalRead(pinClock);
+            stateManchester = digitalRead(pinManchester);
+            bitDecode = stateClock ^ stateManchester;
+            arrayCode[compteur] = bitDecode;
+            compteur++;
+          } 
+          if (compteur == 32 && complete == false)
+          {
+            for (int i = 0; i < 32; i++)
+            {
+              if (arrayCode[i] == 1)
+              {
+                for (int j = i; j < i+8; j++)
+                {
+                  if (arrayCode[j+1] == 1)
+                  {
+                    nombreDeSuite++;
+                    if (nombreDeSuite > 7 && arrayCode[j+2] == 0)
+                    {
+                      for (int k = 0; k < 7; k++)
+                      {
+                        arrayDecode[k] = arrayCode[k + j + 3];
+                      }
+                      codeSecret = 0;
+                      for (int u=0; u<7; u++)
+                      {
+                        codeSecret= codeSecret*2+arrayDecode[u];
+                      }
+                      memcpy(arrayCode, arrayBigReset, 32);
+                      memcpy(arrayDecode, arraySmallReset, 7);
+                      writeString("hhhh");
+                      complete = true;
+                      i = 32;
+                      break;
+                    }
+                  }
+                  else{
+                    nombreDeSuite = 1;
+                  }
+                }
+              }
+            }
+            compteur = 0;
+          }
+        }
+        detachInterrupt(digitalPinToInterrupt(pinClock));
 }
 

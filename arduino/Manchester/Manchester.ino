@@ -1,4 +1,4 @@
-int pinClock = 2;
+int pinClock = 3;
 int pinManchester = 50;
 bool stateClock = 0;
 bool stateManchester = 0;
@@ -23,7 +23,7 @@ void setup()
   pinMode(pinClock, INPUT);
   pinMode(pinManchester, INPUT);
   attachInterrupt(digitalPinToInterrupt(pinClock), Reading, RISING);
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 //AttachInterrupt sur changement low a high sur clock pour commencer traitement, faire xor avec clock et manchester, puis mettre résultat dans buffer circulaire de 32 bits et écrire dedans,

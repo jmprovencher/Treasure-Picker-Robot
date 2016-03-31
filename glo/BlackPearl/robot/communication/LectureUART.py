@@ -19,6 +19,7 @@ class LectureUART(Thread):
 
     def analyserLecture(self, info):
         lettre_manchester = info[0]
+        print("Premiere lettre lecture: %s" %lettre_manchester)
         if (info.count(lettre_manchester) == 4):
             self.robot.lettreObtenue = lettre_manchester
             print("Lettre obtenue : %s" %lettre_manchester)

@@ -26,6 +26,16 @@ class UARTDriver:
     def cameraDescendre(self):
         self.UART.write(b'y'.encode())
 
+    def preAlignementTresor(self):
+        self.descendrePrehenseur()
+        time.sleep(6)
+        print("######### PREHENSEUR DOWN #########")
+        self.cameraPositionTresor()
+        print("######### CAMERA DOWN #########")
+        time.sleep(2)
+        self.activerAimant()
+        time.sleep(0.5)
+
     def descendrePrehenseur(self):
         self.UART.write(b'P'.encode())
 
@@ -41,6 +51,15 @@ class UARTDriver:
     def desactiverAimant(self):
         self.UART.write(b'h'.encode())
 
+    def preAlignementStation(self):
+        self.uartDriver.monterPrehenseur()
+        time.sleep(5)
+        print("######### PREHENSEUR UP #########")
+        time.sleep(2)
+        self.uartDriver.chargerCondensateur()
+        print("######### CONDENSATEUR ON ##########")
+        time.sleep(1)
+
     def postAlignementTresor(self):
         print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.sendCommand('backward', 5)
@@ -52,15 +71,19 @@ class UARTDriver:
         self.desactiverAimant()
         time.sleep(2)
         self.sendCommand('backward', 15)
+        print("======== ALIGNEMENT TERMINER ========")
 
     def postAlignementStation(self):
+        self.uartDriver.stopCondensateur()
+        print("######### CONDENSATEUR OFF ##########")
+        time.sleep(2)
         print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.sendCommand('backward', 5)
         time.sleep(1)
         self.sendCommand('rotateAntiClockwise', 120)
         time.sleep(1)
 
-    def decoderManchester(self):
+    def lireManchester(self):
         print("### DECODING MANCHESTER ###")
         self.sendCommand('readManchester', 0)
         time.sleep(1)

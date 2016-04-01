@@ -7,7 +7,7 @@ class FeedVideoRobot(Thread):
     def __init__(self):
         Thread.__init__(self)
         self.video = None
-        #self.initialiserVideo()
+        self.initialiserVideo()
         self.video = cv2.VideoCapture(0)
         self.video.set(3, 1600)
         self.video.set(4, 1200)
@@ -26,15 +26,28 @@ class FeedVideoRobot(Thread):
                 print('Mauvais index de camera...')
 
     def run(self):
-        while 1:
-            print ("Streaming only...")
+        while (self.capturer) and (self.connecter):
+            print ("Streaming...")
             _, self.imageCapture = self.video.read()
             time.sleep(0.5)
             #cv2.imshow("LIVE FEED", self.imageCapture)
 
+
     def getImageCapture(self):
         print("Streamed image was accessed...")
         return self.imageCapture
+
+    def demarrerCapture(self):
+        if (self.capturer):
+            print("Feed deja en cours")
+        else:
+            self.capturer = True
+
+    def suspendreCapture(self):
+        if (self.capturer):
+            self.capturer = False
+        else:
+            print("Feed deja suspendu")
 
     def libererCamera(self):
         self.video.release()

@@ -313,6 +313,7 @@ class StationBase(Thread):
             print 'Signaler que la comande est prete a envoyer.'
             self.envoyerCommande = True
             self.attendreRobot()
+        self.angleDesire = None
 
     def orientationFinaleIle(self):
         print '\nOrienter'
@@ -328,6 +329,7 @@ class StationBase(Thread):
             print 'Signaler que la comande est prete a envoyer.'
             self.envoyerCommande = True
             self.attendreRobot()
+        self.angleDesire = None
 
     def attendreRobot(self):
         self.attenteDuRobot = True

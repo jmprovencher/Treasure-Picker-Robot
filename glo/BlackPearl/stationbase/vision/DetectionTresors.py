@@ -10,36 +10,33 @@ class DetectionTresors(object):
         self.tresorIdentifies = []
 
     def detecter(self):
-        #table 2
-        #intervalleFoncer = np.array([50, 160, 160])
-        #intervalleClair = np.array([6, 100, 100])
+        contoursTresor = self.trouverContours()
+        contoursTresor = self.eleminerCoutoursNegligeable(contoursTresor)
+        self.ajouterTresorsIdentifies(contoursTresor)
 
-        #table 1
-        intervalleFoncer = np.array([30, 160, 150])
-        intervalleClair = np.array([0, 53, 50])
-
-        #intervalleFoncer = np.array([41, 70, 84])
-        #intervalleClair = np.array([0 , 53 ,50])
-
+    def trouverContours(self):
+        intervalleFoncer = np.array([50, 160, 160])
+        intervalleClair = np.array([6, 100, 100])
         shapeTresorMasque = cv2.inRange(self.imageCamera, intervalleClair, intervalleFoncer)
-        #cv2.imshow('tresore',shapeTresorMasque)
-        #cv2.waitKey(0)
-        _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursTresor, _ = cv2.findContours(shapeTresorMasque.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        contoursNegligeable = []
-        for contours in range(len(contoursTresor)):
-            aire = cv2.contourArea(contoursTresor[contours])
+        return contoursTresor
+
+    def eleminerCoutoursNegligeable(self, contoursTresor):
+        contoursNegligeables = []
+        for i in range(len(contoursTresor)):
+            aire = cv2.contourArea(contoursTresor[i])
             if (aire < 30 or aire > 150):
-                contoursNegligeable.append(contours)
-
-        if len(contoursTresor) == len(contoursNegligeable):
+                contoursNegligeables.append(i)
+        if len(contoursTresor) == len(contoursNegligeables):
             contoursTresor = []
-        elif (contoursNegligeable != []):
-            contoursTresor = np.delete(contoursTresor, contoursNegligeable)
+        elif (contoursNegligeables != []):
+            contoursTresor = np.delete(contoursTresor, contoursNegligeables)
 
+        return contoursTresor
+
+    def ajouterTresorsIdentifies(self, contoursTresor):
         if len(contoursTresor) > 0:
             for contours in contoursTresor:
                 formeTresor = contours, "Tresor", ""
-                #print "Ajout tresor"
                 self.tresorIdentifies.append(formeTresor)
-

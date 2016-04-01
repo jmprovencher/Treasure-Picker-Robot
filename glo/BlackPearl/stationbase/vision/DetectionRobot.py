@@ -24,12 +24,12 @@ class DetectionRobot(object):
     def eleminerCoutoursNegligeable(self, contoursRobot, hierarchy):
         contoursNegligeables = []
         
-        for i in range(0, len(contoursRobot)):
+        for i in range(len(contoursRobot)):
             aireContour = cv2.contourArea(contoursRobot[i])
-            trouContour= hierarchy[0][i][2]
+            indiceContourTrou = hierarchy[0][i][2]
             
-            if trouContour>= 0:  # Signifie que le contour possede un trou
-                aireTrouContour = cv2.contourArea(contoursRobot[hierarchy[0][i][2]])
+            if indiceContourTrou >= 0:  # Signifie que le contour possede un trou
+                aireTrouContour = cv2.contourArea(contoursRobot[indiceContourTrou])
             else:
                 aireTrouContour = 0
                 
@@ -39,7 +39,7 @@ class DetectionRobot(object):
                 contoursNegligeables.append(i)
                 
         if len(contoursRobot) == len(contoursNegligeables):
-            contoursTresor = []
+            contoursRobot = []
         elif (len(contoursNegligeables) > 0):
             contoursRobot = np.delete(contoursRobot, contoursNegligeables)
             

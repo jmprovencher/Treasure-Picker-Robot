@@ -10,7 +10,7 @@ class DetectionTresors(object):
     def detecter(self):
         contoursTresor = self.trouverContoursTresors()
         contoursTresor = self.eleminerCoutoursNegligeable(contoursTresor)
-        self.ajouterTresorsIdentifies(contoursTresor)
+        self.trouverTresors(contoursTresor)
 
     def trouverContoursTresors(self):
         if (self.numeroTable == 2 or self.numeroTable == 3):
@@ -40,7 +40,7 @@ class DetectionTresors(object):
 
         return contoursTresor
 
-    def ajouterTresorsIdentifies(self, contoursTresor):
+    def trouverTresors(self, contoursTresor):
         if len(contoursTresor) > 0:
             for contours in contoursTresor:
                 formeTresor = contours, "Tresor", ""

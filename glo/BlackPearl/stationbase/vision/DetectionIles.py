@@ -5,8 +5,9 @@ import ConfigPath
 
 
 class DetectionIles(object):
-    def __init__(self, image):
+    def __init__(self, image, numeroTable):
         self.imageCamera = image
+        self.numeroTable = numeroTable
         self.ilesIdentifiees = []
         self.nombreIles = 0
         self._definirIntervallesCouleurs()
@@ -71,17 +72,17 @@ class DetectionIles(object):
         return nombreIles
 
     def _definirIntervallesCouleurs(self):
-        #table 5-6 :
-        #self.intervalleRouge = np.array([15, 0, 75]), np.array([100, 65, 200]),"Rouge"
-        #self.intervalleBleu = np.array([102, 102, 0]), np.array([255, 255, 102]), "Bleu"
-        #self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
-        #self.intervalleVert = np.array([0, 102, 0]), np.array([102, 255, 102]), "Vert"
+        if (self.numeroTable == '5' or self.numeroTable == '6'):
+            self.intervalleRouge = np.array([15, 0, 75]), np.array([100, 65, 200]),"Rouge"
+            self.intervalleBleu = np.array([102, 102, 0]), np.array([255, 255, 102]), "Bleu"
+            self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
+            self.intervalleVert = np.array([0, 102, 0]), np.array([102, 255, 102]), "Vert"
 
-        #table 2 le soir:
-        self.intervalleRouge = np.array([0, 0, 70]), np.array([70, 50, 200]),"Rouge"
-        self.intervalleBleu = np.array([102, 102, 0]), np.array([255, 255, 102]), "Bleu"
-        self.intervalleJaune = np.array([0, 90, 91]), np.array([50, 194, 210]), "Jaune"
-        self.intervalleVert = np.array([0, 70, 0]), np.array([100, 200, 80]), "Vert"
+        if (self.numeroTable == '1' or self.numeroTable == '2', self.numeroTable == '3'):
+            self.intervalleRouge = np.array([0, 0, 70]), np.array([70, 50, 200]),"Rouge"
+            self.intervalleBleu = np.array([102, 102, 0]), np.array([255, 255, 102]), "Bleu"
+            self.intervalleJaune = np.array([0, 90, 91]), np.array([50, 194, 210]), "Jaune"
+            self.intervalleVert = np.array([0, 70, 0]), np.array([100, 200, 80]), "Vert"
 
     def _definirPatronsFormes(self):
         patronTriangle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/triangle.png'), 0)

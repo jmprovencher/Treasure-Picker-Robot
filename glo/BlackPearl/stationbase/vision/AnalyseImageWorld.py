@@ -22,7 +22,6 @@ class AnalyseImageWorld(Thread):
         Thread.__init__(self)
         self.stationBase = stationBase
         self.numeroTable = self.stationBase.numeroTable
-        self.numeroTable = stationBase.numeroTable
         self.police = cv2.FONT_HERSHEY_SIMPLEX
         self.image = None
         self.imageCropper = None

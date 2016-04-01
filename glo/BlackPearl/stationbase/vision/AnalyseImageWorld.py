@@ -149,7 +149,7 @@ class AnalyseImageWorld(Thread):
             self.stationBase.carte.cible.tresorChoisi = Tresor((1000, 855))
 
     def trouverInfoRobot(self, formesDetectees):
-        contourDroit, contourGauche = formesDetectees
+        contourGauche, contourDroit = formesDetectees
         centreDroit = self.trouverCentreForme(contourDroit)
         centreGauche = self.trouverCentreForme(contourGauche)
         centreRobot = (int(round((centreDroit[0]+centreGauche[0])/2)), int(round((centreDroit[1]+centreGauche[1])/2)))

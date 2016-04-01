@@ -5,21 +5,23 @@ import ConfigPath
 
 
 class DetectionTresors(object):
-    def __init__(self, image):
+    def __init__(self, image, numeroTable):
         self.imageCamera = image
+        self.numeroTable = numeroTable
         self.tresorIdentifies = []
 
     def detecter(self):
-        #table 2
-        #intervalleFoncer = np.array([50, 160, 160])
-        #intervalleClair = np.array([6, 100, 100])
+        if (self.numeroTable == '2' or self.numeroTable == '3'):
+            intervalleFoncer = np.array([50, 160, 160])
+            intervalleClair = np.array([6, 100, 100])
 
-        #table 1
-        intervalleFoncer = np.array([30, 160, 150])
-        intervalleClair = np.array([0, 53, 50])
+        if (self.numeroTable == '1'):
+            intervalleFoncer = np.array([30, 160, 150])
+            intervalleClair = np.array([0, 53, 50])
 
-        #intervalleFoncer = np.array([41, 70, 84])
-        #intervalleClair = np.array([0 , 53 ,50])
+        if (self.numeroTable == '5' or self.numeroTable == '6'):
+            intervalleFoncer = np.array([41, 70, 84])
+            intervalleClair = np.array([0 , 53 ,50])
 
         shapeTresorMasque = cv2.inRange(self.imageCamera, intervalleClair, intervalleFoncer)
         #cv2.imshow('tresore',shapeTresorMasque)

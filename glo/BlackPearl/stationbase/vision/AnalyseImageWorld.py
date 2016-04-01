@@ -21,7 +21,8 @@ class AnalyseImageWorld(Thread):
     def __init__(self, stationBase):
         Thread.__init__(self)
         self.stationBase = stationBase
-        self.table = stationBase.table
+        self.numeroTable = self.stationBase.numeroTable
+        self.numeroTable = stationBase.numeroTable
         self.police = cv2.FONT_HERSHEY_SIMPLEX
         self.image = None
         self.imageCropper = None
@@ -62,7 +63,6 @@ class AnalyseImageWorld(Thread):
         MatriceCentreMasse = cv2.moments(contoursForme)
         centre_x = int(round(MatriceCentreMasse['m10'] / MatriceCentreMasse['m00']))
         centre_y = int(round(MatriceCentreMasse['m01'] / MatriceCentreMasse['m00']))
-
         return centre_x, centre_y
 
     def identifierForme(self, forme):
@@ -105,7 +105,7 @@ class AnalyseImageWorld(Thread):
         self.nombreIlesListe = []
         for i in range(0,10):
             self.chargerImagePrimaire()
-            self.detectionIlesItere = DetectionIles(self.image)
+            self.detectionIlesItere = DetectionIles(self.image, self.numeroTable)
             self.detectionIlesItere.detecter()
             self.detectionIlesListe.append(self.detectionIlesItere)
             self.nombreIlesListe.append(self.detectionIlesItere)
@@ -121,7 +121,7 @@ class AnalyseImageWorld(Thread):
         self.nombreTresorsListe = []
         for i in range(0,10):
             self.chargerImagePrimaire()
-            self.detectionTresorsItere = DetectionTresors(self.image)
+            self.detectionTresorsItere = DetectionTresors(self.image, self.numeroTable)
             self.detectionTresorsItere.detecter()
             self.detectionTresorsListe.append(self.detectionTresorsItere)
             self.nombreTresorsListe.append(self.detectionTresorsItere)
@@ -131,21 +131,15 @@ class AnalyseImageWorld(Thread):
                 contoursForme, _, _ = tresor
                 centreForme = self.trouverCentreForme(contoursForme)
                 x, y = centreForme
-                #print(str(x) + 'x' + str(y))
-                #table2 = celle noir, x < 1347
-                #table1 = x < 1321
-                #table1ou2 = + - 45 pour y (max y = 45)
-                #table 5:
-                #if ((y < 30) or (y > 810)) and (x < 1321):
-
-                #table 1:
-                if (self.table == '1'):
+                if (self.numeroTable == '1'):
                     if ((y < 45) or (y > 750)) and (x < 1321):
                         self.stationBase.carte.listeTresors.append(Tresor(centreForme))
-                if (self.table == '2'):
+                if (self.numeroTable == '2' or self.numeroTable == '3'):
                     if ((y < 45) or (y > 810)) and (x < 1347):
                         self.stationBase.carte.listeTresors.append(Tresor(centreForme))
-
+                if (self.numeroTable == '5' or self.numeroTable == '6'):
+                    if ((y < 30) or (y > 810)) and (x < 1321):
+                        self.stationBase.carte.listeTresors.append(Tresor(centreForme))
         if (not self.stationBase.carte.listeIles == []):
             self.stationBase.carte.cible.ileChoisie = self.stationBase.carte.listeIles[0]
         else:

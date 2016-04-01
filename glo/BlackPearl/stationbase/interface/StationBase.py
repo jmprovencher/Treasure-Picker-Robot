@@ -14,9 +14,9 @@ import copy
 verrou = RLock()
 
 class StationBase(Thread):
-    def __init__(self, etape, table):
+    def __init__(self, etape, numeroTable):
         Thread.__init__(self)
-        self.table = table
+        self.numeroTable = numeroTable
         self.etape = etape
         self.trajectoireReel = None
         self.trajectoirePrevue = None

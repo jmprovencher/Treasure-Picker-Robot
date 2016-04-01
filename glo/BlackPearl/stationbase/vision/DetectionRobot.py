@@ -6,8 +6,8 @@ import copy
 class DetectionRobot(object):
     def __init__(self, image):
         self.imageCamera = image
-        self._definirPatronsFormes()
         self.robotIdentifiee = None
+        self._definirPatronsFormes()
 
     def detecter(self):
         contoursRobot, hierarchy = self.trouverContoursRobot()

@@ -11,8 +11,13 @@ class UARTDriver:
 
     def _initializeUARTCom(self, comPort, baudRate):
         UART = serial.Serial(comPort, baudRate)
-        time.sleep(2)  # the sleep time is important to make sure we don't send any messages before the initialization is complete
+        time.sleep(2)
         return UART
+
+    def phaseInitialisation(self):
+        self.monterPrehenseur()
+        self.cameraPositionDepot()
+        self.cameraPositionFace()
 
     def cameraPositionDepot(self):
         self.UART.write(b'x'.encode())
@@ -25,16 +30,6 @@ class UARTDriver:
 
     def cameraDescendre(self):
         self.UART.write(b'y'.encode())
-
-    def preAlignementTresor(self):
-        self.descendrePrehenseur()
-        time.sleep(6)
-        print("######### PREHENSEUR DOWN #########")
-        self.cameraPositionTresor()
-        print("######### CAMERA DOWN #########")
-        time.sleep(2)
-        self.activerAimant()
-        time.sleep(0.5)
 
     def descendrePrehenseur(self):
         self.UART.write(b'P'.encode())
@@ -51,59 +46,46 @@ class UARTDriver:
     def desactiverAimant(self):
         self.UART.write(b'h'.encode())
 
+    def preAlignementTresor(self):
+        self.descendrePrehenseur()
+        time.sleep(6)
+        self.cameraPositionTresor()
+        time.sleep(2)
+        self.activerAimant()
+        time.sleep(0.5)
+
     def preAlignementStation(self):
         self.uartDriver.monterPrehenseur()
-        time.sleep(5)
-        print("######### PREHENSEUR UP #########")
-        time.sleep(2)
+        time.sleep(6)
         self.uartDriver.chargerCondensateur()
-        print("######### CONDENSATEUR ON ##########")
         time.sleep(1)
 
     def postAlignementTresor(self):
-        print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.sendCommand('backward', 5)
         time.sleep(3)
-        print("### PREHENSEUR UP ###")
         self.monterPrehenseur()
         time.sleep(5)
-        print("### MAGNET OFF ###")
         self.desactiverAimant()
         time.sleep(2)
         self.sendCommand('backward', 15)
-        print("======== ALIGNEMENT TERMINER ========")
 
     def postAlignementStation(self):
-        self.uartDriver.stopCondensateur()
-        print("######### CONDENSATEUR OFF ##########")
-        time.sleep(2)
-        print("### BEEEEEEP BEEEEEEEEEEP ###")
-        self.sendCommand('backward', 5)
+        self.sendCommand('backward', 10)
         time.sleep(1)
         self.sendCommand('rotateAntiClockwise', 120)
         time.sleep(1)
 
-    def lireManchester(self):
-        print("### DECODING MANCHESTER ###")
-        self.sendCommand('readManchester', 0)
-        time.sleep(1)
-
     def postAlignementIle(self):
-        print("### MAGNET ON ###")
         self.activerAimant()
         time.sleep(1)
-        print("### PREHENSEUR DOWN ###")
         self.descendrePrehenseur()
         time.sleep(6)
-        print("### MAGNET OFF ###")
         self.desactiverAimant()
         time.sleep(6)
         self.brasserPrehenseur()
         time.sleep(2)
         self.monterPrehenseur()
         time.sleep(6)
-        #Recule
-        print("### BEEEEEEP BEEEEEEEEEEP ###")
         self.sendCommand('backward', 5)
         time.sleep(3)
         self.showtime()
@@ -114,17 +96,16 @@ class UARTDriver:
     def stopCondensateur(self):
         self.sendCommand('stopCondensateur', 0)
 
+    def lireManchester(self):
+        self.sendCommand('readManchester', 0)
+        time.sleep(1)
+
     def showtime(self):
-        for j in range (0,6):
+        for j in range(0, 6):
             self.cameraPositionFace()
             time.sleep(0.2)
             self.cameraPositionDepot()
             time.sleep(0.2)
-
-    def to_bytes(n, length, endianess='big'):
-        h = '%x' % n
-        s = ('0'*(len(h) % 2) + h).zfill(length*2).decode('hex')
-        return s if endianess == 'big' else s[::-1]
 
     def sendCommand(self, command, parameter):
         parameter = chr(parameter)
@@ -183,7 +164,4 @@ class UARTDriver:
         elif command == 'checkCapacity':
             self.UART.write(b'k'.encode())
 
-        #To implement when arduino will return command completion confirmation
-        #commandComplete = self.UART.read(2)
-        #return commandComplete
         return 1

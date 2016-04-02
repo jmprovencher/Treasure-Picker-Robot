@@ -8,6 +8,9 @@ class StationServeur(Thread):
     def __init__(self, stationBase):
         Thread.__init__(self)
         self.stationBase = stationBase
+        self.envoyerCommande = False
+        self.robotEstPret = False
+        self.attenteDuRobot = False
         self.monServeur = TCPServer()
 
     def run(self):
@@ -27,7 +30,7 @@ class StationServeur(Thread):
         while 1:
             try:
                 self.monServeur.sendFile()
-                self.stationBase.envoyerCommande = False
+                self.envoyerCommande = False
                 break
             except Exception as e:
                 print e
@@ -39,7 +42,7 @@ class StationServeur(Thread):
 
     def attendreInfoRobot(self):
         print '\nAttente du robot...'
-        while self.stationBase.attenteDuRobot:
+        while self.attenteDuRobot:
             try:
                 data = self.monServeur.receiveFile()
                 self.traiterInfoRobot(data)
@@ -61,7 +64,7 @@ class StationServeur(Thread):
             self.stationBase.setTensionCondensateur(parametre)
             print "Tension: %s" % parametre
         elif commande == "robotPret":
-            self.stationBase.robotEstPret = True
+            self.robotEstPret = True
             print "Le robot est pret."
         elif commande.startswith("indice: "):
             indice = commande[8:]
@@ -72,7 +75,7 @@ class StationServeur(Thread):
             print ("Code manchester: %s" % self.stationBase.getManchester())
         elif commande == "termine":
             print 'Commande termine.'
-            self.stationBase.attenteDuRobot = False
+            self.attenteDuRobot = False
 
     def attendreWakeUpRobot(self):
         while 1:
@@ -80,7 +83,7 @@ class StationServeur(Thread):
                 data = self.monServeur.receiveFile()
                 commande = data['commande']
                 if commande == "robotPret":
-                    self.stationBase.robotEstPret = True
+                    self.robotEstPret = True
                     break
             except Exception as e:
                 print e
@@ -90,6 +93,17 @@ class StationServeur(Thread):
                 self.monServeur.connection = self.monServeur.establishConnection()
                 print 'connection retablite'
 
+    def getRobotPret(self):
+        return self.robotEstPret
+
+    def signalerEnvoyerCommande(self):
+        self.envoyerCommande = True
+
+    def debuteAttenteDuRobot(self):
+        self.attenteDuRobot = True
+
+    def getAttenteDuRobot(self):
+        return self.attenteDuRobot
 
 
 

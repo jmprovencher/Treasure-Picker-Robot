@@ -53,6 +53,9 @@ class Carte:
     def setCible(self, cible):
         self.cible = cible
 
+    def getStationRecharge(self):
+        return self.stationRecharge
+
 
 
 

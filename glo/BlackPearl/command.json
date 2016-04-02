@@ -12,9 +12,11 @@
 "commande": "cameraRight",
 "commande": "cameraFront",
 "commande": "cameraTreasure",
-"commande": "allignementStation",
 "commande": "termine",
 "commande": "robotPret",
 "commande": "rotateClock",
-"commande": "rotateAntiClock"
+"commande": "rotateAntiClock",
+"commande": "alignement_ile",
+"commande": "alignement_tresor",
+"commande": "alignement_station"
 }

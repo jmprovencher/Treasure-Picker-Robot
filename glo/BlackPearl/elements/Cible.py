@@ -20,10 +20,10 @@ class Cible:
         TresorsPossibles = self.trouverTresorsPossibles()
         for tresor in TresorsPossibles:
             trajetTresor = self.carte.getTrajectoire().trouverTrajet(posRobot, tresor.getCentre())
-            distanceTresor = self.carte.getTrajectoire().trouverLongueurTrajetPixCarre(trajetTresor)
+            distanceTresor = self.carte.getTrajectoire().trouverLongueurTrajetCarre(trajetTresor)
             for ile in ilesPotentielle:
                 trajetIle = self.carte.getTrajectoire().trouverTrajet(posRobot, tresor.getCentre())
-                distanceIle = self.carte.getTrajectoire().trouverLongueurTrajetPixCarre(trajetIle)
+                distanceIle = self.carte.getTrajectoire().trouverLongueurTrajetCarre(trajetIle)
                 distanceTotale = distanceTresor + distanceIle
                 if distanceMin > distanceTotale:
                     distanceMin = distanceTotale

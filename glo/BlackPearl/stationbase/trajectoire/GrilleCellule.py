@@ -1,8 +1,8 @@
-# import the necessary packages
 from __future__ import division
 from stationbase.trajectoire.Cellule import Cellule
 
-class GrilleCellule():
+
+class GrilleCellule:
     def __init__(self):
         self.listeCellules = []
         self.resolution = (1600, 1200)
@@ -12,10 +12,10 @@ class GrilleCellule():
         self.incrementY = int((self.dimensionCrop[1]) / self.dimensionReel[1])
         self.rayonBuffer = 30
         self.distanceMur = 25
+        self.distPerteDeVueRobot = 5
         self.listeIles = None
 
     def initGrilleCellule(self, listeIles):
-        self.listeCellules = []
         self.listeIles = listeIles
         for x in range(0, self.dimensionCrop[0], self.incrementX):
             for y in range(0, self.dimensionCrop[1], self.incrementY):
@@ -33,26 +33,34 @@ class GrilleCellule():
     def depCentimetreXAPixel(self, cent):
         return int(round(cent * (self.dimensionCrop[0]) / self.dimensionReel[0]))
     
-    def distanceAIleAuCarre(self, x, y, ile):
-        distanceX = ile.centre_x - x
-        distanceY = ile.centre_y - y
+    def distanceAuCarre(self, x, y, x2, y2):
+        distanceX = x2 - x
+        distanceY = y2 - y
         distanceX = self.depPixelXACentimetre(distanceX)
         distanceY = self.depPixelYACentimetre(distanceY)
         distanceCarre = distanceX**2 + distanceY**2
         return int(round(distanceCarre))
                 
     def estAtteignable(self, x, y):
-        if (y <= self.depCentimetreYAPixel(self.distanceMur)) or (y >= self.dimensionCrop[1]-self.depCentimetreYAPixel(self.distanceMur)) or (x >= self.dimensionCrop[0]-self.depCentimetreXAPixel(self.distanceMur)):
+        if self.xInvalide(x) or self.yInvalide(y):
             return False
-        elif not self.listeIles is None:
+        else:
             for ile in self.listeIles:
-                if  (self.distanceAIleAuCarre(x, y, ile) <= self.rayonBuffer**2):
+                if self.distanceAuCarre(x, y, ile.getX(), ile.getY()) <= self.rayonBuffer**2:
                     return False
             return True
 
+    def xInvalide(self, x):
+        return ((x >= self.dimensionCrop[0]-self.depCentimetreXAPixel(self.distPerteDeVueRobot)) or
+               (x <= self.depCentimetreXAPixel(self.distPerteDeVueRobot)))
+
+    def yInvalide(self, y):
+        return  ((y <= self.depCentimetreYAPixel(self.distanceMur)) or
+                (y >= self.dimensionCrop[1]-self.depCentimetreYAPixel(self.distanceMur)))
+
     def getCellule(self, x, y):
         return self.listeCellules[
-            ((x // self.incrementX)) * ((self.dimensionCrop[1] // self.incrementY + 1)) + ((y // self.incrementY))]
+            (x // self.incrementX) * (self.dimensionCrop[1] // self.incrementY + 1) + (y // self.incrementY)]
 
     def getCelluleAdjacentes(self, cellule):
         listCellules = []
@@ -73,13 +81,13 @@ class GrilleCellule():
                     cellule.y < self.dimensionCrop[1] - self.incrementY)):
             listCellules.append(self.getCellule(cellule.x + self.incrementX, cellule.y + self.incrementY))
 
-        if ((cellule.x >= 0 + self.incrementX) and (cellule.y >= 0 + self.incrementY)):
+        if (cellule.x >= 0 + self.incrementX) and (cellule.y >= 0 + self.incrementY):
             listCellules.append(self.getCellule(cellule.x - self.incrementX, cellule.y - self.incrementY))
 
-        if ((cellule.x < self.dimensionCrop[0] - self.incrementX) and (cellule.y >= 0 + self.incrementY)):
+        if (cellule.x < self.dimensionCrop[0] - self.incrementX) and (cellule.y >= 0 + self.incrementY):
             listCellules.append(self.getCellule(cellule.x + self.incrementX, cellule.y - self.incrementY))
 
-        if ((cellule.x >= 0 + self.incrementX) and (cellule.y < self.dimensionCrop[1] - self.incrementY)):
+        if (cellule.x >= 0 + self.incrementX) and (cellule.y < self.dimensionCrop[1] - self.incrementY):
             listCellules.append(self.getCellule(cellule.x - self.incrementX, cellule.y + self.incrementY))
 
         return listCellules

@@ -81,7 +81,7 @@ class AnalyseImageWorld(Thread):
 
         for i in range(len(listIles)):
             xIle, yIle = listIles[i].getCentre()
-            if self.stationBase.getCarte().getTrajectoire().distanceADestinationAuCarre(xRobot, yRobot, xIle, yIle) <= 225:
+            if self.stationBase.getCarte().getTrajectoire().distanceAuCarre(xRobot, yRobot, xIle, yIle) <= 225:
                 ileImpossible.append(i)
 
         if len(listIles) == len(ileImpossible):
@@ -115,7 +115,7 @@ class AnalyseImageWorld(Thread):
     def deplacementPlausible(self, centreRobot):
         x, y = centreRobot
         ancienX, ancienY = self.stationBase.getCarte().getRobot().getCentre()
-        return self.stationBase.getCarte().getTrajectoire().distanceADestinationAuCarre(x, y, ancienX, ancienY) <= 225
+        return self.stationBase.getCarte().getTrajectoire().distanceAuCarre(x, y, ancienX, ancienY) <= 225
 
 
 

@@ -22,9 +22,9 @@ class StationServeur(Thread):
                 data = self.attendreInfoRobot()
                 self.traiterInfoRobot(data)
                 print("Station lecture fichier")
-                time.sleep(1)
+                time.sleep(2)
             else:
-                time.sleep(1)
+                time.sleep(2)
 
     def envoyerCommande(self):
         while 1:

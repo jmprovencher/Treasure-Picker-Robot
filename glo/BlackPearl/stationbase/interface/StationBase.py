@@ -78,11 +78,15 @@ class StationBase(Thread):
         self.threadImageVirtuelle.start()
 
     def demarerRoutine(self):
-        self.deplacementStation()
-        self.alignerStation()
+        #self.deplacementStation()
+        #self.alignerStation()
+        self.carte.cible.trouverIleCible(self.getPositionRobot())
         self.deplacementTresor()
+        time.sleep(10)
         self.alignerTresor()
+        time.sleep(10)
         self.deplacementIle()
+        time.sleep(10)
         self.alignerIle()
         time.sleep(100000)
 
@@ -103,14 +107,16 @@ class StationBase(Thread):
         return destination
 
     def deplacementIle(self):
+        self.carte.cible.trouverIleCible(self.getPositionRobot())
         print '\n--------------------------------------------------'
         print 'Aller a l''ile cible...'
         print '--------------------------------------------------'
         destination = self.identifierDestination('ILE')
         self.trouverTrajectoirePrevu(destination)
-        while len(self.trajectoireReel) > 1:
+        while (not self.trajectoireReel is None) and len(self.trajectoireReel) > 1:
             self.orienter()
             self.deplacer()
+        self.orientationFinaleIle()
         print '\n--------------------------------------------------'
         print 'Arriver a l''ile.'
         print '--------------------------------------------------'
@@ -122,19 +128,21 @@ class StationBase(Thread):
         print '--------------------------------------------------'
 
     def deplacementTresor(self):
+        self.carte.cible.trouverIleCible(self.getPositionRobot())
         print '\n--------------------------------------------------'
         print 'Aller au tresor...'
         print '--------------------------------------------------'
         destination = self.identifierDestination('TRESOR')
         self.trouverTrajectoirePrevu(destination)
-        while len(self.trajectoireReel) > 1:
+        while (not self.trajectoireReel is None) and len(self.trajectoireReel) > 1:
             self.orienter()
             self.deplacer()
         if self.carte.cible.tresorChoisi.getCentre()[1] < 100:
-            self.angleDesire = 90
+            self.angleDesire = 87
         elif self.carte.cible.tresorChoisi.getCentre()[1] > 750:
-            self.angleDesire = 270
-        self.orienter()
+            self.angleDesire = 267
+        self.orientationFinaleStation()
+        self.reculer(10)
         print '\n--------------------------------------------------'
         print 'Arriver au tresor.'
         print '--------------------------------------------------'
@@ -143,7 +151,9 @@ class StationBase(Thread):
         self.allignement("alignement_tresor", 0)
         print '\n--------------------------------------------------'
         print 'Capture termine.'
-        print '--------------------------------------------------'
+        print '-------------------------------------------------'
+        self.deplacementIle()
+
 
     def deplacementStation(self):
         print '\n--------------------------------------------------'
@@ -155,13 +165,15 @@ class StationBase(Thread):
             self.orienter()
             self.deplacer()
             self.angleDesire = None
-        self.angleDesire = 87
+        self.angleDesire = 89
         self.orientationFinaleStation()
         self.reculer(5)
         self.depDroit(13)
         print '\n--------------------------------------------------'
         print 'Arriver a la station de recharge.'
         print '--------------------------------------------------'
+        time.sleep(10)
+        self.alignerStation()
 
     def alignerStation(self):
         self.allignement("alignement_station", 0)
@@ -205,6 +217,22 @@ class StationBase(Thread):
             arriver = self.trajectoireReel[-2]
             debut = self.getPositionRobot()
             self.angleDesire = self.trouverOrientationDesire(debut, arriver)
+        angleRobot = self.getOrientationRobot()
+        print 'angle du robot: ', angleRobot
+        print 'angle desire: ', self.angleDesire
+        depDegre = angleRobot - self.angleDesire
+        if depDegre < -180:
+            depDegre = depDegre + 360
+        elif depDegre > 180:
+            depDegre = depDegre - 360
+        print 'correction: ', depDegre
+
+        return depDegre
+
+    def trouverDeplacementOrientationIle(self):
+        arriver = self.carte.cible.ileChoisie.getCentre()
+        debut = self.getPositionRobot()
+        self.angleDesire = self.trouverOrientationDesire(debut, arriver)
         angleRobot = self.getOrientationRobot()
         print 'angle du robot: ', angleRobot
         print 'angle desire: ', self.angleDesire
@@ -285,6 +313,23 @@ class StationBase(Thread):
             print 'Signaler que la comande est prete a envoyer.'
             self.envoyerCommande = True
             self.attendreRobot()
+        self.angleDesire = None
+
+    def orientationFinaleIle(self):
+        print '\nOrienter'
+        while 1:
+            angle = self.trouverDeplacementOrientationIle()
+            if angle <= 3 and angle >= -3:
+                print '\nOrientation termine.'
+                break
+            if angle >= 0:
+                self.myRequest = RequeteJSON("rotateClockwise", angle-1)
+            else:
+                self.myRequest = RequeteJSON("rotateAntiClockwise", abs(angle)-1)
+            print 'Signaler que la comande est prete a envoyer.'
+            self.envoyerCommande = True
+            self.attendreRobot()
+        self.angleDesire = None
 
     def attendreRobot(self):
         self.attenteDuRobot = True

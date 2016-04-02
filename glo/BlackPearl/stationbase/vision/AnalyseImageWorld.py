@@ -85,10 +85,10 @@ class AnalyseImageWorld(Thread):
         self.eliminerContoursProcheRobot()
 
     def eliminerContoursProcheRobot(self):
-        xDuRobotMax = self.stationBase.getPositionRobot()[0] + 50
-        xDuRobotMin = self.stationBase.getPositionRobot()[0] - 50
-        yDuRobotMax = self.stationBase.getPositionRobot()[1] + 50
-        yDuRobotMin = self.stationBase.getPositionRobot()[1] - 50
+        xDuRobotMax = self.stationBase.getPositionRobot()[0] + 100
+        xDuRobotMin = self.stationBase.getPositionRobot()[0] - 100
+        yDuRobotMax = self.stationBase.getPositionRobot()[1] + 100
+        yDuRobotMin = self.stationBase.getPositionRobot()[1] - 100
         eleASup = []
         for i in range(len(self.stationBase.carte.listeIles)):
             x, y = self.stationBase.carte.listeIles[i].getCentre()
@@ -149,7 +149,7 @@ class AnalyseImageWorld(Thread):
             self.stationBase.carte.cible.tresorChoisi = Tresor((1000, 855))
 
     def trouverInfoRobot(self, formesDetectees):
-        contourDroit, contourGauche = formesDetectees
+        contourGauche, contourDroit = formesDetectees
         centreDroit = self.trouverCentreForme(contourDroit)
         centreGauche = self.trouverCentreForme(contourGauche)
         centreRobot = (int(round((centreDroit[0]+centreGauche[0])/2)), int(round((centreDroit[1]+centreGauche[1])/2)))

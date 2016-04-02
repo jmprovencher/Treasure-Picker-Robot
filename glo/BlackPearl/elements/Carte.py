@@ -26,11 +26,13 @@ class Carte():
     def getIles(self):
         return self.listeIles
 
-    def getIles(self, informationIleCible):
+    def getIlesIndice(self, informationIleCible):
         retour = []
         for ile in self.listeIles:
             if (ile.couleur == informationIleCible or ile.forme == informationIleCible):
                 retour.append(ile)
+                print "ILE CIBLE"
+                print ile.forme
         return retour
 
     def getTresor(self):

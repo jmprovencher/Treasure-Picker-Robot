@@ -25,8 +25,8 @@ class Trajectoire():
     def distanceADestinationAuCarre(self, x, y, destX, destY):
         distanceX = destX - x
         distanceY = destY - y
-        distanceX = self.carte.trajectoire.grilleCellule.depPixelXACentimetre(distanceX)
-        distanceY = self.carte.trajectoire.grilleCellule.depPixelYACentimetre(distanceY)
+        distanceX = self.grilleCellule.depPixelXACentimetre(distanceX)
+        distanceY = self.grilleCellule.depPixelYACentimetre(distanceY)
         distanceCarre = distanceX**2 + distanceY**2
         return distanceCarre
 

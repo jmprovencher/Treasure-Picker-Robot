@@ -1,4 +1,6 @@
-class ElementCartographique():
+
+
+class ElementCartographique:
     def __init__(self, centre):
         self.centre_x, self.centre_y = centre
 
@@ -9,4 +11,4 @@ class ElementCartographique():
         return self.centre_y
 
     def getCentre(self):
-        return (self.centre_x, self.centre_y)
+        return self.centre_x, self.centre_y

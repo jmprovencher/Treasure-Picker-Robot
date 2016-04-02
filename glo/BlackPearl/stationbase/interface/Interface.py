@@ -26,9 +26,9 @@ class Interface(QtGui.QWidget):
         #self.tensionCondensateur.setText(QString(self.threadStationBase.tensionCondensateur))
         QtGui.QApplication.processEvents()
         self.feed.repaint()
-        if(not self.threadStationBase.carte.infoRobot is None):
-            self.position.rechargerInfo('Position du robot : ' + str(self.threadStationBase.carte.infoRobot.centre_x) + 'x ' + str(self.threadStationBase.carte.infoRobot.centre_y) +'y')
-            self.orientation.rechargerInfo('Orientation du robot : ' + str(self.threadStationBase.carte.infoRobot.orientation)+'\xb0')
+        if(not self.threadStationBase.carte.robot is None):
+            self.position.rechargerInfo('Position du robot : ' + str(self.threadStationBase.carte.robot.centre_x) + 'x ' + str(self.threadStationBase.carte.robot.centre_y) + 'y')
+            self.orientation.rechargerInfo('Orientation du robot : ' + str(self.threadStationBase.carte.robot.orientation) + '\xb0')
         self.tensionCondensateur.rechargerInfo('Tension condensateur : ' + str(self.threadStationBase.tensionCondensateur) + 'V')
         self.ileCible.rechargerInfo('Ile cible : ' + '?')
         #self.ileCible.rechargerInfo('Ile cible : ' + self.threadStationBase.descriptionIleCible.forme + ' ' + self.threadStationBase.carte.cible.ileChoisie.forme.couleur)

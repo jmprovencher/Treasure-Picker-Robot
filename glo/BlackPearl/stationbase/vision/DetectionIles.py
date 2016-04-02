@@ -1,54 +1,37 @@
-# import the necessary packages
 import cv2
 import numpy as np
 import ConfigPath
+from stationbase.vision.IntervalleCouleur import IntervalleCouleur
+from stationbase.vision.Detection import Detection
+from elements.Ile import Ile
 
 
-class DetectionIles(object):
+class DetectionIles(Detection):
     def __init__(self, image, numeroTable):
-        self.imageCamera = image
-        self.numeroTable = numeroTable
+        Detection.__init__(image, numeroTable)
         self.ilesIdentifiees = []
         self._definirPatronsFormes()
 
     def detecter(self):
         couleursIles = ['Rouge', 'Bleu', 'Jaune', 'Vert']
         for couleur in couleursIles:
-            contoursIles, hierarchy = self.trouverContoursIles(couleur)
-            contoursIles = self.eleminerCoutoursNegligeable(contoursIles, hierarchy)
+            contoursIles, hierarchie = self.trouverContoursIles(couleur)
+            contoursIles = self.eleminerCoutoursNegligeable(contoursIles, hierarchie)
             self.trouverIles(contoursIles, couleur)
         
     def trouverContoursIles(self, couleur):
-        if (self.numeroTable == 5 or self.numeroTable == 6):
-            if couleur == 'Rouge':
-                intervalleFonce, intervalleClair = (np.array([15, 0, 75]), np.array([100, 65, 200]))
-            elif couleur == 'Bleu':
-                intervalleFonce, intervalleClair = (np.array([102, 102, 0]), np.array([255, 255, 102]))
-            elif couleur == 'Jaune':
-                intervalleFonce, intervalleClair = (np.array([0, 50, 50]), np.array([50, 255, 255]))
-            elif couleur == 'Vert':
-                intervalleFonce, intervalleClair = (np.array([0, 102, 0]), np.array([102, 255, 102]))
-        elif (self.numeroTable == 1 or self.numeroTable == 2 or self.numeroTable == 3):
-            if couleur == 'Rouge':
-                intervalleFonce, intervalleClair = (np.array([0, 0, 70]), np.array([70, 50, 200]))
-            elif couleur == 'Bleu':
-                intervalleFonce, intervalleClair = (np.array([102, 102, 0]), np.array([255, 255, 102]))
-            elif couleur == 'Jaune':
-                intervalleFonce, intervalleClair = (np.array([0, 90, 91]), np.array([50, 194, 210]))
-            elif couleur == 'Vert':
-                intervalleFonce, intervalleClair = (np.array([0, 70, 0]), np.array([100, 200, 80]))
-            
+        intervalleClair, intervalleFonce = IntervalleCouleur(couleur, self.numeroTable).getIntervalle()
         masqueIles = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        _, contoursIles, hierarchy = cv2.findContours(masqueIles.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursIles, hierarchie = cv2.findContours(masqueIles.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
         
-        return (contoursIles, hierarchy)
+        return contoursIles, hierarchie
     
-    def eleminerCoutoursNegligeable(self, contoursIles, hierarchy):
+    def eleminerCoutoursNegligeable(self, contoursIles, hierarchie):
         contoursNegligeables = []
 
         for i in range(len(contoursIles)):
             aireContour = cv2.contourArea(contoursIles[i])
-            indiceContourTrou = hierarchy[0][i][2]
+            indiceContourTrou = hierarchie[0][i][2]
             
             if indiceContourTrou >= 0:  # Signifie que le contour possede un trou
                 aireTrouContour = cv2.contourArea(contoursIles[indiceContourTrou])
@@ -62,7 +45,7 @@ class DetectionIles(object):
 
         if len(contoursIles) == len(contoursNegligeables):
             contoursIles = []
-        elif (len(contoursNegligeables) > 0):
+        elif not contoursNegligeables:
             contoursIles = np.delete(contoursIles, contoursNegligeables)
 
         return contoursIles
@@ -76,10 +59,13 @@ class DetectionIles(object):
             resultatsMatch.append((cv2.matchShapes(contour, self.cntPentagone, 1, 0.0), contour, 'Pentagone'))
             meilleurMatch = min(resultatsMatch)
             precision, contour, nomForme = meilleurMatch
-            formeIdentifiee = contour, nomForme, couleur
 
-            if (precision < 0.1):
-                self.ilesIdentifiees.append(formeIdentifiee)
+            if precision < 0.1:
+                centre = self.trouverCentre(contour)
+                self.ilesIdentifiees.append(Ile(centre, couleur, nomForme))
+
+    def getIlesIdentifiees(self):
+        return self.ilesIdentifiees
 
     def _definirPatronsFormes(self):
         patronTriangle = cv2.imread(ConfigPath.Config().appendToProjectPath('images/triangle.png'), 0)

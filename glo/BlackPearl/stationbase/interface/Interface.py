@@ -23,17 +23,21 @@ class Interface(QtGui.QWidget):
 
     def update_gui(self):
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
-        #self.tensionCondensateur.setText(QString(self.threadStationBase.tensionCondensateur))
+        self.tensionCondensateur.setText(QString(self.threadStationBase.tensionCondensateur))
         QtGui.QApplication.processEvents()
         self.feed.repaint()
-        if(not self.threadStationBase.carte.robot is None):
-            self.position.rechargerInfo('Position du robot : ' + str(self.threadStationBase.carte.robot.centre_x) + 'x ' + str(self.threadStationBase.carte.robot.centre_y) + 'y')
-            self.orientation.rechargerInfo('Orientation du robot : ' + str(self.threadStationBase.carte.robot.orientation) + '\xb0')
-        self.tensionCondensateur.rechargerInfo('Tension condensateur : ' + str(self.threadStationBase.tensionCondensateur) + 'V')
-        self.ileCible.rechargerInfo('Ile cible : ' + '?')
-        #self.ileCible.rechargerInfo('Ile cible : ' + self.threadStationBase.descriptionIleCible.forme + ' ' + self.threadStationBase.carte.cible.ileChoisie.forme.couleur)
-        self.manchester.rechargerInfo('Manchester : ' + self.threadStationBase.manchester)
-        if(self.threadStationBase.robotEstPret):
+        if self.threadStationBase.getCarte().getRobot() is not None:
+            self.position.rechargerInfo('Position du robot : ' +
+                                        str(self.threadStationBase.getCarte().getRobot().getX()) + 'x ' +
+                                        str(self.threadStationBase.getCarte().getRobot().getY()) + 'y')
+            self.orientation.rechargerInfo('Orientation du robot : ' +
+                                           str(self.threadStationBase.getCarte().getRobot().getOrientation()) + '\xb0')
+        self.tensionCondensateur.rechargerInfo('Tension condensateur : '
+                                               + str(self.threadStationBase.getTensionCondensateur()) + 'V')
+        if self.threadStationBase.getCarte().getCible() is not None:
+            self.ileCible.rechargerInfo('Ile cible : ' + self.threadStationBase.getCarte().getCible().getIndice())
+        self.manchester.rechargerInfo('Manchester : ' + self.threadStationBase.getManchester())
+        if self.threadStationBase.robotEstPret:
             self.rechargerInfoCouleur('Connecte', 'color: green')
 
     def initGeneral(self):
@@ -59,16 +63,18 @@ class Interface(QtGui.QWidget):
         self.robotPretAffiche = self.afficherInitInfoCouleur(444, 142, 660, 170, 'Non Connecte', 'red')
 
     def initButtons(self):
-        self.btnTableUn = self.afficherInitBouttons(40, 10, 100, 27, 'Table 1', self.tableDesireUn)
-        self.btnTableDeux = self.afficherInitBouttons(140, 10, 100, 27, 'Table 2', self.tableDesireDeux)
-        self.btnTableTrois = self.afficherInitBouttons(240, 10, 100, 27, 'Table 3', self.tableDesireDeux)
-        self.btnTableCinq = self.afficherInitBouttons(340, 10, 100, 27, 'Table 5', self.tableDesireDeux)
-        self.btnTableSix = self.afficherInitBouttons(440, 10, 100, 27, 'Table 6', self.tableDesireDeux)
+        self.btnTable1 = self.afficherInitBouttons(40, 10, 100, 27, 'Table 1', self.setTable1)
+        self.btnTable2 = self.afficherInitBouttons(140, 10, 100, 27, 'Table 2', self.setTable2)
+        self.btnTable3 = self.afficherInitBouttons(240, 10, 100, 27, 'Table 3', self.setTable3)
+        self.btnTable5 = self.afficherInitBouttons(340, 10, 100, 27, 'Table 5', self.setTable5)
+        self.btnTable6 = self.afficherInitBouttons(440, 10, 100, 27, 'Table 6', self.setTable6)
         self.btnDemarer = self.afficherInitBouttons(40, 40, 200, 27, 'Debuter', self.demarerRoutineComplete)
         self.btnDepStation = self.afficherInitBouttons(40, 70, 200, 27, 'Deplacement station', self.demarerDepStation)
-        self.btnAlignementStation = self.afficherInitBouttons(40, 100, 200, 27, 'Aligner station', self.demarerAlignementStation)
-        self.btnAlignementTresor = self.afficherInitBouttons(40, 130, 200, 27, 'Aligner tresor', self.demarerAlignementTresor)
-        self.btnAliDepot = self.afficherInitBouttons(40, 160, 200, 27, 'Alignement ile', self.demarerAlignementIle)
+        self.btnAliStation = self.afficherInitBouttons(40, 100, 200, 27, 'Alignement station', self.demarerAlignementStation)
+        self.btnDepTresor = self.afficherInitBouttons(40, 130, 200, 27, 'Deplacement tresor', self.demarerDepTresor)
+        self.btnAliTresor = self.afficherInitBouttons(40, 160, 200, 27, 'Alignement tresor', self.demarerAlignementTresor)
+        self.btnDepIle = self.afficherInitBouttons(40, 190, 200, 27, 'Deplacement ile', self.demarerDepIle)
+        self.btnAliIle = self.afficherInitBouttons(40, 220, 200, 27, 'Alignement ile', self.demarerAlignementIle)
 
     def initTextBox(self):
         self.text = QtGui.QTextEdit(self)
@@ -118,25 +124,25 @@ class Interface(QtGui.QWidget):
         button.setGeometry(x, y, dimensionX, dimensionY)
         button.clicked.connect(connection)
 
-    def tableDesireUn(self):
-        self.numeroTable = '1'
-        print('Vous avez choisi la Table ' + self.numeroTable)
+    def setTable1(self):
+        self.numeroTable = 1
+        print('Vous avez choisi la Table ' + str(self.numeroTable))
 
-    def tableDesireDeux(self):
-        self.numeroTable = '2'
-        print('Vous avez choisi la Table ' + self.numeroTable)
+    def setTable2(self):
+        self.numeroTable = 2
+        print('Vous avez choisi la Table ' + str(self.numeroTable))
 
-    def tableDesireTrois(self):
-        self.numeroTable = '3'
-        print('Vous avez choisi la Table ' + self.numeroTable)
+    def setTable3(self):
+        self.numeroTable = 3
+        print('Vous avez choisi la Table ' + str(self.numeroTable))
 
-    def tableDesireCinq(self):
-        self.numeroTable = '5'
-        print('Vous avez choisi la Table ' + self.numeroTable)
+    def setTable5(self):
+        self.numeroTable = 5
+        print('Vous avez choisi la Table ' + str(self.numeroTable))
 
-    def tableDesireSix(self):
-        self.numeroTable = '6'
-        print('Vous avez choisi la Table ' + self.numeroTable)
+    def setTable6(self):
+        self.numeroTable = 6
+        print('Vous avez choisi la Table ' + str(self.numeroTable))
 
     def demarerRoutineComplete(self):
         self.threadStationBase = StationBase('routine complete', self.numeroTable)

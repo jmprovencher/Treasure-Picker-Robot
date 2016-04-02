@@ -404,6 +404,9 @@ class StationBase(Thread):
     def setTensionCondensateur(self, tension):
         self.tensionCondensateur = tension
 
+    def getTrajectoirePrevue(self):
+        return self.trajectoirePrevue
+
 
 
 

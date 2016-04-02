@@ -53,6 +53,9 @@ class Cible:
     def getTresorCible(self):
         return self.tresorChoisi
 
+    def getIndice(self):
+        return self.indice
+
 
 
 

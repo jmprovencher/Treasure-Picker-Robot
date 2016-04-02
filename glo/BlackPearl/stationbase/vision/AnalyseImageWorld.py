@@ -1,256 +1,122 @@
-# import the necessary packages
 from __future__ import division
-import sys
-from threading import Thread, RLock
+from threading import Thread
 import time
 import cv2
-from elements.Ile import Ile
-from elements.Tresor import Tresor
-from elements.InfoRobot import InfoRobot
 from stationbase.vision.DetectionIles import DetectionIles
 from stationbase.vision.DetectionTresors import DetectionTresors
 from stationbase.vision.DetectionRobot import DetectionRobot
-import math
 import copy
 import numpy as np
-from collections import Counter
 
-verrou = RLock()
 
 class AnalyseImageWorld(Thread):
     def __init__(self, stationBase):
         Thread.__init__(self)
         self.stationBase = stationBase
-        self.numeroTable = self.stationBase.numeroTable
-        self.police = cv2.FONT_HERSHEY_SIMPLEX
         self.image = None
         self.imageCropper = None
         self.cntRobotPerdu = 0
-        self.attendreFeed()
-        self.detectionPrimaire()
-
 
     def run(self):
+        self.attendreFeed()
+        self.detectionPrimaire()
         while 1:
             self.chargerImage()
             self.trouverRobot()
             time.sleep(0.01)
 
     def attendreFeed(self):
-        while self.stationBase.threadVideo.captureTable is None:
-            time.sleep(0.01)
+        self.stationBase.attendreFeed()
 
     def chargerImage(self):
-        self.image = self.stationBase.threadVideo.captureTable
+        self.image = self.stationBase.getImage()
         self.recadrerImage()
-        self.imageCropper = self.image
+        self.imageCropper = copy.deepcopy(self.image)
         self.estomperImage()
-
-    def chargerImagePrimaire(self):
-        self.image = self.stationBase.threadVideo.captureTable
-        self.recadrerImage()
-        self.imageCropper = self.image
 
     def recadrerImage(self):
         self.image = self.image[155:1010, 0:1600]
 
     def estomperImage(self):
         self.image = cv2.GaussianBlur(self.image, (9, 9), 0)
-        #self.image = cv2.fastNlMeansDenoisingColored(self.image, None, 10, 10, 7, 21)
-
-    def trouverCentreForme(self, contoursForme):
-        MatriceCentreMasse = cv2.moments(contoursForme)
-        centre_x = int(round(MatriceCentreMasse['m10'] / MatriceCentreMasse['m00']))
-        centre_y = int(round(MatriceCentreMasse['m01'] / MatriceCentreMasse['m00']))
-        return centre_x, centre_y
-
-    def identifierForme(self, forme):
-        contoursForme, nomForme, couleurForme = forme
-        centreForme = self.trouverCentreForme(contoursForme)
-        #x, y = centreForme
-
-        if (couleurForme == ""):
-            tresor = Tresor(centreForme)
-            self.elementsCartographiques.append(tresor)
-        else:
-            ile = Ile(centreForme, couleurForme, nomForme)
-            self.elementsCartographiques.append(ile)
 
     def detectionPrimaire(self):
+        self.trouverRobot()
+        while self.getRobot() is None:
+            time.sleep(0.05)
+            self.chargerImage()
+            self.trouverRobot()
         self.trouverElementsCartographiques()
-        while self.stationBase.carte.infoRobot is None:
-            self.estomperImage()
-            print("\nDetection du robot...")
-            self.trouverRobotInitiale()
-        self.eliminerContoursProcheRobot()
-
-    def eliminerContoursProcheRobot(self):
-        xDuRobotMax = self.stationBase.getPositionRobot()[0] + 100
-        xDuRobotMin = self.stationBase.getPositionRobot()[0] - 100
-        yDuRobotMax = self.stationBase.getPositionRobot()[1] + 100
-        yDuRobotMin = self.stationBase.getPositionRobot()[1] - 100
-        eleASup = []
-        for i in range(len(self.stationBase.carte.listeIles)):
-            x, y = self.stationBase.carte.listeIles[i].getCentre()
-            if (xDuRobotMax > x) and (xDuRobotMin < x) and (yDuRobotMax > y) and (yDuRobotMin < y):
-                eleASup.append(i)
-        if (len(eleASup) > 0):
-            contoursCouleur = np.delete(self.stationBase.carte.listeIles, eleASup)
-
 
     def trouverElementsCartographiques(self):
-        print("\nDetection des iles...")
-        self.detectionIlesListe = []
-        self.nombreIlesListe = []
-        for i in range(0,10):
-            self.chargerImagePrimaire()
-            self.detectionIlesItere = DetectionIles(self.image, self.numeroTable)
-            self.detectionIlesItere.detecter()
-            self.detectionIlesListe.append(self.detectionIlesItere)
-            self.nombreIlesListe.append(self.detectionIlesItere)
-        self.detectionIles = self.detectionIlesListe[self.indexPlusCommunList(self.nombreIlesListe)]
+        print("\nDetection des iles et tresors...")
+        detectionMultipleIles = []
+        detectionMultipleTresors = []
 
-        for ile in self.detectionIles.ilesIdentifiees:
-            contoursForme, nomForme, couleurForme = ile
-            centreForme = self.trouverCentreForme(contoursForme)
-            self.stationBase.carte.listeIles.append(Ile(centreForme, couleurForme, nomForme))
+        for i in range(10):
+            self.chargerImage()
+            detectionIles = DetectionIles(self.image, self.numeroTable)
+            detectionIles.detecter()
+            listIles = self.eliminerContoursProcheRobot(detectionIles.getIlesIdentifiees())
+            detectionMultipleIles.append(listIles)
+            detectionTresors = DetectionTresors(self.image, self.numeroTable)
+            detectionTresors.detecter()
+            detectionMultipleTresors.append(detectionTresors.getTresorsIdentifies())
+            time.sleep(0.05)
 
-        print("\nDetection des tresors...")
-        self.detectionTresorsListe = []
-        self.nombreTresorsListe = []
-        for i in range(0,10):
-            self.chargerImagePrimaire()
-            self.detectionTresorsItere = DetectionTresors(self.image, self.numeroTable)
-            self.detectionTresorsItere.detecter()
-            self.detectionTresorsListe.append(self.detectionTresorsItere)
-            self.nombreTresorsListe.append(self.detectionTresorsItere)
-        self.detectionTresors = self.detectionTresorsListe[self.indexPlusCommunList(self.nombreIlesListe)]
-        if len(self.detectionTresors.tresorIdentifies) > 0:
-            for tresor in self.detectionTresors.tresorIdentifies:
-                contoursForme, _, _ = tresor
-                centreForme = self.trouverCentreForme(contoursForme)
-                x, y = centreForme
-                if (self.numeroTable == '1'):
-                    if ((y < 45) or (y > 750)) and (x < 1321):
-                        self.stationBase.carte.listeTresors.append(Tresor(centreForme))
-                if (self.numeroTable == '2' or self.numeroTable == '3'):
-                    if ((y < 45) or (y > 810)) and (x < 1347):
-                        self.stationBase.carte.listeTresors.append(Tresor(centreForme))
-                if (self.numeroTable == '5' or self.numeroTable == '6'):
-                    if ((y < 30) or (y > 810)) and (x < 1321):
-                        self.stationBase.carte.listeTresors.append(Tresor(centreForme))
-        if (not self.stationBase.carte.listeIles == []):
-            self.stationBase.carte.cible.ileChoisie = self.stationBase.carte.listeIles[0]
-        else:
-            self.stationBase.carte.ileChoisie = Ile((500, 500), "Rouge", "Triangle")
-        if (not self.stationBase.carte.listeTresors == []):
-            self.stationBase.carte.cible.tresorChoisi = self.stationBase.carte.listeTresors[0]
-        else:
-            self.stationBase.carte.cible.tresorChoisi = Tresor((1000, 855))
+        listIles = self.resultatPlusCommun(detectionMultipleIles)
+        self.stationBase.getCarte().setIles(listIles)
+        listTresors = self.resultatPlusCommun(detectionMultipleTresors)
+        self.stationBase.getCarte().setTresors(listTresors)
 
-    def trouverInfoRobot(self, formesDetectees):
-        contourGauche, contourDroit = formesDetectees
-        centreDroit = self.trouverCentreForme(contourDroit)
-        centreGauche = self.trouverCentreForme(contourGauche)
-        centreRobot = (int(round((centreDroit[0]+centreGauche[0])/2)), int(round((centreDroit[1]+centreGauche[1])/2)))
-        deltaX = centreDroit[0]-centreGauche[0]
-        deltaY = -1*(centreDroit[1]-centreGauche[1])
-        if not deltaX == 0:
-            pente = deltaY/deltaX
+    def resultatPlusCommun(self, detectionMultiple):
+        tmpList = [0]*10
+        for i in range(len(detectionMultiple)):
+            tmpList[len(detectionMultiple[i])] += 1
+        return detectionMultiple[tmpList.index(max(tmpList))]
 
-        if deltaY == 0 and deltaX < 0:
-            angle = 180
-        elif deltaY == 0 and deltaX > 0:
-            angle = 0
-        elif deltaX == 0 and deltaY > 0:
-            angle = 90
-        elif deltaX == 0 and deltaY < 0:
-            angle = 270
-        elif deltaX > 0 and deltaY > 0:
-            angle = int(round(math.degrees(math.atan(pente))))
-        elif deltaX > 0 and deltaY < 0:
-            angle = 360 + int(round(math.degrees(math.atan(pente))))
-        elif deltaX < 0:
-            angle = 180 + int(round(math.degrees(math.atan(pente))))
+    def eliminerContoursProcheRobot(self, listIles):
+        ileImpossible = []
+        xRobot, yRobot = self.stationBase.getCarte().getRobot().getCentre()
 
-        angle = angle + 90
-        if angle >= 360:
-            angle = angle - 360
+        for i in range(len(listIles)):
+            xIle, yIle = listIles[i].getCentre()
+            if self.stationBase.getCarte().getTrajectoire().distanceAuCarre(xRobot, yRobot, xIle, yIle) <= 225:
+                ileImpossible.append(i)
 
-        return (centreRobot, angle)
+        if len(listIles) == len(ileImpossible):
+            listIles = []
+        elif not ileImpossible:
+            listIles = np.delete(listIles, ileImpossible)
+
+        return listIles
 
     def trouverRobot(self):
-        #print("\ndetection du robot")
-        self.detectionRobot = DetectionRobot(self.image)
-        self.detectionRobot.detecter()
-        if (not self.detectionRobot.robotIdentifiee is None):
-            centreForme, orientation = self.trouverInfoRobot(copy.deepcopy(self.detectionRobot.robotIdentifiee))
-            if self.stationBase.carte.infoRobot is None:
-                self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
-                #print orientation
-            elif self.deplacementPlausible(centreForme):
-                self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
-                #print orientation
+        detectionRobot = DetectionRobot(self.image, self.numeroTable)
+        detectionRobot.detecter()
+        robot = detectionRobot.getRobot()
+        if robot is not None:
+            if self.stationBase.getCarte().getRobot() is None:
+                self.stationBase.getCarte().setRobot(robot)
+            elif self.deplacementPlausible(robot.getCentre()):
+                self.stationBase.getCarte().setRobot(robot)
                 self.cntRobotPerdu = 0
             elif self.cntRobotPerdu > 10:
                 self.cntRobotPerdu = 0
-                self.stationBase.carte.infoRobot = None
+                self.stationBase.getCarte().setRobot(None)
             else:
-                self.cntRobotPerdu = self.cntRobotPerdu + 1
-        else:
-            self.cntRobotPerdu = self.cntRobotPerdu + 1
-            if self.cntRobotPerdu > 10:
-                self.stationBase.carte.infoRobot = None
-
-    def trouverRobotInitiale(self):
-        #print("\ndetection du robot")
-        self.detectionRobot = DetectionRobot(self.image)
-        self.detectionRobot.detecter()
-        if (not self.detectionRobot.robotIdentifiee is None):
-            centreForme, orientation = self.trouverInfoRobot(copy.deepcopy(self.detectionRobot.robotIdentifiee))
-            if self.stationBase.carte.infoRobot is None:
-                self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
-                #print orientation
-            elif self.deplacementPlausible(centreForme):
-                self.stationBase.carte.infoRobot = InfoRobot(centreForme, orientation)
-                #print orientation
+                self.cntRobotPerdu += 1
+        elif self.cntRobotPerdu > 10:
+                self.stationBase.getCarte().setRobot(None)
                 self.cntRobotPerdu = 0
-            elif self.cntRobotPerdu > 25:
-                self.cntRobotPerdu = 0
-                self.stationBase.carte.infoRobot = None
-            else:
-                self.cntRobotPerdu = self.cntRobotPerdu + 1
         else:
-            self.cntRobotPerdu = self.cntRobotPerdu + 1
-            if self.cntRobotPerdu > 25:
-                self.stationBase.carte.infoRobot = None
+            self.cntRobotPerdu += 1
 
-    def deplacementPlausible(self, centreForme):
-        x, y = centreForme
-        ancienX = self.stationBase.carte.infoRobot.centre_x
-        ancienY = self.stationBase.carte.infoRobot.centre_y
-        depX = abs(x - ancienX)
-        depY = abs(y - ancienY)
-        if (self.depXPlausible(depX) and self.depYPlausible(depY)):
-            return True
-        else:
-            return False
+    def deplacementPlausible(self, centreRobot):
+        x, y = centreRobot
+        ancienX, ancienY = self.stationBase.getCarte().getRobot().getCentre()
+        return self.stationBase.getCarte().getTrajectoire().distanceAuCarre(x, y, ancienX, ancienY) <= 225
 
-    def depXPlausible(self, x):
-        depX = self.stationBase.carte.trajectoire.grilleCellule.depPixelXACentimetre(x)
-        if depX < 50:
-            return True
-        else:
-            return False
 
-    def depYPlausible(self, y):
-        depY = self.stationBase.carte.trajectoire.grilleCellule.depPixelXACentimetre(y)
-        if depY < 50:
-            return True
-        else:
-            return False
 
-    def indexPlusCommunList(self, lst):
-        data = Counter(lst)
-        return lst.index(data.most_common(1)[0][0])
 

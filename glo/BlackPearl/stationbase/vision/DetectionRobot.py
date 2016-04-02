@@ -1,75 +1,115 @@
+from __future__ import division
 import cv2
 import numpy as np
 import ConfigPath
 import copy
+import math
+from stationbase.vision.IntervalleCouleur import IntervalleCouleur
+from stationbase.vision.Detection import Detection
+from elements.Robot import Robot
 
-class DetectionRobot(object):
-    def __init__(self, image):
-        self.imageCamera = image
+
+class DetectionRobot(Detection):
+    def __init__(self, image, numeroTable):
+        Detection.__init__(self, image, numeroTable)
         self.robotIdentifiee = None
         self._definirPatronsFormes()
 
     def detecter(self):
-        contoursRobot, hierarchy = self.trouverContoursRobot()
-        contoursRobot = self.eleminerCoutoursNegligeable(contoursRobot, hierarchy)
+        contoursRobot, hierarchie = self.trouverContoursRobot()
+        contoursRobot = self.eleminerCoutoursNegligeable(contoursRobot, hierarchie)
         self.trouverRobot(contoursRobot)
             
     def trouverContoursRobot(self):
-        intervalleFonce, intervalleClair = (np.array([30, 5, 140]), np.array([145, 140, 245]))
+        intervalleFonce, intervalleClair = IntervalleCouleur('Robot', self.numeroTable).getIntervalle()
         masqueRobot = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        _, contoursRobot, hierarchy = cv2.findContours(masqueRobot.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursRobot, hierarchie = cv2.findContours(masqueRobot.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
         
-        return (contoursRobot, hierarchy)
+        return contoursRobot, hierarchie
     
-    def eleminerCoutoursNegligeable(self, contoursRobot, hierarchy):
+    def eleminerCoutoursNegligeable(self, contoursRobot, hierarchie):
         contoursNegligeables = []
         
         for i in range(len(contoursRobot)):
             aireContour = cv2.contourArea(contoursRobot[i])
-            indiceContourTrou = hierarchy[0][i][2]
+            indiceContourTrou = hierarchie[0][i][2]
             
             if indiceContourTrou >= 0:  # Signifie que le contour possede un trou
                 aireTrouContour = cv2.contourArea(contoursRobot[indiceContourTrou])
             else:
                 aireTrouContour = 0
                 
-            if ((aireContour < 500) or (aireContour > 10000)):
+            if (aireContour < 500) or (aireContour > 10000):
                 contoursNegligeables.append(i)
-            elif ((aireTrouContour < 10) or (aireTrouContour > 6000)):
+            elif (aireTrouContour < 10) or (aireTrouContour > 6000):
                 contoursNegligeables.append(i)
                 
         if len(contoursRobot) == len(contoursNegligeables):
             contoursRobot = []
-        elif (len(contoursNegligeables) > 0):
+        elif not contoursNegligeables:
             contoursRobot = np.delete(contoursRobot, contoursNegligeables)
             
         return contoursRobot
 
     def trouverRobot(self, contoursRobot):
-        precisionDroit = 1000
+        precisionDroite = 1000
         precisionGauche = 1000
         contourDroit = None
         contourGauche = None
         
         for contour in contoursRobot:
             resultatsMatch = []
-            resultatsMatch.append((cv2.matchShapes(contour, self.cntRobotDroit, 1, 0.0), contour, 'Droit'))
+            resultatsMatch.append((cv2.matchShapes(contour, self.cntRobotDroit, 1, 0.0), contour, 'Droite'))
             resultatsMatch.append((cv2.matchShapes(contour, self.cntRobotGauche, 1, 0.0), contour, 'Gauche'))
             meilleurMatch = min(resultatsMatch)
-            precision, contour, nomForme = meilleurMatch
+            precision, contour, position = meilleurMatch
 
-            if (precision < 0.5):
-                if (nomForme == 'Droit' and (precision < precisionDroit)):
-                    precisionDroit = precision
+            if precision < 0.5:
+                if (position == 'Droite') and (precision < precisionDroite):
+                    precisionDroite = precision
                     contourDroit = copy.deepcopy(contour)
-                elif (nomForme == 'Gauche' and (precision < precisionGauche)):
+                elif (position == 'Gauche') and (precision < precisionGauche):
                     precisionGauche = precision
                     contourGauche = copy.deepcopy(contour)
                     
         if (contourDroit is None) or (contourGauche is None):
             self.robotIdentifiee = None
         else:
-            self.robotIdentifiee = (contourGauche, contourDroit)
+            centre, orientation = self.trouverInfoRobot(contourGauche, contourDroit)
+            self.robotIdentifiee = Robot(centre, orientation)
+
+    def trouverInfoRobot(self, contourGauche, contourDroit):
+        centreGauche = self.trouverCentre(contourGauche)
+        centreDroit = self.trouverCentre(contourDroit)
+        centreRobot = (int(round((centreDroit[0]+centreGauche[0])/2)), int(round((centreDroit[1]+centreGauche[1])/2)))
+        deltaX = centreDroit[0]-centreGauche[0]
+        deltaY = -1*(centreDroit[1]-centreGauche[1])
+        if not deltaX == 0:
+            pente = deltaY/deltaX
+
+        if deltaY == 0 and deltaX < 0:
+            angle = 180
+        elif deltaY == 0 and deltaX > 0:
+            angle = 0
+        elif deltaX == 0 and deltaY > 0:
+            angle = 90
+        elif deltaX == 0 and deltaY < 0:
+            angle = 270
+        elif deltaX > 0 and deltaY > 0:
+            angle = int(round(math.degrees(math.atan(pente))))
+        elif deltaX > 0 and deltaY < 0:
+            angle = 360 + int(round(math.degrees(math.atan(pente))))
+        elif deltaX < 0:
+            angle = 180 + int(round(math.degrees(math.atan(pente))))
+
+        angle += 90
+        if angle >= 360:
+            angle -= 360
+
+        return centreRobot, angle
+
+    def getRobot(self):
+        return self.robotIdentifiee
 
     def _definirPatronsFormes(self):
         patronRobotDroit = cv2.imread(ConfigPath.Config().appendToProjectPath('images/cercle.png'), 0)

@@ -1,13 +1,12 @@
 from PyQt4 import QtGui, QtCore
-import sys
 
-class RedirigeurTexte():
+
+class RedirigeurTexte:
     def __init__(self, widget, tag):
         self.widget = widget
         self.tag = tag
 
     def write(self, str):
-        #str = textwrap.fill(str, self.widget.frameGeometry().width()/8)
         if self.tag == "stdout":
             self.widget.setTextColor(QtCore.Qt.green)
         elif self.tag == "stderr":

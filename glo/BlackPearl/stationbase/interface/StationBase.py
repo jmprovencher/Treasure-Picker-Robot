@@ -199,7 +199,7 @@ class StationBase(Thread):
         print '\nTrouve la trajectoire prevu...'
         while 1:
             try:
-                if (not self.carte.infoRobot is None):
+                if (not self.carte.robot is None):
                     self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.getPositionRobot(), destination)
                     if self.trajectoirePrevue is None:
                         print 'erreur! Aucun trajet trouve.'
@@ -247,15 +247,18 @@ class StationBase(Thread):
 
     def getPositionRobot(self):
         while 1:
-            if (not self.carte.infoRobot is None):
-                return copy.deepcopy(self.carte.infoRobot.getCentre())
+            if (not self.carte.robot is None):
+                return copy.deepcopy(self.carte.robot.getCentre())
             print 'robot introuvable'
             time.sleep(0.01)
 
+    def getRobot(self):
+        return self.carte.robot
+
     def getOrientationRobot(self):
         while 1:
-            if (not self.carte.infoRobot is None):
-                return self.carte.infoRobot.orientation
+            if (not self.carte.robot is None):
+                return self.carte.robot.orientation
             time.sleep(0.01)
 
 
@@ -375,7 +378,34 @@ class StationBase(Thread):
         self.myRequest = RequeteJSON(commande, parametre)
         self.envoyerCommande = True
         self.attendreRobot()
-        
+
+    def attendreFeed(self):
+        while self.threadVideo.captureTable is None:
+            time.sleep(0.01)
+
+    def getImage(self):
+        return copy.deepcopy(self.threadVideo.captureTable)
+
+    def setRobot(self, robot):
+        self.carte.robot = robot
+
+    def getCarte(self):
+        return self.carte
+
+    def getManchester(self):
+        return self.manchester
+
+    def setManchester(self, lettre):
+        self.manchester = lettre
+
+    def getTensionCondensateur(self):
+        return self.tensionCondensateur
+
+    def setTensionCondensateur(self, tension):
+        self.tensionCondensateur = tension
+
+    def getTrajectoirePrevue(self):
+        return self.trajectoirePrevue
 
 
 

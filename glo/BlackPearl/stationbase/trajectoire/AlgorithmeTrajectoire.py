@@ -1,12 +1,9 @@
-# import the necessary packages
 from __future__ import division
 import heapq
 from stationbase.trajectoire.Cellule import Cellule
-from stationbase.trajectoire.GrilleCellule import GrilleCellule
-import math
 
 
-class AlgorithmeTrajectoire():
+class AlgorithmeTrajectoire:
     def __init__(self, grilleCellule):
         self.grilleCellule = grilleCellule
         self.heapOuvert = []
@@ -31,9 +28,9 @@ class AlgorithmeTrajectoire():
                 self.simplifierTrajet()
                 self.sectionnerTrajet()
                 return self.trajet
-            elif (self.cellulePlusPres is None) and (cellule.atteignable) and ((self.distanceADestinationAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y) >= (self.grilleCellule.distanceMur**2))):
+            elif (self.cellulePlusPres is None) and (self.distanceBufferAcceptee(cellule)):
                 self.cellulePlusPres = cellule
-            elif ((cellule.atteignable) and (not cellule.parent is None)) and ((self.distanceADestinationAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y) <= (self.distanceADestinationAuCarre(self.cellulePlusPres.x, self.cellulePlusPres.y, self.arriver.x, self.arriver.y)))):
+            elif self.distanceArriverCarre(cellule) < self.distanceArriverCarre(self.cellulePlusPres):
                 self.cellulePlusPres = cellule
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)
@@ -51,30 +48,31 @@ class AlgorithmeTrajectoire():
         self.sectionnerTrajet()
         return self.trajet
 
+    def distanceBufferAcceptee(self, cellule):
+        return (self.distanceAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y) >=
+                (self.grilleCellule.rayonBuffer**2))
+
+    def distanceArriverCarre(self, cellule):
+        return self.distanceAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y)
+
     def sectionnerTrajet(self):
         i = 0
         while i < len(self.trajet)-1:
             debut = self.trajet[i]
             fin = self.trajet[i+1]
-            if (self.distanceADestinationAuCarre(debut[0], debut[1], fin[0], fin[1]) > 900):
-                point = self.getPointMilieu(debut, fin)
-                self.trajet = self.trajet[:i+1] + [point]  + self.trajet[i+1:]
+            if self.distanceAuCarre(debut[0], debut[1], fin[0], fin[1]) > 900:
+                point = self.trouverPointMilieu(debut, fin)
+                self.trajet = self.trajet[:i+1] + [point] + self.trajet[i+1:]
             else:
-                i = i + 1
+                i += 1
 
-    def getPointMilieu(self, debut, fin):
+    def trouverPointMilieu(self, debut, fin):
         x = int(round(fin[0] + debut[0])/2)
         y = int(round(fin[1] + debut[1])/2)
-        return (x, y)
+        return x, y
 
-
-    def distanceADestinationAuCarre(self, x, y, destX, destY):
-        distanceX = destX - x
-        distanceY = destY - y
-        distanceX = self.grilleCellule.depPixelXACentimetre(distanceX)
-        distanceY = self.grilleCellule.depPixelYACentimetre(distanceY)
-        distanceCarre = distanceX**2 + distanceY**2
-        return distanceCarre
+    def distanceAuCarre(self, x, y, x2, y2):
+        return self.grilleCellule.distanceAuCarre(x, y, x2, y2)
 
     def simplifierTrajet(self):
         self.trajet = [(self.arriver.x, self.arriver.y)]
@@ -95,8 +93,6 @@ class AlgorithmeTrajectoire():
 
         if not ((temp.x - cellule.x == depart_x) and (temp.y - cellule.y == depart_y)):
             self.trajet.append((temp.x, temp.y))
-            depart_x = temp.x - cellule.x
-            depart_y = temp.y - cellule.y
 
         self.trajet.append((self.depart.x, self.depart.y))
         self.eliminerDetourInutile()
@@ -104,18 +100,18 @@ class AlgorithmeTrajectoire():
     def eliminerDetourInutile(self):
         longueurInitiale = 1
         longueurFinale = 0
-        while (longueurInitiale != longueurFinale):
+        while longueurInitiale != longueurFinale:
             longueurInitiale = len(self.trajet)
             i = 0
-            while (len(self.trajet) > i+2):
-                while ((len(self.trajet) > i+2) and (self.ligneDroiteEstPossible(self.trajet[i], self.trajet[i+2]))):
+            while len(self.trajet) > i+2:
+                while (len(self.trajet) > i+2) and (self.ligneDroiteEstPossible(self.trajet[i], self.trajet[i+2])):
                     self.trajet.pop(i+1)
-                i = i + 1
+                i += 1
             longueurFinale = len(self.trajet)
 
     def ligneDroiteEstPossible(self, debut, fin):
         for ile in self.grilleCellule.listeIles:
-            if (self.ileTropPresALigne(ile, debut, fin)):
+            if self.ileTropPresALigne(ile, debut, fin):
                 return False
         return True
 
@@ -126,7 +122,7 @@ class AlgorithmeTrajectoire():
         px = x2-x1
         py = y2-y1
         tmp = px*px + py*py
-        u =  ((x3 - x1) * px + (y3 - y1) * py) / float(tmp)
+        u = ((x3 - x1) * px + (y3 - y1) * py) / float(tmp)
         if u > 1:
             u = 1
         elif u < 0:
@@ -135,26 +131,10 @@ class AlgorithmeTrajectoire():
         y = y1 + u * py
         dx = x - x3
         dy = y - y3
-        dist = math.sqrt(dx*dx + dy*dy)
+        distCarre = dx*dx + dy*dy
 
-        return dist < int(round(self.grilleCellule.rayonBuffer * (self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0]))
-
-    def afficherTrajectoireDetailler(self):
-        cellule = self.grilleCellule.getCellule(self.arriver.x, self.arriver.y)
-        print "\n**************************"
-        print "Trajectoire:"
-        print "****************************\n"
-        print "Arriver: cellule: %d, %d\n" % (self.arriver.x, self.arriver.y)
-        if (self.trajet == []):
-            print "Aucun trajet!"
-        else:
-            while not self.estDepart(cellule.parent):
-                if (cellule.parent == None):
-                    print "Aucun trajet!"
-                else:
-                    cellule = cellule.parent
-                    print "cellule: %d, %d" % (cellule.x, cellule.y)
-        print "\nDepart: cellule: %d, %d" % (self.depart.x, self.depart.y)
+        return distCarre < (int(round(self.grilleCellule.rayonBuffer * (
+            self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0])))**2
 
     def rafraichirCellule(self, celluleAdjacente, cellule):
         celluleAdjacente.poid = cellule.poid + 10
@@ -180,13 +160,8 @@ class AlgorithmeTrajectoire():
         self.arriver = Cellule(arriver_x, arriver_y, True)
 
     def estArriver(self, cellule):
-        if (cellule.x == self.arriver.x) and (cellule.y == self.arriver.y):
-            return True
-        else:
-            return False
+        return (cellule.x == self.arriver.x) and (cellule.y == self.arriver.y)
 
     def estDepart(self, cellule):
-        if (cellule.x == self.depart.x) and (cellule.y == self.depart.y):
-            return True
-        else:
-            return False
+        return (cellule.x == self.depart.x) and (cellule.y == self.depart.y)
+

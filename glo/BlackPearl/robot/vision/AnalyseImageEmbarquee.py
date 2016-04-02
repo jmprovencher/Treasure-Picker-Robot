@@ -13,7 +13,6 @@ class AnalyseImageEmbarquee(Thread):
         self.robot = robot
         self.parametre = parametre
         self.imageCamera = None
-        self.alignementDepot = False
         self.ajustementsCalcules = False
         self.ajustements = []
 

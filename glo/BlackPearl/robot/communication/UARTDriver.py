@@ -14,6 +14,11 @@ class UARTDriver:
         time.sleep(2)  # the sleep time is important to make sure we don't send any messages before the initialization is complete
         return UART
 
+    def phaseInitialisation(self):
+        self.monterPrehenseur()
+        self.cameraPositionDepot()
+        self.cameraPositionFace()
+
     def cameraPositionDepot(self):
         self.UART.write(b'x'.encode())
 
@@ -22,6 +27,7 @@ class UARTDriver:
 
     def cameraPositionTresor(self):
         self.UART.write(b'd'.encode())
+        time.sleep(0.2)
 
     def cameraDescendre(self):
         self.UART.write(b'y'.encode())
@@ -74,11 +80,8 @@ class UARTDriver:
         print("======== ALIGNEMENT TERMINER ========")
 
     def postAlignementStation(self):
-        self.uartDriver.stopCondensateur()
-        print("######### CONDENSATEUR OFF ##########")
-        time.sleep(2)
         print("### BEEEEEEP BEEEEEEEEEEP ###")
-        self.sendCommand('backward', 5)
+        self.sendCommand('backward', 10)
         time.sleep(1)
         self.sendCommand('rotateAntiClockwise', 120)
         time.sleep(1)

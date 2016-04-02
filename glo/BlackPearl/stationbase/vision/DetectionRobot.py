@@ -11,7 +11,7 @@ from elements.Robot import Robot
 
 class DetectionRobot(Detection):
     def __init__(self, image, numeroTable):
-        Detection.__init__(image, numeroTable)
+        Detection.__init__(self, image, numeroTable)
         self.robotIdentifiee = None
         self._definirPatronsFormes()
 

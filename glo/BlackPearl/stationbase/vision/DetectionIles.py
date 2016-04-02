@@ -8,7 +8,7 @@ from elements.Ile import Ile
 
 class DetectionIles(Detection):
     def __init__(self, image, numeroTable):
-        Detection.__init__(image, numeroTable)
+        Detection.__init__(self, image, numeroTable)
         self.ilesIdentifiees = []
         self._definirPatronsFormes()
 

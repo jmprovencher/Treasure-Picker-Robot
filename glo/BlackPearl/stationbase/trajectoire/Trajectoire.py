@@ -30,14 +30,8 @@ class Trajectoire():
         distanceCarre = distanceX**2 + distanceY**2
         return distanceCarre
 
-    def afficherTrajectoire(self):
-        print "\n******************************************************************************"
-        print "Trajectoire:"
-        print "******************************************************************************\n"
-        if (self.trajectoire == []):
-            print "Il n'existe aucun trajet!"
-        else:
-            print "Arriver!!"
-            for deplacement in self.trajectoire:
-                print "cellule: %d, %d" % deplacement
-            print "Debut!!"
+    def depPixelXACentimetre(self, distanceX):
+        self.grilleCellule.depPixelXACentimetre(distanceX)
+
+    def depPixelYACentimetre(self, distanceY):
+        self.grilleCellule.depPixelXACentimetre(distanceY)

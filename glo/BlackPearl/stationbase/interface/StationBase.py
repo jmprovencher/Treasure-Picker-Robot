@@ -392,6 +392,18 @@ class StationBase(Thread):
     def getCarte(self):
         return self.carte
 
+    def getManchester(self):
+        return self.manchester
+
+    def setManchester(self, lettre):
+        self.manchester = lettre
+
+    def getTensionCondensateur(self):
+        return self.tensionCondensateur
+
+    def setTensionCondensateur(self, tension):
+        self.tensionCondensateur = tension
+
 
 
 

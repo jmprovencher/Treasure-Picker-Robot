@@ -2,8 +2,10 @@ import socket
 import ConfigPath
 import json
 
-class TCPServer():
+
+class TCPServer:
     def __init__(self):
+        self.s = None
         self.creeConnection()
         self.connection = None
         
@@ -21,7 +23,7 @@ class TCPServer():
         self.s.listen(5)
         print 'le serveur ecoute...'
 
-    def _establishConnection(self):
+    def establishConnection(self):
         connection, addr = self.s.accept()  # Establish connection with client.
         print 'connection a l''adresse: ', addr
         return connection
@@ -44,7 +46,6 @@ class TCPServer():
         print('requete recu.')
         jsonObject = json.loads(data)
         print 'requete decode.'
-        print 'requete: ', repr(data)
         return jsonObject
 
     def closeConnection(self):

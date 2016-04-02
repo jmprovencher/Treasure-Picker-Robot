@@ -47,6 +47,12 @@ class Carte:
     def getTrajectoire(self):
         return self.trajectoire
 
+    def getCible(self):
+        return self.cible
+
+    def setCible(self, cible):
+        self.cible = cible
+
 
 
 

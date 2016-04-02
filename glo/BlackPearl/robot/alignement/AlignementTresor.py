@@ -1,28 +1,32 @@
+RATIOPIXEL_CM = 5
+
+
 class AlignementTresor():
     def __init__(self):
         self.terminer = False
         self.ajustements = []
 
     def calculerAjustement(self, distance_x, distance_y):
-        ajustements_x = self._ajusterPositionX(distance_x)
-        ajustements_y = self._ajusterPositionY(distance_y)
-        self.ajustements.append(ajustements_x)
-        self.ajustements.append(ajustements_y)
+        if (abs(distance_x) > RATIOPIXEL_CM):
+            ajustements_x = self.ajusterPositionX(distance_x)
+            self.ajustements.append(ajustements_x)
+        if (abs(distance_y) > RATIOPIXEL_CM):
+            ajustements_y = self.ajusterPositionY(distance_y)
+            self.ajustements.append(ajustements_y)
         return self.ajustements
 
-    def _ajusterPositionX(self, distance_x):
-        if (distance_x > 0):
+    def ajusterPositionX(self, distance_x):
+        if (distance_x < 0):
             commande = 'left'
-        elif (distance_x < 0):
+        elif (distance_x > 0):
             commande = 'right'
-        dist_x = abs(distance_x / 5)
 
-        return commande, dist_x
+        return commande, abs(distance_x / RATIOPIXEL_CM)
 
-    def _ajusterPositionY(self, distance_y):
+    def ajusterPositionY(self, distance_y):
         if (distance_y < 0):
             commande = 'backward'
         elif (distance_y > 0):
             commande = 'forward'
 
-        return commande, distance_y
+        return commande, abs(distance_y / RATIOPIXEL_CM)

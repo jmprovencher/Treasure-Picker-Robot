@@ -21,19 +21,19 @@ class DetectionTresor(object):
         self.alignementTerminer = False
         self.ajustements = []
 
-        self.trouverAjustements()
+        self.calculerAjustements()
 
-    def trouverAjustements(self):
+    def calculerAjustements(self):
         contoursTresor = self._detecterFormeCouleur(self.intervalleJaune)
-        distanceMur = self._trouverDistanceMur(contoursTresor)
-        offsetLateral = self._trouverOffsetLateral(contoursTresor)
+        distanceMur = self._trouverAjustementFrontal(contoursTresor)
+        offsetLateral = self._trouverAjustementLateral(contoursTresor)
         self.ajustements = self.alignementTresor.calculerAjustement(offsetLateral, distanceMur)
         self._dessinerInformations(contoursTresor, distanceMur)
 
-    def _trouverOffsetLateral(self, contoursTresor):
+    def _trouverAjustementLateral(self, contoursTresor):
         position_x, position_y = self._trouverCentreForme(contoursTresor)
         positionZone_x, positionZone_y = self.positionZone
-        distance_x = (positionZone_x - position_x)
+        distance_x = (position_x - positionZone_x)
 
         _, rayon = cv2.minEnclosingCircle(contoursTresor)
         self._dessinerZoneTresor((position_x, position_y), rayon)
@@ -41,7 +41,7 @@ class DetectionTresor(object):
 
         return distance_x
 
-    def _trouverDistanceMur(self, contoursTresor):
+    def _trouverAjustementFrontal(self, contoursTresor):
         zoneTresor = cv2.minAreaRect(contoursTresor)
         distanceCamera_cm = self._calculerDistanceCamera(KNOWN_WIDTH, FOCAL_LENGTH, zoneTresor[1][0]) * 2.54
         distanceMur = math.sqrt(math.pow(distanceCamera_cm, 2) - math.pow(HAUTEUR_ROBOT, 2))

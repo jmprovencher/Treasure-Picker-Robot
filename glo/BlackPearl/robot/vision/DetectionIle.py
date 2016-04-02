@@ -32,7 +32,7 @@ class DetectionIle(object):
     def _evaluerEmplacement(self, contoursIle):
         position_x, position_y = self._trouverCentreForme(contoursIle)
         positionZone_x, positionZone_y = self.positionZone
-        distance_x = (positionZone_x - position_x)
+        distance_x = (position_x - positionZone_x)
         distance_y = (positionZone_y - position_y)
         _, rayon = cv2.minEnclosingCircle(contoursIle)
 

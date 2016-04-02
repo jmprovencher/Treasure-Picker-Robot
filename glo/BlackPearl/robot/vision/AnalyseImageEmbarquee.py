@@ -6,7 +6,6 @@ from robot.vision.DetectionTresor import DetectionTresor
 from threading import Thread
 import time
 
-
 class AnalyseImageEmbarquee(Thread):
     def __init__(self, robot, parametre):
         Thread.__init__(self)

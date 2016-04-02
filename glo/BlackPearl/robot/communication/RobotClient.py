@@ -6,6 +6,7 @@ from robot.communication.RequeteJSON import RequeteJSON
 
 verrou = RLock()
 
+
 class RobotClient(Thread):
     def __init__(self, robot, adresseIP):
         Thread.__init__(self)
@@ -17,7 +18,6 @@ class RobotClient(Thread):
     def run(self):
         self.monClient._connectToServer()
         while not (self.robot.tacheTerminee):
-            print("Robot Client running")
             self.envoyerPretAStation()
             while 1:
                 if (self.robot.pretEnvoyerLettre):
@@ -42,12 +42,12 @@ class RobotClient(Thread):
                 break
             except Exception as e:
                 print e
-                print "Connection Lost, Trying to reconnect"
+                print "Connection perdue... Tente de reconnecter..."
                 time.sleep(0.1)
                 self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
         if data == -1:
-            print('Error while receiving file')
+            print("Erreur lors de la lecture du fichier")
 
         self.termineeAEteEnvoyerAStation = False
         return data
@@ -67,7 +67,7 @@ class RobotClient(Thread):
                 break
             except Exception as e:
                 print e
-                print "Connection Lost, Trying to reconnect"
+                print "Connection perdue... Tente de reconnecter..."
                 time.sleep(0.1)
                 self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
@@ -81,7 +81,7 @@ class RobotClient(Thread):
                 break
             except Exception as e:
                 print e
-                print "Connection Lost, Trying to reconnect"
+                print "Connection perdue... Tente de reconnecter..."
                 time.sleep(0.1)
                 self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
@@ -95,7 +95,7 @@ class RobotClient(Thread):
                 break
             except Exception as e:
                 print e
-                print "Connection Lost, Trying to reconnect"
+                print "Connection perdue... Tente de reconnecter..."
                 time.sleep(0.1)
                 self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
@@ -108,7 +108,7 @@ class RobotClient(Thread):
                 break
             except Exception as e:
                 print e
-                print "Connection Lost, Trying to reconnect"
+                print "Connection perdue... Tente de reconnecter..."
                 time.sleep(0.1)
                 self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
@@ -123,7 +123,7 @@ class RobotClient(Thread):
                 break
             except Exception as e:
                 print e
-                print "Connection Lost, Trying to reconnect"
+                print "Connection perdue... Tente de reconnecter..."
                 time.sleep(0.1)
                 self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()

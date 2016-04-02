@@ -18,76 +18,60 @@ class AnalyseImageEmbarquee(Thread):
 
     def run(self):
         while not (self.ajustementsCalcules):
-            print("Thread analyseEmbarque run...")
-            time.sleep(2)
+            time.sleep(1)
             self._chargerImage()
             self.choisirAlignement(self.parametre)
-            print("alignement choisi")
-            time.sleep(2)
-
-        self.soumettreAjustements()
-        print("Analyse terminee, ajustement soumis")
+            time.sleep(1)
+        self._soumettreAjustements()
 
     def choisirAlignement(self, parametre):
         if (parametre == 'bleu'):
-            self.evaluerPositionDepot('bleu')
+            self._evaluerPositionDepot('bleu')
         elif (parametre == 'vert'):
-            self.evaluerPositionDepot('vert')
+            self._evaluerPositionDepot('vert')
         elif (parametre == 'rouge'):
-            self.evaluerPositionDepot('rouge')
+            self._evaluerPositionDepot('rouge')
         elif (parametre == 'jaune'):
-            self.evaluerPositionDepot('jaune')
+            self._evaluerPositionDepot('jaune')
         elif (parametre == 'tresor'):
-            print("TRESOR")
-            self.evaluerPositionTresor()
+            self._evaluerPositionTresor()
         elif (parametre == 'station'):
-            print("STATION")
-            self.evaluerPositionStation()
+            self._evaluerPositionStation()
         else:
             print("CRITICAL ERROR")
 
-    def evaluerPositionTresor(self):
+    def _evaluerPositionTresor(self):
         self.detectionTresor = DetectionTresor(self.imageCamera)
         self.ajustements = self.detectionTresor.ajustements
 
         if (self.ajustements != []):
-            print("Commandes ajustements PICKUP pretes")
             self.ajustementsCalcules = True
-        else:
-            print ("Ajustements non calculees (analyseimageembarque)")
 
-    def evaluerPositionStation(self):
+    def _evaluerPositionStation(self):
         self.detectionStation = DetectionStation(self.imageCamera)
         self.ajustements = self.detectionStation.ajustements
 
         if (self.ajustements != []):
-            print("Commandes ajustements RECHARGE pretes")
             self.ajustementsCalcules = True
-        else:
-            print ("Ajustements non calculees (analyseimageembarque)")
 
-    def evaluerPositionDepot(self, couleurIleCible):
+    def _evaluerPositionDepot(self, couleurIleCible):
         self.detectionIle = DetectionIle(self.imageCamera, couleurIleCible)
         self.ajustements = self.detectionIle.ajustements
 
         if (self.ajustements != []):
-            print("Commandes ajustements DROP pretes")
             self.ajustementsCalcules = True
 
-    def soumettreAjustements(self):
+    def _soumettreAjustements(self):
         for instructions in self.ajustements:
-            print("Commandes envoyees a liste attente:", instructions)
             self.robot.ajouterDirectives(instructions)
 
-    def afficherFeed(self):
+    def _afficherFeed(self):
         cv2.imshow("Analyse", self.imageCamera)
         cv2.waitKey(0)
 
     def _chargerImage(self):
         self.imageCamera = self.robot.threadVideo.getImageCapture()
-        #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('tresor.png'))
         self._estomperImage()
-        #self.afficherFeed()
 
     def _attendreFeedVideo(self):
         while self.robot.threadVideo.getImageCapture() is None:

@@ -1,15 +1,11 @@
-# import the necessary packages
 from robot.communication.RobotClient import RobotClient
 from robot.vision.AnalyseImageEmbarquee import AnalyseImageEmbarquee
 from robot.interface.FeedVideoRobot import FeedVideoRobot
 from robot.communication.LectureUART import LectureUART
-from robot.communication.islandServerRequest import islandServerRequest
-from threading import Thread, RLock
+from threading import Thread
 import time
 from robot.communication.ObtenirTension import ObtenirTension
 from robot.interface.RobotService import RobotService
-
-verrou = RLock()
 
 
 class Robot(Thread):
@@ -18,6 +14,7 @@ class Robot(Thread):
         self.uartDriver = uartDriver
         self.service = RobotService()
         self.instructions = []
+
         self.alignementEnCours = False
         self.positionTresor = False
         self.positionDepot = False
@@ -25,37 +22,18 @@ class Robot(Thread):
         self.commandeTerminee = False
         self.pretEnvoyerLettre = False
         self.pretEnvoyerIndice = False
+
         self.lettreObtenue = None
         self.indiceObtenu = None
         self.adresseIP = '192.168.0.45'
         self.tensionCondensateur = 0
+
         self._demarrerLectureUART()
         self._demarrerConnectionTCP()
         self._demarrerFeedVideo()
 
     def run(self):
         self.uartDriver.phaseInitialisation()
-
-    def _demarrerFeedVideo(self):
-        self.threadVideo = FeedVideoRobot()
-        self.threadVideo.start()
-
-    def _demarrerConnectionTCP(self):
-        self.robotClient = RobotClient(self, self.adresseIP)
-        self.robotClient.start()
-
-    def _demarrerLectureUART(self):
-        self.threadLecture = LectureUART(self)
-        self.threadLecture.start()
-
-    def _demarrerAnalyseVideo(self, type):
-        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, type)
-        self.analyseImageEmbarquee.start()
-        self.analyseImageEmbarquee.join()
-
-    def _demarrerObtenirTension(self):
-        self.obtenirTension = ObtenirTension(self)
-        self.obtenirTension.start()
 
     def demarrerAlignementStation(self):
         self.alignementEnCours = True
@@ -66,9 +44,7 @@ class Robot(Thread):
 
         self.uartDriver.preAlignementStation()
         self._executerAlignement()
-
         self._attendreChargeComplete()
-
         self._decoderManchester()
         self.uartDriver.postAlignementStation()
 
@@ -107,29 +83,20 @@ class Robot(Thread):
 
     def traiterCommande(self, commande, parametre):
         if (commande == 'alignement_ile'):
-            print("Commence phase alignement: %s" % parametre)
             self.demarrerAlignementIle()
         elif (commande == 'alignement_tresor'):
-            print("Commence phase alignement: %s" % parametre)
             self.demarrerAlignementTresor()
         elif (commande == 'alignement_station'):
-            print("Commence phase alignement: %s" % parametre)
             self.demarrerAlignementStation()
         else:
             self.uartDriver.sendCommand(commande, parametre)
-            print("Commande envoye au UART")
 
     def _executerAlignement(self):
         for inst in self.instructions:
             self.commandeTerminee = False
             commande, parametre = inst
             self.uartDriver.sendCommand(commande, parametre)
-            print("Commande envoyee:", commande, parametre)
-            time.sleep(5)
-            while not (self.commandeTerminee):
-                print("Commande en cours execution")
-                time.sleep(0.5)
-            print("Commande effectuee")
+            time.sleep(2)
             self.commandeTerminee = True
 
     def _decoderManchester(self):
@@ -146,7 +113,26 @@ class Robot(Thread):
 
     def _attendreChargeComplete(self):
         while (float(self.tensionCondensateur) < 4.60):
-            print(self.tensionCondensateur)
-            print("Tension condensateur: %s" % self.tensionCondensateur)
             time.sleep(0.5)
         self.uartDriver.stopCondensateur()
+
+    def _demarrerFeedVideo(self):
+        self.threadVideo = FeedVideoRobot()
+        self.threadVideo.start()
+
+    def _demarrerConnectionTCP(self):
+        self.robotClient = RobotClient(self, self.adresseIP)
+        self.robotClient.start()
+
+    def _demarrerLectureUART(self):
+        self.threadLecture = LectureUART(self)
+        self.threadLecture.start()
+
+    def _demarrerAnalyseVideo(self, type):
+        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, type)
+        self.analyseImageEmbarquee.start()
+        self.analyseImageEmbarquee.join()
+
+    def _demarrerObtenirTension(self):
+        self.obtenirTension = ObtenirTension(self)
+        self.obtenirTension.start()

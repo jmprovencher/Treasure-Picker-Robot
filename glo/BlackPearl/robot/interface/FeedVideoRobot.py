@@ -34,20 +34,16 @@ class FeedVideoRobot(Thread):
 
 
     def getImageCapture(self):
-        print("Streamed image was accessed...")
+        print("Image prise pour traitement...")
         return self.imageCapture
 
     def demarrerCapture(self):
-        if (self.capturer):
-            print("Feed deja en cours")
-        else:
+        if not (self.capturer):
             self.capturer = True
 
     def suspendreCapture(self):
         if (self.capturer):
             self.capturer = False
-        else:
-            print("Feed deja suspendu")
 
     def libererCamera(self):
         self.video.release()

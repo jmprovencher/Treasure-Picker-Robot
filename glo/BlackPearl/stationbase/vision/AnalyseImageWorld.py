@@ -41,13 +41,12 @@ class AnalyseImageWorld(Thread):
         self.image = cv2.GaussianBlur(self.image, (9, 9), 0)
 
     def detectionPrimaire(self):
-        self.trouverElementsCartographiques()
         self.trouverRobot()
         while self.getRobot() is None:
             time.sleep(0.05)
             self.chargerImage()
             self.trouverRobot()
-        self.eliminerContoursProcheRobot()
+        self.trouverElementsCartographiques()
 
     def trouverElementsCartographiques(self):
         print("\nDetection des iles et tresors...")
@@ -58,7 +57,8 @@ class AnalyseImageWorld(Thread):
             self.chargerImage()
             detectionIles = DetectionIles(self.image, self.numeroTable)
             detectionIles.detecter()
-            detectionMultipleIles.append(detectionIles.getIlesIdentifiees())
+            listIles = self.eliminerContoursProcheRobot(detectionIles.getIlesIdentifiees())
+            detectionMultipleIles.append(listIles)
             detectionTresors = DetectionTresors(self.image, self.numeroTable)
             detectionTresors.detecter()
             detectionMultipleTresors.append(detectionTresors.getTresorsIdentifies())
@@ -75,20 +75,21 @@ class AnalyseImageWorld(Thread):
             tmpList[len(detectionMultiple[i])] += 1
         return detectionMultiple[tmpList.index(max(tmpList))]
 
-    def eliminerContoursProcheRobot(self):
+    def eliminerContoursProcheRobot(self, listIles):
         ileImpossible = []
         xRobot, yRobot = self.stationBase.getCarte().getRobot().getCentre()
-        listIle = self.stationBase.getCarte().getIles()
 
-        for i in range(len(listIle)):
-            xIle, yIle = listIle[i].getCentre()
+        for i in range(len(listIles)):
+            xIle, yIle = listIles[i].getCentre()
             if self.stationBase.getCarte().getTrajectoire().distanceADestinationAuCarre(xRobot, yRobot, xIle, yIle) <= 225:
                 ileImpossible.append(i)
 
-        if len(self.stationBase.carte.listeIles) == len(ileImpossible):
-            self.stationBase.carte.listeIles = []
+        if len(listIles) == len(ileImpossible):
+            listIles = []
         elif not ileImpossible:
-            self.stationBase.carte.listeIles = np.delete(self.stationBase.carte.listeIles, ileImpossible)
+            listIles = np.delete(listIles, ileImpossible)
+
+        return listIles
 
     def trouverRobot(self):
         detectionRobot = DetectionRobot(self.image, self.numeroTable)

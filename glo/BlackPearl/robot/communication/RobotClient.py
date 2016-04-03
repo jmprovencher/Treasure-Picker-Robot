@@ -20,7 +20,7 @@ class RobotClient(Thread):
         while not (self.robot.tacheTerminee):
             self.envoyerPretAStation()
             while 1:
-                if (self.robot.pretEnvoyerLettre):
+                if (self.robot.service.pretEnvoyerLettre):
                     self.envoyerLettre()
 
                 if (self.robot.pretEnvoyerIndice):

@@ -30,8 +30,6 @@ class FeedVideoRobot(Thread):
             print ("Streaming...")
             _, self.imageCapture = self.video.read()
             time.sleep(0.5)
-            #cv2.imshow("LIVE FEED", self.imageCapture)
-
 
     def getImageCapture(self):
         print("Image prise pour traitement...")
@@ -44,6 +42,3 @@ class FeedVideoRobot(Thread):
     def suspendreCapture(self):
         if (self.capturer):
             self.capturer = False
-
-    def libererCamera(self):
-        self.video.release()

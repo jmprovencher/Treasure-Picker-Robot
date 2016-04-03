@@ -103,10 +103,11 @@ class Robot(Thread):
         self.uartDriver.lireManchester()
         self._attendreReceptionLettre()
         cible = self.service.obtenirCible(self.lettreObtenue)
+        self.pretEnvoyerIndice = True
 
     def _attendreReceptionLettre(self):
         while (self.lettreObtenue is None):
-            print("Waiting for Manchester...")
+            print("En attente du code Manchester...")
             time.sleep(2)
         print("Lettre recu par le robot : %s" % self.lettreObtenue)
         self.pretEnvoyerLettre = True

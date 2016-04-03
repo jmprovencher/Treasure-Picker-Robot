@@ -1,4 +1,4 @@
-RATIOPIXEL_CM = 40
+RATIOPIXEL_CM = 30
 
 
 class AlignementIle():

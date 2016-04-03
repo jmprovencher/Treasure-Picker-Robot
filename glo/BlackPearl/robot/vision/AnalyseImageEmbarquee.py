@@ -7,54 +7,58 @@ from threading import Thread
 import time
 
 class AnalyseImageEmbarquee(Thread):
-    def __init__(self, robot, parametre):
+    def __init__(self, robot):
         Thread.__init__(self)
         self.robot = robot
-        self.parametre = parametre
         self.imageCamera = None
         self.ajustementsCalcules = False
         self.ajustements = []
+        self.parametre = None
+
+    def definirType(self, parametre):
+        self.parametre = parametre
 
     def run(self):
-        while not (self.ajustementsCalcules):
+        while not (self.ajustementsCalcules) and (self.parametre is not None):
             time.sleep(1)
             self._chargerImage()
-            self.choisirAlignement(self.parametre)
+            self.debuterAlignement(self.parametre)
             time.sleep(1)
         self._soumettreAjustements()
 
-    def choisirAlignement(self, parametre):
+    def debuterAlignement(self, parametre):
         if (parametre == 'bleu'):
-            self._evaluerPositionDepot('bleu')
+            self.evaluerPositionDepot('bleu')
         elif (parametre == 'vert'):
-            self._evaluerPositionDepot('vert')
+            self.evaluerPositionDepot('vert')
         elif (parametre == 'rouge'):
-            self._evaluerPositionDepot('rouge')
+            self.evaluerPositionDepot('rouge')
         elif (parametre == 'jaune'):
-            self._evaluerPositionDepot('jaune')
+            self.evaluerPositionDepot('jaune')
         elif (parametre == 'tresor'):
-            self._evaluerPositionTresor()
+            self.evaluerPositionTresor()
         elif (parametre == 'station'):
-            self._evaluerPositionStation()
+            self.evaluerPositionStation()
         else:
             print("CRITICAL ERROR")
 
-    def _evaluerPositionTresor(self):
+    def evaluerPositionTresor(self):
         self.detectionTresor = DetectionTresor(self.imageCamera)
         self.ajustements = self.detectionTresor.ajustements
 
         if (self.ajustements != []):
             self.ajustementsCalcules = True
 
-    def _evaluerPositionStation(self):
+    def evaluerPositionStation(self):
         self.detectionStation = DetectionStation(self.imageCamera)
         self.ajustements = self.detectionStation.ajustements
 
         if (self.ajustements != []):
             self.ajustementsCalcules = True
 
-    def _evaluerPositionDepot(self, couleurIleCible):
-        self.detectionIle = DetectionIle(self.imageCamera, couleurIleCible)
+    def evaluerPositionDepot(self, couleurIleCible):
+        self.detectionIle = DetectionIle(self.imageCamera)
+        self.detectionIle.detecterIle(couleurIleCible)
         self.ajustements = self.detectionIle.ajustements
 
         if (self.ajustements != []):

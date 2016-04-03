@@ -88,7 +88,7 @@ class UARTDriver:
         time.sleep(6)
         self.sendCommand('backward', 5)
         time.sleep(3)
-        self.showtime()
+        self.executionTerminee()
 
     def chargerCondensateur(self):
         self.sendCommand('chargeCondensateur', 0)
@@ -100,7 +100,7 @@ class UARTDriver:
         self.sendCommand('readManchester', 0)
         time.sleep(1)
 
-    def showtime(self):
+    def executionTerminee(self):
         for j in range(0, 6):
             self.cameraPositionFace()
             time.sleep(0.2)

@@ -5,11 +5,10 @@ from robot.alignement.AlignementIle import AlignementIle
 
 
 class DetectionIle(object):
-    def __init__(self, image, couleurIleCible):
+    def __init__(self, image):
         self.alignementIle = AlignementIle()
         self.alignementTerminer = False
         self.imageCamera = image
-        self.couleurIle = couleurIleCible
         self.ajustements = []
 
         self.positionZone = (800, 850)
@@ -17,17 +16,17 @@ class DetectionIle(object):
 
         self._definirIntervallesCouleurs()
         self._dessinerZoneCible()
-        self.detecterIle()
 
-    def detecterIle(self):
+    def detecterIle(self, couleurIleCible):
+        self.couleurIle = couleurIleCible
         if (self.couleurIle == "vert"):
-            self._detecterFormeCouleur(self.intervalleVert)
+            self.detecterFormeCouleur(self.intervalleVert)
         elif (self.couleurIle == "jaune"):
-            self._detecterFormeCouleur(self.intervalleJaune)
+            self.detecterFormeCouleur(self.intervalleJaune)
         elif (self.couleurIle == "bleu"):
-            self._detecterFormeCouleur(self.intervalleBleu)
+            self.detecterFormeCouleur(self.intervalleBleu)
         elif (self.couleurIle == "rouge"):
-            self._detecterFormeCouleur(self.intervalleRouge)
+            self.detecterFormeCouleur(self.intervalleRouge)
 
     def _evaluerEmplacement(self, contoursIle):
         position_x, position_y = self._trouverCentreForme(contoursIle)
@@ -50,11 +49,11 @@ class DetectionIle(object):
         cv2.circle(self.imageCamera, position, int(rayon), couleur, 2)
         cv2.circle(self.imageCamera, position, 10, (0, 0, 255), 2)
 
-    def _detecterFormeCouleur(self, intervalleCouleur):
+    def detecterFormeCouleur(self, intervalleCouleur):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
 
-        contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
         for contours in range(len(contoursCouleur)):

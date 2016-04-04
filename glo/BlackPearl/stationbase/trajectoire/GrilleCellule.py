@@ -52,10 +52,10 @@ class GrilleCellule:
 
     def xInvalide(self, x):
         return ((x >= self.dimensionCrop[0]-self.depCentimetreXAPixel(self.distPerteDeVueRobot)) or
-               (x <= self.depCentimetreXAPixel(self.distPerteDeVueRobot)))
+            (x <= self.depCentimetreXAPixel(self.distPerteDeVueRobot)))
 
     def yInvalide(self, y):
-        return  ((y <= self.depCentimetreYAPixel(self.distanceMur)) or
+        return ((y <= self.depCentimetreYAPixel(self.distanceMur)) or
                 (y >= self.dimensionCrop[1]-self.depCentimetreYAPixel(self.distanceMur)))
 
     def getCellule(self, x, y):

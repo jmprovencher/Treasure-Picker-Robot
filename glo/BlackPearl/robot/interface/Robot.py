@@ -28,8 +28,8 @@ class Robot(Thread):
         self.adresseIP = '192.168.0.45'
         self.tensionCondensateur = 0
 
-        #self._demarrerLectureUART()
-        #self._demarrerConnectionTCP()
+        self._demarrerLectureUART()
+        self._demarrerConnectionTCP()
         self._demarrerFeedVideo()
 
         self.demarrerAlignementTresor()
@@ -55,14 +55,14 @@ class Robot(Thread):
 
     def demarrerAlignementTresor(self):
         self.alignementEnCours = True
-        #self.uartDriver.cameraPositionTresor()
+        self.uartDriver.cameraPositionDepot()
         self.threadVideo.demarrerCapture()
 
         self._demarrerAnalyseVideo('tresor')
 
-        #self.uartDriver.preAlignementTresor()
+        self.uartDriver.preAlignementTresor()
         self._executerAlignement()
-#        self.uartDriver.postAlignementTresor()
+        self.uartDriver.postAlignementTresor()
 
         self.alignementEnCours = False
         self.threadVideo.suspendreCapture()
@@ -75,7 +75,7 @@ class Robot(Thread):
         self._demarrerAnalyseVideo('bleu')
 
         self._executerAlignement()
-        #self.uartDriver.postAlignementIle()
+        self.uartDriver.postAlignementIle()
 
         self.alignementEnCours = False
         self.threadVideo.suspendreCapture()

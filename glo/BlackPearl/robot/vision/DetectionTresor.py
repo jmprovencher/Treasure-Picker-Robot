@@ -11,7 +11,7 @@ class DetectionTresor(object):
     def __init__(self, image):
         self.alignementTresor = AlignementTresor()
         self.imageCamera = image
-        self.positionZone = (800, 730)
+        self.positionZone = (800, 950)
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
         self._dessinerZoneCible()
@@ -50,8 +50,8 @@ class DetectionTresor(object):
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         kernel = np.ones((5, 5), np.uint8)
         closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
-        # cv2.imshow("Tresor", closing)
-        # cv2.waitKey(0)
+        #cv2.imshow("Tresor", closing)
+        #cv2.waitKey(0)
 
         contoursTresor = []
         _, contoursCouleur, _ = cv2.findContours(closing, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -97,3 +97,5 @@ class DetectionTresor(object):
         cv2.putText(self.imageCamera, "%.2f cm" % (distance),
                     (self.imageCamera.shape[1] - 300, self.imageCamera.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX, 2.0,
                     (0, 255, 0), 3)
+        cv2.imshow("Image", self.imageCamera)
+        cv2.waitKey(0)

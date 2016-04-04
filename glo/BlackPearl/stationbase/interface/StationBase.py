@@ -4,7 +4,7 @@ from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
 from stationbase.interface.FeedVideoStation import FeedVideoStation
 from stationbase.communication.StationServeur import StationServeur
 from stationbase.interface.ImageVirtuelle import ImageVirtuelle
-from threading import Thread, RLock
+from threading import Thread
 import time
 import math
 from stationbase.communication.RequeteJSON import RequeteJSON
@@ -44,6 +44,8 @@ class StationBase(Thread):
         elif etape == 'deplacement tresor':
             self.carte.getCible().trouverIleCible()
             self.deplacement('TRESOR')
+            RequeteJSON("cameraTreasure", 0)
+            self.threadCommunication.signalerEnvoyerCommande()
         elif etape == 'alignement tresor':
             self.aligner("alignement_tresor")
         elif etape == 'deplacement ile':
@@ -256,6 +258,10 @@ class StationBase(Thread):
         while self.threadVideo.captureTable is None:
             time.sleep(0.01)
 
+    def attendreImageVirtuelle(self):
+        while self.threadImageVirtuelle.imageVirtuelle is None:
+            time.sleep(0.01)
+
     def distanceAuCarre(self, x, y, x2, y2):
         return self.carte.getTrajectoire().distanceAuCarre(x, y, x2, y2)
 
@@ -291,6 +297,9 @@ class StationBase(Thread):
 
     def getOrientationRobot(self):
         return self.carte.getRobotValide().orientation
+
+    def getNumTable(self):
+        return self.numeroTable
 
 
 

@@ -11,7 +11,7 @@ class Cible:
             self.indice = 'Carre'
         else:
             self.indice = args[1]
-        self.trouverIleCible()
+        #self.trouverIleCible()
 
     def trouverIleCible(self):
         posRobot = copy.deepcopy(self.carte.getRobotValide().getCentre())

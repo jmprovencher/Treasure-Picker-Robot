@@ -1,4 +1,3 @@
-# import the necessary packages
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QPushButton
 from PyQt4.QtGui import QLabel
@@ -9,11 +8,13 @@ from stationbase.interface.AfficherImageVirtuelle import AfficherImageVirtuelle
 from Tkinter import *
 from stationbase.interface.RedirigeurTexte import RedirigeurTexte
 
+
 class Interface(QtGui.QWidget):
     def __init__(self):
         super(Interface, self).__init__()
-        self.threadAfficherImageVirtuelle = AfficherImageVirtuelle(self)
+        self.threadStationBase = None
         self.initUI()
+        self.threadAfficherImageVirtuelle.start()
 
     def initUI(self):
         self.initGeneral()
@@ -23,21 +24,20 @@ class Interface(QtGui.QWidget):
 
     def update_gui(self):
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
-        self.tensionCondensateur.setText(QString(self.threadStationBase.tensionCondensateur))
         QtGui.QApplication.processEvents()
         self.feed.repaint()
         if self.threadStationBase.getCarte().getRobot() is not None:
-            self.position.rechargerInfo('Position du robot : ' +
-                                        str(self.threadStationBase.getCarte().getRobot().getX()) + 'x ' +
-                                        str(self.threadStationBase.getCarte().getRobot().getY()) + 'y')
-            self.orientation.rechargerInfo('Orientation du robot : ' +
-                                           str(self.threadStationBase.getCarte().getRobot().getOrientation()) + '\xb0')
-        self.tensionCondensateur.rechargerInfo('Tension condensateur : '
-                                               + str(self.threadStationBase.getTensionCondensateur()) + 'V')
+            self.rechargerInfo(self.position, 'Position du robot : ' +
+                               str(self.threadStationBase.getCarte().getRobot().getX()) + 'x ' +
+                               str(self.threadStationBase.getCarte().getRobot().getY()) + 'y')
+            self.rechargerInfo(self.orientation, 'Orientation du robot : ' +
+                               str(self.threadStationBase.getCarte().getRobot().getOrientation()) + '\xb0')
+        self.rechargerInfo(self.tensionCondensateur, 'Tension condensateur : ' +
+                           str(self.threadStationBase.getTensionCondensateur()) + 'V')
         if self.threadStationBase.getCarte().getCible() is not None:
-            self.ileCible.rechargerInfo('Ile cible : ' + self.threadStationBase.getCarte().getCible().getIndice())
-        self.manchester.rechargerInfo('Manchester : ' + self.threadStationBase.getManchester())
-        if self.threadStationBase.robotEstPret:
+            self.rechargerInfo(self.ileCible, 'Ile cible : ' + self.threadStationBase.getCarte().getCible().getIndice())
+        self.rechargerInfo(self.manchester, 'Manchester : ' + self.threadStationBase.getManchester())
+        if self.threadStationBase.threadCommunication.getRobotPret():
             self.rechargerInfoCouleur('Connecte', 'color: green')
 
     def initGeneral(self):
@@ -51,6 +51,7 @@ class Interface(QtGui.QWidget):
         self.buffer = 25
         self.numeroTable = 2
         self.feed.setGeometry(5, self.hauteur-(600+self.buffer+5), 800, 600)
+        self.threadAfficherImageVirtuelle = AfficherImageVirtuelle(self)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
 
     def initInfo(self):
@@ -98,9 +99,9 @@ class Interface(QtGui.QWidget):
         #sys.stdout = RedirigeurTexte(self.text, "stdout")
         #sys.stderr = RedirigeurTexte(self.text, "stderr")
 
-    def rechargerInfo(self, texte):
-        self.setText(QString(texte))
-        self.repaint()
+    def rechargerInfo(self, label, texte):
+        label.setText(QString(texte))
+        label.repaint()
 
     def rechargerInfoCouleur(self, texte, couleur):
         self.setStyleSheet('color: ' + couleur)
@@ -110,7 +111,8 @@ class Interface(QtGui.QWidget):
     def afficherInitInfo(self, x, y, dimensionX, dimensionY, texte):
         info = QLabel(self)
         info.setGeometry(x, y, dimensionX, dimensionY)
-        return info.setText(QString(texte))
+        info.setText(QString(texte))
+        return info
 
     def afficherInitInfoCouleur(self, x, y, dimensionX, dimensionY, texte, couleur):
         info = QLabel(self)
@@ -145,34 +147,27 @@ class Interface(QtGui.QWidget):
         print('Vous avez choisi la Table ' + str(self.numeroTable))
 
     def demarerRoutineComplete(self):
-        self.threadStationBase = StationBase('routine complete', self.numeroTable)
-        self.demarerRoutine()
+        self.demarerRoutine('routine complete')
 
     def demarerDepStation(self):
-        self.threadStationBase = StationBase('deplacement station', self.numeroTable)
-        self.demarerRoutine()
+        self.demarerRoutine('deplacement station')
 
     def demarerAlignementStation(self):
-        self.threadStationBase = StationBase('alignement station', self.numeroTable)
-        self.demarerRoutine()
+        self.demarerRoutine('alignement station')
 
     def demarerDepTresor(self):
-        self.threadStationBase = StationBase('deplacement tresor', self.numeroTable)
-        self.demarerRoutine()
+        self.demarerRoutine('deplacement tresor')
 
     def demarerAlignementTresor(self):
-        self.threadStationBase = StationBase('alignement tresor', self.numeroTable)
-        self.demarerRoutine()
+        self.demarerRoutine('alignement tresor')
 
     def demarerDepIle(self):
-        self.threadStationBase = StationBase('deplacement ile', self.numeroTable)
-        self.demarerRoutine()
+        self.demarerRoutine('deplacement ile')
 
     def demarerAlignementIle(self):
-        self.threadStationBase = StationBase('alignement ile', self.numeroTable)
-        self.demarerRoutine()
+        self.demarerRoutine('alignement ile')
 
-    def demarerRoutine(self):
+    def demarerRoutine(self, string):
+        self.threadStationBase = StationBase(string, self.numeroTable)
         self.threadStationBase.start()
         self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
-        self.threadAfficherImageVirtuelle.start()

@@ -18,15 +18,12 @@ class AnalyseImageWorld(Thread):
         self.cntRobotPerdu = 0
 
     def run(self):
-        self.attendreFeed()
+        self.stationBase.attendreFeed()
         self.detectionPrimaire()
         while 1:
             self.chargerImage()
             self.trouverRobot()
             time.sleep(0.01)
-
-    def attendreFeed(self):
-        self.stationBase.attendreFeed()
 
     def chargerImage(self):
         self.image = self.stationBase.getImage()
@@ -41,8 +38,9 @@ class AnalyseImageWorld(Thread):
         self.image = cv2.GaussianBlur(self.image, (9, 9), 0)
 
     def detectionPrimaire(self):
+        self.chargerImage()
         self.trouverRobot()
-        while self.getRobot() is None:
+        while self.stationBase.getCarte().getRobot() is None:
             time.sleep(0.05)
             self.chargerImage()
             self.trouverRobot()
@@ -92,7 +90,7 @@ class AnalyseImageWorld(Thread):
         return listIles
 
     def trouverRobot(self):
-        detectionRobot = DetectionRobot(self.image, self.numeroTable)
+        detectionRobot = DetectionRobot(self.image, self.stationBase.getNumTable())
         detectionRobot.detecter()
         robot = detectionRobot.getRobot()
         if robot is not None:

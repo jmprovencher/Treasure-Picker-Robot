@@ -27,8 +27,8 @@ class Carte:
     def setIles(self, listIles):
         self.listeIles = listIles
 
-    def getTresor(self):
-        return self.m_tresor
+    def getTresors(self):
+        return self.listeTresors
 
     def setTresors(self, listTresors):
         self.listeTresors = listTresors

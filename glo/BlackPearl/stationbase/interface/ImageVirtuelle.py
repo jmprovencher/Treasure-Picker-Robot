@@ -1,6 +1,7 @@
 from threading import Thread
 import time
 import cv2
+import copy
 
 
 class ImageVirtuelle(Thread):
@@ -20,7 +21,7 @@ class ImageVirtuelle(Thread):
             time.sleep(0.01)
 
     def chargerImageVirtuelle(self):
-        self.imageVirtuelle = self.stationBase.threadAnalyseImageWorld.imageCropper.copy()
+        self.imageVirtuelle = copy.deepcopy(self.stationBase.threadAnalyseImageWorld.imageCropper)
         self.dessinerElementCarto()
 
     def dessinerElementCarto(self):

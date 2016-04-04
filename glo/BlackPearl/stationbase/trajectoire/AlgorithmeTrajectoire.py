@@ -11,11 +11,14 @@ class AlgorithmeTrajectoire:
         self.trajet = []
         self.fermer = set()
         self.depart = None
+        self.departBuffer = None
         self.arriver = None
         self.cellulePlusPres = None
 
     def trouverTrajet(self, depart, arriver):
         self.trajet = []
+        self.departBuffer = depart
+        depart = self.trouverDebutBuffer(depart)
         self.setDepart(depart)
         self.setArriver(arriver)
         heapq.heappush(self.heapOuvert, (self.depart.priorite, self.depart))
@@ -95,6 +98,8 @@ class AlgorithmeTrajectoire:
             self.trajet.append((temp.x, temp.y))
 
         self.trajet.append((self.depart.x, self.depart.y))
+        if not (self.departBuffer.x == self.depart.x and self.departBuffer.y == self.depart.y):
+            self.trajet.append(self.departBuffer)
         self.eliminerDetourInutile()
 
     def eliminerDetourInutile(self):
@@ -135,6 +140,40 @@ class AlgorithmeTrajectoire:
 
         return distCarre < (int(round(self.grilleCellule.rayonBuffer * (
             self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0])))**2
+
+    def trouverDebutBuffer(self, depart):
+        depart_x, depart_y = depart
+        while not (depart_x % self.grilleCellule.incrementX == 0):
+            depart_x += 1
+        while not (depart_y % self.grilleCellule.incrementY == 0):
+            depart_y += 1
+        depart = self.grilleCellule.getCellule(depart_x, depart_y)
+        depart1 = depart
+        depart2 = depart
+        depart3 = depart
+        depart4 = depart
+        listDepart = [depart1, depart2, depart3, depart4]
+        while not depart.atteignable:
+            if not depart.x >= 1600-self.grilleCellule.incrementX:
+                if not depart.y >= 1200-self.grilleCellule.incrementY:
+                    listDepart[0] = self.grilleCellule.getCellule(
+                        listDepart[0].x+self.grilleCellule.incrementX, listDepart[0].y+self.grilleCellule.incrementY)
+                if not depart.y <= self.grilleCellule.incrementY:
+                    listDepart[1] = self.grilleCellule.getCellule(
+                        listDepart[1].x+self.grilleCellule.incrementX, listDepart[1].y+self.grilleCellule.incrementY)
+            if not depart.x <= self.grilleCellule.incrementX:
+                if not depart.y >= 1200-self.grilleCellule.incrementY:
+                    listDepart[2] = self.grilleCellule.getCellule(
+                        listDepart[2].x+self.grilleCellule.incrementX, listDepart[2].y+self.grilleCellule.incrementY)
+                if not depart.y <= self.grilleCellule.incrementY:
+                    listDepart[3] = self.grilleCellule.getCellule(
+                        listDepart[3].x+self.grilleCellule.incrementX, listDepart[3].y+self.grilleCellule.incrementY)
+            for dep in listDepart:
+                if dep.atteignable:
+                    depart = dep
+                    break
+
+        return depart
 
     def rafraichirCellule(self, celluleAdjacente, cellule):
         celluleAdjacente.poid = cellule.poid + 10

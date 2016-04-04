@@ -3,7 +3,7 @@ import cv2
 
 class Detection:
     def __init__(self, image, numeroTable):
-        self.image = image
+        self.imageCamera = image
         self.numeroTable = numeroTable
 
     def trouverCentre(self, contourForme):

@@ -1,3 +1,4 @@
+#include <TimerOne.h>
 #include <PID_v1.h>
 #include <LiquidCrystal.h>
 #include <PololuMaestro.h>
@@ -12,6 +13,8 @@ boolean rotation = false;
 // string used to print on the serial
 String action = "";
 
+const int pinClock = 3;
+const int pinManchester = 50;
 const int pinsDrive[4] = {9, 6, 7, 8};
 const int pinsDirection[8] = {32, 34, 36, 38, 40, 42, 41, 43};
 const int pinsRead[4] = {19, 21, 17, 20};
@@ -20,6 +23,25 @@ const int pinPontDiodes = 22;
 const int pinActiveAimant = 24;
 int positionCamera = 6400;
 int spdWheels[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+
+String manchesterCode = "";
+
+bool stateClock = 0;
+bool stateManchester = 0;
+bool bitDecode = 0;
+bool complete = false;
+int compteur = 0;
+int nombreDeSuite = 1;
+
+int arrayCode[32] = {0};
+int arrayBigReset[32] = {0};
+int arrayDecode[7] = {0};
+int arraySmallReset[7] = {0};
+char arrayManchester[4] = {0};
+
+int codeSecret = 0;
+unsigned int count = 0;
+unsigned int countLoop = 0;
 
 
 // string used to signal a completed command
@@ -52,6 +74,13 @@ PID pidList[4] = {firstPID, secondPID, thirdPID, fourthPID};
 void setup() {
   Serial.begin(115200);
   Serial2.begin(9600);
+
+  Timer1.initialize(1000000);
+  Timer1.attachInterrupt(readCapacitor); // readCapacitor runs every second
+
+  pinMode(pinClock, INPUT);
+  pinMode(pinManchester, INPUT);
+  
   for(int i = 0; i < 4; i++){
     pinMode(pinsDrive[i], OUTPUT);
   }
@@ -69,12 +98,12 @@ void setup() {
     pidList[i].SetSampleTime(15);
   }
   
-  analogWrite(pinElectroAimant, 165);
+  analogWrite(pinElectroAimant, 180);
   
   attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
   attachInterrupt(digitalPinToInterrupt(21), decrementDuration, FALLING);
   
-  maestro.setSpeed(3, 20);
+  maestro.setSpeed(3, 12);
   maestro.setAcceleration(3, 120);
 }
 
@@ -154,11 +183,16 @@ void writeString(String stringData) { // Used to serially push out a String with
 
 void serialEvent(){
     // read the incoming byte:
+    Timer1.detachInterrupt();
     incomingByte = Serial.read();
     
     if(!mode){
       duration = 0;
-      if(incomingByte == 56){
+      if(incomingByte == 122){
+        stopWheels();
+        manchesterRead();
+      }
+      else if(incomingByte == 56){
         action = "Moving forward ";
         Setpoint[0] = 800; Setpoint[1] = 800; Setpoint[2] = 3000; Setpoint[3] = 3000;
         for(int i = 0; i<8; i++){
@@ -225,12 +259,18 @@ void serialEvent(){
       }
       else if(incomingByte == 103){
         action = "Activate Magnet";
+        analogWrite(pinElectroAimant, 180);
         digitalWrite(pinActiveAimant, HIGH);
         writeString(commandComplete);
       }
       else if(incomingByte == 104){
         action = "Deactivate Magnet";
         digitalWrite(pinActiveAimant, LOW);
+        for(int i = 0; i++; i < 10){
+          int myValue = 123.46*pow(2.718, -0.284*i);
+          analogWrite(pinElectroAimant, myValue);
+          delay(100);
+        }
         writeString(commandComplete);
       }
       else if(incomingByte == 80){
@@ -240,7 +280,20 @@ void serialEvent(){
       }
       else if(incomingByte == 81){
         action = "Prehenseur up ";
-        maestro.setTarget(3, 2100);
+        maestro.setTarget(3, 2127);
+        writeString(commandComplete);
+      }
+      else if(incomingByte == 82){
+        action = "tite touche ";
+        maestro.setTarget(3, 2127);
+        delay(150);
+        maestro.setTarget(3, 9100);
+        delay(150);
+        maestro.setTarget(3, 2127);
+        delay(150);
+        maestro.setTarget(3, 9100);
+        delay(150);
+        maestro.setTarget(3, 2127);
         writeString(commandComplete);
       }
       else if(incomingByte == 120){
@@ -298,4 +351,78 @@ void serialEvent(){
       }
       mode = false;
     }
+  Timer1.attachInterrupt(readCapacitor);
 }
+
+void readCapacitor()
+{
+  writeString(String(readCapacitorVoltage()));
+}
+
+void Reading()
+{
+  readCapacitor();
+  delay(50);
+  if(digitalRead(pinClock) == HIGH){
+    count++;
+  }
+}
+
+void manchesterRead()
+{
+  action = "Reading Manchester";
+  while (complete == false){
+    if (count != countLoop)
+    {
+      countLoop = count;
+      stateClock = digitalRead(pinClock);
+      stateManchester = digitalRead(pinManchester);
+      bitDecode = stateClock ^ stateManchester;
+      arrayCode[compteur] = bitDecode;
+      compteur++;
+    } 
+    if (compteur == 32 && complete == false)
+    {
+      for (int i = 0; i < 32; i++)
+      {
+        if (arrayCode[i] == 1)
+        {
+          for (int j = i; j < i+8; j++)
+          {
+            if (arrayCode[j+1] == 1)
+            {
+              nombreDeSuite++;
+              if (nombreDeSuite > 7 && arrayCode[j+2] == 0)
+              {
+                for (int k = 0; k < 7; k++)
+                {
+                  arrayDecode[k] = arrayCode[k + j + 3];
+                }
+                codeSecret = 0;
+                for (int u=0; u<7; u++)
+                {
+                  codeSecret= codeSecret*2+arrayDecode[u];
+                }
+                memcpy(arrayCode, arrayBigReset, 32);
+                memcpy(arrayDecode, arraySmallReset, 7);
+                for(int k = 0; k < 4; k++){
+                  arrayManchester[k] = char(codeSecret);
+                }
+                writeString(String(arrayManchester));
+                complete = true;
+                i = 32;
+                break;
+              }
+            }
+            else{
+              nombreDeSuite = 1;
+            }
+          }
+        }
+      }
+      compteur = 0;
+    }
+  }
+  detachInterrupt(digitalPinToInterrupt(pinClock));
+}
+

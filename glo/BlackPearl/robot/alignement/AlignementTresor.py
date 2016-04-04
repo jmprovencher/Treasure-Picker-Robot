@@ -1,4 +1,4 @@
-RATIOPIXEL_CM = 5
+RATIOPIXEL_CM = 40
 
 
 class AlignementTresor():
@@ -9,9 +9,11 @@ class AlignementTresor():
     def calculerAjustement(self, distance_x, distance_y):
         if (abs(distance_x) > RATIOPIXEL_CM):
             ajustements_x = self.ajusterPositionX(distance_x)
+            print(ajustements_x)
             self.ajustements.append(ajustements_x)
         if (abs(distance_y) > RATIOPIXEL_CM):
             ajustements_y = self.ajusterPositionY(distance_y)
+            print(ajustements_y)
             self.ajustements.append(ajustements_y)
         return self.ajustements
 

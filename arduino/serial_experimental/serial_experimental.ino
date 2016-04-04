@@ -36,6 +36,7 @@ int arrayCode[32] = {0};
 int arrayBigReset[32] = {0};
 int arrayDecode[7] = {0};
 int arraySmallReset[7] = {0};
+char arrayManchester[4] = {0};
 
 int codeSecret = 0;
 unsigned int count = 0;
@@ -183,6 +184,7 @@ void serialEvent(){
     if(!mode){
       duration = 0;
       if(incomingByte == 122){
+        stopWheels();
         cool();
       }
       else if(incomingByte == 56){
@@ -276,6 +278,19 @@ void serialEvent(){
         maestro.setTarget(3, 2127);
         writeString(commandComplete);
       }
+      else if(incomingByte == 82){
+        action = "tite touche ";
+        maestro.setTarget(3, 2127);
+        delay(150);
+        maestro.setTarget(3, 9100);
+        delay(150);
+        maestro.setTarget(3, 2127);
+        delay(150);
+        maestro.setTarget(3, 9100);
+        delay(150);
+        maestro.setTarget(3, 2127);
+        writeString(commandComplete);
+      }
       else if(incomingByte == 120){
         action = "Camera Depot ";
         maestro.setTarget(1,6000);
@@ -348,7 +363,6 @@ void Reading()
 void cool()
 {
         action = "Reading Manchester";
-        stopWheels();
         attachInterrupt(digitalPinToInterrupt(pinClock), Reading, RISING);
       
         while (complete == false){
@@ -385,7 +399,10 @@ void cool()
                       }
                       memcpy(arrayCode, arrayBigReset, 32);
                       memcpy(arrayDecode, arraySmallReset, 7);
-                      writeString("hhhh");
+                      for(int k = 0; k < 4; k++){
+                        arrayManchester[k] = char(codeSecret);
+                      }
+                      writeString(String(arrayManchester));
                       complete = true;
                       i = 32;
                       break;

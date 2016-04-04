@@ -5,11 +5,10 @@ import math
 
 from robot.alignement.AlignementStation import AlignementStation
 
-KNOWN_DISTANCE = 15.8
-KNOWN_WIDTH = 1.0
+KNOWN_DISTANCE = 8
+KNOWN_WIDTH = 3
 FOCAL_LENGTH = 1512
-HAUTEUR_ROBOT = 30.40
-
+RATIO_PIXEL_CM = 20
 
 class DetectionStation(object):
     def __init__(self, image):
@@ -19,60 +18,39 @@ class DetectionStation(object):
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
         self._dessinerZoneCible()
-        self.alignementTerminer = False
         self.ajustements = []
 
-        self.trouverAjustements()
-
     def trouverAjustements(self):
-        contoursTresor = self._detecterFormeCouleur(self.intervalleJaune)
-        distanceMur = self._trouverDistanceMur(contoursTresor)
-        offsetLateral = self._trouverOffsetLateral(contoursTresor)
-        self.ajustements = self.alignementTresor.calculerAjustement(offsetLateral, distanceMur)
-        self._dessinerInformations(contoursTresor, distanceMur)
+        contoursCible = self._detecterFormeCouleur(self.intervalleBleuMarin)
+        distance_y = self._trouverDistanceStation(contoursCible)
+        distance_x = self._trouverOffsetLateral(contoursCible)
+        self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
+        self._dessinerInformations(contoursCible, distance_y)
 
-    def _dessinerInformations(self, contoursTresor, distanceMur):
-        zoneTresor = cv2.minAreaRect(contoursTresor)
-        boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
-        cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
-        cv2.putText(self.imageCamera, "%.2f cm" % (distanceMur),
-                    (self.imageCamera.shape[1] - 300, self.imageCamera.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX, 2.0,
-                    (0, 255, 0), 3)
-        cv2.imshow("image", self.imageCamera)
-        cv2.waitKey(0)
-
-    def _trouverOffsetLateral(self, contoursTresor):
-        position_x, position_y = self._trouverCentreForme(contoursTresor)
-        positionZone_x, positionZone_y = self.positionZone
-        distance_x = (positionZone_x - position_x)
-
-        _, rayon = cv2.minEnclosingCircle(contoursTresor)
-        self._dessinerZoneTresor((position_x, position_y), rayon)
-        self._dessinerZoneCible()
-
-        return distance_x
-
-    def _trouverCentreForme(self, contoursForme):
-        MatriceCentreMasse = cv2.moments(contoursForme)
-        centre_x = int(MatriceCentreMasse['m10'] / MatriceCentreMasse['m00'])
-        centre_y = int(MatriceCentreMasse['m01'] / MatriceCentreMasse['m00'])
-
-        return centre_x, centre_y
-
-    def _trouverDistanceMur(self, contoursTresor):
-        zoneTresor = cv2.minAreaRect(contoursTresor)
+    def _trouverDistanceStation(self, contoursCible):
+        zoneTresor = cv2.minAreaRect(contoursCible)
         focalLength = (zoneTresor[1][0] * KNOWN_DISTANCE) / KNOWN_WIDTH
         print("Focal length: %d" % focalLength)
 
-        distanceMur = self._calculerDistanceCamera(KNOWN_WIDTH, FOCAL_LENGTH, zoneTresor[1][0]) * 2.54
-        print("Distance Robot - Station: %d" % distanceMur)
-        return distanceMur
+        distance_y = self._calculerDistanceCamera(KNOWN_WIDTH, FOCAL_LENGTH, zoneTresor[1][0])
+
+        return distance_y
+
+    def _trouverOffsetLateral(self, contoursCible):
+        position_x, position_y = self._trouverCentreForme(contoursCible)
+        positionZone_x, positionZone_y = self.positionZone
+        distance_x = (positionZone_x - position_x) / RATIO_PIXEL_CM
+
+        _, rayon = cv2.minEnclosingCircle(contoursCible)
+        self._dessinerZoneForme((position_x, position_y), rayon)
+        self._dessinerZoneCible()
+
+        return distance_x
 
     def _calculerDistanceCamera(self, largeurTresor, longueurFocale, referenceLargeur):
         return (largeurTresor * longueurFocale) / referenceLargeur
 
     def _detecterFormeCouleur(self, intervalleCouleur):
-        print("Detection")
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
 
@@ -81,11 +59,29 @@ class DetectionStation(object):
 
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        contoursTresor = self._obtenirFormeInteret(contoursCouleur)
-        aire = cv2.contourArea(contoursTresor)
+        contoursCible = self._obtenirFormeInteret(contoursCouleur)
+        aire = cv2.contourArea(contoursCible)
         print ("Aire: %d" % aire)
 
-        return contoursTresor
+        return contoursCible
+
+    def _dessinerInformations(self, contoursCible, distanceStation):
+        zoneTresor = cv2.minAreaRect(contoursCible)
+        boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
+        cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
+
+        cv2.putText(self.imageCamera, "%.2f cm" % (distanceStation),
+                    (self.imageCamera.shape[1] - 300, self.imageCamera.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX, 2.0,
+                    (0, 255, 0), 3)
+        cv2.imshow("image", self.imageCamera)
+        cv2.waitKey(0)
+
+    def _trouverCentreForme(self, contoursForme):
+        MatriceCentreMasse = cv2.moments(contoursForme)
+        centre_x = int(MatriceCentreMasse['m10'] / MatriceCentreMasse['m00'])
+        centre_y = int(MatriceCentreMasse['m01'] / MatriceCentreMasse['m00'])
+
+        return centre_x, centre_y
 
     def _obtenirFormeInteret(self, contoursCouleur):
         contoursNegligeable = []
@@ -101,16 +97,13 @@ class DetectionStation(object):
         return contoursCouleur[0]
 
     def _definirIntervallesCouleurs(self):
-        self.intervalleJaune = np.array([10, 180, 180]), np.array([60, 255, 255]), "Jaune"
+        self.intervalleBleuMarin = np.array([10, 180, 180]), np.array([60, 255, 255]), "Jaune"
 
     def _dessinerZoneCible(self):
         cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)
 
-    def _dessinerZoneTresor(self, position, rayon):
-        couleur = (0, 0, 255)
-        if (self.alignementTerminer == True):
-            couleur = (0, 255, 0)
+    def _dessinerZoneForme(self, position, rayon):
         cv2.line(self.imageCamera, self.positionZone, position, (255, 0, 0), 5)
-        cv2.circle(self.imageCamera, position, int(rayon), couleur, 2)
+        cv2.circle(self.imageCamera, position, int(rayon), (0, 0, 255), 2)
         print(position)
         cv2.circle(self.imageCamera, position, 10, (0, 0, 255), 2)

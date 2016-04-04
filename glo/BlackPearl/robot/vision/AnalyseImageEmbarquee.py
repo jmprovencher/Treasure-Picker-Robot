@@ -51,6 +51,7 @@ class AnalyseImageEmbarquee(Thread):
 
     def evaluerPositionStation(self):
         self.detectionStation = DetectionStation(self.imageCamera)
+        self.detectionStation.trouverAjustements()
         self.ajustements = self.detectionStation.ajustements
 
         if (self.ajustements != []):

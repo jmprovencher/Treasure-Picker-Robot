@@ -23,7 +23,9 @@ class AlignementTresor():
         elif (distance_x > 0):
             commande = 'right'
 
-        return commande, abs(distance_x / RATIOPIXEL_CM)
+        distance = abs(distance_x / RATIOPIXEL_CM)
+
+        return commande, distance
 
     def ajusterPositionY(self, distance_y):
         if (distance_y < 0):
@@ -31,4 +33,5 @@ class AlignementTresor():
         elif (distance_y > 0):
             commande = 'forward'
 
-        return commande, abs(distance_y / RATIOPIXEL_CM)
+        distance = abs(distance_y / RATIOPIXEL_CM)
+        return commande, distance

@@ -1,3 +1,4 @@
+#include <TimerOne.h>
 #include <PID_v1.h>
 #include <LiquidCrystal.h>
 #include <PololuMaestro.h>
@@ -73,6 +74,9 @@ PID pidList[4] = {firstPID, secondPID, thirdPID, fourthPID};
 void setup() {
   Serial.begin(115200);
   Serial2.begin(9600);
+
+  Timer1.initialize(1000000);
+  Timer1.attachInterrupt(readCapacitor); // readCapacitor runs every second
 
   pinMode(pinClock, INPUT);
   pinMode(pinManchester, INPUT);
@@ -179,13 +183,14 @@ void writeString(String stringData) { // Used to serially push out a String with
 
 void serialEvent(){
     // read the incoming byte:
+    Timer1.detachInterrupt();
     incomingByte = Serial.read();
     
     if(!mode){
       duration = 0;
       if(incomingByte == 122){
         stopWheels();
-        cool();
+        manchesterRead();
       }
       else if(incomingByte == 56){
         action = "Moving forward ";
@@ -323,10 +328,6 @@ void serialEvent(){
         positionCamera = 5000;
         writeString(commandComplete);
       }
-      else if(incomingByte == 107){
-        action = "Checking capacity ";
-        writeString(String(readCapacitorVoltage()));
-      }
       else if(incomingByte == 121){
         action = "Touch and go ";
         positionCamera = positionCamera - 100;
@@ -350,73 +351,78 @@ void serialEvent(){
       }
       mode = false;
     }
+  Timer1.attachInterrupt(readCapacitor);
+}
+
+void readCapacitor()
+{
+  writeString(String(readCapacitorVoltage()));
 }
 
 void Reading()
 {
+  readCapacitor();
   delay(50);
   if(digitalRead(pinClock) == HIGH){
     count++;
   }
 }
 
-void cool()
+void manchesterRead()
 {
-        action = "Reading Manchester";
-        attachInterrupt(digitalPinToInterrupt(pinClock), Reading, RISING);
-      
-        while (complete == false){
-          if (count != countLoop)
+  action = "Reading Manchester";
+  while (complete == false){
+    if (count != countLoop)
+    {
+      countLoop = count;
+      stateClock = digitalRead(pinClock);
+      stateManchester = digitalRead(pinManchester);
+      bitDecode = stateClock ^ stateManchester;
+      arrayCode[compteur] = bitDecode;
+      compteur++;
+    } 
+    if (compteur == 32 && complete == false)
+    {
+      for (int i = 0; i < 32; i++)
+      {
+        if (arrayCode[i] == 1)
+        {
+          for (int j = i; j < i+8; j++)
           {
-            countLoop = count;
-            stateClock = digitalRead(pinClock);
-            stateManchester = digitalRead(pinManchester);
-            bitDecode = stateClock ^ stateManchester;
-            arrayCode[compteur] = bitDecode;
-            compteur++;
-          } 
-          if (compteur == 32 && complete == false)
-          {
-            for (int i = 0; i < 32; i++)
+            if (arrayCode[j+1] == 1)
             {
-              if (arrayCode[i] == 1)
+              nombreDeSuite++;
+              if (nombreDeSuite > 7 && arrayCode[j+2] == 0)
               {
-                for (int j = i; j < i+8; j++)
+                for (int k = 0; k < 7; k++)
                 {
-                  if (arrayCode[j+1] == 1)
-                  {
-                    nombreDeSuite++;
-                    if (nombreDeSuite > 7 && arrayCode[j+2] == 0)
-                    {
-                      for (int k = 0; k < 7; k++)
-                      {
-                        arrayDecode[k] = arrayCode[k + j + 3];
-                      }
-                      codeSecret = 0;
-                      for (int u=0; u<7; u++)
-                      {
-                        codeSecret= codeSecret*2+arrayDecode[u];
-                      }
-                      memcpy(arrayCode, arrayBigReset, 32);
-                      memcpy(arrayDecode, arraySmallReset, 7);
-                      for(int k = 0; k < 4; k++){
-                        arrayManchester[k] = char(codeSecret);
-                      }
-                      writeString(String(arrayManchester));
-                      complete = true;
-                      i = 32;
-                      break;
-                    }
-                  }
-                  else{
-                    nombreDeSuite = 1;
-                  }
+                  arrayDecode[k] = arrayCode[k + j + 3];
                 }
+                codeSecret = 0;
+                for (int u=0; u<7; u++)
+                {
+                  codeSecret= codeSecret*2+arrayDecode[u];
+                }
+                memcpy(arrayCode, arrayBigReset, 32);
+                memcpy(arrayDecode, arraySmallReset, 7);
+                for(int k = 0; k < 4; k++){
+                  arrayManchester[k] = char(codeSecret);
+                }
+                writeString(String(arrayManchester));
+                complete = true;
+                i = 32;
+                break;
               }
             }
-            compteur = 0;
+            else{
+              nombreDeSuite = 1;
+            }
           }
         }
-        detachInterrupt(digitalPinToInterrupt(pinClock));
+      }
+      compteur = 0;
+    }
+  }
+  detachInterrupt(digitalPinToInterrupt(pinClock));
 }
 

@@ -4,7 +4,7 @@ from robot.interface.FeedVideoRobot import FeedVideoRobot
 from robot.communication.LectureUART import LectureUART
 from threading import Thread
 import time
-from robot.communication.ObtenirTension import ObtenirTension
+#from robot.communication.ObtenirTension import ObtenirTension
 from robot.interface.RobotService import RobotService
 
 
@@ -28,9 +28,11 @@ class Robot(Thread):
         self.adresseIP = '192.168.0.45'
         self.tensionCondensateur = 0
 
-        self._demarrerLectureUART()
-        self._demarrerConnectionTCP()
+        #self._demarrerLectureUART()
+        #self._demarrerConnectionTCP()
         self._demarrerFeedVideo()
+
+        self.demarrerAlignementTresor()
 
     def run(self):
         self.uartDriver.phaseInitialisation()
@@ -53,14 +55,14 @@ class Robot(Thread):
 
     def demarrerAlignementTresor(self):
         self.alignementEnCours = True
-        self.uartDriver.cameraPositionTresor()
+        #self.uartDriver.cameraPositionTresor()
         self.threadVideo.demarrerCapture()
 
         self._demarrerAnalyseVideo('tresor')
 
-        self.uartDriver.preAlignementTresor()
+        #self.uartDriver.preAlignementTresor()
         self._executerAlignement()
-        self.uartDriver.postAlignementTresor()
+#        self.uartDriver.postAlignementTresor()
 
         self.alignementEnCours = False
         self.threadVideo.suspendreCapture()
@@ -73,7 +75,7 @@ class Robot(Thread):
         self._demarrerAnalyseVideo('bleu')
 
         self._executerAlignement()
-        self.uartDriver.postAlignementIle()
+        #self.uartDriver.postAlignementIle()
 
         self.alignementEnCours = False
         self.threadVideo.suspendreCapture()
@@ -119,6 +121,7 @@ class Robot(Thread):
 
     def _demarrerFeedVideo(self):
         self.threadVideo = FeedVideoRobot()
+        self.threadVideo.initialiserVideo()
         self.threadVideo.start()
 
     def _demarrerConnectionTCP(self):
@@ -130,10 +133,12 @@ class Robot(Thread):
         self.threadLecture.start()
 
     def _demarrerAnalyseVideo(self, type):
-        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self, type)
+        self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
+        self.analyseImageEmbarquee.definirType(type)
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
+        self.threadVideo.suspendreCapture()
 
     def _demarrerObtenirTension(self):
-        self.obtenirTension = ObtenirTension(self)
+        #self.obtenirTension = ObtenirTension(self)
         self.obtenirTension.start()

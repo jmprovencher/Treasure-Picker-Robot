@@ -14,7 +14,7 @@ class Cible:
         #self.trouverIleCible()
 
     def trouverIleCible(self):
-        print 'Trouver ile cible'
+        print 'Trouver ile cible...'
         ilesPotentielle = self.carte.getIlesCorrespondantes(self.indice)
         distanceMin = 1000000000
         TresorsPossibles = self.trouverTresorsPossibles()
@@ -28,9 +28,10 @@ class Cible:
                 if distanceMin > distanceTotale:
                     distanceMin = distanceTotale
                     self.tresorChoisi = tresor
-                    print 'TRESOR CHOISIE: ', tresor.centre_x, tresor.centre_y
                     self.ileChoisie = ile
-                    print 'Ile choisie'
+
+        print 'Tresore choisie: ', self.tresorChoisi.centre_x, self.tresorChoisi.centre_y
+        print 'Ile choisie: ', self.ileChoisie.forme, self.ileChoisie.couleur
         print 'Ile cible trouve'
 
     def trouverTresorsPossibles(self):
@@ -43,10 +44,12 @@ class Cible:
                 deltaYPix = abs(yTresor - yIle)
                 deltaX = self.carte.getTrajectoire().depPixelXACentimetre(deltaXPix)
                 deltaY = self.carte.getTrajectoire().depPixelYACentimetre(deltaYPix)
-                if deltaY > 50 and deltaX > 30:
+                if deltaY > 40 and deltaX > 25:
                     tresorPossible.append(tresor)
+                    print 'Tresor potentiel: ', tresor.centre_x, tresor.centre_y
         if not tresorPossible:
             tresorPossible.append(Tresor((0, 427)))
+            print 'Aucun tresor possible... Tresor par defaut (0, 427)'
 
         return tresorPossible
 

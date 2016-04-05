@@ -18,7 +18,7 @@ class Trajectoire:
     def trouverLongueurTrajetCarre(self, trajet):
         distance = 0
         for i in range(1, len(trajet)):
-            distance = distance + self.distanceAuCarre(trajet[i - 1][0], trajet[i - 1][1], trajet[i][0], trajet[i][1])
+            distance += self.distanceAuCarre(trajet[i - 1][0], trajet[i - 1][1], trajet[i][0], trajet[i][1])
         return distance
 
     def distanceAuCarre(self, x, y, destX, destY):

@@ -32,6 +32,7 @@ class Robot(Thread):
         self._demarrerLectureUART()
         self._demarrerConnectionTCP()
         self._demarrerFeedVideo()
+        self.uartDriver.phaseInitialisation()
 
     def run(self):
         print("Run")
@@ -85,6 +86,7 @@ class Robot(Thread):
         self.instructions.append(instructions)
 
     def traiterCommande(self, commande, parametre):
+        self.commandeTerminee = False
         if (commande == 'alignement_ile'):
             self.demarrerAlignementIle()
         elif (commande == 'alignement_tresor'):
@@ -93,6 +95,7 @@ class Robot(Thread):
             self.demarrerAlignementStation()
         else:
             self.uartDriver.sendCommand(commande, parametre)
+        self.commandeTerminee = True
 
     def _executerAlignement(self):
         for inst in self.instructions:

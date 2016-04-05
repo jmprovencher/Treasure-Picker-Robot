@@ -32,10 +32,10 @@ class Robot(Thread):
         self._demarrerLectureUART()
         self._demarrerConnectionTCP()
         self._demarrerFeedVideo()
-        self.robotClient.demarrageTermine = True
 
     def run(self):
         print("Run")
+        self.robotClient.demarrageTermine = True
         #self.uartDriver.phaseInitialisation()
 
 

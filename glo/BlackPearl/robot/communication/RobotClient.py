@@ -22,14 +22,16 @@ class RobotClient(Thread):
             while 1:
                 if (self.robot.pretEnvoyerLettre):
                     self.envoyerLettre()
-
                 if (self.robot.pretEnvoyerIndice):
                     self.envoyerIndice()
-                if (self.robot.commandeTerminee):
+                if not (self.robot.commandeTerminee):
                     data = self.attendreCommande()
                     self.traiterCommande(data)
                 else:
                     if (self.robot.commandeTerminee) and not self.robot.alignementEnCours:
+                        self.envoyerTension()
+                        self.envoyerCommandeTerminee()
+                    elif (self.robot.commandeTerminee) and self.robot.alignementEnCours:
                         self.envoyerTension()
                         time.sleep(1)
 

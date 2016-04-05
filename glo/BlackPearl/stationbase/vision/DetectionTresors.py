@@ -50,13 +50,19 @@ class DetectionTresors(Detection):
         for i in range(len(self.tresorIdentifies)):
             x, y = self.tresorIdentifies[i].getCentre()
             if self.numeroTable == 1:
-                if (y > 45) or (y < 750) or (x > 1321):
+                if (45 < y < 750) or (x > 1342):
                     tresorsImpossible.append(i)
-            elif self.numeroTable == 2 or self.numeroTable == 3:
-                if (y > 45) or (y < 810) or (x > 1347):
+            elif self.numeroTable == 2:
+                if (45 < y < 810) or (x > 1350):
                     tresorsImpossible.append(i)
-            elif self.numeroTable == 5 or self.numeroTable == 6:
-                if (100 < y < 750) or (x > 1330):
+            elif self.numeroTable == 3:
+                if (45 < y < 810) or (x > 1337):
+                    tresorsImpossible.append(i)
+            elif self.numeroTable == 5:
+                if (100 < y < 750) or (x > 1372):
+                    tresorsImpossible.append(i)
+            elif self.numeroTable == 6:
+                if (100 < y < 750) or (x > 1345):
                     tresorsImpossible.append(i)
 
         if len(self.tresorIdentifies) == len(tresorsImpossible):

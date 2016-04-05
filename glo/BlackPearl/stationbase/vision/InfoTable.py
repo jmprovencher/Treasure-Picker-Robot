@@ -9,34 +9,20 @@ class InfoTable:
     def setIntervalle(self, type, numeroTable):
         if type == 'Robot':
             #seulement no 5 est teste pour l'instant
-            if numeroTable == 1:
-                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
-            else:
+            if numeroTable == 1 or numeroTable == 2 or numeroTable == 3:
                 self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
-            if numeroTable == 2:
+            elif numeroTable == 5 or numeroTable == 6:
                 self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
-            else:
-                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
-            if numeroTable == 3:
-                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
-            else:
-                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
-            if numeroTable == 5:
-                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
-            else:
-                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
-            if numeroTable == 6:
-                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
-            else:
-                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
 
         elif type == 'Tresor':
             if numeroTable == 1:
-                self.intervalle = (np.array([50, 160, 160]), np.array([6, 100, 100]))
+                self.intervalle = (np.array([0, 53, 50]), np.array([30, 160, 150]))
             elif numeroTable == 2 or numeroTable == 3:
-                self.intervalle = (np.array([30, 160, 150]), np.array([0, 53, 50]))
-            elif numeroTable == 5 or numeroTable == 6:
+                self.intervalle = (np.array([0, 53, 50]), np.array([30, 160, 150]))
+            elif numeroTable == 5:
                 self.intervalle = (np.array([0, 50, 90]), np.array([60, 140, 140]))
+            elif numeroTable == 6:
+                self.intervalle = (np.array([0, 50, 80]), np.array([40, 140, 140]))
                 
         elif type == 'Rouge':
             if numeroTable == 1 or numeroTable == 2 or numeroTable == 3:
@@ -48,11 +34,11 @@ class InfoTable:
             if numeroTable == 1 or numeroTable == 2 or numeroTable == 3:
                 self.intervalle = (np.array([102, 102, 0]), np.array([255, 255, 102]))
             elif numeroTable == 5 or numeroTable == 6:
-                self.intervalle = (np.array([150, 150, 40]), np.array([190, 170, 80]))
+                self.intervalle = (np.array([120, 120, 0]), np.array([190, 170, 80]))
                 
         elif type == 'Vert':
             if numeroTable == 1 or numeroTable == 2 or numeroTable == 3:
-                self.intervalle = (np.array([0, 0, 70]), np.array([70, 50, 200]))
+                self.intervalle = (np.array([0, 70, 0]), np.array([100, 200, 80]))
             elif numeroTable == 5 or numeroTable == 6:
                 self.intervalle = (np.array([0, 70, 0]), np.array([100, 200, 80]))
                 
@@ -66,15 +52,15 @@ class InfoTable:
         # La difference en y2 et y1 doit etre de 855 pixel
         #seulement no 5 est teste pour l'instant
         if numeroTable == 1:
+            self.crop = (190-35, 1045-35)
+        elif numeroTable == 2:
+            self.crop = (190-35, 1045-35)
+        elif numeroTable == 3:
+            self.crop = (190-40, 1045-40)
+        elif numeroTable == 5:
             self.crop = (190, 1045)
-        if numeroTable == 2:
-            self.crop = (190, 1045)
-        if numeroTable == 3:
-            self.crop = (190, 1045)
-        if numeroTable == 5:
-            self.crop = (190, 1045)
-        if numeroTable == 6:
-            self.crop = (190, 1045)
+        elif numeroTable == 6:
+            self.crop = (190-57, 1045-57)
 
                 
     def getIntervalle(self):

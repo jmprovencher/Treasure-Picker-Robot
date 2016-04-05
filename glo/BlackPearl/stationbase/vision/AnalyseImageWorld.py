@@ -60,8 +60,8 @@ class AnalyseImageWorld(Thread):
         detectionMultipleIles = []
         detectionMultipleTresors = []
 
-        for i in range(10):
-            print 'detection: %d sur 10' % i
+        for i in range(50):
+            print 'detection: %d sur 50' % i
             self.chargerImage()
             detectionIles = DetectionIles(self.image, self.stationBase.getNumTable())
             detectionIles.detecter()
@@ -70,7 +70,7 @@ class AnalyseImageWorld(Thread):
             detectionTresors = DetectionTresors(self.image, self.stationBase.getNumTable())
             detectionTresors.detecter()
             detectionMultipleTresors.append(detectionTresors.getTresorsIdentifies())
-            time.sleep(0.05)
+            time.sleep(0.01)
 
         listIles = self.resultatPlusCommun(detectionMultipleIles)
         self.stationBase.carte.setIles(listIles)
@@ -78,9 +78,9 @@ class AnalyseImageWorld(Thread):
         self.stationBase.carte.setTresors(listTresors)
 
     def resultatPlusCommun(self, detectionMultiple):
-        tmpList = [0]*10
-        for i in range(len(detectionMultiple)):
-            tmpList[len(detectionMultiple[i])] += 1
+        tmpList = []
+        for i in detectionMultiple:
+            tmpList.append(len(i))
         return detectionMultiple[tmpList.index(max(tmpList))]
 
     def eliminerContoursProcheRobot(self, listIles):

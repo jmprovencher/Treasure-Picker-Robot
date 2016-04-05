@@ -38,7 +38,7 @@ class Interface(QtGui.QWidget):
             self.rechargerInfo(self.ileCible, 'Ile cible : ' + self.threadStationBase.getCarte().getCible().getIndice())
         self.rechargerInfo(self.manchester, 'Manchester : ' + self.threadStationBase.getManchester())
         if self.threadStationBase.threadCommunication.getRobotPret():
-            self.rechargerInfoCouleur('Connecte', 'color: green')
+            self.rechargerInfoCouleur(self.robotPretAffiche, 'Connecte', 'color: green')
 
     def initGeneral(self):
         self.setWindowTitle('Interface')
@@ -103,10 +103,10 @@ class Interface(QtGui.QWidget):
         label.setText(QString(texte))
         label.repaint()
 
-    def rechargerInfoCouleur(self, texte, couleur):
-        self.setStyleSheet('color: ' + couleur)
-        self.setText(QString(texte))
-        self.repaint()
+    def rechargerInfoCouleur(self, label, texte, couleur):
+        label.setText(QString(texte))
+        #label.setStyleSheet('color: ' + couleur)
+        label.repaint()
 
     def afficherInitInfo(self, x, y, dimensionX, dimensionY, texte):
         info = QLabel(self)
@@ -118,7 +118,8 @@ class Interface(QtGui.QWidget):
         info = QLabel(self)
         info.setGeometry(x, y, dimensionX, dimensionY)
         info.setText(QString(texte))
-        info.setStyleSheet('color: ' + couleur)
+        #info.setStyleSheet('color: ' + couleur)
+        return info
 
     def afficherInitBouttons(self, x, y, dimensionX, dimensionY, texte, connection):
         button = QPushButton(self)

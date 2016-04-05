@@ -20,7 +20,7 @@ class DetectionIles(Detection):
             self.trouverIles(contoursIles, couleur)
         
     def trouverContoursIles(self, couleur):
-        intervalleClair, intervalleFonce = InfoTable(couleur, self.numeroTable).getIntervalle()
+        intervalleFonce, intervalleClair = InfoTable(couleur, self.numeroTable).getIntervalle()
         masqueIles = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         _, contoursIles, hierarchie = cv2.findContours(masqueIles.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
         
@@ -45,7 +45,7 @@ class DetectionIles(Detection):
 
         if len(contoursIles) == len(contoursNegligeables):
             contoursIles = []
-        elif not contoursNegligeables:
+        elif contoursNegligeables:
             contoursIles = np.delete(contoursIles, contoursNegligeables)
 
         return contoursIles

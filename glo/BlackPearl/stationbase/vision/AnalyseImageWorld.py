@@ -17,10 +17,14 @@ class AnalyseImageWorld(Thread):
         self.image = None
         self.imageCropper = None
         self.cntRobotPerdu = 0
+        self.detectionPrimaireFini = False
 
     def run(self):
         self.stationBase.attendreFeed()
+        print 'debut de la detection primaire...'
         self.detectionPrimaire()
+        self.detectionPrimaireFini = True
+        print 'fin de la detection primaire.'
         while 1:
             self.chargerImage()
             self.trouverRobot()
@@ -41,11 +45,14 @@ class AnalyseImageWorld(Thread):
 
     def detectionPrimaire(self):
         self.chargerImage()
+        print 'trouver le robot...'
         self.trouverRobot()
         while self.stationBase.getCarte().getRobot() is None:
+            print 'robot pas detecte'
             time.sleep(0.05)
             self.chargerImage()
             self.trouverRobot()
+        print 'le robot est trouve.'
         self.trouverElementsCartographiques()
 
     def trouverElementsCartographiques(self):
@@ -54,20 +61,21 @@ class AnalyseImageWorld(Thread):
         detectionMultipleTresors = []
 
         for i in range(10):
+            print 'detection: %d sur 10' % i
             self.chargerImage()
-            detectionIles = DetectionIles(self.image, self.numeroTable)
+            detectionIles = DetectionIles(self.image, self.stationBase.getNumTable())
             detectionIles.detecter()
             listIles = self.eliminerContoursProcheRobot(detectionIles.getIlesIdentifiees())
             detectionMultipleIles.append(listIles)
-            detectionTresors = DetectionTresors(self.image, self.numeroTable)
+            detectionTresors = DetectionTresors(self.image, self.stationBase.getNumTable())
             detectionTresors.detecter()
             detectionMultipleTresors.append(detectionTresors.getTresorsIdentifies())
             time.sleep(0.05)
 
         listIles = self.resultatPlusCommun(detectionMultipleIles)
-        self.stationBase.getCarte().setIles(listIles)
+        self.stationBase.carte.setIles(listIles)
         listTresors = self.resultatPlusCommun(detectionMultipleTresors)
-        self.stationBase.getCarte().setTresors(listTresors)
+        self.stationBase.carte.setTresors(listTresors)
 
     def resultatPlusCommun(self, detectionMultiple):
         tmpList = [0]*10

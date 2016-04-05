@@ -22,14 +22,13 @@ class DetectionRobot(Detection):
             
     def trouverContoursRobot(self):
         intervalleFonce, intervalleClair = InfoTable('Robot', self.numeroTable).getIntervalle()
-        masqueRobot = cv2.inRange(self.imageCamera, intervalleClair, intervalleFonce)
+        masqueRobot = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         _, contoursRobot, hierarchie = cv2.findContours(masqueRobot.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
         
         return contoursRobot, hierarchie
     
     def eleminerCoutoursNegligeable(self, contoursRobot, hierarchie):
         contoursNegligeables = []
-        
         for i in range(len(contoursRobot)):
             aireContour = cv2.contourArea(contoursRobot[i])
             indiceContourTrou = hierarchie[0][i][2]
@@ -46,9 +45,9 @@ class DetectionRobot(Detection):
                 
         if len(contoursRobot) == len(contoursNegligeables):
             contoursRobot = []
-        elif not contoursNegligeables:
+        elif contoursNegligeables:
             contoursRobot = np.delete(contoursRobot, contoursNegligeables)
-            
+
         return contoursRobot
 
     def trouverRobot(self, contoursRobot):

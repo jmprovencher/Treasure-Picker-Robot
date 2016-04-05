@@ -18,7 +18,7 @@ class DetectionTresors(Detection):
 
     def trouverContoursTresors(self):
         intervalleFonce, intervalleClair = InfoTable('Tresor', self.numeroTable).getIntervalle()
-        masqueTresors = cv2.inRange(self.imageCamera, intervalleClair, intervalleFonce)
+        masqueTresors = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         _, contoursTresors, _ = cv2.findContours(masqueTresors.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         return contoursTresors
@@ -28,12 +28,12 @@ class DetectionTresors(Detection):
 
         for i in range(len(contoursTresors)):
             aire = cv2.contourArea(contoursTresors[i])
-            if aire < 30 or aire > 150:
+            if aire < 30 or aire > 300:
                 contoursNegligeables.append(i)
 
         if len(contoursTresors) == len(contoursNegligeables):
             contoursTresors = []
-        elif not contoursNegligeables:
+        elif contoursNegligeables:
             contoursTresors = np.delete(contoursTresors, contoursNegligeables)
 
         return contoursTresors
@@ -56,12 +56,12 @@ class DetectionTresors(Detection):
                 if (y > 45) or (y < 810) or (x > 1347):
                     tresorsImpossible.append(i)
             elif self.numeroTable == 5 or self.numeroTable == 6:
-                if (y > 30) or (y < 810) or (x > 1321):
+                if (100 < y < 750) or (x > 1330):
                     tresorsImpossible.append(i)
 
         if len(self.tresorIdentifies) == len(tresorsImpossible):
             self.tresorIdentifies = []
-        elif not tresorsImpossible:
+        elif tresorsImpossible:
             self.tresorIdentifies = np.delete(self.tresorIdentifies, tresorsImpossible)
 
     def getTresorsIdentifies(self):

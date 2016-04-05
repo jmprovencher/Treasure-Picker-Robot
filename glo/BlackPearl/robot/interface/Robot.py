@@ -137,6 +137,3 @@ class Robot(Thread):
         self.analyseImageEmbarquee.join()
         # self.threadVideo.suspendreCapture()
 
-    def _demarrerObtenirTension(self):
-        # self.obtenirTension = ObtenirTension(self)
-        self.obtenirTension.start()

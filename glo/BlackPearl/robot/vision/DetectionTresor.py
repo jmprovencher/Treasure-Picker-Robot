@@ -21,10 +21,10 @@ class DetectionTresor(object):
         self.calculerAjustements()
 
     def calculerAjustements(self):
-        contoursTresor = self._detecterContoursForme(self.intervalleJaune)
-        distance_x, distance_y = self._trouverDistance(contoursTresor)
-        self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
-        #self._dessinerInformations(contoursTresor, distance_y / RATIOPIXEL_CM)
+        contoursTresor = self._detecterContoursForme(self.intervalleJauneTable5)
+        if (contoursTresor is not None):
+            distance_x, distance_y = self._trouverDistance(contoursTresor)
+            self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
 
     def _trouverDistance(self, contoursTresor):
         positionZone_x, positionZone_y = self.positionZone
@@ -59,9 +59,9 @@ class DetectionTresor(object):
         if (len(contoursCouleur) > 0):
             contoursTresor = self._obtenirFormeInteret(contoursCouleur)
             aire = cv2.contourArea(contoursTresor)
-        if (contoursTresor == []):
-            self._detecterContoursForme(self.intervalleJaune2)
-        return contoursTresor
+            return contoursTresor
+        else:
+            return None
 
     def _obtenirFormeInteret(self, contoursCouleur):
         contoursNegligeable = []
@@ -79,24 +79,4 @@ class DetectionTresor(object):
 
     def _definirIntervallesCouleurs(self):
         self.intervalleJaune = np.array([10, 130, 130]), np.array([60, 255, 255]), "Jaune"
-        self.intervalleJaune2 = np.array([10, 130, 130]), np.array([60, 180, 180]), "Jaune2"
-
-    def _dessinerZoneCible(self):
-        cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)
-
-    def _dessinerZoneTresor(self, position, rayon):
-        couleur = (0, 0, 255)
-        if (self.alignementTerminer == True):
-            couleur = (0, 255, 0)
-        cv2.line(self.imageCamera, self.positionZone, position, (255, 0, 0), 5)
-        cv2.circle(self.imageCamera, position, int(rayon), couleur, 2)
-        print(position)
-        cv2.circle(self.imageCamera, position, 10, (0, 0, 255), 2)
-
-    def _dessinerInformations(self, contoursTresor, distance):
-        zoneTresor = cv2.minAreaRect(contoursTresor)
-        boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
-        cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
-        cv2.putText(self.imageCamera, "%.2f cm" % (distance),
-                    (self.imageCamera.shape[1] - 300, self.imageCamera.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX, 2.0,
-                    (0, 255, 0), 3)
+        self.intervalleJauneTable5 = np.array([10, 130, 130]), np.array([60, 180, 180]), "Jaune2"

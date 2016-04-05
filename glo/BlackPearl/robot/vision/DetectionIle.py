@@ -15,7 +15,7 @@ class DetectionIle(object):
         self.rayonZone = 100
 
         self._definirIntervallesCouleurs()
-        self._dessinerZoneCible()
+        #self._dessinerZoneCible()
 
     def detecterIle(self, couleurIleCible):
         self.couleurIle = couleurIleCible

@@ -8,11 +8,28 @@ class InfoTable:
         
     def setIntervalle(self, type, numeroTable):
         if type == 'Robot':
+            #seulement no 5 est teste pour l'instant
+            if numeroTable == 1:
+                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
+            else:
+                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
+            if numeroTable == 2:
+                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
+            else:
+                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
+            if numeroTable == 3:
+                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
+            else:
+                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
             if numeroTable == 5:
                 self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
             else:
                 self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
-            
+            if numeroTable == 6:
+                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
+            else:
+                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
+
         elif type == 'Tresor':
             if numeroTable == 1:
                 self.intervalle = (np.array([50, 160, 160]), np.array([6, 100, 100]))
@@ -47,8 +64,18 @@ class InfoTable:
 
     def setCrop(self, numeroTable):
         # La difference en y2 et y1 doit etre de 855 pixel
+        #seulement no 5 est teste pour l'instant
+        if numeroTable == 1:
+            self.crop = (190, 1045)
+        if numeroTable == 2:
+            self.crop = (190, 1045)
+        if numeroTable == 3:
+            self.crop = (190, 1045)
         if numeroTable == 5:
             self.crop = (190, 1045)
+        if numeroTable == 6:
+            self.crop = (190, 1045)
+
                 
     def getIntervalle(self):
         return self.intervalle

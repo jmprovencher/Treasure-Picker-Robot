@@ -5,7 +5,6 @@ from robot.interface.Robot import Robot
 
 
 def main():
-    prefixPort = '/dev/ttyAMC'
     # monUART = None
     # robot = Robot(monUART)
     # robot.start()

@@ -20,7 +20,7 @@ class RobotClient(Thread):
         while not (self.robot.tacheTerminee):
             self.envoyerPretAStation()
             while 1:
-                if (self.robot.service.pretEnvoyerLettre):
+                if (self.robot.pretEnvoyerLettre):
                     self.envoyerLettre()
 
                 if (self.robot.pretEnvoyerIndice):
@@ -31,7 +31,7 @@ class RobotClient(Thread):
                 else:
                     if (self.robot.commandeTerminee) and not self.robot.alignementEnCours:
                         self.envoyerTension()
-                        self.envoyerCommandeTerminee()
+                        #self.envoyerCommandeTerminee()
                         time.sleep(0.5)
 
     def attendreCommande(self):

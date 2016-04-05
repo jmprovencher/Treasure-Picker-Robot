@@ -6,11 +6,10 @@ class AlignementStation():
         self.ajustements = []
 
     def calculerAjustement(self, distance_x, distance_y):
-        if (distance_x >= 1):
-            ajustements_x = self._ajusterPositionLaterale_CM(distance_x)
+        ajustements_x = self._ajusterPositionLaterale_CM(distance_x)
+        if (ajustements_x[1] >= 1):
             self.ajustements.append(ajustements_x)
-        distance_mm = int(math.floor((abs(distance_x) - math.floor(abs(distance_x))) * 10))
-        self._ajusterPositionLaterale_MM(distance_mm)
+
         ajustements_y = self._ajusterPositionY(distance_y)
         self.ajustements.append(ajustements_y)
 
@@ -23,7 +22,7 @@ class AlignementStation():
         elif (distance_x < 0):
             commande = 'right'
 
-        distance_cm = math.floor(abs(distance_x)) + 1
+        distance_cm = math.floor(abs(distance_x))
         distance_mm = int(math.floor((abs(distance_x) - distance_cm) * 10))
 
         if (distance_mm >= 1):
@@ -49,7 +48,7 @@ class AlignementStation():
         elif (distance_y > 0):
             commande = 'forward'
 
-        distance_cm = math.ceil(abs(distance_y))
+        distance_cm = math.ceil(abs(distance_y)) + 1
 
 
         return commande, int(distance_cm)

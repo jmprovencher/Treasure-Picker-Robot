@@ -132,7 +132,7 @@ class Robot(Thread):
     def _attendreChargeComplete(self):
         while (float(self.tensionCondensateur) < 4.60):
             print(self.tensionCondensateur)
-
+            self.robotClient.envoyerTension()
             time.sleep(0.5)
 
     def _demarrerFeedVideo(self):

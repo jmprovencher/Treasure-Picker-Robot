@@ -28,11 +28,11 @@ class AnalyseImageEmbarquee(Thread):
 
     def debuterAlignement(self, parametre):
         if (parametre == 0):
-            self.evaluerPositionDepot('jaune')
-        elif (parametre == 1):
             self.evaluerPositionDepot('vert')
-        elif (parametre == 2):
+        elif (parametre == 1):
             self.evaluerPositionDepot('bleu')
+        elif (parametre == 2):
+            self.evaluerPositionDepot('jaune')
         elif (parametre == 3):
             self.evaluerPositionDepot('rouge')
         elif (parametre == 'tresor'):

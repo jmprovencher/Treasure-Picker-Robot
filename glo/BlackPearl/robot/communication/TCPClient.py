@@ -1,5 +1,6 @@
 import socket
 import json
+import time
 
 
 class TCPClient:
@@ -15,6 +16,7 @@ class TCPClient:
                 break
             except Exception as e:
                 print("Connection impossible avec %s:%d. Erreur %s" % (self.host, self.port, e))
+                time.sleep(5)
         return True
 
     def sendFile(self):

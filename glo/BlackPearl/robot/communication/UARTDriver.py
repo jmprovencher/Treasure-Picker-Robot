@@ -67,7 +67,6 @@ class UARTDriver:
         time.sleep(6)
         self.desactiverAimant()
         time.sleep(2)
-        self.sendCommand('backward', 15)
 
     def postAlignementStation(self):
         self.sendCommand('rotateAntiClockwise', 120)

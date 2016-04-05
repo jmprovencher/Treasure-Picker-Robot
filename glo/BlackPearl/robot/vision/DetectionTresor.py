@@ -59,7 +59,7 @@ class DetectionTresor(object):
         if (len(contoursCouleur) > 0):
             contoursTresor = self._obtenirFormeInteret(contoursCouleur)
             aire = cv2.contourArea(contoursTresor)
-        if not (contoursTresor):
+        if (contoursTresor == []):
             self._detecterContoursForme(self.intervalleJaune2)
         return contoursTresor
 

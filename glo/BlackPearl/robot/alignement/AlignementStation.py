@@ -24,7 +24,7 @@ class AlignementStation():
             commande = 'right'
 
         distance_cm = math.floor(abs(distance_x))
-        distance_mm = int((abs(distance_x) - distance_cm) * 10)
+        distance_mm = int(math.floor((abs(distance_x) - distance_cm) * 10))
 
         if (distance_mm > 1):
             self._ajusterPositionLaterale_MM(commande, distance_mm)

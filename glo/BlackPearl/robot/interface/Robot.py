@@ -102,7 +102,13 @@ class Robot(Thread):
             parametre = int(parametre)
             self.uartDriver.sendCommand(commande, parametre)
             print(commande, parametre)
-            time.sleep(2)
+            self.attendreCommandeTerminee()
+
+    def attendreCommandeTerminee(self):
+        while not (self.commandeTerminee):
+            time.sleep(0.5)
+        self.commandeTerminee = False
+
 
     def _decoderManchester(self):
         self.uartDriver.lireManchester()

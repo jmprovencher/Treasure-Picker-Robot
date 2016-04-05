@@ -32,7 +32,7 @@ class InfoTable:
             if numeroTable == 1 or numeroTable == 2 or numeroTable == 3:
                 self.intervalle = (np.array([102, 102, 0]), np.array([255, 255, 102]))
             elif numeroTable == 5 or numeroTable == 6:
-                self.intervalle = (np.array([150, 150, 40]), np.array([190, 170, 80]))
+                self.intervalle = (np.array([120, 120, 0]), np.array([190, 170, 80]))
                 
         elif type == 'Vert':
             if numeroTable == 1 or numeroTable == 2 or numeroTable == 3:

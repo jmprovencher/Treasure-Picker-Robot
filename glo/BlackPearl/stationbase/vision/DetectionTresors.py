@@ -55,8 +55,13 @@ class DetectionTresors(Detection):
             elif self.numeroTable == 2 or self.numeroTable == 3:
                 if (y > 45) or (y < 810) or (x > 1347):
                     tresorsImpossible.append(i)
-            elif self.numeroTable == 5 or self.numeroTable == 6:
-                if (100 < y < 750) or (x > 1330):
+            elif self.numeroTable == 5:
+                if (100 < y < 750) or (x > 1372):
+                    print(str(x))
+                    tresorsImpossible.append(i)
+            elif self.numeroTable == 6:
+                if (100 < y < 750) or (x > 1320):
+                    print(str(x))
                     tresorsImpossible.append(i)
 
         if len(self.tresorIdentifies) == len(tresorsImpossible):

@@ -69,7 +69,7 @@ class StationServeur(Thread):
         elif commande.startswith("indice: "):
             indice = commande[8:]
             print ("L'indice: %s" % indice)
-            self.stationBase.getCarte().setCible(Cible(self.stationBase.carte, indice))
+            self.stationBase.carte.setCible(Cible(self.stationBase.carte, indice))
         elif commande.startswith("man: "):
             self.stationBase.manchester = commande[-1]
             print ("Code manchester: %s" % self.stationBase.getManchester())

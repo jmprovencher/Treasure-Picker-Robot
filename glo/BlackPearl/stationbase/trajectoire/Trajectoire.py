@@ -25,7 +25,7 @@ class Trajectoire:
         return self.grilleCellule.distanceAuCarre(x, y, destX, destY)
 
     def depPixelXACentimetre(self, distanceX):
-        self.grilleCellule.depPixelXACentimetre(distanceX)
+        return self.grilleCellule.depPixelXACentimetre(distanceX)
 
     def depPixelYACentimetre(self, distanceY):
-        self.grilleCellule.depPixelXACentimetre(distanceY)
+        return self.grilleCellule.depPixelXACentimetre(distanceY)

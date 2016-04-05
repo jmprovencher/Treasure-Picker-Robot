@@ -21,8 +21,6 @@ class AlgorithmeTrajectoire:
         depart = self.trouverDebutBuffer(depart)
         self.setDepart(depart)
         self.setArriver(arriver)
-        print 'arriver trajectoire'
-        print self.arriver.x, self.arriver.y
         heapq.heappush(self.heapOuvert, (self.depart.priorite, self.depart))
 
         while len(self.heapOuvert):

@@ -24,7 +24,7 @@ class DetectionTresor(object):
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
         distance_x, distance_y = self._trouverDistance(contoursTresor)
         self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
-        self._dessinerInformations(contoursTresor, distance_y / RATIOPIXEL_CM)
+        #self._dessinerInformations(contoursTresor, distance_y / RATIOPIXEL_CM)
 
     def _trouverDistance(self, contoursTresor):
         positionZone_x, positionZone_y = self.positionZone
@@ -97,5 +97,3 @@ class DetectionTresor(object):
         cv2.putText(self.imageCamera, "%.2f cm" % (distance),
                     (self.imageCamera.shape[1] - 300, self.imageCamera.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX, 2.0,
                     (0, 255, 0), 3)
-        cv2.imshow("Image", self.imageCamera)
-        cv2.waitKey(0)

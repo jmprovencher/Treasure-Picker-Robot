@@ -50,6 +50,7 @@ class Robot(Thread):
         self._executerAlignement()
         self._attendreChargeComplete()
         print("Charge complete")
+        self.uartDriver.stopCondensateur()
         self._decoderManchester()
         #self.uartDriver.postAlignementStation()
 
@@ -131,7 +132,6 @@ class Robot(Thread):
         while (float(self.tensionCondensateur) < 4.60):
             print(self.tensionCondensateur)
             time.sleep(0.5)
-        self.uartDriver.stopCondensateur()
 
     def _demarrerFeedVideo(self):
         self.threadVideo = FeedVideoRobot()

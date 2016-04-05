@@ -124,6 +124,14 @@ class UARTDriver:
             self.UART.write(b'6'.encode())
             self.UART.write(str(parameter).encode())
 
+        elif command == 'leftP':
+            self.UART.write(b'1'.encode())
+            self.UART.write(str(parameter).encode())
+
+        elif command == 'rightP':
+            self.UART.write(b'3'.encode())
+            self.UART.write(str(parameter).encode())
+
         elif command == 'pickup':
             self.UART.write(b'g'.encode())
 

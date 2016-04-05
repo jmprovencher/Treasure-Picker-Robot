@@ -43,6 +43,7 @@ class InfoTable:
                 self.intervalle = (np.array([0, 50, 50]), np.array([50, 255, 255]))
 
     def setCrop(self, numeroTable):
+        # La difference en y2 et y1 doit etre de 855 pixel
         if numeroTable == 5:
             self.crop = (190, 1045)
                 

@@ -28,8 +28,9 @@ class Robot(Thread):
         self.adresseIP = '10.248.39.53'
         self.tensionCondensateur = 0
         self._demarrerFeedVideo()
-        self._demarrerLectureUART()
         self._demarrerConnectionTCP()
+        self._demarrerLectureUART()
+
 
     def run(self):
         print("Run")
@@ -52,7 +53,7 @@ class Robot(Thread):
         self.uartDriver.stopCondensateur()
         print("CONDENSATEUR OFF")
         self.uartDriver.sendCommand('backward', 10)
-        self._decoderManchester()
+        #self._decoderManchester()
         self.uartDriver.postAlignementStation()
 
         self.alignementEnCours = False

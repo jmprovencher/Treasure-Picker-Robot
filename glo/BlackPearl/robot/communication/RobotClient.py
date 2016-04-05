@@ -28,7 +28,6 @@ class RobotClient(Thread):
         while 1:
             if self.robot.pretEnvoyerLettre:
                 self.envoyerLettre()
-                self.envoyerTension()
                 self.robot.indiceObtenu = self.robot.service.obtenirCible(self.lettreObtenue)
                 print(self.robot.indiceObtenu)
                 self.envoyerIndice()
@@ -39,7 +38,6 @@ class RobotClient(Thread):
                     self.traiterCommande(data)
             else:
                 self.envoyerTension()
-                time.sleep(0.5)
 
     def attendreCommande(self):
         data = -1

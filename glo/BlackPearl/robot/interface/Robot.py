@@ -52,7 +52,7 @@ class Robot(Thread):
         self.uartDriver.stopCondensateur()
         print("CONDENSATEUR OFF")
         self.uartDriver.sendCommand('backward', 10)
-        self._decoderManchester()
+        #self._decoderManchester()
         self.uartDriver.postAlignementStation()
 
         self.alignementEnCours = False

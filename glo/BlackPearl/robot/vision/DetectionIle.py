@@ -20,13 +20,13 @@ class DetectionIle(object):
     def detecterIle(self, couleurIleCible):
         self.couleurIle = couleurIleCible
         if (self.couleurIle == "vert"):
-            self.detecterFormeCouleur(self.intervalleVert)
+            self.detecterFormeCouleur(self.intervalleVertTable5)
         elif (self.couleurIle == "jaune"):
-            self.detecterFormeCouleur(self.intervalleJaune)
+            self.detecterFormeCouleur(self.intervalleJauneTable5)
         elif (self.couleurIle == "bleu"):
             self.detecterFormeCouleur(self.intervalleBleu)
         elif (self.couleurIle == "rouge"):
-            self.detecterFormeCouleur(self.intervalleRouge)
+            self.detecterFormeCouleur(self.intervalleRougeTable5)
 
     def _evaluerEmplacement(self, contoursIle):
         position_x, position_y = self._trouverCentreForme(contoursIle)
@@ -78,6 +78,9 @@ class DetectionIle(object):
         self.intervalleBleu = np.array([100, 100, 0]), np.array([190, 170, 80]), "Bleu"
         self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
         self.intervalleVert = np.array([50, 120, 40]), np.array([100, 170, 80]), "Vert"
+        self.intervalleVertTable5 = (np.array([0, 70, 0]), np.array([100, 200, 80])), "Vert2"
+        self.intervalleRougeTable5 = (np.array([15, 0, 75]), np.array([100, 65, 200])), "Rouge2"
+        self.intervalleJauneTable5 = (np.array([0, 50, 50]), np.array([50, 255, 255])), "Jaune2"
 
     def _afficherFeed(self):
         cv2.imshow("Image", self.imageCamera)

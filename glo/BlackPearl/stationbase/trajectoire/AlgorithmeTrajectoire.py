@@ -153,28 +153,26 @@ class AlgorithmeTrajectoire:
         depart3 = depart
         depart4 = depart
         listDepart = [depart1, depart2, depart3, depart4]
-        if depart.atteignable:
-            return depart.x, depart.y
         while not depart.atteignable:
-            if not depart.x >= 1600-self.grilleCellule.incrementX:
-                if not depart.y >= 1200-self.grilleCellule.incrementY:
+            if not listDepart[0].x >= 1600-25:
+                if not listDepart[0].y >= 1200-25:
                     listDepart[0] = self.grilleCellule.getCellule(
                         listDepart[0].x+self.grilleCellule.incrementX, listDepart[0].y+self.grilleCellule.incrementY)
-                if not depart.y <= self.grilleCellule.incrementY:
+                if not listDepart[1].y <= 25:
                     listDepart[1] = self.grilleCellule.getCellule(
-                        listDepart[1].x+self.grilleCellule.incrementX, listDepart[1].y+self.grilleCellule.incrementY)
-            if not depart.x <= self.grilleCellule.incrementX:
-                if not depart.y >= 1200-self.grilleCellule.incrementY:
+                        listDepart[1].x+self.grilleCellule.incrementX, listDepart[1].y-self.grilleCellule.incrementY)
+            if not listDepart[2].x <= 25:
+                if not listDepart[2].y >= 1200-25:
                     listDepart[2] = self.grilleCellule.getCellule(
-                        listDepart[2].x+self.grilleCellule.incrementX, listDepart[2].y+self.grilleCellule.incrementY)
-                if not depart.y <= self.grilleCellule.incrementY:
+                        listDepart[2].x-self.grilleCellule.incrementX, listDepart[2].y+self.grilleCellule.incrementY)
+                if not listDepart[3].y <= 25:
                     listDepart[3] = self.grilleCellule.getCellule(
-                        listDepart[3].x+self.grilleCellule.incrementX, listDepart[3].y+self.grilleCellule.incrementY)
+                        listDepart[3].x-self.grilleCellule.incrementX, listDepart[3].y-self.grilleCellule.incrementY)
             for dep in listDepart:
                 if dep.atteignable:
-                    depart = dep.x, dep.y
+                    depart = self.grilleCellule.getCellule(dep.x, dep.y)
                     break
-        return depart
+        return depart.x, depart.y
 
     def rafraichirCellule(self, celluleAdjacente, cellule):
         celluleAdjacente.poid = cellule.poid + 10

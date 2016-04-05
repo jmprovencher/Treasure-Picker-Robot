@@ -21,5 +21,6 @@ class LectureUART(Thread):
             print 'done'
         elif info.count(lettre_manchester) == 4:
             self.robot.lettreObtenue = lettre_manchester
+            self.robot
         else:
             self.robot.tensionCondensateur = info

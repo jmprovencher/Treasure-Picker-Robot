@@ -120,10 +120,6 @@ class Robot(Thread):
 
     def _decoderManchester(self):
         self.uartDriver.lireManchester()
-        self._attendreReceptionLettre()
-        self.indiceObtenu = self.service.obtenirCible(self.lettreObtenue)
-        print(self.indiceObtenu)
-        self.pretEnvoyerIndice = True
 
     def _attendreReceptionLettre(self):
         while self.lettreObtenue is None:

@@ -21,8 +21,9 @@ class RobotClient(Thread):
         while not (self.robot.tacheTerminee):
             while not (self.demarrageTermine):
                 time.sleep(1)
-                print("Demarrage est terminee, envoie pret a station")
-                self.envoyerPretAStation()
+                print("Attends demarrage...")
+            print("Demarrage est terminee, envoie pret a station")
+            self.envoyerPretAStation()
             while 1:
                 if (self.robot.pretEnvoyerLettre):
                     self.envoyerLettre()

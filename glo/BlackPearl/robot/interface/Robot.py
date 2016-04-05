@@ -28,13 +28,12 @@ class Robot(Thread):
         # self.adresseIP = '192.168.0.45'
         self.adresseIP = '10.248.39.53'
         self.tensionCondensateur = 0
-
-        self._demarrerLectureUART()
         self._demarrerFeedVideo()
+        self._demarrerLectureUART()
+        self._demarrerConnectionTCP()
 
     def run(self):
         print("Run")
-        self._demarrerConnectionTCP()
         self.robotClient.demarrageTermine = True
         #self.uartDriver.phaseInitialisation()
 

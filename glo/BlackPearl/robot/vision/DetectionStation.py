@@ -90,7 +90,7 @@ class DetectionStation(object):
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
             print ("Aire: %d" % aire)
-            if ((aire < 200000)):
+            if ((aire < 80000)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):

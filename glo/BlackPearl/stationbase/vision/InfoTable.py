@@ -1,8 +1,10 @@
 import numpy as np
 
-class IntervalleCouleur:
+
+class InfoTable:
     def __init__(self, type, numeroTable):
         self.setIntervalle(type, numeroTable)
+        self.setCrop(numeroTable)
         
     def setIntervalle(self, type, numeroTable):
         if type == 'Robot':
@@ -39,8 +41,14 @@ class IntervalleCouleur:
                 self.intervalle =  (np.array([0, 90, 91]), np.array([50, 194, 210]))
             elif numeroTable == 5 or numeroTable == 6:
                 self.intervalle = (np.array([0, 50, 50]), np.array([50, 255, 255]))
+
+    def setCrop(self, numeroTable):
+        # La difference en y2 et y1 doit etre de 855 pixel
+        if numeroTable == 5:
+            self.crop = (190, 1045)
                 
     def getIntervalle(self):
         return self.intervalle
-                
-                
+
+    def getCrop(self):
+        return self.crop

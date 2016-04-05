@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from stationbase.vision.IntervalleCouleur import IntervalleCouleur
+from stationbase.vision.InfoTable import InfoTable
 from stationbase.vision.Detection import Detection
 from elements.Tresor import Tresor
 
@@ -17,7 +17,7 @@ class DetectionTresors(Detection):
         self.eliminerTresorsImpossibles()
 
     def trouverContoursTresors(self):
-        intervalleFonce, intervalleClair = IntervalleCouleur('Tresor', self.numeroTable).getIntervalle()
+        intervalleFonce, intervalleClair = InfoTable('Tresor', self.numeroTable).getIntervalle()
         masqueTresors = cv2.inRange(self.imageCamera, intervalleClair, intervalleFonce)
         _, contoursTresors, _ = cv2.findContours(masqueTresors.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 

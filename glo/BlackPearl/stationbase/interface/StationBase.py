@@ -58,8 +58,8 @@ class StationBase(Thread):
             self.decoderManchester()
 
     def demarerRoutine(self):
-        #self.deplacement('RECHARGE')
-        #self.aligner("alignement_station")
+        self.deplacement('RECHARGE')
+        self.aligner("alignement_station")
         self.carte.getCible().trouverIleCible()
         self.deplacement('TRESOR')
         self.aligner("alignement_tresor")

@@ -29,8 +29,8 @@ class StationBase(Thread):
         self.demarrerImageVirtuelle()
 
     def run(self):
-        self.initialisationTrajectoire()
         self.attendreFinDeDetectionPrimaire()
+        self.initialisationTrajectoire()
         self.attendreRobotPret()
         self.choisirEtape(self.etape)
         time.sleep(1000)

@@ -8,7 +8,7 @@ class Cible:
         self.ileChoisie = None
         self.tresorChoisi = None
         if len(args) == 1:
-            self.indice = 'Carre'
+            self.indice = 'Vert'
         else:
             self.indice = args[1]
         #self.trouverIleCible()
@@ -32,7 +32,7 @@ class Cible:
 
     def trouverTresorsPossibles(self):
         tresorPossible = []
-        for tresor in self.carte.getTresor():
+        for tresor in self.carte.getTresors():
             xTresor, yTresor = tresor.getCentre()
             for ile in self.carte.getIles():
                 xIle, yIle = ile.getCentre()
@@ -43,7 +43,7 @@ class Cible:
                 if deltaY > 50 and deltaX > 30:
                     tresorPossible.append(tresor)
         if not tresorPossible:
-            tresorPossible.append(Tresor(0, 427))
+            tresorPossible.append(Tresor((0, 427)))
 
         return tresorPossible
 

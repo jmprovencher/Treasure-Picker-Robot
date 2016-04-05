@@ -37,6 +37,7 @@ class Robot(Thread):
         print("Run")
         self.uartDriver.phaseInitialisation()
 
+
     def demarrerAlignementStation(self):
         self.alignementEnCours = True
         self.uartDriver.cameraPositionFace()

@@ -16,11 +16,13 @@ class UARTDriver:
 
     def phaseInitialisation(self):
         self.monterPrehenseur()
+        time.sleep(5)
         self.cameraPositionDepot()
         self.cameraPositionFace()
 
     def cameraPositionDepot(self):
         self.UART.write(b'x'.encode())
+        time.sleep(0.2)
 
     def cameraPositionFace(self):
         self.UART.write(b'c'.encode())

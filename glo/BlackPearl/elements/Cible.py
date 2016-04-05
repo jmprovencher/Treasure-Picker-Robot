@@ -8,7 +8,7 @@ class Cible:
         self.ileChoisie = None
         self.tresorChoisi = None
         if len(args) == 1:
-            self.indice = 'Vert'
+            self.indice = 'Bleu'
         else:
             self.indice = args[1]
         #self.trouverIleCible()

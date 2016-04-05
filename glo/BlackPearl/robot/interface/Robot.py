@@ -73,13 +73,13 @@ class Robot(Thread):
 
         self.alignementEnCours = False
 
-    def demarrerAlignementIle(self):
+    def demarrerAlignementIle(self, parametre):
         print("Demarre phase alignement ile")
         self.alignementEnCours = True
         self.uartDriver.cameraPositionDepot()
 
         # Implementer le traitement de nimporte quelle forme
-        self._demarrerAnalyseVideo('bleu')
+        self._demarrerAnalyseVideo(parametre)
 
         self._executerAlignement()
         self.uartDriver.postAlignementIle()
@@ -92,7 +92,7 @@ class Robot(Thread):
     def traiterCommande(self, commande, parametre):
         self.commandeTerminee = False
         if (commande == 'alignement_ile'):
-            self.demarrerAlignementIle()
+            self.demarrerAlignementIle(parametre)
         elif (commande == 'alignement_tresor'):
             self.demarrerAlignementTresor()
         elif (commande == 'alignement_station'):

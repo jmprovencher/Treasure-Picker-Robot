@@ -27,14 +27,14 @@ class AnalyseImageEmbarquee(Thread):
         self._soumettreAjustements()
 
     def debuterAlignement(self, parametre):
-        if (parametre == 'bleu'):
-            self.evaluerPositionDepot('bleu')
-        elif (parametre == 'vert'):
-            self.evaluerPositionDepot('vert')
-        elif (parametre == 'rouge'):
-            self.evaluerPositionDepot('rouge')
-        elif (parametre == 'jaune'):
+        if (parametre == 0):
             self.evaluerPositionDepot('jaune')
+        elif (parametre == 1):
+            self.evaluerPositionDepot('vert')
+        elif (parametre == 2):
+            self.evaluerPositionDepot('bleu')
+        elif (parametre == 3):
+            self.evaluerPositionDepot('rouge')
         elif (parametre == 'tresor'):
             self.evaluerPositionTresor()
         elif (parametre == 'station'):

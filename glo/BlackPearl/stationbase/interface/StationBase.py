@@ -235,7 +235,7 @@ class StationBase(Thread):
         self.attendreRobot()
 
     def decoderManchester(self):
-        RequeteJSON("decodeManchester", 0)
+        RequeteJSON("decoderManchester", 0)
         self.threadCommunication.signalerEnvoyerCommande()
         self.attendreRobot()
 

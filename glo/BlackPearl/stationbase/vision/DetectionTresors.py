@@ -59,7 +59,7 @@ class DetectionTresors(Detection):
                 if (45 < y < 810) or (x > 1337):
                     tresorsImpossible.append(i)
             elif self.numeroTable == 5:
-                if (100 < y < 750) or (x > 1372):
+                if (100 < y < 750) or (x > 1350):
                     tresorsImpossible.append(i)
             elif self.numeroTable == 6:
                 if (100 < y < 750) or (x > 1345):

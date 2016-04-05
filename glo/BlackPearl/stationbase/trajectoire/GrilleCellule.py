@@ -34,12 +34,12 @@ class GrilleCellule:
         return int(round(cent * (self.dimensionCrop[0]) / self.dimensionReel[0]))
     
     def distanceAuCarre(self, x, y, x2, y2):
-        distanceX = x2 - x
-        distanceY = y2 - y
+        distanceX = abs(x2 - x)
+        distanceY = abs(y2 - y)
         distanceX = self.depPixelXACentimetre(distanceX)
         distanceY = self.depPixelYACentimetre(distanceY)
         distanceCarre = distanceX**2 + distanceY**2
-        return int(round(distanceCarre))
+        return distanceCarre
                 
     def estAtteignable(self, x, y):
         if self.xInvalide(x) or self.yInvalide(y):

@@ -21,6 +21,8 @@ class AlgorithmeTrajectoire:
         depart = self.trouverDebutBuffer(depart)
         self.setDepart(depart)
         self.setArriver(arriver)
+        print 'arriver trajectoire'
+        print self.arriver.x, self.arriver.y
         heapq.heappush(self.heapOuvert, (self.depart.priorite, self.depart))
 
         while len(self.heapOuvert):
@@ -32,8 +34,7 @@ class AlgorithmeTrajectoire:
                 return self.trajet
             elif (self.cellulePlusPres is None) and (self.distanceBufferAcceptee(cellule)):
                 self.cellulePlusPres = cellule
-            elif (self.distanceArriverCarre(cellule) < self.distanceArriverCarre(self.cellulePlusPres)) and \
-                    (self.distanceBufferAcceptee(cellule) and cellule.atteignable):
+            elif self.distanceArriverCarre(cellule) < self.distanceArriverCarre(self.cellulePlusPres):
                 self.cellulePlusPres = cellule
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)

@@ -56,8 +56,8 @@ class StationBase(Thread):
             self.aligner("alignement_ile")
 
     def demarerRoutine(self):
-        self.deplacement('RECHARGE')
-        self.aligner("alignement_station")
+        #self.deplacement('RECHARGE')
+        #self.aligner("alignement_station")
         self.carte.getCible().trouverIleCible()
         self.deplacement('TRESOR')
         self.aligner("alignement_tresor")
@@ -86,6 +86,8 @@ class StationBase(Thread):
             destination = self.carte.getStationRecharge().getCentre()
         elif etape == 'TRESOR':
             destination = self.carte.cible.tresorChoisi.getCentre()
+            print 'identifier destination tresor!!'
+            print destination
         elif etape == 'ILE':
             destination = self.carte.cible.ileChoisie.getCentre()
         if destination is None:
@@ -99,12 +101,12 @@ class StationBase(Thread):
             self.deplacementArriere(5)
             self.deplacementDroit(10)
         elif type == 'TRESOR':
-            if self.carte.getCible().getTresorCible().getCentre()[1] < 100:
+            if self.carte.getCible().getTresorCible().getCentre()[1] < 500:
                 self.angleDesire = 90
-            elif self.carte.getCible().getTresorCible().getCentre()[1] > 750:
+            elif self.carte.getCible().getTresorCible().getCentre()[1] > 500:
                 self.angleDesire = 270
+                print 'set :', self.angleDesire
             self.orienter(type)
-            self.deplacementArriere(10)
         elif type == 'ILE':
             arriver = self.carte.getCible().getIleCible().getCentre()
             debut = self.getPositionRobot()
@@ -115,7 +117,16 @@ class StationBase(Thread):
         print '\n--------------------------------------------------'
         print 'Debuter l''alignement.'
         print '--------------------------------------------------'
-        RequeteJSON(type, 0)
+        couleur = self.carte.getCible().getIleCible().getCouleur()
+        if couleur == 'Vert':
+            int = 0
+        elif couleur == 'Bleu':
+            int = 1
+        elif couleur == 'Jaune':
+            int = 2
+        elif couleur == 'Rouge':
+            int = 3
+        RequeteJSON(type, int)
         self.threadCommunication.signalerEnvoyerCommande()
         self.attendreRobot()
         print '\n--------------------------------------------------'
@@ -201,12 +212,11 @@ class StationBase(Thread):
         self.attendreRobot()
         debut = self.getPositionRobot()
         dep = self.distanceAuCarre(debut[0], debut[1], arriver[0], arriver[1])
-        if dep <= 25:
-            print '\nArriver.'
-            if len(self.trajectoireReel) == 2:
-                self.trajectoireReel = None
-            else:
-                self.trajectoireReel.pop(-1)
+        print '\nArriver.'
+        if len(self.trajectoireReel) == 2:
+            self.trajectoireReel = None
+        else:
+            self.trajectoireReel.pop(-1)
 
     def deplacementDroit(self, dep):
         print '\nDeplacer'

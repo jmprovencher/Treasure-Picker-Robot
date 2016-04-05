@@ -1,7 +1,7 @@
 import sys
+sys.path.append('/home/design3/Desktop/design3/glo/BlackPearl')
 from robot.communication.UARTDriver import UARTDriver
 from robot.interface.Robot import Robot
-sys.path.append('/home/design3/Desktop/design3/glo/BlackPearl')
 
 
 def main():

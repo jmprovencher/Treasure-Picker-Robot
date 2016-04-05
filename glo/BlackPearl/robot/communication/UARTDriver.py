@@ -26,6 +26,7 @@ class UARTDriver:
 
     def cameraPositionFace(self):
         self.UART.write(b'c'.encode())
+        time.sleep(0.5)
 
     def cameraPositionTresor(self):
         self.UART.write(b'd'.encode())

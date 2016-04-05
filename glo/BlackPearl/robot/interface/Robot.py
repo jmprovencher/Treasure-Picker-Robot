@@ -101,7 +101,7 @@ class Robot(Thread):
         for inst in self.instructions:
             self.commandeTerminee = False
             commande, parametre = inst
-            commande = int(commande)
+            parametre = int(parametre)
             self.uartDriver.sendCommand(commande, parametre)
             print(commande, parametre)
             time.sleep(2)

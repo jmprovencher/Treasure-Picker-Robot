@@ -23,6 +23,8 @@ class RobotClient(Thread):
             print("Attends demarrage...")
         print("Demarrage est terminee, envoie pret a station")
         self.envoyerPretAStation()
+        data = self.attendreCommande()
+        self.traiterCommande(data)
         while 1:
             if self.robot.pretEnvoyerLettre:
                 self.envoyerLettre()

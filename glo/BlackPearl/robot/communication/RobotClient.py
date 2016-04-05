@@ -33,13 +33,11 @@ class RobotClient(Thread):
                 self.envoyerIndice()
             if self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()
-                    time.sleep(0.5)
                     self.envoyerCommandeTerminee()
                     data = self.attendreCommande()
                     self.traiterCommande(data)
             else:
                 self.envoyerTension()
-                time.sleep(0.5)
 
     def attendreCommande(self):
         data = -1

@@ -57,8 +57,8 @@ class DetectionStation(object):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
 
-        #cv2.imshow("IMage", masqueCouleur)
-        #cv2.waitKey(0)
+        cv2.imshow("IMage", masqueCouleur)
+        cv2.waitKey(0)
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         contoursCible = self._obtenirFormeInteret(contoursCouleur)

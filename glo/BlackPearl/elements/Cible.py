@@ -14,12 +14,12 @@ class Cible:
         #self.trouverIleCible()
 
     def trouverIleCible(self):
-        posRobot = copy.deepcopy(self.carte.getRobotValide().getCentre())
+        print 'Trouver ile cible'
         ilesPotentielle = self.carte.getIlesCorrespondantes(self.indice)
         distanceMin = 1000000000
         TresorsPossibles = self.trouverTresorsPossibles()
         for tresor in TresorsPossibles:
-            trajetTresor = self.carte.getTrajectoire().trouverTrajet(posRobot, tresor.getCentre())
+            trajetTresor = self.carte.getTrajectoire().trouverTrajet(self.carte.getStationRecharge().getCentre(), tresor.getCentre())
             distanceTresor = self.carte.getTrajectoire().trouverLongueurTrajetCarre(trajetTresor)
             for ile in ilesPotentielle:
                 trajetIle = self.carte.getTrajectoire().trouverTrajet(tresor.getCentre(), ile.getCentre())
@@ -30,6 +30,8 @@ class Cible:
                     self.tresorChoisi = tresor
                     print 'TRESOR CHOISIE: ', tresor.centre_x, tresor.centre_y
                     self.ileChoisie = ile
+                    print 'Ile choisie'
+        print 'Ile cible trouve'
 
     def trouverTresorsPossibles(self):
         tresorPossible = []

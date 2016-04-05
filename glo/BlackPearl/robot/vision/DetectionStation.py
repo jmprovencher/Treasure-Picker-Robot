@@ -99,7 +99,7 @@ class DetectionStation(object):
         return contoursCouleur[0]
 
     def _definirIntervallesCouleurs(self):
-        self.intervalleBleuMarin = np.array([120, 160, 0]), np.array([255, 190, 100]), "Bleu"
+        self.intervalleBleuMarin = np.array([120, 100, 40]), np.array([180, 150, 100]), "Bleu"
 
     def _dessinerZoneCible(self):
         cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)

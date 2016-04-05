@@ -59,8 +59,8 @@ class StationBase(Thread):
 
     def demarerRoutine(self):
         self.deplacement('RECHARGE')
-        self.aligner("alignement_station")
         self.carte.getCible().trouverIleCible()
+        self.aligner("alignement_station")
         self.deplacement('TRESOR')
         self.aligner("alignement_tresor")
         self.deplacement('ILE')

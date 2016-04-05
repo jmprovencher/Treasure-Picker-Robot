@@ -11,9 +11,6 @@ class AlignementStation():
         ajustements_y = self._ajusterPositionY(distance_y)
         self.ajustements.append(ajustements_y)
 
-        print(ajustements_x)
-        print (ajustements_y)
-
         return self.ajustements
 
 
@@ -49,10 +46,7 @@ class AlignementStation():
         elif (distance_y > 0):
             commande = 'forward'
 
-        distance_cm = math.floor(abs(distance_y))
-        distance_mm = int((abs(distance_y) - distance_cm) * 10)
+        distance_cm = math.ceil(abs(distance_y))
 
-        if (distance_mm > 1):
-            self._ajusterPositionLaterale_MM(commande, distance_mm)
 
         return commande, int(distance_cm)

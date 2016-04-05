@@ -90,32 +90,31 @@ class Robot(Thread):
         self.instructions.append(instructions)
 
     def traiterCommande(self, commande, parametre):
-        self.commandeTerminee = False
-        if (commande == 'alignement_ile'):
+        if commande == 'alignement_ile':
             self.demarrerAlignementIle(parametre)
-        elif (commande == 'alignement_tresor'):
+        elif commande == 'alignement_tresor':
             self.demarrerAlignementTresor()
-        elif (commande == 'alignement_station'):
+        elif commande == 'alignement_station':
             self.demarrerAlignementStation()
         else:
+            self.commandeTerminee = False
             self.uartDriver.sendCommand(commande, parametre)
-        self.commandeTerminee = True
+            self.attendreCommandeTerminee()
 
     def _executerAlignement(self):
         for inst in self.instructions:
             commande, parametre = inst
             parametre = int(parametre)
+            self.commandeTerminee == False
             self.uartDriver.sendCommand(commande, parametre)
             print("Commande executee:")
             print(commande, parametre)
-            time.sleep(5)
+            self.attendreCommandeTerminee()
 
     def attendreCommandeTerminee(self):
-        while not (self.commandeTerminee):
+        while not self.commandeTerminee:
             print("Attente")
             time.sleep(0.5)
-        self.commandeTerminee = False
-
 
     def _decoderManchester(self):
         self.uartDriver.lireManchester()
@@ -125,7 +124,7 @@ class Robot(Thread):
         self.pretEnvoyerIndice = True
 
     def _attendreReceptionLettre(self):
-        while (self.lettreObtenue is None):
+        while self.lettreObtenue is None:
             print("En attente du code Manchester...")
             time.sleep(2)
         print("Lettre recu par le robot : %s" % self.lettreObtenue)

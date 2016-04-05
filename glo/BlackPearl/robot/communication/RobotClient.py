@@ -13,12 +13,14 @@ class RobotClient(Thread):
         self.robot = robot
         self.adresseIP = adresseIP
         self.termineeAEteEnvoyerAStation = True
+        self.demarrageTermine = False
         self.monClient = TCPClient(self.adresseIP)
 
     def run(self):
         self.monClient._connectToServer()
         while not (self.robot.tacheTerminee):
-            self.envoyerPretAStation()
+            if (self.demarrageTermine):
+                self.envoyerPretAStation()
             while 1:
                 if (self.robot.pretEnvoyerLettre):
                     self.envoyerLettre()

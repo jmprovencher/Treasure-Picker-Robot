@@ -39,6 +39,7 @@ class Robot(Thread):
 
 
     def demarrerAlignementStation(self):
+        print("Demarre phase alignement station")
         self.alignementEnCours = True
         self.uartDriver.cameraPositionFace()
         self.threadVideo.demarrerCapture()
@@ -54,6 +55,7 @@ class Robot(Thread):
         self.alignementEnCours = False
 
     def demarrerAlignementTresor(self):
+        print("Demarre phase alignement tresor")
         self.alignementEnCours = True
         self.uartDriver.cameraPositionDepot()
         self.threadVideo.demarrerCapture()
@@ -67,6 +69,7 @@ class Robot(Thread):
         self.alignementEnCours = False
 
     def demarrerAlignementIle(self):
+        print("Demarre phase alignement ile")
         self.alignementEnCours = True
         self.uartDriver.cameraPositionDepot()
 
@@ -96,6 +99,7 @@ class Robot(Thread):
             self.commandeTerminee = False
             commande, parametre = inst
             self.uartDriver.sendCommand(commande, parametre)
+            print(commande, parametre)
             time.sleep(2)
             self.commandeTerminee = True
 

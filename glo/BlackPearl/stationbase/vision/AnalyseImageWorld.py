@@ -7,6 +7,7 @@ from stationbase.vision.DetectionTresors import DetectionTresors
 from stationbase.vision.DetectionRobot import DetectionRobot
 import copy
 import numpy as np
+from stationbase.vision.InfoTable import InfoTable
 
 
 class AnalyseImageWorld(Thread):
@@ -32,7 +33,8 @@ class AnalyseImageWorld(Thread):
         self.estomperImage()
 
     def recadrerImage(self):
-        self.image = self.image[155:1010, 0:1600]
+        y1, y2 = InfoTable('', self.stationBase.getNumTable()).getCrop()
+        self.image = self.image[y1:y2, 0:1600]
 
     def estomperImage(self):
         self.image = cv2.GaussianBlur(self.image, (9, 9), 0)

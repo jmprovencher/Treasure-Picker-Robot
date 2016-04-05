@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import ConfigPath
-from stationbase.vision.IntervalleCouleur import IntervalleCouleur
+from stationbase.vision.InfoTable import InfoTable
 from stationbase.vision.Detection import Detection
 from elements.Ile import Ile
 
@@ -20,7 +20,7 @@ class DetectionIles(Detection):
             self.trouverIles(contoursIles, couleur)
         
     def trouverContoursIles(self, couleur):
-        intervalleClair, intervalleFonce = IntervalleCouleur(couleur, self.numeroTable).getIntervalle()
+        intervalleClair, intervalleFonce = InfoTable(couleur, self.numeroTable).getIntervalle()
         masqueIles = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         _, contoursIles, hierarchie = cv2.findContours(masqueIles.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
         

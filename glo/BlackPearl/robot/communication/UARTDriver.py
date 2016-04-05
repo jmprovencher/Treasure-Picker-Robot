@@ -26,6 +26,7 @@ class UARTDriver:
 
     def cameraPositionFace(self):
         self.UART.write(b'c'.encode())
+        time.sleep(0.5)
 
     def cameraPositionTresor(self):
         self.UART.write(b'd'.encode())
@@ -67,11 +68,8 @@ class UARTDriver:
         time.sleep(6)
         self.desactiverAimant()
         time.sleep(2)
-        self.sendCommand('backward', 15)
 
     def postAlignementStation(self):
-        self.sendCommand('backward', 10)
-        time.sleep(1)
         self.sendCommand('rotateAntiClockwise', 120)
         time.sleep(1)
 

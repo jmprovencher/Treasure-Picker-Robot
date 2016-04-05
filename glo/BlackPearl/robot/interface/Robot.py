@@ -51,8 +51,10 @@ class Robot(Thread):
         self._attendreChargeComplete()
         print("Charge complete")
         self.uartDriver.stopCondensateur()
+        print("CONDENSATEUR OFF")
+        self.uartDriver.sendCommand('backward', 10)
         self._decoderManchester()
-        #self.uartDriver.postAlignementStation()
+        self.uartDriver.postAlignementStation()
 
         self.alignementEnCours = False
 

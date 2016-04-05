@@ -59,13 +59,15 @@ class DetectionTresor(object):
         if (len(contoursCouleur) > 0):
             contoursTresor = self._obtenirFormeInteret(contoursCouleur)
             aire = cv2.contourArea(contoursTresor)
+        if not (contoursTresor):
+            self._detecterContoursForme(self.intervalleJaune2)
         return contoursTresor
 
     def _obtenirFormeInteret(self, contoursCouleur):
         contoursNegligeable = []
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            if ((aire < 3000) or (aire > 7000)):
+            if ((aire < 1000) or (aire > 7000)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):
@@ -77,6 +79,7 @@ class DetectionTresor(object):
 
     def _definirIntervallesCouleurs(self):
         self.intervalleJaune = np.array([10, 130, 130]), np.array([60, 255, 255]), "Jaune"
+        self.intervalleJaune2 = np.array([10, 130, 130]), np.array([60, 180, 180]), "Jaune2"
 
     def _dessinerZoneCible(self):
         cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)

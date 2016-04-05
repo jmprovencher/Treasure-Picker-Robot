@@ -36,7 +36,7 @@ class Robot(Thread):
 
     def run(self):
         print("Run")
-        self.uartDriver.phaseInitialisation()
+        #self.uartDriver.phaseInitialisation()
 
 
     def demarrerAlignementStation(self):

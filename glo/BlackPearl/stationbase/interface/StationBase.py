@@ -30,6 +30,7 @@ class StationBase(Thread):
 
     def run(self):
         self.initialisationTrajectoire()
+        self.attendreFinDeDetectionPrimaire()
         self.attendreRobotPret()
         self.choisirEtape(self.etape)
         time.sleep(1000)
@@ -253,6 +254,10 @@ class StationBase(Thread):
             time.sleep(0.01)
         time.sleep(0.1)
         print 'Robot a fini.'
+
+    def attendreFinDeDetectionPrimaire(self):
+        while not self.threadAnalyseImageWorld.detectionPrimaireFini:
+            time.sleep(0.01)
 
     def attendreFeed(self):
         while self.threadVideo.captureTable is None:

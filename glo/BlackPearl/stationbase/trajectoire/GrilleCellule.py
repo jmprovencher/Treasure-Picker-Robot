@@ -12,7 +12,7 @@ class GrilleCellule:
         self.incrementY = int((self.dimensionCrop[1]) / self.dimensionReel[1])
         self.rayonBuffer = 30
         self.distanceMur = 25
-        self.distPerteDeVueRobot = 5
+        self.distPerteDeVueRobot = 20
         self.listeIles = None
 
     def initGrilleCellule(self, listeIles):

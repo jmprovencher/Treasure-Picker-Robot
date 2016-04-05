@@ -8,7 +8,7 @@ class StationServeur(Thread):
     def __init__(self, stationBase):
         Thread.__init__(self)
         self.stationBase = stationBase
-        self.envoyerCommande = False
+        self.pretEnvoyerCommande = False
         self.robotEstPret = False
         self.attenteDuRobot = False
         self.monServeur = TCPServer()
@@ -17,9 +17,9 @@ class StationServeur(Thread):
         self.monServeur.connection = self.monServeur.establishConnection()
         self.attendreWakeUpRobot()
         while 1:
-            if self.stationBase.envoyerCommande:
+            if self.pretEnvoyerCommande:
                 self.envoyerCommande()
-            elif self.stationBase.attenteDuRobot:
+            elif self.attenteDuRobot:
                 data = self.attendreInfoRobot()
                 self.traiterInfoRobot(data)
                 time.sleep(0.01)
@@ -30,7 +30,7 @@ class StationServeur(Thread):
         while 1:
             try:
                 self.monServeur.sendFile()
-                self.envoyerCommande = False
+                self.pretEnvoyerCommande = False
                 break
             except Exception as e:
                 print e
@@ -97,7 +97,7 @@ class StationServeur(Thread):
         return self.robotEstPret
 
     def signalerEnvoyerCommande(self):
-        self.envoyerCommande = True
+        self.pretEnvoyerCommande = True
 
     def debuteAttenteDuRobot(self):
         self.attenteDuRobot = True

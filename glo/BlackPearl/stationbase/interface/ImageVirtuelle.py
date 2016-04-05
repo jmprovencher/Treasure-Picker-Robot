@@ -47,8 +47,6 @@ class ImageVirtuelle(Thread):
 
     def dessinerTrajetPrevu(self):
         if len(self.stationBase.getTrajectoirePrevue()) > 1:
-            self.dessinerDebutFinTrajetPrevu(self.stationBase.getTrajectoirePrevue()[-1],
-                                             self.stationBase.getTrajectoirePrevue()[0])
             pointInitial = None
             for pointFinal in self.stationBase.getTrajectoirePrevue():
                 if pointInitial is None:

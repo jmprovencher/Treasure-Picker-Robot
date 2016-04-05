@@ -26,7 +26,6 @@ class AlgorithmeTrajectoire:
         while len(self.heapOuvert):
             f, cellule = heapq.heappop(self.heapOuvert)
             self.fermer.add(cellule)
-            cellule.calculerDistance(self.arriver)
             if self.estArriver(cellule):
                 self.simplifierTrajet()
                 self.sectionnerTrajet()
@@ -98,7 +97,7 @@ class AlgorithmeTrajectoire:
             self.trajet.append((temp.x, temp.y))
 
         self.trajet.append((self.depart.x, self.depart.y))
-        if not (self.departBuffer.x == self.depart.x and self.departBuffer.y == self.depart.y):
+        if not (self.departBuffer[0] == self.depart.x and self.departBuffer[1] == self.depart.y):
             self.trajet.append(self.departBuffer)
         self.eliminerDetourInutile()
 
@@ -153,6 +152,8 @@ class AlgorithmeTrajectoire:
         depart3 = depart
         depart4 = depart
         listDepart = [depart1, depart2, depart3, depart4]
+        if depart.atteignable:
+            return depart.x, depart.y
         while not depart.atteignable:
             if not depart.x >= 1600-self.grilleCellule.incrementX:
                 if not depart.y >= 1200-self.grilleCellule.incrementY:
@@ -170,9 +171,8 @@ class AlgorithmeTrajectoire:
                         listDepart[3].x+self.grilleCellule.incrementX, listDepart[3].y+self.grilleCellule.incrementY)
             for dep in listDepart:
                 if dep.atteignable:
-                    depart = dep
+                    depart = dep.x, dep.y
                     break
-
         return depart
 
     def rafraichirCellule(self, celluleAdjacente, cellule):

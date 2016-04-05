@@ -48,8 +48,9 @@ class Robot(Thread):
 
         self.uartDriver.preAlignementStation()
         self._executerAlignement()
-        #self._attendreChargeComplete()
-        #self._decoderManchester()
+        self._attendreChargeComplete()
+        print("Charge complete")
+        self._decoderManchester()
         #self.uartDriver.postAlignementStation()
 
         self.alignementEnCours = False
@@ -116,6 +117,7 @@ class Robot(Thread):
         self.uartDriver.lireManchester()
         self._attendreReceptionLettre()
         self.indiceObtenu = self.service.obtenirCible(self.lettreObtenue)
+        print(self.indiceObtenu)
         self.pretEnvoyerIndice = True
 
     def _attendreReceptionLettre(self):
@@ -127,6 +129,7 @@ class Robot(Thread):
 
     def _attendreChargeComplete(self):
         while (float(self.tensionCondensateur) < 4.60):
+            print(self.tensionCondensateur)
             time.sleep(0.5)
         self.uartDriver.stopCondensateur()
 

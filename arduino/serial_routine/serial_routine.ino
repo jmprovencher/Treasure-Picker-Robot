@@ -15,8 +15,8 @@ String action = "";
 
 const int pinClock = 3;
 const int pinManchester = 50;
-const int pinsDrive[4] = {9, 6, 7, 8};
-const int pinsDirection[8] = {32, 34, 36, 38, 40, 42, 41, 43};
+const int pinsDrive[4] = {6, 7, 8, 9};
+const int pinsDirection[8] = {32, 34, 36, 38, 40, 42, 46, 48};
 const int pinsRead[4] = {19, 21, 17, 20};
 const int pinElectroAimant = 5;
 const int pinPontDiodes = 22;
@@ -30,6 +30,7 @@ bool stateClock = 0;
 bool stateManchester = 0;
 bool bitDecode = 0;
 bool complete = false;
+bool slow = false;
 int compteur = 0;
 int nombreDeSuite = 1;
 
@@ -50,8 +51,8 @@ String commandComplete = String("done");
 unsigned long spdBuffer = 0;
 int duration = 0;
 
-const int straightAhead[8] = {255, 0, 0, 255, 0, 0, 0, 0};
-const int backwardsMov[8] = {0, 255, 255, 0, 0, 0, 0, 0};
+const int straightAhead[8] = {255, 0, 0, 255, 0, 255, 0, 255};
+const int backwardsMov[8] = {0, 255, 255, 0, 0, 255, 0, 255};
 const int straightLeft[8] = {255, 0, 0, 255, 255, 0, 0, 255};
 const int straightRight[8] = {255, 0, 0, 255, 0, 255, 255, 0};
 const int turnLeft[8] = {255, 0, 255, 0, 255, 0, 255, 0};
@@ -75,7 +76,7 @@ void setup() {
   Serial.begin(115200);
   Serial2.begin(9600);
 
-  Timer1.initialize(1000000);
+  Timer1.initialize(2000000);
   Timer1.attachInterrupt(readCapacitor); // readCapacitor runs every second
 
   pinMode(pinClock, INPUT);
@@ -118,6 +119,7 @@ void loop() {
     }
   }
   if(duration > 1){
+    //Serial.print(action);
     for(int j = 0; j<4; j++){
       spdBuffer = pulseIn(pinsRead[j], HIGH, 3000);
       if(spdBuffer == 0){
@@ -133,7 +135,6 @@ void loop() {
       //Serial.print(";");
     }
     //Serial.println(".");
-    //Serial.print(action);
       for(int j = 0; j<4; j++){
       if(Setpoint[j] != 3000){
         analogWrite(pinsDrive[j], Output[j]);
@@ -198,6 +199,7 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = straightAhead[i];
         }
+        slow = false;
         rotation = false;
         mode = true;
       }
@@ -207,6 +209,17 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = backwardsMov[i];
         }
+        slow = false;
+        rotation = false;
+        mode = true;
+      }
+      else if(incomingByte == 49){
+        action = "Moving left slowly";
+        Setpoint[2] = 1200; Setpoint[3] = 1200; Setpoint[0] = 3000; Setpoint[1] = 3000;
+        for(int i = 0; i<8; i++){
+          spdWheels[i] = straightLeft[i];
+        }
+        slow = true;
         rotation = false;
         mode = true;
       }
@@ -216,6 +229,17 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = straightLeft[i];
         }
+        slow = false;
+        rotation = false;
+        mode = true;
+      }
+      else if(incomingByte == 51){
+        action = "Moving right slowly";
+        Setpoint[2] = 1200; Setpoint[3] = 1200; Setpoint[0] = 3000; Setpoint[1] = 3000;
+        for(int i = 0; i<8; i++){
+          spdWheels[i] = straightRight[i];
+        }
+        slow = true;
         rotation = false;
         mode = true;
       }
@@ -225,9 +249,9 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = straightRight[i];
         }
+        slow = false;
         rotation = false;
         mode = true;
-        
       }
       else if(incomingByte == 55){
         action = "Turning left ";
@@ -235,6 +259,7 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = turnLeft[i];
         }
+        slow = false;
         rotation = true;
         mode = true;
       }
@@ -244,6 +269,7 @@ void serialEvent(){
         for(int i = 0; i<8; i++){
           spdWheels[i] = turnRight[i];
         }
+        slow = false;
         rotation = true;
         mode = true;
       }
@@ -344,13 +370,19 @@ void serialEvent(){
         Output[i] = 0;
       }
       if(rotation == false){
-        duration = incomingByte*60;
+        if(slow == false){
+          duration = incomingByte*60;
+        }
+        else{
+          duration = incomingByte*6;
+        }
       }
       else{
         duration = incomingByte*24;
-      }
+      } 
       mode = false;
     }
+  Timer1.restart();
   Timer1.attachInterrupt(readCapacitor);
 }
 
@@ -362,7 +394,7 @@ void readCapacitor()
 void Reading()
 {
   readCapacitor();
-  delay(50);
+  delay(10);
   if(digitalRead(pinClock) == HIGH){
     count++;
   }
@@ -425,4 +457,3 @@ void manchesterRead()
   }
   detachInterrupt(digitalPinToInterrupt(pinClock));
 }
-

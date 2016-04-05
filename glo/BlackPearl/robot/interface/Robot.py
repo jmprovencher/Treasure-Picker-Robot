@@ -26,7 +26,7 @@ class Robot(Thread):
         self.lettreObtenue = None
         self.indiceObtenu = None
         # self.adresseIP = '192.168.0.45'
-        self.adresseIP = '192.168.1.25'
+        self.adresseIP = '10.248.39.53'
         self.tensionCondensateur = 0
 
         self._demarrerLectureUART()

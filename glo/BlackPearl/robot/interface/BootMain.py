@@ -1,16 +1,15 @@
 import sys
+sys.path.append('/home/design3/Desktop/design3/glo/BlackPearl')
 from robot.communication.UARTDriver import UARTDriver
 from robot.interface.Robot import Robot
-sys.path.append('/home/design3/Desktop/design3/glo/BlackPearl')
 
 
 def main():
-    prefixPort = '/dev/ttyAMC'
     # monUART = None
     # robot = Robot(monUART)
     # robot.start()
 
-    prefixPort = '/dev/ttyAMC'
+    prefixPort = '/dev/ttyACM'
 
     for j in range(0, 20):
         try:

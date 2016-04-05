@@ -14,6 +14,7 @@ class LectureUART(Thread):
             self.analyserLecture(info)
 
     def analyserLecture(self, info):
+        print("Recu par robot: %s" % info)
         lettre_manchester = info[0]
         if info == 'done':
             self.robot.commandeTerminee = True

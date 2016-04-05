@@ -32,7 +32,8 @@ class AlgorithmeTrajectoire:
                 return self.trajet
             elif (self.cellulePlusPres is None) and (self.distanceBufferAcceptee(cellule)):
                 self.cellulePlusPres = cellule
-            elif self.distanceArriverCarre(cellule) < self.distanceArriverCarre(self.cellulePlusPres):
+            elif (self.distanceArriverCarre(cellule) < self.distanceArriverCarre(self.cellulePlusPres)) and \
+                    (self.distanceBufferAcceptee(cellule) and cellule.atteignable):
                 self.cellulePlusPres = cellule
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)

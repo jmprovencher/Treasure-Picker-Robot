@@ -17,7 +17,7 @@ class DetectionStation(object):
         self.positionZone = (810, 730)
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
-        self._dessinerZoneCible()
+        #self._dessinerZoneCible()
         self.ajustements = []
 
     def trouverAjustements(self):
@@ -27,7 +27,7 @@ class DetectionStation(object):
         print("DIstance: ", distance_y)
         distance_x = self._trouverOffsetLateral(contoursCible)
         self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y)
-        self._dessinerInformations(contoursCible, distance_y)
+        #self._dessinerInformations(contoursCible, distance_y)
 
     def _trouverDistanceStation(self, contoursCible):
         zoneTresor = cv2.minAreaRect(contoursCible)
@@ -44,9 +44,9 @@ class DetectionStation(object):
         distance_x = (positionZone_x - position_x) / RATIO_PIXEL_CM
         print("Distance x", distance_x)
 
-        _, rayon = cv2.minEnclosingCircle(contoursCible)
-        self._dessinerZoneForme((position_x, position_y), rayon)
-        self._dessinerZoneCible()
+        #_, rayon = cv2.minEnclosingCircle(contoursCible)
+        #self._dessinerZoneForme((position_x, position_y), rayon)
+        #self._dessinerZoneCible()
 
         return distance_x
 

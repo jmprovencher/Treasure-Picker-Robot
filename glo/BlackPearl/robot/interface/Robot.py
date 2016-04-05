@@ -99,13 +99,11 @@ class Robot(Thread):
 
     def _executerAlignement(self):
         for inst in self.instructions:
-            self.commandeTerminee = False
             commande, parametre = inst
             parametre = int(parametre)
             self.uartDriver.sendCommand(commande, parametre)
             print(commande, parametre)
             time.sleep(2)
-            self.commandeTerminee = True
 
     def _decoderManchester(self):
         self.uartDriver.lireManchester()

@@ -10,7 +10,7 @@ def main():
     # robot = Robot(monUART)
     # robot.start()
 
-    prefixPort = '/dev/ttyAMC'
+    prefixPort = '/dev/ttyACM'
 
     for j in range(0, 20):
         try:

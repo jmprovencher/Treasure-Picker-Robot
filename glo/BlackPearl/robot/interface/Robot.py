@@ -53,6 +53,7 @@ class Robot(Thread):
         self.uartDriver.stopCondensateur()
         print("CONDENSATEUR OFF")
         self.uartDriver.sendCommand('backward', 10)
+        time.sleep(5)
         self._decoderManchester()
         self.uartDriver.postAlignementStation()
 
@@ -131,6 +132,7 @@ class Robot(Thread):
     def _attendreChargeComplete(self):
         while (float(self.tensionCondensateur) < 4.60):
             print(self.tensionCondensateur)
+
             time.sleep(0.5)
 
     def _demarrerFeedVideo(self):

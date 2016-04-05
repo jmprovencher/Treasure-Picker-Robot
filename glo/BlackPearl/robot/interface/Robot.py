@@ -50,7 +50,7 @@ class Robot(Thread):
         self._executerAlignement()
         #self._attendreChargeComplete()
         #self._decoderManchester()
-        self.uartDriver.postAlignementStation()
+        #self.uartDriver.postAlignementStation()
 
         self.alignementEnCours = False
 

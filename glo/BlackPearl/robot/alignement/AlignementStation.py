@@ -9,6 +9,8 @@ class AlignementStation():
         if (distance_x >= 1):
             ajustements_x = self._ajusterPositionLaterale_CM(distance_x)
             self.ajustements.append(ajustements_x)
+        distance_mm = int(math.floor((abs(distance_x) - math.floor(abs(distance_x))) * 10))
+        self._ajusterPositionLaterale_MM(distance_mm)
         ajustements_y = self._ajusterPositionY(distance_y)
         self.ajustements.append(ajustements_y)
 

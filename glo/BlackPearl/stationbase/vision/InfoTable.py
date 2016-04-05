@@ -9,26 +9,10 @@ class InfoTable:
     def setIntervalle(self, type, numeroTable):
         if type == 'Robot':
             #seulement no 5 est teste pour l'instant
-            if numeroTable == 1:
-                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
-            else:
+            if numeroTable == 1 or numeroTable == 2 or numeroTable == 2:
                 self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
-            if numeroTable == 2:
+            elif numeroTable == 5 or numeroTable == 6:
                 self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
-            else:
-                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
-            if numeroTable == 3:
-                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
-            else:
-                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
-            if numeroTable == 5:
-                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
-            else:
-                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
-            if numeroTable == 6:
-                self.intervalle = (np.array([80, 60, 130]), np.array([140, 120, 210]))
-            else:
-                self.intervalle = (np.array([30, 5, 140]), np.array([145, 140, 245]))
 
         elif type == 'Tresor':
             if numeroTable == 1:
@@ -67,14 +51,14 @@ class InfoTable:
         #seulement no 5 est teste pour l'instant
         if numeroTable == 1:
             self.crop = (190, 1045)
-        if numeroTable == 2:
+        elif numeroTable == 2:
             self.crop = (190, 1045)
-        if numeroTable == 3:
+        elif numeroTable == 3:
             self.crop = (190, 1045)
-        if numeroTable == 5:
+        elif numeroTable == 5:
             self.crop = (190, 1045)
-        if numeroTable == 6:
-            self.crop = (190, 1045)
+        elif numeroTable == 6:
+            self.crop = (190-57, 1045-57)
 
                 
     def getIntervalle(self):

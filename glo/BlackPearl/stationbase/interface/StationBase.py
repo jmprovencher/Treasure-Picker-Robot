@@ -59,8 +59,8 @@ class StationBase(Thread):
 
     def demarerRoutine(self):
         self.deplacement('RECHARGE')
-        self.carte.getCible().trouverIleCible()
         self.aligner("alignement_station")
+        self.carte.getCible().trouverIleCible()
         self.deplacement('TRESOR')
         self.aligner("alignement_tresor")
         self.deplacement('ILE')
@@ -119,15 +119,17 @@ class StationBase(Thread):
         print '\n--------------------------------------------------'
         print 'Debuter l''alignement.'
         print '--------------------------------------------------'
-        couleur = self.carte.getCible().getIleCible().getCouleur()
-        if couleur == 'Vert':
-            int = 0
-        elif couleur == 'Bleu':
-            int = 1
-        elif couleur == 'Jaune':
-            int = 2
-        elif couleur == 'Rouge':
-            int = 3
+        int = 0
+        if type == 'ILE':
+            couleur = self.carte.getCible().getIleCible().getCouleur()
+            if couleur == 'Vert':
+                int = 0
+            elif couleur == 'Bleu':
+                int = 1
+            elif couleur == 'Jaune':
+                int = 2
+            elif couleur == 'Rouge':
+                int = 3
         RequeteJSON(type, int)
         self.threadCommunication.signalerEnvoyerCommande()
         self.attendreRobot()

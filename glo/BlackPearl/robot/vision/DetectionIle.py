@@ -19,14 +19,22 @@ class DetectionIle(object):
 
     def detecterIle(self, couleurIleCible):
         self.couleurIle = couleurIleCible
+
+        contoursIle = self._detecterCouleur(self.couleurIle)
+
+        if (contoursIle is not None):
+            distance_x, distance_y = self._evaluerEmplacement(contoursIle)
+            self.ajustements = self.alignementIle.calculerAjustement(distance_x, distance_y)
+
+    def _detecterCouleur(self, couleur):
         if (self.couleurIle == "vert"):
-            self.detecterFormeCouleur(self.intervalleVertTable5)
+            return self.detecterFormeCouleur(self.intervalleVertTable5)
         elif (self.couleurIle == "jaune"):
-            self.detecterFormeCouleur(self.intervalleJauneTable5)
+            return self.detecterFormeCouleur(self.intervalleJauneTable5)
         elif (self.couleurIle == "bleu"):
-            self.detecterFormeCouleur(self.intervalleBleu)
+            return self.detecterFormeCouleur(self.intervalleBleu)
         elif (self.couleurIle == "rouge"):
-            self.detecterFormeCouleur(self.intervalleRougeTable5)
+            return self.detecterFormeCouleur(self.intervalleRougeTable5)
 
     def _evaluerEmplacement(self, contoursIle):
         position_x, position_y = self._trouverCentreForme(contoursIle)
@@ -34,20 +42,7 @@ class DetectionIle(object):
         distance_x = (position_x - positionZone_x)
         distance_y = (positionZone_y - position_y)
         _, rayon = cv2.minEnclosingCircle(contoursIle)
-
-        self._dessinerZoneIle((position_x, position_y), rayon)
-        self.ajustements = self.alignementIle.calculerAjustement(distance_x, distance_y)
-
-    def _dessinerZoneCible(self):
-        cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)
-
-    def _dessinerZoneIle(self, position, rayon):
-        couleur = (0, 0, 255)
-        if (self.alignementTerminer == True):
-            couleur = (0, 255, 0)
-        cv2.line(self.imageCamera, self.positionZone, position, (255, 0, 0), 5)
-        cv2.circle(self.imageCamera, position, int(rayon), couleur, 2)
-        cv2.circle(self.imageCamera, position, 10, (0, 0, 255), 2)
+        return distance_x, distance_y
 
     def detecterFormeCouleur(self, intervalleCouleur):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
@@ -65,7 +60,9 @@ class DetectionIle(object):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
 
         if (len(contoursCouleur) != 0):
-            self._evaluerEmplacement(contoursCouleur[0])
+            return contoursCouleur[0]
+        else:
+            return None
 
     def _trouverCentreForme(self, contoursForme):
         MatriceCentreMasse = cv2.moments(contoursForme)

@@ -28,7 +28,7 @@ class RobotClient(Thread):
         while 1:
             if self.robot.pretEnvoyerLettre:
                 self.envoyerLettre()
-                self.robot.indiceObtenu = self.robot.service.obtenirCible(self.lettreObtenue)
+                self.robot.indiceObtenu = self.robot.service.obtenirCible(self.robot.lettreObtenue)
                 print(self.robot.indiceObtenu)
                 self.envoyerIndice()
             if self.robot.commandeTerminee and not self.robot.alignementEnCours:

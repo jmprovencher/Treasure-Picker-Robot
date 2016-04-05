@@ -19,10 +19,11 @@ class RobotClient(Thread):
     def run(self):
         self.monClient._connectToServer()
         while not (self.robot.tacheTerminee):
+            while not (self.demarrageTermine):
+                time.sleep(1)
+                print("Demarrage est terminee, envoie pret a station")
+                self.envoyerPretAStation()
             while 1:
-                if (self.demarrageTermine):
-                    print("Demarrage est terminee, envoie pret a station")
-                    self.envoyerPretAStation()
                 if (self.robot.pretEnvoyerLettre):
                     self.envoyerLettre()
                 if (self.robot.pretEnvoyerIndice):

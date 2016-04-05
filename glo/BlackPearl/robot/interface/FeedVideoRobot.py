@@ -30,7 +30,7 @@ class FeedVideoRobot(Thread):
 
     def run(self):
         while (self.connecter):
-            print ("Streaming...")
+            #print ("Streaming...")
             _, self.imageCapture = self.video.read()
             #self.afficherFeed()
 

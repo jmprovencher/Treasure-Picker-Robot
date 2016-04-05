@@ -55,9 +55,9 @@ class UARTDriver:
         time.sleep(0.5)
 
     def preAlignementStation(self):
-        self.uartDriver.monterPrehenseur()
+        self.monterPrehenseur()
         time.sleep(6)
-        self.uartDriver.chargerCondensateur()
+        self.chargerCondensateur()
         time.sleep(1)
 
     def postAlignementTresor(self):

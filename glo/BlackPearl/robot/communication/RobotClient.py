@@ -22,7 +22,7 @@ class RobotClient(Thread):
             while 1:
                 if (self.demarrageTermine):
                     self.envoyerPretAStation()
-                    
+
                 if (self.robot.pretEnvoyerLettre):
                     self.envoyerLettre()
                 if (self.robot.pretEnvoyerIndice):

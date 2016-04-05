@@ -21,7 +21,6 @@ class Robot(Thread):
         self.tacheTerminee = False
         self.commandeTerminee = False
         self.pretEnvoyerLettre = False
-        self.pretEnvoyerIndice = False
 
         self.lettreObtenue = None
         self.indiceObtenu = None

@@ -48,8 +48,8 @@ class Robot(Thread):
 
         self.uartDriver.preAlignementStation()
         self._executerAlignement()
-        self._attendreChargeComplete()
-        self._decoderManchester()
+        #self._attendreChargeComplete()
+        #self._decoderManchester()
         self.uartDriver.postAlignementStation()
 
         self.alignementEnCours = False

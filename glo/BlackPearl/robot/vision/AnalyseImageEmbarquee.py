@@ -75,6 +75,7 @@ class AnalyseImageEmbarquee(Thread):
 
     def _chargerImage(self):
         self.imageCamera = self.robot.threadVideo.getImageCapture()
+        #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('image1.png'))
         self._estomperImage()
 
     def _attendreFeedVideo(self):

@@ -32,7 +32,7 @@ class FeedVideoRobot(Thread):
         while (self.connecter):
             print ("Streaming...")
             _, self.imageCapture = self.video.read()
-            self.afficherFeed()
+            #self.afficherFeed()
 
     def afficherFeed(self):
         cv2.imshow("Stream robot", self.imageCapture)

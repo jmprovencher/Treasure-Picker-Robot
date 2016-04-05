@@ -4,7 +4,7 @@ from robot.interface.FeedVideoRobot import FeedVideoRobot
 from robot.communication.LectureUART import LectureUART
 from threading import Thread
 import time
-#from robot.communication.ObtenirTension import ObtenirTension
+# from robot.communication.ObtenirTension import ObtenirTension
 from robot.interface.RobotService import RobotService
 
 
@@ -25,7 +25,7 @@ class Robot(Thread):
 
         self.lettreObtenue = None
         self.indiceObtenu = None
-        #self.adresseIP = '192.168.0.45'
+        # self.adresseIP = '192.168.0.45'
         self.adresseIP = '192.168.1.25'
         self.tensionCondensateur = 0
 
@@ -33,9 +33,8 @@ class Robot(Thread):
         self._demarrerConnectionTCP()
         self._demarrerFeedVideo()
 
-        self.demarrerAlignementTresor()
-
     def run(self):
+        print("Run")
         self.uartDriver.phaseInitialisation()
 
     def demarrerAlignementStation(self):
@@ -52,7 +51,6 @@ class Robot(Thread):
         self.uartDriver.postAlignementStation()
 
         self.alignementEnCours = False
-        self.threadVideo.suspendreCapture()
 
     def demarrerAlignementTresor(self):
         self.alignementEnCours = True
@@ -66,7 +64,6 @@ class Robot(Thread):
         self.uartDriver.postAlignementTresor()
 
         self.alignementEnCours = False
-        self.threadVideo.suspendreCapture()
 
     def demarrerAlignementIle(self):
         self.alignementEnCours = True
@@ -79,7 +76,6 @@ class Robot(Thread):
         self.uartDriver.postAlignementIle()
 
         self.alignementEnCours = False
-        self.threadVideo.suspendreCapture()
 
     def ajouterDirectives(self, instructions):
         self.instructions.append(instructions)
@@ -138,8 +134,8 @@ class Robot(Thread):
         self.analyseImageEmbarquee.definirType(type)
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
-        self.threadVideo.suspendreCapture()
+        # self.threadVideo.suspendreCapture()
 
     def _demarrerObtenirTension(self):
-        #self.obtenirTension = ObtenirTension(self)
+        # self.obtenirTension = ObtenirTension(self)
         self.obtenirTension.start()

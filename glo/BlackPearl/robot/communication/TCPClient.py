@@ -23,6 +23,7 @@ class TCPClient:
         f = open('data.json', 'r')
         data = f.read()
         while data:
+            print(data)
             self.s.send(data)
             data = f.read()
         f.close()
@@ -30,6 +31,7 @@ class TCPClient:
 
     def receiveFile(self):
         data = self.s.recv(1024)
+        print("Data received: %s" %data)
         jsonObject = json.loads(data)
         return jsonObject
 

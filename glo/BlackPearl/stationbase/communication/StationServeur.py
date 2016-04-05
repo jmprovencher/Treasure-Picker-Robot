@@ -22,9 +22,9 @@ class StationServeur(Thread):
             elif self.attenteDuRobot:
                 data = self.attendreInfoRobot()
                 self.traiterInfoRobot(data)
-                time.sleep(0.01)
+                time.sleep(2)
             else:
-                time.sleep(0.01)
+                time.sleep(2)
 
     def envoyerCommande(self):
         while 1:

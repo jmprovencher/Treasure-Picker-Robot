@@ -97,7 +97,7 @@ class StationBase(Thread):
             self.angleDesire = 90
             self.orienter(type)
             self.deplacementArriere(5)
-            self.deplacementDroit(13)
+            self.deplacementDroit(10)
         elif type == 'TRESOR':
             if self.carte.getCible().getTresorCible().getCentre()[1] < 100:
                 self.angleDesire = 90
@@ -143,9 +143,9 @@ class StationBase(Thread):
                 print '\nOrientation termine.'
                 break
             if angle >= 0:
-                RequeteJSON("rotateClockwise", angle)
+                RequeteJSON("rotateClockwise", angle-1)
             else:
-                RequeteJSON("rotateAntiClockwise", abs(angle))
+                RequeteJSON("rotateAntiClockwise", abs(angle)-1)
             print 'Signaler que la comande est prete a envoyer.'
             self.threadCommunication.signalerEnvoyerCommande()
             self.attendreRobot()
@@ -194,6 +194,7 @@ class StationBase(Thread):
         arriver = self.trajectoireReel[-2]
         debut = self.getPositionRobot()
         dep = self.distanceADestination(debut[0], debut[1], arriver[0], arriver[1])
+        dep = int(round(dep))
         print 'deplacement: ', dep
         RequeteJSON("forward", dep)
         self.threadCommunication.signalerEnvoyerCommande()

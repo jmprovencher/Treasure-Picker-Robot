@@ -14,11 +14,14 @@ class LectureUART(Thread):
             self.analyserLecture(info)
 
     def analyserLecture(self, info):
+        print("Recu par robot: %s" % info)
         lettre_manchester = info[0]
         if info == 'done':
             self.robot.commandeTerminee = True
             print 'done'
         elif info.count(lettre_manchester) == 4:
             self.robot.lettreObtenue = lettre_manchester
+            self.robot.pretEnvoyerLettre = True
+            print(self.robot.lettreObtenue)
         else:
             self.robot.tensionCondensateur = info

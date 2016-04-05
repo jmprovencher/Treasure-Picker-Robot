@@ -96,7 +96,7 @@ class UARTDriver:
 
     def lireManchester(self):
         self.sendCommand('readManchester', 0)
-        time.sleep(1)
+        print("Commande readManchester envoyee au UART")
 
     def executionTerminee(self):
         for j in range(0, 6):

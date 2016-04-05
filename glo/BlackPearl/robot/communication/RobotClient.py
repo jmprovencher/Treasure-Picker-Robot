@@ -23,10 +23,14 @@ class RobotClient(Thread):
             print("Attends demarrage...")
         print("Demarrage est terminee, envoie pret a station")
         self.envoyerPretAStation()
+        data = self.attendreCommande()
+        self.traiterCommande(data)
         while 1:
             if self.robot.pretEnvoyerLettre:
                 self.envoyerLettre()
-            if self.robot.pretEnvoyerIndice:
+                self.envoyerTension()
+                self.robot.indiceObtenu = self.robot.service.obtenirCible(self.lettreObtenue)
+                print(self.robot.indiceObtenu)
                 self.envoyerIndice()
             if self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()

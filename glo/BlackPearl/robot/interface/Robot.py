@@ -101,7 +101,7 @@ class Robot(Thread):
     def _decoderManchester(self):
         self.uartDriver.lireManchester()
         self._attendreReceptionLettre()
-        cible = self.service.obtenirCible(self.lettreObtenue)
+        self.indiceObtenu = self.service.obtenirCible(self.lettreObtenue)
         self.pretEnvoyerIndice = True
 
     def _attendreReceptionLettre(self):

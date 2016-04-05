@@ -48,7 +48,7 @@ class AlignementStation():
         elif (distance_y > 0):
             commande = 'forward'
 
-        distance_cm = math.ceil(abs(distance_y)) + 1
+        distance_cm = math.ceil(abs(distance_y)) + 3
 
 
         return commande, int(distance_cm)

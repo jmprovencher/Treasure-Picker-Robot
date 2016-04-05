@@ -54,6 +54,8 @@ class StationBase(Thread):
             self.deplacement('ILE')
         elif etape == 'alignement ile':
             self.aligner("alignement_ile")
+        elif etape == 'decoder manchester':
+            self.decoderManchester()
 
     def demarerRoutine(self):
         #self.deplacement('RECHARGE')
@@ -229,6 +231,11 @@ class StationBase(Thread):
         print '\nDeplacer'
         print 'deplacement: ', dep
         RequeteJSON("backward", dep)
+        self.threadCommunication.signalerEnvoyerCommande()
+        self.attendreRobot()
+
+    def decoderManchester(self):
+        RequeteJSON("decodeManchester", 0)
         self.threadCommunication.signalerEnvoyerCommande()
         self.attendreRobot()
 

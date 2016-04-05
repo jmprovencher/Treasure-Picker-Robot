@@ -76,6 +76,7 @@ class Interface(QtGui.QWidget):
         self.btnAliTresor = self.afficherInitBouttons(40, 160, 200, 27, 'Alignement tresor', self.demarerAlignementTresor)
         self.btnDepIle = self.afficherInitBouttons(40, 190, 200, 27, 'Deplacement ile', self.demarerDepIle)
         self.btnAliIle = self.afficherInitBouttons(40, 220, 200, 27, 'Alignement ile', self.demarerAlignementIle)
+        self.btnDecode = self.afficherInitBouttons(40, 250, 200, 27, 'Decoder manchester', self.decoderManchester)
 
     def initTextBox(self):
         self.text = QtGui.QTextEdit(self)
@@ -172,3 +173,6 @@ class Interface(QtGui.QWidget):
         self.threadStationBase = StationBase(string, self.numeroTable)
         self.threadStationBase.start()
         self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
+
+    def decoderManchester(self):
+        self.demarerRoutine('decoder manchester')

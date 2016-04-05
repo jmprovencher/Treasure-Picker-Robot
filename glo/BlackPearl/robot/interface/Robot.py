@@ -96,6 +96,8 @@ class Robot(Thread):
             self.demarrerAlignementTresor()
         elif commande == 'alignement_station':
             self.demarrerAlignementStation()
+        elif commande == "decoderManchester":
+            self._decoderManchester()
         else:
             self.commandeTerminee = False
             self.uartDriver.sendCommand(commande, parametre)
@@ -126,7 +128,7 @@ class Robot(Thread):
     def _attendreReceptionLettre(self):
         while self.lettreObtenue is None:
             print("En attente du code Manchester...")
-            time.sleep(2)
+            time.sleep(1)
         print("Lettre recu par le robot : %s" % self.lettreObtenue)
         self.pretEnvoyerLettre = True
 

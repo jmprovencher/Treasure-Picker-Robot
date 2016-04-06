@@ -55,9 +55,14 @@ class Robot(Thread):
         self.uartDriver.sendCommand('backward', 10)
         time.sleep(5)
         self._decoderManchester()
+
         self.uartDriver.postAlignementStation()
 
         self.alignementEnCours = False
+
+    def _attendreManchester(self):
+        while self.lettreObtenue is None:
+            time.sleep(0.5)
 
     def demarrerAlignementTresor(self):
         print("Demarre phase alignement tresor")
@@ -120,6 +125,7 @@ class Robot(Thread):
 
     def _decoderManchester(self):
         self.uartDriver.lireManchester()
+        self._attendreManchester()
 
     def _attendreChargeComplete(self):
         while (float(self.tensionCondensateur) < 4.60):

@@ -13,6 +13,8 @@ class DetectionRobot(Detection):
     def __init__(self, image, numeroTable):
         Detection.__init__(self, image, numeroTable)
         self.robotIdentifiee = None
+        self.rapport = 1.16
+        self.coordonneeXMilieu = 813
         self._definirPatronsFormes()
 
     def detecter(self):
@@ -105,7 +107,15 @@ class DetectionRobot(Detection):
         if angle >= 360:
             angle -= 360
 
+        #centreRobot = self.correctionCentre(centreRobot)
+
         return centreRobot, angle
+
+    def correctionCentre(self, centreRobot):
+        xNonCorrige = centreRobot[0]
+
+
+        return centreRobot
 
     def getRobot(self):
         return self.robotIdentifiee

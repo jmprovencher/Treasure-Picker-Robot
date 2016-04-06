@@ -21,6 +21,8 @@ class DetectionTresor(object):
         self.calculerAjustements()
 
     def calculerAjustements(self):
+        cv2.imshow("Image", self.imageCamera)
+        cv2.waitKey(0)
         contoursTresor = self._detecterContoursForme(self.intervalleJauneTable5)
         if (contoursTresor is not None):
             distance_x, distance_y = self._trouverDistance(contoursTresor)
@@ -54,8 +56,10 @@ class DetectionTresor(object):
 
         if (len(contoursCouleur) > 0):
             contoursTresor = self._obtenirFormeInteret(contoursCouleur)
-            aire = cv2.contourArea(contoursTresor)
-            return contoursTresor
+            if(contoursTresor is not None):
+                aire = cv2.contourArea(contoursTresor)
+                return contoursTresor
+            print("Plusieurs contours detectee")
         else:
             return None
 
@@ -70,6 +74,7 @@ class DetectionTresor(object):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
         if (len(contoursCouleur) == 0):
             print("Aucun tresor")
+            return None
         else:
             return contoursCouleur[0]
 

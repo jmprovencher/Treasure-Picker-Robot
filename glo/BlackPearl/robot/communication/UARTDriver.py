@@ -62,6 +62,7 @@ class UARTDriver:
         time.sleep(1)
 
     def postAlignementTresor(self):
+        time.sleep(1)
         self.sendCommand('backward', 5)
         time.sleep(3)
         self.monterPrehenseur()

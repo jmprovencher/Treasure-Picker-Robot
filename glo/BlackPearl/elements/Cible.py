@@ -38,15 +38,20 @@ class Cible:
         tresorPossible = []
         for tresor in self.carte.getTresors():
             xTresor, yTresor = tresor.getCentre()
+            accepte = True
             for ile in self.carte.getIles():
                 xIle, yIle = ile.getCentre()
                 deltaXPix = abs(xTresor - xIle)
                 deltaYPix = abs(yTresor - yIle)
                 deltaX = self.carte.getTrajectoire().depPixelXACentimetre(deltaXPix)
                 deltaY = self.carte.getTrajectoire().depPixelYACentimetre(deltaYPix)
-                if deltaY > 40 and deltaX > 25:
-                    tresorPossible.append(tresor)
-                    print 'Tresor potentiel: ', tresor.centre_x, tresor.centre_y
+                if deltaY < 40 and deltaX < 25:
+                    accepte = False
+                    break
+            if accepte:
+                tresorPossible.append(tresor)
+                print 'Tresor potentiel: ', tresor.centre_x, tresor.centre_y
+                
         if not tresorPossible:
             tresorPossible.append(Tresor((0, 427)))
             print 'Aucun tresor possible... Tresor par defaut (0, 427)'

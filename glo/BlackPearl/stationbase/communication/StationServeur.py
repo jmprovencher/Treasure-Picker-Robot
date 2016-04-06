@@ -45,7 +45,6 @@ class StationServeur(Thread):
         while self.attenteDuRobot:
             try:
                 data = self.monServeur.receiveFile()
-                self.traiterInfoRobot(data)
                 break
             except Exception as e:
                 print e
@@ -67,7 +66,7 @@ class StationServeur(Thread):
             self.robotEstPret = True
             print "Le robot est pret."
         elif commande.startswith("indice "):
-            indice = commande[8:]
+            indice = commande[7:]
             print ("L'indice: %s" % indice)
             self.stationBase.carte.setCible(Cible([self.stationBase.carte, indice]))
         elif commande.startswith("man "):

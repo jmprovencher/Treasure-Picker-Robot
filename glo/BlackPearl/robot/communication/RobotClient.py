@@ -31,9 +31,10 @@ class RobotClient(Thread):
                 print("Envoie de la lettre...")
                 self.robot.indiceObtenu = self.robot.service.obtenirCible(self.robot.lettreObtenue)
                 self.envoyerLettre()
-                time.sleep(5)
+                time.sleep(1)
                 self.envoyerIndice()
                 self.robot.pretEnvoyerLettre = False
+                time.sleep(1)
             if self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()
                     self.envoyerCommandeTerminee()

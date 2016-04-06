@@ -51,7 +51,7 @@ class Cible:
             if accepte:
                 tresorPossible.append(tresor)
                 print 'Tresor potentiel: ', tresor.centre_x, tresor.centre_y
-                
+
         if not tresorPossible:
             tresorPossible.append(Tresor((0, 427)))
             print 'Aucun tresor possible... Tresor par defaut (0, 427)'

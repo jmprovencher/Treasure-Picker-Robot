@@ -73,9 +73,7 @@ class Robot(Thread):
 
         self.uartDriver.preAlignementTresor()
         self.uartDriver.cameraPositionFace()
-        time.sleep(1)
         self._executerAlignement()
-        time.sleep(1)
         self.uartDriver.postAlignementTresor()
 
         self.alignementEnCours = False
@@ -110,18 +108,21 @@ class Robot(Thread):
             self.attendreCommandeTerminee()
 
     def _executerAlignement(self):
+        print 'nb de correction'
+        print len(self.instructions)
         for inst in self.instructions:
             commande, parametre = inst
             parametre = int(parametre)
-
-            self.traiterCommande(commande, parametre)
+            self.commandeTerminee = False
             print("Envoie commande a traiter commande")
-
+            print commande
+            self.traiterCommande(commande, parametre)
 
     def attendreCommandeTerminee(self):
         while not self.commandeTerminee:
             print("Attente commande terminee")
             time.sleep(0.5)
+        print 'commande fini.'
 
     def _decoderManchester(self):
         self.uartDriver.lireManchester()

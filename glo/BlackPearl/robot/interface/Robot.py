@@ -146,6 +146,7 @@ class Robot(Thread):
 
     def _demarrerConnectionTCP(self):
         self.robotClient = RobotClient(self, self.adresseIP)
+        time.sleep(1)
         self.robotClient.start()
 
     def _demarrerLectureUART(self):

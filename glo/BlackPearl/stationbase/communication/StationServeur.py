@@ -66,11 +66,11 @@ class StationServeur(Thread):
         elif commande == "robotPret":
             self.robotEstPret = True
             print "Le robot est pret."
-        elif commande.startswith("indice: "):
+        elif commande.startswith("indice "):
             indice = commande[8:]
             print ("L'indice: %s" % indice)
-            self.stationBase.carte.setCible(Cible(self.stationBase.carte, indice))
-        elif commande.startswith("man: "):
+            self.stationBase.carte.setCible(Cible([self.stationBase.carte, indice]))
+        elif commande.startswith("man "):
             self.stationBase.manchester = commande[-1]
             print ("Code manchester: %s" % self.stationBase.getManchester())
         elif commande == "termine":

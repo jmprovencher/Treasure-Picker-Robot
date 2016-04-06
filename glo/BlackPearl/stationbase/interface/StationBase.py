@@ -60,6 +60,7 @@ class StationBase(Thread):
     def demarerRoutine(self):
         self.deplacement('RECHARGE')
         self.aligner("alignement_station")
+        self.attendreCible()
         self.carte.getCible().trouverIleCible()
         self.deplacement('TRESOR')
         self.aligner("alignement_tresor")
@@ -274,6 +275,10 @@ class StationBase(Thread):
             time.sleep(0.01)
         time.sleep(0.1)
         print 'Robot a fini.'
+
+    def attendreCible(self):
+        while self.carte.getCible() is None:
+            time.sleep(0.01)
 
     def attendreFinDeDetectionPrimaire(self):
         while not self.threadAnalyseImageWorld.detectionPrimaireFini:

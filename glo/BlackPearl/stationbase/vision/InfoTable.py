@@ -7,6 +7,7 @@ class InfoTable:
         self.setCrop(numeroTable)
         
     def setIntervalle(self, type, numeroTable):
+
         if type == 'Robot':
             #seulement no 5 est teste pour l'instant
             if numeroTable == 1 or numeroTable == 2 or numeroTable == 3:
@@ -23,6 +24,16 @@ class InfoTable:
                 self.intervalle = (np.array([0, 50, 90]), np.array([60, 140, 140]))
             elif numeroTable == 6:
                 self.intervalle = (np.array([0, 50, 80]), np.array([40, 140, 140]))
+
+        elif type == 'Rectangle':
+            if numeroTable == 1:
+                self.intervalle = (np.array([20, 100, 10]), np.array([185, 210, 190]))
+            elif numeroTable == 2 or numeroTable == 3:
+                self.intervalle = (np.array([20, 100, 10]), np.array([185, 210, 190]))
+            elif numeroTable == 5:
+                self.intervalle = (np.array([20, 100, 10]), np.array([185, 210, 190]))
+            elif numeroTable == 6:
+                self.intervalle = (np.array([20, 100, 10]), np.array([185, 210, 190]))
                 
         elif type == 'Rouge':
             if numeroTable == 1 or numeroTable == 2 or numeroTable == 3:

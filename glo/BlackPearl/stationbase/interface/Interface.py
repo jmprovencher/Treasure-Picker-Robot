@@ -49,10 +49,10 @@ class Interface(QtGui.QWidget):
         if self.threadStationBase.threadCommunication.getRobotPret():
             self.rechargerInfoCouleur(self.robotPretAffiche, 'Connecte', 'color: green')
         if self.threadStationBase is not None:
-            if self.threadStationBase.roundTerminee == False:
+            if not self.threadStationBase.roundTerminee:
                 self.rechargerInfo(self.tempsDepuisDemarrer, 'Temps : ' + str(self.infoTemps + default_timer() - self.threadStationBase.startTimer))
             else:
-                if self.infoTempsIndice == False:
+                if not self.infoTempsIndice:
                     self.infoTemps += default_timer() - self.threadStationBase.startTimer
                     self.infoTempsIndice = True
 

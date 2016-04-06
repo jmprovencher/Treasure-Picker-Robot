@@ -41,6 +41,7 @@ class StationBase(Thread):
     def choisirEtape(self, etape):
         if etape == 'routine complete':
             self.demarerRoutine()
+            self.roundTerminee = True
         elif etape == 'deplacement station':
             self.deplacement('RECHARGE')
         elif etape == 'alignement station':
@@ -123,7 +124,7 @@ class StationBase(Thread):
         print 'Debuter l''alignement.'
         print '--------------------------------------------------'
         int = 0
-        if type == 'ILE':
+        if type == 'alignement_ile':
             couleur = self.carte.getCible().getIleCible().getCouleur()
             if couleur == 'Vert':
                 int = 0

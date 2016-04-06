@@ -26,24 +26,22 @@ class RobotClient(Thread):
         data = self.attendreCommande()
         self.traiterCommande(data)
         while 1:
-            print("Thread client....")
             if self.robot.pretEnvoyerLettre:
                 print("Envoie de la lettre...")
                 self.robot.indiceObtenu = self.robot.service.obtenirCible(self.robot.lettreObtenue)
                 self.envoyerLettre()
-                time.sleep(1)
+                time.sleep(2)
                 self.envoyerIndice()
                 self.robot.pretEnvoyerLettre = False
-                time.sleep(1)
+                time.sleep(2)
             if self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()
                     self.envoyerCommandeTerminee()
                     data = self.attendreCommande()
                     self.traiterCommande(data)
             else:
-                print("Else envoie tension")
                 self.envoyerTension()
-                time.sleep(0.5)
+                time.sleep(2)
 
     def attendreCommande(self):
         data = -1

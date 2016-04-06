@@ -55,7 +55,6 @@ class Robot(Thread):
         self.uartDriver.sendCommand('backward', 10)
         time.sleep(5)
         self._decoderManchester()
-
         self.uartDriver.postAlignementStation()
 
         self.alignementEnCours = False

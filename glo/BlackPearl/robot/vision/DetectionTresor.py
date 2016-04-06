@@ -46,16 +46,18 @@ class DetectionTresor(object):
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         kernel = np.ones((5, 5), np.uint8)
         closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
-        #cv2.imshow("Tresor", closing)
-        #cv2.waitKey(0)
+        cv2.imshow("Tresor", closing)
+        cv2.waitKey(0)
 
         contoursTresor = []
         _, contoursCouleur, _ = cv2.findContours(closing, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         if (len(contoursCouleur) > 0):
             contoursTresor = self._obtenirFormeInteret(contoursCouleur)
-            aire = cv2.contourArea(contoursTresor)
-            return contoursTresor
+            if(contoursTresor is not None):
+                aire = cv2.contourArea(contoursTresor)
+                return contoursTresor
+            print("Plusieurs contours detectee")
         else:
             return None
 
@@ -70,6 +72,7 @@ class DetectionTresor(object):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
         if (len(contoursCouleur) == 0):
             print("Aucun tresor")
+            return None
         else:
             return contoursCouleur[0]
 

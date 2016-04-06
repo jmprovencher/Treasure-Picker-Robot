@@ -29,11 +29,13 @@ class Robot(Thread):
         self.tensionCondensateur = 0
         self._demarrerFeedVideo()
         self._demarrerConnectionTCP()
-        self._demarrerLectureUART()
+
 
 
     def run(self):
         print("Run")
+        self._demarrerLectureUART()
+        time.sleep(2)
         self.robotClient.demarrageTermine = True
         #self.uartDriver.phaseInitialisation()
 
@@ -70,10 +72,10 @@ class Robot(Thread):
         self.threadVideo.demarrerCapture()
 
         self._demarrerAnalyseVideo('tresor')
-
-        self.uartDriver.preAlignementTresor()
         self.uartDriver.cameraPositionFace()
+        self.uartDriver.preAlignementTresor()
         self._executerAlignement()
+
         self.uartDriver.postAlignementTresor()
 
         self.alignementEnCours = False
@@ -85,7 +87,6 @@ class Robot(Thread):
 
         # Implementer le traitement de nimporte quelle forme
         self._demarrerAnalyseVideo(parametre)
-
         self._executerAlignement()
         self.uartDriver.postAlignementIle()
 
@@ -117,6 +118,7 @@ class Robot(Thread):
             print("Envoie commande a traiter commande")
             print commande
             self.traiterCommande(commande, parametre)
+        self.instructions = []
 
     def attendreCommandeTerminee(self):
         while not self.commandeTerminee:

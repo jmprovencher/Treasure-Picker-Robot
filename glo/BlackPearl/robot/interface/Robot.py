@@ -111,8 +111,10 @@ class Robot(Thread):
         for inst in self.instructions:
             commande, parametre = inst
             parametre = int(parametre)
-            self.commandeTerminee == False
+            
             self.traiterCommande(commande, parametre)
+            print("Envoie commande a traiter commande")
+
 
     def attendreCommandeTerminee(self):
         while not self.commandeTerminee:

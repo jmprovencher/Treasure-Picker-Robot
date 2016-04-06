@@ -61,7 +61,6 @@ class StationBase(Thread):
         self.deplacement('RECHARGE')
         self.aligner("alignement_station")
         self.attendreCible()
-        self.carte.getCible().trouverIleCible()
         self.deplacement('TRESOR')
         self.aligner("alignement_tresor")
         self.deplacement('ILE')

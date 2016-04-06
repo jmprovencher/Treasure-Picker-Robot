@@ -374,6 +374,9 @@ void cool()
             bitDecode = stateClock ^ stateManchester;
             arrayCode[compteur] = bitDecode;
             compteur++;
+           Serial.print(digitalRead(pinClock));
+      Serial.print("-");
+      Serial.println(digitalRead(pinManchester));
           } 
           if (compteur == 32 && complete == false)
           {

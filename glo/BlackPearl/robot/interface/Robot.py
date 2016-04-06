@@ -105,6 +105,7 @@ class Robot(Thread):
         elif commande == "decoderManchester":
             self._decoderManchester()
         else:
+            self.commandeTerminee = False
             self.uartDriver.sendCommand(commande, parametre)
             self.attendreCommandeTerminee()
 
@@ -116,8 +117,9 @@ class Robot(Thread):
             parametre = int(parametre)
             self.commandeTerminee = False
             print("Envoie commande a traiter commande")
-            print commande
+            print commande, parametre
             self.traiterCommande(commande, parametre)
+
         self.instructions = []
 
     def attendreCommandeTerminee(self):

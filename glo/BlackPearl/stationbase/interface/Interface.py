@@ -21,7 +21,7 @@ class Interface(QtGui.QWidget):
         self.initUI()
         self.threadAfficherImageVirtuelle.start()
         self.infoTemps = 0
-        self.infoTempsIndice == True
+        self.infoTempsIndice = True
 
 
     def initUI(self):

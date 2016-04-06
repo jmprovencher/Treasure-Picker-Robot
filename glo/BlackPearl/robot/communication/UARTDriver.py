@@ -65,7 +65,7 @@ class UARTDriver:
         time.sleep(1)
         self.sendCommand('backward', 1)
         time.sleep(1)
-        self.sendCommand('backward', 1)
+        self.sendCommand('backward', 2)
         time.sleep(3)
         self.monterPrehenseur()
         time.sleep(6)

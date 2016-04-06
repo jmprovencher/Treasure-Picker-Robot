@@ -7,6 +7,11 @@ from stationbase.interface.StationBase import StationBase
 from stationbase.interface.AfficherImageVirtuelle import AfficherImageVirtuelle
 from Tkinter import *
 from stationbase.interface.RedirigeurTexte import RedirigeurTexte
+from timeit import default_timer
+
+# do stuff
+
+duration = default_timer()
 
 
 class Interface(QtGui.QWidget):
@@ -39,6 +44,8 @@ class Interface(QtGui.QWidget):
         self.rechargerInfo(self.manchester, 'Manchester : ' + self.threadStationBase.getManchester())
         if self.threadStationBase.threadCommunication.getRobotPret():
             self.rechargerInfoCouleur(self.robotPretAffiche, 'Connecte', 'color: green')
+        if self.threadStationBase is not None:
+            self.rechargerInfo(self.tempsDepuisDemarrer, 'Temps depuis le depart : ' + str(default_timer() - self.threadStationBase.startTimer))
 
     def initGeneral(self):
         self.setWindowTitle('Interface')
@@ -62,6 +69,7 @@ class Interface(QtGui.QWidget):
         self.ileCible = self.afficherInitInfo(380, 122, 640, 150, 'Ile cible : ?')
         self.robotNonActif = self.afficherInitInfo(380, 142, 640, 170, 'Robot :')
         self.robotPretAffiche = self.afficherInitInfoCouleur(444, 142, 660, 170, 'Non Connecte', 'red')
+        self.tempsDepuisDemarrer = self.afficherInitInfo(380, 162, 640, 190, 'Temps depuis le depart : ?')
 
     def initButtons(self):
         self.btnTable1 = self.afficherInitBouttons(40, 10, 100, 27, 'Table 1', self.setTable1)

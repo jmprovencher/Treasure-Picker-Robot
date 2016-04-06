@@ -33,5 +33,5 @@ class AlignementTresor():
         elif (distance_y > 0):
             commande = 'forward'
 
-        distance = abs(distance_y / RATIOPIXEL_CM)+1
+        distance = abs(distance_y / RATIOPIXEL_CM)+2
         return commande, distance

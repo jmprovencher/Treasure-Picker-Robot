@@ -11,7 +11,7 @@ class Cible:
             self.indice = 'Bleu'
         else:
             self.indice = args[1]
-        #self.trouverIleCible()
+        self.trouverIleCible()
 
     def trouverIleCible(self):
         print 'Trouver ile cible...'
@@ -61,6 +61,9 @@ class Cible:
 
     def getIndice(self):
         return self.indice
+
+    def setIndice(self, indice):
+        self.indice = indice
 
 
 

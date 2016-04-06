@@ -55,7 +55,6 @@ class Robot(Thread):
         self.uartDriver.sendCommand('backward', 10)
         time.sleep(5)
         self._decoderManchester()
-
         self.uartDriver.postAlignementStation()
 
         self.alignementEnCours = False
@@ -113,10 +112,7 @@ class Robot(Thread):
             commande, parametre = inst
             parametre = int(parametre)
             self.commandeTerminee == False
-            self.uartDriver.sendCommand(commande, parametre)
-            print("Commande executee:")
-            print(commande, parametre)
-            self.attendreCommandeTerminee()
+            self.traiterCommande(commande, parametre)
 
     def attendreCommandeTerminee(self):
         while not self.commandeTerminee:

@@ -14,7 +14,7 @@ class DetectionTresor(object):
         self.positionZone = (800, 950)
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
-        self._dessinerZoneCible()
+
         self.alignementTerminer = False
         self.ajustements = []
 
@@ -32,10 +32,6 @@ class DetectionTresor(object):
         distance_x = (position_x - positionZone_x)
         distance_y = (positionZone_y - position_y)
         print(distance_x, distance_y)
-        _, rayon = cv2.minEnclosingCircle(contoursTresor)
-        self._dessinerZoneTresor((position_x, position_y), rayon)
-        self._dessinerZoneCible()
-
         return distance_x, distance_y
 
     def _trouverCentreForme(self, contoursForme):

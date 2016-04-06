@@ -40,7 +40,7 @@ class DetectionRobot(Detection):
                 
             if (aireContour < 500) or (aireContour > 10000):
                 contoursNegligeables.append(i)
-            elif (aireTrouContour < 10) or (aireTrouContour > 6000):
+            elif (aireTrouContour < 10) or (aireTrouContour > 2000):
                 contoursNegligeables.append(i)
                 
         if len(contoursRobot) == len(contoursNegligeables):

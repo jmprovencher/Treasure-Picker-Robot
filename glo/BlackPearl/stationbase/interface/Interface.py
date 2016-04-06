@@ -20,12 +20,16 @@ class Interface(QtGui.QWidget):
         self.threadStationBase = None
         self.initUI()
         self.threadAfficherImageVirtuelle.start()
+        self.infoTemps = 0
+        self.infoTempsIndice = True
+
 
     def initUI(self):
         self.initGeneral()
         self.initButtons()
         self.initInfo()
         self.initTextBox()
+
 
     def update_gui(self):
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
@@ -45,7 +49,12 @@ class Interface(QtGui.QWidget):
         if self.threadStationBase.threadCommunication.getRobotPret():
             self.rechargerInfoCouleur(self.robotPretAffiche, 'Connecte', 'color: green')
         if self.threadStationBase is not None:
-            self.rechargerInfo(self.tempsDepuisDemarrer, 'Temps depuis le depart : ' + str(default_timer() - self.threadStationBase.startTimer))
+            if self.threadStationBase.roundTerminee == False:
+                self.rechargerInfo(self.tempsDepuisDemarrer, 'Temps : ' + str(self.infoTemps + default_timer() - self.threadStationBase.startTimer))
+            else:
+                if self.infoTempsIndice == False:
+                    self.infoTemps += default_timer() - self.threadStationBase.startTimer
+                    self.infoTempsIndice = True
 
     def initGeneral(self):
         self.setWindowTitle('Interface')
@@ -69,7 +78,7 @@ class Interface(QtGui.QWidget):
         self.ileCible = self.afficherInitInfo(380, 122, 640, 150, 'Ile cible : ?')
         self.robotNonActif = self.afficherInitInfo(380, 142, 640, 170, 'Robot :')
         self.robotPretAffiche = self.afficherInitInfoCouleur(444, 142, 660, 170, 'Non Connecte', 'red')
-        self.tempsDepuisDemarrer = self.afficherInitInfo(380, 162, 640, 190, 'Temps depuis le depart : ?')
+        self.tempsDepuisDemarrer = self.afficherInitInfo(380, 162, 640, 190, 'Temps : ?')
 
     def initButtons(self):
         self.btnTable1 = self.afficherInitBouttons(40, 10, 100, 27, 'Table 1', self.setTable1)
@@ -180,6 +189,7 @@ class Interface(QtGui.QWidget):
     def demarerRoutine(self, string):
         self.threadStationBase = StationBase(string, self.numeroTable)
         self.threadStationBase.start()
+        self.infoTempsIndice = False
         self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
 
     def decoderManchester(self):

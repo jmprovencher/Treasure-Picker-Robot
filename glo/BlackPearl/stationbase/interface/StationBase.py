@@ -24,6 +24,7 @@ class StationBase(Thread):
         self.tensionCondensateur = "0"
         self.descriptionIleCible = "?"
         self.manchester = "?"
+        self.roundTerminee = False
         self.carte = Carte()
         self.demarrerConnectionTCP()
         self.demarrerFeedVideo()

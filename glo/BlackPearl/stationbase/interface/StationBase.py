@@ -9,11 +9,13 @@ import time
 import math
 from stationbase.communication.RequeteJSON import RequeteJSON
 import copy
+from timeit import default_timer
 
 
 class StationBase(Thread):
     def __init__(self, etape, numeroTable):
         Thread.__init__(self)
+        self.startTimer = default_timer()
         self.numeroTable = numeroTable
         self.etape = etape
         self.trajectoireReel = None

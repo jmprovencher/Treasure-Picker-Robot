@@ -41,6 +41,7 @@ class RobotClient(Thread):
             else:
                 print("Else envoie tension")
                 self.envoyerTension()
+                time.sleep(0.5)
 
     def attendreCommande(self):
         data = -1

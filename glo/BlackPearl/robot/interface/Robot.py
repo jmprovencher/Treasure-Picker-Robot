@@ -100,7 +100,6 @@ class Robot(Thread):
         elif commande == "decoderManchester":
             self._decoderManchester()
         else:
-            self.commandeTerminee = False
             self.uartDriver.sendCommand(commande, parametre)
             self.attendreCommandeTerminee()
 
@@ -116,18 +115,11 @@ class Robot(Thread):
 
     def attendreCommandeTerminee(self):
         while not self.commandeTerminee:
-            print("Attente")
+            print("Attente commande terminee")
             time.sleep(0.5)
 
     def _decoderManchester(self):
         self.uartDriver.lireManchester()
-
-    def _attendreReceptionLettre(self):
-        while self.lettreObtenue is None:
-            print("En attente du code Manchester...")
-            time.sleep(1)
-        print("Lettre recu par le robot : %s" % self.lettreObtenue)
-        self.pretEnvoyerLettre = True
 
     def _attendreChargeComplete(self):
         while (float(self.tensionCondensateur) < 4.60):

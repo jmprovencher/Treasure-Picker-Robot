@@ -19,7 +19,7 @@ class RobotClient(Thread):
     def run(self):
         self.monClient._connectToServer()
         while not self.demarrageTermine:
-            time.sleep(1)
+            time.sleep(0.5)
             print("Attends demarrage...")
         print("Demarrage est terminee, envoie pret a station")
         self.envoyerPretAStation()
@@ -30,10 +30,10 @@ class RobotClient(Thread):
                 print("Envoie de la lettre...")
                 self.robot.indiceObtenu = self.robot.service.obtenirCible(self.robot.lettreObtenue)
                 self.envoyerLettre()
-                time.sleep(2)
+                time.sleep(0.5)
                 self.envoyerIndice()
                 self.robot.pretEnvoyerLettre = False
-                time.sleep(20)
+                time.sleep(5)
             if self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()
                     self.envoyerCommandeTerminee()
@@ -41,7 +41,7 @@ class RobotClient(Thread):
                     self.traiterCommande(data)
             else:
                 self.envoyerTension()
-                time.sleep(2)
+                time.sleep(0.5)
 
     def attendreCommande(self):
         data = -1

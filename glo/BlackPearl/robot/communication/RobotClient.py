@@ -33,7 +33,7 @@ class RobotClient(Thread):
                 time.sleep(0.5)
                 self.envoyerIndice()
                 self.robot.pretEnvoyerLettre = False
-                time.sleep(5)
+                time.sleep(8)
             if self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()
                     time.sleep(0.5)

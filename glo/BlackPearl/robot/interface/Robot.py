@@ -88,6 +88,7 @@ class Robot(Thread):
         # Implementer le traitement de nimporte quelle forme
         self._demarrerAnalyseVideo(parametre)
         self._executerAlignement()
+        time.sleep(0.2)
         self.uartDriver.postAlignementIle()
 
         self.alignementEnCours = False
@@ -145,6 +146,7 @@ class Robot(Thread):
 
     def _demarrerConnectionTCP(self):
         self.robotClient = RobotClient(self, self.adresseIP)
+        time.sleep(1)
         self.robotClient.start()
 
     def _demarrerLectureUART(self):

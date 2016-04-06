@@ -13,8 +13,6 @@ class DetectionRobot(Detection):
     def __init__(self, image, numeroTable):
         Detection.__init__(self, image, numeroTable)
         self.robotIdentifiee = None
-        self.rapport = 1.16
-        self.coordonneeXMilieu = 813
         self._definirPatronsFormes()
 
     def detecter(self):

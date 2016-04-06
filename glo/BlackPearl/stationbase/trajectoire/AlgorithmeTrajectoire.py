@@ -9,6 +9,8 @@ class AlgorithmeTrajectoire:
         self.heapOuvert = []
         heapq.heapify(self.heapOuvert)
         self.trajet = []
+        self.rapport = 1.16
+        self.coordonneeXMilieu = 813
         self.fermer = set()
         self.depart = None
         self.departBuffer = None
@@ -188,6 +190,7 @@ class AlgorithmeTrajectoire:
         self.depart = Cellule(depart_x, depart_y, True)
 
     def setArriver(self, arriver):
+        arriver = self.correctionCentre(arriver)
         arriver_x, arriver_y = arriver
         while not (arriver_x % self.grilleCellule.incrementX == 0):
             arriver_x += 1
@@ -201,4 +204,11 @@ class AlgorithmeTrajectoire:
 
     def estDepart(self, cellule):
         return (cellule.x == self.depart.x) and (cellule.y == self.depart.y)
+
+    def correctionCentre(self, centre):
+        xNonCorrige = centre[0]
+        deltaX = xNonCorrige - self.coordonneeXMilieu
+        xCorriger = int(round(self.coordonneeXMilieu + (deltaX * self.rapport)))
+
+        return xCorriger, centre[1]
 

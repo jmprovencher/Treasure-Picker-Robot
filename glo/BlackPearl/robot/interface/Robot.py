@@ -119,7 +119,7 @@ class Robot(Thread):
             print("Envoie commande a traiter commande")
             print commande, parametre
             self.traiterCommande(commande, parametre)
-
+            print("Commande envoyee a traiter commande")
         self.instructions = []
 
     def attendreCommandeTerminee(self):

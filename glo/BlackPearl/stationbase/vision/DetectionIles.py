@@ -64,10 +64,6 @@ class DetectionIles(Detection):
                 centre = self.trouverCentre(contour)
                 self.ilesIdentifiees.append(Ile(centre, couleur, nomForme))
 
-            if couleur == 'Rouge':
-                print 'Centre rouge'
-                print centre
-
     def getIlesIdentifiees(self):
         return self.ilesIdentifiees
 

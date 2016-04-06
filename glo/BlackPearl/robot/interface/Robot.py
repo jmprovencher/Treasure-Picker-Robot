@@ -53,10 +53,16 @@ class Robot(Thread):
         self.uartDriver.stopCondensateur()
         print("CONDENSATEUR OFF")
         self.uartDriver.sendCommand('backward', 10)
+        time.sleep(5)
         self._decoderManchester()
+
         self.uartDriver.postAlignementStation()
 
         self.alignementEnCours = False
+
+    def _attendreManchester(self):
+        while self.lettreObtenue is None:
+            time.sleep(0.5)
 
     def demarrerAlignementTresor(self):
         print("Demarre phase alignement tresor")
@@ -99,7 +105,6 @@ class Robot(Thread):
         elif commande == "decoderManchester":
             self._decoderManchester()
         else:
-            self.commandeTerminee = False
             self.uartDriver.sendCommand(commande, parametre)
             self.attendreCommandeTerminee()
 
@@ -115,22 +120,17 @@ class Robot(Thread):
 
     def attendreCommandeTerminee(self):
         while not self.commandeTerminee:
-            print("Attente")
+            print("Attente commande terminee")
             time.sleep(0.5)
 
     def _decoderManchester(self):
         self.uartDriver.lireManchester()
-
-    def _attendreReceptionLettre(self):
-        while self.lettreObtenue is None:
-            print("En attente du code Manchester...")
-            time.sleep(1)
-        print("Lettre recu par le robot : %s" % self.lettreObtenue)
-        self.pretEnvoyerLettre = True
+        self._attendreManchester()
 
     def _attendreChargeComplete(self):
         while (float(self.tensionCondensateur) < 4.60):
             print(self.tensionCondensateur)
+            self.robotClient.envoyerTension()
             time.sleep(0.5)
 
     def _demarrerFeedVideo(self):

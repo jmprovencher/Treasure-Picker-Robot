@@ -26,18 +26,22 @@ class RobotClient(Thread):
         data = self.attendreCommande()
         self.traiterCommande(data)
         while 1:
+            print("Thread client....")
             if self.robot.pretEnvoyerLettre:
+                print("Envoie de la lettre...")
+                self.robot.indiceObtenu = self.robot.service.obtenirCible(self.robot.lettreObtenue)
                 self.envoyerLettre()
-                self.robot.indiceObtenu = self.robot.service.obtenirCible(self.lettreObtenue)
-                print(self.robot.indiceObtenu)
                 self.envoyerIndice()
+                self.robot.pretEnvoyerLettre = False
             if self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()
                     self.envoyerCommandeTerminee()
                     data = self.attendreCommande()
                     self.traiterCommande(data)
             else:
+                print("Else envoie tension")
                 self.envoyerTension()
+                time.sleep(0.5)
 
     def attendreCommande(self):
         data = -1
@@ -78,7 +82,7 @@ class RobotClient(Thread):
                 self.monClient._connectToServer()
 
     def envoyerLettre(self):
-        RequeteJSON("man: " + self.robot.lettreObtenue, 0)
+        RequeteJSON("man " + self.robot.lettreObtenue, 0)
         while 1:
             try:
                 self.monClient.sendFile()
@@ -92,11 +96,10 @@ class RobotClient(Thread):
                 self.monClient._connectToServer()
 
     def envoyerIndice(self):
-        RequeteJSON("indice: " + self.robot.indiceObtenu, 0)
+        RequeteJSON("indice " + self.robot.indiceObtenu, 0)
         while 1:
             try:
                 self.monClient.sendFile()
-                self.robot.pretEnvoyerIndice = False
                 break
             except Exception as e:
                 print e

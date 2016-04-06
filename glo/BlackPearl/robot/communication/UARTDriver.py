@@ -70,7 +70,7 @@ class UARTDriver:
         time.sleep(2)
 
     def postAlignementStation(self):
-        self.sendCommand('rotateAntiClockwise', 120)
+        self.sendCommand('rotateAntiClockwise', 90)
         time.sleep(1)
 
     def postAlignementIle(self):

@@ -21,7 +21,8 @@ class LectureUART(Thread):
             print 'done'
         elif info.count(lettre_manchester) == 4:
             self.robot.lettreObtenue = lettre_manchester
-            self.robot.pretEnvoyerLettre = True
             print(self.robot.lettreObtenue)
+            print("robot pret a envoyer lettre")
+            self.robot.pretEnvoyerLettre = True
         else:
             self.robot.tensionCondensateur = info

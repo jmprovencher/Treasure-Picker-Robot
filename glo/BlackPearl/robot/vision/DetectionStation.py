@@ -56,9 +56,6 @@ class DetectionStation(object):
 
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        cv2.imshow("image", masqueCouleur)
-        cv2.waitKey(0)
-
         if (len(contoursCouleur) > 0):
             contoursCible = self._obtenirFormeInteret(contoursCouleur)
             aire = cv2.contourArea(contoursCible)

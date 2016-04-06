@@ -45,8 +45,11 @@ class AnalyseImageEmbarquee(Thread):
     def evaluerPositionTresor(self):
         self.detectionTresor = DetectionTresor(self.imageCamera)
         self.ajustements = self.detectionTresor.ajustements
+
         if (self.ajustements != []):
+            print("Ajustement calculer, analyse termine")
             self.ajustementsCalcules = True
+
 
     def evaluerPositionStation(self):
         self.detectionStation = DetectionStation(self.imageCamera)

@@ -73,7 +73,9 @@ class Robot(Thread):
 
         self.uartDriver.preAlignementTresor()
         self.uartDriver.cameraPositionFace()
+        time.sleep(1)
         self._executerAlignement()
+        time.sleep(1)
         self.uartDriver.postAlignementTresor()
 
         self.alignementEnCours = False
@@ -111,7 +113,7 @@ class Robot(Thread):
         for inst in self.instructions:
             commande, parametre = inst
             parametre = int(parametre)
-            
+
             self.traiterCommande(commande, parametre)
             print("Envoie commande a traiter commande")
 

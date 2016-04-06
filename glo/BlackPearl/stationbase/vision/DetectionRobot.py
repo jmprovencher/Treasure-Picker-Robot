@@ -105,8 +105,6 @@ class DetectionRobot(Detection):
         if angle >= 360:
             angle -= 360
 
-        centreRobot = self.correctionCentre(centreRobot)
-
         return centreRobot, angle
 
     def getRobot(self):

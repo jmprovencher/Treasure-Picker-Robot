@@ -21,7 +21,7 @@ class DetectionTresor(object):
         self.calculerAjustements()
 
     def calculerAjustements(self):
-        contoursTresor = self._detecterContoursForme(self.intervalleJauneTable5)
+        contoursTresor = self._detecterContoursForme(self.intervalleJaune)
         if (contoursTresor is not None):
             distance_x, distance_y = self._trouverDistance(contoursTresor)
             self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
@@ -77,5 +77,4 @@ class DetectionTresor(object):
             return contoursCouleur[0]
 
     def _definirIntervallesCouleurs(self):
-        self.intervalleJaune = np.array([10, 130, 130]), np.array([60, 255, 255]), "Jaune"
-        self.intervalleJauneTable5 = np.array([10, 130, 130]), np.array([60, 180, 180]), "Jaune2"
+        self.intervalleJaune = np.array([0, 130, 130]), np.array([60, 255, 255]), "Jaune"

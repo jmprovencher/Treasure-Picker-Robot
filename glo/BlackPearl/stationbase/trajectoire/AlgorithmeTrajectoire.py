@@ -64,7 +64,7 @@ class AlgorithmeTrajectoire:
         while i < len(self.trajet)-1:
             debut = self.trajet[i]
             fin = self.trajet[i+1]
-            if self.distanceAuCarre(debut[0], debut[1], fin[0], fin[1]) > 3600:
+            if self.distanceAuCarre(debut[0], debut[1], fin[0], fin[1]) > 900:
                 point = self.trouverPointMilieu(debut, fin)
                 self.trajet = self.trajet[:i+1] + [point] + self.trajet[i+1:]
             else:
@@ -140,7 +140,7 @@ class AlgorithmeTrajectoire:
         distCarre = dx*dx + dy*dy
 
         return distCarre < (int(round(self.grilleCellule.rayonBuffer * (
-            self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0])))**2
+            self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0])))**2 #TODO: ajouter un plus gros buffer lors des corrections ?
 
     def trouverDebutBuffer(self, depart):
         depart_x, depart_y = depart

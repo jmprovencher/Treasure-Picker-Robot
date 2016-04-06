@@ -23,6 +23,7 @@ class TCPClient:
         f = open('data.json', 'r')
         data = f.read()
         while data:
+            print("Commande JSON:")
             print(data)
             self.s.send(data)
             data = f.read()

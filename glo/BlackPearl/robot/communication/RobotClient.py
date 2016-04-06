@@ -29,9 +29,8 @@ class RobotClient(Thread):
             print("Thread client....")
             if self.robot.pretEnvoyerLettre:
                 print("Envoie de la lettre...")
-                self.envoyerLettre()
                 self.robot.indiceObtenu = self.robot.service.obtenirCible(self.robot.lettreObtenue)
-                print(self.robot.indiceObtenu)
+                self.envoyerLettre()
                 self.envoyerIndice()
                 self.robot.pretEnvoyerLettre = False
             if self.robot.commandeTerminee and not self.robot.alignementEnCours:
@@ -100,7 +99,6 @@ class RobotClient(Thread):
         while 1:
             try:
                 self.monClient.sendFile()
-                self.robot.pretEnvoyerIndice = False
                 break
             except Exception as e:
                 print e

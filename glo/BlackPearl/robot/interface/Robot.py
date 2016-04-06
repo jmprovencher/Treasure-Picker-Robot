@@ -85,13 +85,13 @@ class Robot(Thread):
 
         # Implementer le traitement de nimporte quelle forme
         self._demarrerAnalyseVideo(parametre)
-
         self._executerAlignement()
         self.uartDriver.postAlignementIle()
 
         self.alignementEnCours = False
 
     def ajouterDirectives(self, instructions):
+        self.instructions = []
         self.instructions.append(instructions)
 
     def traiterCommande(self, commande, parametre):

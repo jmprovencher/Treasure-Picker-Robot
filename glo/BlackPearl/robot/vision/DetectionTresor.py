@@ -14,7 +14,7 @@ class DetectionTresor(object):
         self.positionZone = (800, 950)
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
-        self._dessinerZoneCible()
+
         self.alignementTerminer = False
         self.ajustements = []
 

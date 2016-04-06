@@ -26,6 +26,7 @@ class RobotClient(Thread):
         data = self.attendreCommande()
         self.traiterCommande(data)
         while 1:
+            print("Thread client....")
             if self.robot.pretEnvoyerLettre:
                 print("Envoie de la lettre...")
                 self.envoyerLettre()
@@ -39,6 +40,7 @@ class RobotClient(Thread):
                     data = self.attendreCommande()
                     self.traiterCommande(data)
             else:
+                print("Else envoie tension")
                 self.envoyerTension()
 
     def attendreCommande(self):

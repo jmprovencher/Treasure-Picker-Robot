@@ -118,6 +118,7 @@ class StationBase(Thread):
             debut = self.getPositionRobot()
             self.angleDesire = self.trouverOrientationDesire(debut, arriver)
             self.orienter(type)
+        self.trajectoirePrevue = None
 
     def aligner(self, type):
         print '\n--------------------------------------------------'

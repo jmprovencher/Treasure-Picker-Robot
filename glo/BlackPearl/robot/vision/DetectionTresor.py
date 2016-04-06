@@ -75,4 +75,4 @@ class DetectionTresor(object):
             return contoursCouleur[0]
 
     def _definirIntervallesCouleurs(self):
-        self.intervalleJaune = np.array([0, 130, 130]), np.array([60, 255, 255]), "Jaune"
+        self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"

@@ -91,7 +91,6 @@ class Robot(Thread):
         self.alignementEnCours = False
 
     def ajouterDirectives(self, instructions):
-        self.instructions = []
         self.instructions.append(instructions)
 
     def traiterCommande(self, commande, parametre):
@@ -117,6 +116,7 @@ class Robot(Thread):
             print("Envoie commande a traiter commande")
             print commande
             self.traiterCommande(commande, parametre)
+        self.instructions = []
 
     def attendreCommandeTerminee(self):
         while not self.commandeTerminee:

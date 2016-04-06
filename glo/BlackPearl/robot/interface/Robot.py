@@ -112,10 +112,7 @@ class Robot(Thread):
             commande, parametre = inst
             parametre = int(parametre)
             self.commandeTerminee == False
-            self.uartDriver.sendCommand(commande, parametre)
-            print("Commande executee:")
-            print(commande, parametre)
-            self.attendreCommandeTerminee()
+            self.traiterCommande(commande, parametre)
 
     def attendreCommandeTerminee(self):
         while not self.commandeTerminee:

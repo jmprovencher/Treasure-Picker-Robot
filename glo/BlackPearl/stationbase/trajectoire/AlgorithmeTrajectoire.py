@@ -35,9 +35,9 @@ class AlgorithmeTrajectoire:
                 self.sectionnerTrajet()
                 return self.trajet
             elif self.cellulePlusPres is None:
-                self.cellulePlusPres = copy.deepcopy(cellule)
+                self.cellulePlusPres = cellule
             elif self.distanceArriverCarre(cellule) < self.distanceArriverCarre(self.cellulePlusPres):
-                self.cellulePlusPres = copy.deepcopy(cellule)
+                self.cellulePlusPres = cellule
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)
             for adj in cellulesAdjacentes:

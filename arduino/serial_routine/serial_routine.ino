@@ -99,7 +99,7 @@ void setup() {
     pidList[i].SetSampleTime(15);
   }
   
-  analogWrite(pinElectroAimant, 180);
+  analogWrite(pinElectroAimant, 184);
   
   attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
   attachInterrupt(digitalPinToInterrupt(21), decrementDuration, FALLING);
@@ -403,6 +403,7 @@ void Reading()
 void manchesterRead()
 {
   action = "Reading Manchester";
+  attachInterrupt(digitalPinToInterrupt(pinClock), Reading, RISING);
   while (complete == false){
     if (count != countLoop)
     {

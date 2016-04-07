@@ -1,7 +1,7 @@
 from __future__ import division
 import heapq
 from stationbase.trajectoire.Cellule import Cellule
-
+import copy
 
 class AlgorithmeTrajectoire:
     def __init__(self, grilleCellule):
@@ -33,9 +33,9 @@ class AlgorithmeTrajectoire:
                 self.sectionnerTrajet()
                 return self.trajet
             elif (self.cellulePlusPres is None) and (self.distanceBufferAcceptee(cellule)):
-                self.cellulePlusPres = cellule
+                self.cellulePlusPres = copy.deepcopy(cellule)
             elif self.distanceArriverCarre(cellule) < self.distanceArriverCarre(self.cellulePlusPres):
-                self.cellulePlusPres = cellule
+                self.cellulePlusPres = copy.deepcopy(cellule)
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)
             for adj in cellulesAdjacentes:
@@ -48,6 +48,15 @@ class AlgorithmeTrajectoire:
                         heapq.heappush(self.heapOuvert, (adj.priorite, adj))
 
         self.arriver = self.cellulePlusPres
+        print 'arrivee:', self.arriver.x, self.arriver.y
+        while self.grilleCellule.distanceAuCarre(self.arriver.x, self.arriver.y, arriver[0], arriver[1]) >= 30**2:
+            print 'nouvelle teration'
+            self.grilleCellule.rayonBuffer -= 1
+            print self.grilleCellule.rayonBuffer
+            self.grilleCellule.initGrilleCellule(self.grilleCellule.listeIles)
+            print 'nouvelle grille cellule'
+            self.trouverTrajet(depart, arriver)
+            print 'nouvelle arrivee', self.arriver.x, self.arriver.y
         self.simplifierTrajet()
         self.sectionnerTrajet()
         return self.trajet
@@ -139,7 +148,7 @@ class AlgorithmeTrajectoire:
         dy = y - y3
         distCarre = dx*dx + dy*dy
 
-        return distCarre < (int(round(self.grilleCellule.rayonBuffer * (
+        return distCarre < (int(round((self.grilleCellule.rayonBuffer+5) * (
             self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0])))**2 #TODO: ajouter un plus gros buffer lors des corrections ?
 
     def trouverDebutBuffer(self, depart):

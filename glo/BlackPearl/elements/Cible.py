@@ -11,14 +11,15 @@ class Cible:
             self.indice = 'Bleu'
         else:
             self.indice = args[1]
-        self.trouverIleCible()
 
     def trouverIleCible(self):
         print 'Trouver ile cible...'
         ilesPotentielle = self.carte.getIlesCorrespondantes(self.indice)
-        distanceMin = 1000000000
-        TresorsPossibles = self.trouverTresorsPossibles()
-        for tresor in TresorsPossibles:
+        distanceMin = 1000000000000
+        tresorsPossibles = self.trouvertresorsPossibles()
+        for tresor in tresorsPossibles:
+            print 'test sur tresor'
+            print tresor.getCentre()
             trajetTresor = self.carte.getTrajectoire().trouverTrajet(self.carte.getStationRecharge().getCentre(), tresor.getCentre())
             distanceTresor = self.carte.getTrajectoire().trouverLongueurTrajetCarre(trajetTresor)
             for ile in ilesPotentielle:
@@ -34,7 +35,7 @@ class Cible:
         print 'Ile choisie: ', self.ileChoisie.forme, self.ileChoisie.couleur
         print 'Ile cible trouve'
 
-    def trouverTresorsPossibles(self):
+    def trouvertresorsPossibles(self):
         tresorPossible = []
         for tresor in self.carte.getTresors():
             xTresor, yTresor = tresor.getCentre()

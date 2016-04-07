@@ -10,6 +10,7 @@ import math
 from stationbase.communication.RequeteJSON import RequeteJSON
 import copy
 from timeit import default_timer
+from stationbase.vision.TrouverTresorEtCible import TrouverTresorEtCible
 
 
 class StationBase(Thread):
@@ -46,6 +47,8 @@ class StationBase(Thread):
             self.deplacement('RECHARGE')
         elif etape == 'alignement station':
             self.aligner("alignement_station")
+            self.trouverTresorEtCible()
+            self.attendreRobot()
         elif etape == 'deplacement tresor':
             self.carte.getCible().trouverIleCible()
             self.deplacement('TRESOR')
@@ -64,11 +67,14 @@ class StationBase(Thread):
     def demarerRoutine(self):
         self.deplacement('RECHARGE')
         self.aligner("alignement_station")
-        self.attendreCible()
+        self.trouverTresorEtCible()
+        self.attendreRobot()
+        self.attendreThreadCible()
         self.deplacement('TRESOR')
         self.aligner("alignement_tresor")
         self.deplacement('ILE')
         self.aligner("alignement_ile")
+        self.roundTerminee = True
         time.sleep(100000)
 
     def deplacement(self, type):
@@ -92,7 +98,7 @@ class StationBase(Thread):
             destination = self.carte.getStationRecharge().getCentre()
         elif etape == 'TRESOR':
             destination = self.carte.cible.tresorChoisi.getCentre()
-            print 'identifier destination tresor!!'
+            print 'identifier destination tresor'
             print destination
         elif etape == 'ILE':
             destination = self.carte.cible.ileChoisie.getCentre()
@@ -105,7 +111,7 @@ class StationBase(Thread):
             self.angleDesire = 90
             self.orienter(type)
             self.deplacementArriere(5)
-            self.deplacementDroit(10)
+            self.deplacementDroit(7)
         elif type == 'TRESOR':
             if self.carte.getCible().getTresorCible().getCentre()[1] < 500:
                 self.angleDesire = 90
@@ -137,7 +143,8 @@ class StationBase(Thread):
                 int = 3
         RequeteJSON(type, int)
         self.threadCommunication.signalerEnvoyerCommande()
-        self.attendreRobot()
+        if not type == 'alignement_station':
+            self.attendreRobot()
         print '\n--------------------------------------------------'
         print 'Allignement termine.'
         print '--------------------------------------------------'
@@ -153,7 +160,9 @@ class StationBase(Thread):
 
     def orienter(self, type):
         print '\nOrienter'
+        conteur = 0
         while 1:
+            reduction = 0
             if self.angleDesire is None:
                 arriver = self.trajectoireReel[-2]
                 debut = self.getPositionRobot()
@@ -162,15 +171,21 @@ class StationBase(Thread):
             if -3 <= angle <= 3:
                 print '\nOrientation termine.'
                 break
+            if conteur >= 2:
+                if angle > 0:
+                    angle = 1
+                else:
+                    angle = -1
             if angle >= 0:
-                RequeteJSON("rotateClockwise", angle-1)
+                RequeteJSON("rotateClockwise", angle)
             else:
-                RequeteJSON("rotateAntiClockwise", abs(angle)-1)
+                RequeteJSON("rotateAntiClockwise", abs(angle))
             print 'Signaler que la comande est prete a envoyer.'
             self.threadCommunication.signalerEnvoyerCommande()
             self.attendreRobot()
             if type == 'deplacement':
                 self.angleDesire = None
+            conteur += 1
         self.angleDesire = None
 
     def trouverOrientationDesire(self, debut, arriver):
@@ -264,6 +279,15 @@ class StationBase(Thread):
 
     def initialisationTrajectoire(self):
         self.carte.getTrajectoire().initGrilleCellule(self.carte.getIles())
+
+    def trouverTresorEtCible(self):
+        self.threadCible = TrouverTresorEtCible(self)
+        self.threadCible.start()
+
+    def attendreThreadCible(self):
+        while self.threadCible.isAlive():
+            time.sleep(0.01)
+        print 'Cible trouve'
 
     def attendreRobotPret(self):
         print '\nAttendre que le robot soit pret...'

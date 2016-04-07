@@ -17,6 +17,7 @@ class GrilleCellule:
 
     def initGrilleCellule(self, listeIles):
         self.listeIles = listeIles
+        self.listeCellules = []
         for x in range(0, self.dimensionCrop[0], self.incrementX):
             for y in range(0, self.dimensionCrop[1], self.incrementY):
                     self.listeCellules.append(Cellule(x, y, self.estAtteignable(x, y)))

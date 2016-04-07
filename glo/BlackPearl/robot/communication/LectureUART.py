@@ -18,7 +18,6 @@ class LectureUART(Thread):
         lettre_manchester = info[0]
         if info == 'done':
             self.robot.commandeTerminee = True
-            print 'UART DONE'
         elif info.count(lettre_manchester) == 4:
             self.robot.lettreObtenue = lettre_manchester
             print(self.robot.lettreObtenue)

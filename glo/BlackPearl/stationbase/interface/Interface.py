@@ -40,6 +40,7 @@ class Interface(QtGui.QWidget):
             self.rechargerInfo(self.position, 'Position du robot : ' +
                                str(self.threadStationBase.getCarte().getRobot().getX()) + 'x ' +
                                str(self.threadStationBase.getCarte().getRobot().getY()) + 'y')
+        if self.threadStationBase.getCarte().getRobot() is not None:
             self.rechargerInfo(self.orientation, 'Orientation du robot : ' +
                                str(self.threadStationBase.getCarte().getRobot().getOrientation()) + '\xb0')
         self.rechargerInfo(self.tensionCondensateur, 'Tension condensateur : ' +

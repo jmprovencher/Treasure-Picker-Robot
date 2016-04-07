@@ -50,7 +50,9 @@ class StationBase(Thread):
             self.trouverTresorEtCible()
             self.attendreRobot()
         elif etape == 'deplacement tresor':
-            self.carte.getCible().trouverIleCible()
+            self.trouverTresorEtCible()
+            self.attendreRobot()
+            self.attendreThreadCible()
             self.deplacement('TRESOR')
             RequeteJSON("cameraTreasure", 0)
             self.threadCommunication.signalerEnvoyerCommande()

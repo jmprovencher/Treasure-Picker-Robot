@@ -14,9 +14,11 @@ class GrilleCellule:
         self.distanceMur = 20
         self.distPerteDeVueRobot = 20
         self.listeIles = None
+        self.listMilieuIle = []
 
     def initGrilleCellule(self, listeIles):
         self.listeIles = listeIles
+
         self.listeCellules = []
         for x in range(0, self.dimensionCrop[0], self.incrementX):
             for y in range(0, self.dimensionCrop[1], self.incrementY):

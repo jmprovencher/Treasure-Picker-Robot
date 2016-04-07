@@ -25,7 +25,7 @@ class Robot(Thread):
         self.lettreObtenue = None
         self.indiceObtenu = None
         # self.adresseIP = '192.168.0.45'
-        self.adresseIP = '10.248.24.132'
+        self.adresseIP = '10.248.209.220'
         self.tensionCondensateur = 0
         self._demarrerFeedVideo()
         self._demarrerConnectionTCP()
@@ -36,6 +36,10 @@ class Robot(Thread):
         print("Run")
         self._demarrerLectureUART()
         time.sleep(2)
+        self.uartDriver.cameraPositionDepot()
+        time.sleep(0.5)
+        self.uartDriver.cameraPositionFace()
+        print("Camera fini bouger")
         self.robotClient.demarrageTermine = True
         #self.uartDriver.phaseInitialisation()
 

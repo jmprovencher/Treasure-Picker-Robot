@@ -78,6 +78,7 @@ class UARTDriver:
         self.sendCommand('rotateAntiClockwise', 90)
         time.sleep(1)
 
+
     def postAlignementIle(self):
         self.activerAimant()
         time.sleep(1)

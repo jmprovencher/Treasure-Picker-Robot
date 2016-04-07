@@ -36,6 +36,9 @@ class Robot(Thread):
         print("Run")
         self._demarrerLectureUART()
         time.sleep(2)
+        self.uartDriver.cameraPositionDepot()
+        time.sleep(0.5)
+        self.uartDriver.cameraPositionFace()
         self.robotClient.demarrageTermine = True
         #self.uartDriver.phaseInitialisation()
 

@@ -39,6 +39,7 @@ class Robot(Thread):
         self.uartDriver.cameraPositionDepot()
         time.sleep(0.5)
         self.uartDriver.cameraPositionFace()
+        print("Camera fini bouger")
         self.robotClient.demarrageTermine = True
         #self.uartDriver.phaseInitialisation()
 

@@ -8,6 +8,7 @@ from stationbase.interface.AfficherImageVirtuelle import AfficherImageVirtuelle
 from Tkinter import *
 from stationbase.interface.RedirigeurTexte import RedirigeurTexte
 from timeit import default_timer
+import math
 
 # do stuff
 
@@ -50,7 +51,20 @@ class Interface(QtGui.QWidget):
             self.rechargerInfoCouleur(self.robotPretAffiche, 'Connecte', 'color: green')
         if self.threadStationBase is not None:
             if not self.threadStationBase.roundTerminee:
-                self.rechargerInfo(self.tempsDepuisDemarrer, 'Temps : ' + str(self.infoTemps + default_timer() - self.threadStationBase.startTimer))
+                tempsTotal = self.infoTemps + default_timer() - self.threadStationBase.startTimer
+                secondeTotal = math.floor(tempsTotal - math.floor(tempsTotal/60)*60)
+                minuteTotal = math.floor(tempsTotal/60)
+                if secondeTotal < 10:
+                    stringSeconde = '0' + str(secondeTotal)
+                else:
+                    stringSeconde = str(secondeTotal)
+                if minuteTotal == 0:
+                    stringMinute = '  '
+                elif minuteTotal < 10:
+                    stringMinute = ' ' + str(minuteTotal)
+                else:
+                    stringMinute = str(minuteTotal)
+                self.rechargerInfo(self.tempsDepuisDemarrer, 'Temps : ' + stringMinute + stringSeconde)
             else:
                 if not self.infoTempsIndice:
                     self.infoTemps += default_timer() - self.threadStationBase.startTimer

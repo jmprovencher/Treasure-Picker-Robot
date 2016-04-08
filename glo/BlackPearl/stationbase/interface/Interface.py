@@ -40,6 +40,7 @@ class Interface(QtGui.QWidget):
             self.rechargerInfo(self.position, 'Position du robot : ' +
                                str(self.threadStationBase.getCarte().getRobot().getX()) + 'x ' +
                                str(self.threadStationBase.getCarte().getRobot().getY()) + 'y')
+        if self.threadStationBase.getCarte().getRobot() is not None:
             self.rechargerInfo(self.orientation, 'Orientation du robot : ' +
                                str(self.threadStationBase.getCarte().getRobot().getOrientation()) + '\xb0')
         self.rechargerInfo(self.tensionCondensateur, 'Tension condensateur : ' +
@@ -79,7 +80,7 @@ class Interface(QtGui.QWidget):
         self.setAutoFillBackground(False)
         self.feed = QLabel(self)
         self.buffer = 25
-        self.numeroTable = 5
+        self.numeroTable = 3
         self.feed.setGeometry(5, self.hauteur-(600+self.buffer+5), 800, 600)
         self.threadAfficherImageVirtuelle = AfficherImageVirtuelle(self)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)

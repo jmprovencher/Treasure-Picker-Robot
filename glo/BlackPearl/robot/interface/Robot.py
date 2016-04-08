@@ -27,8 +27,9 @@ class Robot(Thread):
         # self.adresseIP = '192.168.0.45'
         self.adresseIP = '10.248.209.220'
         self.tensionCondensateur = 0
-        self._demarrerFeedVideo()
-        self._demarrerConnectionTCP()
+        self._demarrerAnalyseVideo('tresor')
+        #self._demarrerFeedVideo()
+        #self._demarrerConnectionTCP()
 
 
 

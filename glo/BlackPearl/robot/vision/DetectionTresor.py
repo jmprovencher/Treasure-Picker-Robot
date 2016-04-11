@@ -17,14 +17,21 @@ class DetectionTresor(object):
 
         self.alignementTerminer = False
         self.ajustements = []
-        self.demarrerTraitementHorizon()
-        # self.calculerAjustements()
+
+        self.calculerAjustements()
 
     def calculerAjustements(self):
+        orientation = self.trouverOrientation()
+        if (abs(orientation)> 1):
+            ajustementOrientation = self.alignementTresor.ajusterOrientation(orientation)
+            print(ajustementOrientation)
+            self.ajustements.append(ajustementOrientation);
+
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
         if (contoursTresor is not None):
             distance_x, distance_y = self._trouverDistance(contoursTresor)
-            self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
+            ajustementsXY = self.alignementTresor.calculerAjustement(distance_x, distance_y)
+            self.ajustements.append(ajustementsXY);
 
     def _trouverDistance(self, contoursTresor):
         positionZone_x, positionZone_y = self.positionZone
@@ -46,13 +53,13 @@ class DetectionTresor(object):
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         kernel = np.ones((5, 5), np.uint8)
         closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
-        contoursTresor = []
         _, contoursCouleur, _ = cv2.findContours(closing, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         if (len(contoursCouleur) > 0):
             contoursTresor = self._obtenirFormeInteret(contoursCouleur)
             if (contoursTresor is not None):
                 aire = cv2.contourArea(contoursTresor)
+                print("Aire tresor : ", aire)
                 return contoursTresor
             print("Plusieurs contours detectee")
         else:
@@ -73,8 +80,24 @@ class DetectionTresor(object):
         else:
             return contoursCouleur[0]
 
-    def _definirIntervallesCouleurs(self):
-        self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"
+    def trouverOrientation(self):
+        imageGrise = cv2.cvtColor(self.imageCamera, cv2.COLOR_BGR2GRAY)
+        blur = cv2.GaussianBlur(imageGrise, (3, 3), 0)
+        filtreContours = cv2.Canny(blur, 225, 250)
+        _, contours, hier = cv2.findContours(filtreContours, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+
+        #cv2.imshow("Orientation", filtreContours)
+        #cv2.waitKey(0)
+
+        ligneHorizon = self.trouverLigneHorizon(contours)
+        x0, y0, x1, y1 = self.trouverPointExtremeLigne(ligneHorizon)
+        orientation = self.calculerOrientationHorizon(x0, y0, x1, y1)
+
+        print("Orientation: %f" % orientation)
+        #cv2.imshow("Orientation", self.imageCamera)
+        #cv2.waitKey(0)
+        return orientation
+
 
     def trouverLigneHorizon(self, contoursImage):
         maximum = cv2.arcLength(contoursImage[0], False)
@@ -84,19 +107,6 @@ class DetectionTresor(object):
                 maximum = temp
                 contour_max = cont
         return contour_max
-
-    def demarrerTraitementHorizon(self):
-        imageGrise = cv2.cvtColor(self.imageCamera, cv2.COLOR_BGR2GRAY)
-        blur = cv2.GaussianBlur(imageGrise, (3, 3), 0)
-        filtreContours = cv2.Canny(blur, 225, 250)
-        _, contours, hier = cv2.findContours(filtreContours, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-
-        ligneHorizon = self.trouverLigneHorizon(contours)
-        x0, y0, x1, y1 = self.trouverPointExtremeLigne(ligneHorizon)
-        orientation = self.calculerOrientationHorizon(x0, y0, x1, y1)
-        print("Orientation: %f" % orientation)
-        cv2.imshow("Orientation", self.imageCamera)
-        cv2.waitKey(0)
 
     def trouverPointExtremeLigne(self, ligne):
         vx, vy, x, y = cv2.fitLine(ligne, cv2.DIST_L2, 0, 0.01, 0.01)
@@ -113,3 +123,7 @@ class DetectionTresor(object):
         roll = math.atan2(-mx, my)
         ajustement = math.degrees(roll) + 90
         return ajustement
+
+    def _definirIntervallesCouleurs(self):
+        self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"
+

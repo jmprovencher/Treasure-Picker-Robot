@@ -1,4 +1,5 @@
 RATIOPIXEL_CM = 40
+import math
 
 
 class AlignementTresor():
@@ -16,6 +17,26 @@ class AlignementTresor():
             print(ajustements_y)
             self.ajustements.append(ajustements_y)
         return self.ajustements
+
+
+    def calculerAjustementRotation(self, orientation):
+        if (abs(orientation) < 1):
+            return None
+        else:
+            self.ajusterOrientation(orientation)
+
+    def ajusterOrientation(self, orientation):
+        if (orientation < 0):
+            commande = 'rotateAntiClockwise'
+            degree = abs(orientation)
+            parametre = math.floor(degree)
+        elif (orientation > 0):
+            commande = 'rotateClockwise'
+            degree = math.floor(orientation)
+            parametre = degree
+
+        return commande, parametre
+
 
     def ajusterPositionX(self, distance_x):
         if (distance_x < 0):

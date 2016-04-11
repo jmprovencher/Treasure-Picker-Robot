@@ -49,23 +49,23 @@ class Interface(QtGui.QWidget):
             self.rechargerInfo(self.ileCible, 'Ile cible : ' + self.threadStationBase.getCarte().getCible().getIndice())
         self.rechargerInfo(self.manchester, 'Manchester : ' + self.threadStationBase.getManchester())
         if self.threadStationBase.threadCommunication.getRobotPret():
-            self.rechargerInfoCouleur(self.robotPretAffiche, 'Connecte', 'color: green')
+            self.rechargerInfoCouleur(self.robotPretAffiche, 'Connecte', 'green')
         if self.threadStationBase is not None:
             if not self.threadStationBase.roundTerminee:
                 tempsTotal = self.infoTemps + default_timer() - self.threadStationBase.startTimer
                 secondeTotal = math.floor(tempsTotal - math.floor(tempsTotal/60)*60)
                 minuteTotal = math.floor(tempsTotal/60)
                 if secondeTotal < 10:
-                    stringSeconde = '0' + str(secondeTotal)
+                    stringSeconde = '0' + str(int(secondeTotal))
                 else:
-                    stringSeconde = str(secondeTotal)
+                    stringSeconde = str(int(secondeTotal))
                 if minuteTotal == 0:
-                    stringMinute = '  '
+                    stringMinute = ' 0'
                 elif minuteTotal < 10:
-                    stringMinute = ' ' + str(minuteTotal)
+                    stringMinute = ' ' + str(int(minuteTotal))
                 else:
                     stringMinute = str(minuteTotal)
-                self.rechargerInfo(self.tempsDepuisDemarrer, 'Temps : ' + stringMinute + stringSeconde)
+                self.rechargerInfoCouleur(self.tempsDepuisDemarrer, stringMinute + ':' + stringSeconde, 'blue')
             else:
                 if not self.infoTempsIndice:
                     self.infoTemps += default_timer() - self.threadStationBase.startTimer
@@ -93,7 +93,10 @@ class Interface(QtGui.QWidget):
         self.ileCible = self.afficherInitInfo(380, 122, 640, 150, 'Ile cible : ?')
         self.robotNonActif = self.afficherInitInfo(380, 142, 640, 170, 'Robot :')
         self.robotPretAffiche = self.afficherInitInfoCouleur(444, 142, 660, 170, 'Non Connecte', 'red')
-        self.tempsDepuisDemarrer = self.afficherInitInfo(380, 162, 640, 190, 'Temps : ?')
+        self.tempsDepuisDemarrerStatic = self.afficherInitInfo(380, 172, 640, 200, 'Temps : ')
+        self.tempsDepuisDemarrerStatic.setFont(QtGui.QFont("Times", 24, QtGui.QFont.Bold))
+        self.tempsDepuisDemarrer = self.afficherInitInfo(474, 172, 720, 200, '?')
+        self.tempsDepuisDemarrer.setFont(QtGui.QFont("Times", 24, QtGui.QFont.Bold))
 
     def initButtons(self):
         self.btnTable1 = self.afficherInitBouttons(40, 10, 100, 27, 'Table 1', self.setTable1)
@@ -138,7 +141,7 @@ class Interface(QtGui.QWidget):
 
     def rechargerInfoCouleur(self, label, texte, couleur):
         label.setText(QString(texte))
-        #label.setStyleSheet('color: ' + couleur)
+        label.setStyleSheet('color: ' + couleur)
         label.repaint()
 
     def afficherInitInfo(self, x, y, dimensionX, dimensionY, texte):
@@ -151,7 +154,7 @@ class Interface(QtGui.QWidget):
         info = QLabel(self)
         info.setGeometry(x, y, dimensionX, dimensionY)
         info.setText(QString(texte))
-        #info.setStyleSheet('color: ' + couleur)
+        info.setStyleSheet('color: ' + couleur)
         return info
 
     def afficherInitBouttons(self, x, y, dimensionX, dimensionY, texte, connection):

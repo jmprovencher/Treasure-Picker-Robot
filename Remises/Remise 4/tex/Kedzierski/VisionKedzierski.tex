@@ -1,0 +1,52 @@
+Les sections \ref{locIle} et \ref{locRobot} se déroulent évidemment sur la station de base. Il est a noter que lors de la réception d'une nouvelle image, celle-ci commence par la redimensionner de sorte à ne contenir que la table. Par la suite, un Gaussian blur est effectué. C'est à ce stade que les détections sont effectuée. 
+
+ \section{Localisation des iles et des trésors}
+\label{locIle}
+Le processus de localisation des îles est effectué, au tout début de la routine. Pour localiser les îles, chacune des quatre couleurs est filtrée et placée dans un masque afin d'effectuer un traitement individuel. Ensuite, les formes ayant une aire trop grande ou trop petite sont éliminées. Par la suite, les formes possédant un trou (contour enfant) avec un aire considérable sont éliminées (voir \ref{locRobot}). Le système compare ensuite les contours restant des formes filtrées avec les formes géométriques en mémoire. De ce fait, celui-ci est en mesure d'identifier la forme qui possède le plus haut taux de compatibilité avec celles en mémoire. Si l'indice de précision est trop faible pour les quatre formes en mémoire, la forme est ignorée. Bien que ce processus soit déjà robuste, ceci est effectuée à dix reprises dans le but de conserver la liste d'île ayant la longueur la plus constante.
+ \medbreak
+Pour ce qui est de la localisation des trésors, un processus similaire est utilisé. L'image est filtrée (à dix reprises) avec la couleur des trésors, puis les formes détectées sont retenues ou non dépendamment de l'aire de celles-ci. Les formes des trésors ne sont donc pas comparées, mais les trésors ne se retrouvant pas sur le long des murs sont négligés. Cette dernière opération s'effectue facilement puisque l'image est redimensionnée de sorte à ne contenir que la table avant la détection.
+ 
+ 
+ \section{Localisation du robot}
+
+\label{locRobot}
+Puisque la détection des îles se déroule avec succès, la même base est appliquée au robot. En effet, sur le dessus de celui-ci se retrouvent deux formes (carré et cercle) de la même couleur située sur le même axe. Par contre, afin de les différencier des îles, elles possèdent un trou blanc à l'intérieur (voir figure \ref{f:detectRobot}). L'image redimentionnée de la table est donc filtrée avec la couleur du robot et placée dans un masque. Ensuite (comme pour les îles), les formes ayant une aire trop grande ou trop petite sont éliminées. Par la suite, les formes ne possédant pas un trou (contour enfant) avec une aire considérable sont éliminées. Le système compare ensuite les contours restant avec les formes géométriques en mémoire. De ce fait, celui-ci est en mesure d'identifier la forme qui possède le plus haut taux de compatibilité avec celles en mémoire. Si l'indice de précision est trop faible pour les deux formes en mémoire, le robot ne sera pas détecté à cette itération. \medbreak
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=0.5\textwidth]{fig/imageRobot.png}
+   \caption{Image de la forme sur le robot}
+   \label{f:detectRobot}
+\end{figure}
+Une fois les contours détectés, un peu de géométrie permet d'obtenir les données voulues. Les formes sont positionnées de sorte que le centre des deux formes est situé au centre du robot. L'orientation du robot est simplement l'orientation du vecteur reliant le centre des deux formes (sachant que le cercle est l'avant du robot). \medbreak
+Afin d'ajouter un peu de robustesse à ce procédé, les détections subséquentes considèrent l'ancienne position du robot et une analyse de faisabilité du déplacement est effectuée. Si le déplacement est trop élevé, le robot n'est pas détecté. Dans l'éventualité où le robot n'est pas détecté lors de dix itérations consécutives, le robot est déclaré comme perdu et l'analyse de faisabilité de déplacement est ignorée jusqu'à ce qu'il soit retrouvé.
+
+\section{Phases d'alignement du robot}
+Tout d'abord, il est important de spécifier que la station de base gère les déplacements principaux du robot alors que le robot gère lui-même les phases d'alignements. Ceci dit, lorsque le robot est dirigé vers une position cible, la station de base lui indiquera quelle type d'alignement il doit effectuer. Il y a une phase d'alignement unique pour la capture d'un trésor, le dépôt de celui-ci sur l'île cible ainsi que pour l'amarrage du robot avec la station de recharge.
+\medbreak
+Les phases d'alignement regroupent plusieurs petites étapes. Tout commence avec le changement de l'orientation de la caméra embarquée. Celle-ci possède plusieurs positions prédéfinies, ce qui facilite grandement le déroulement du processus d'alignement.
+
+\subsection{Capture du trésor}
+Pour la capture du trésor, la caméra est placée en "position trésor" afin d'identifier le trésor et évaluer la distance le séparant du robot. La distance est obtenue en comparant la dimension du trésor avec une dimension de référence établie lors de la phase de test. 
+\medbreak
+Ensuite, puisque la position du préhenseur sur le robot est connue, le robot calcule les ajustements nécessaires et les commandes appropriées sont calculées. Une fois la commande de déplacement latéral effectuée, l'électroaimant est activé et le préhenseur est abaissé. Le robot effectue par la suite un déplacement frontal, capture le trésor, remonte le préhenseur et recule afin de valider que le trésor a bel et bien été capturé en effectuant une autre analyse d'image. La phase de préhension de trésor se termine donc et la station de base reprendra le contrôle du robot.  
+
+\subsection{Dépôt du trésor}
+Pour le dépôt du trésor, la caméra se positionne face à la surface de jeu et analyse la position de l'île cible pour calculer le déplacement vertical et horizontal à effectuer. Une fois ces ajustements calculés, des commandes de déplacements sont envoyés. Finalement, une fois l'alignement terminé, le système valide la position de l'île cible par rapport à la zone de dépôt sécuritaire déterminée par des tests. Le trésor est soit déposé ou un autre alignement est effectué. Pour déposer le trésor, l'électroaimant est activé, puis le préhenseur est abaissé en douceur. Une fois le préhenseur abaissé, l'électroaimant est désactivé et quelques secondes plus tard, le préhenseur remonte.
+\medbreak
+Un exemple de l'analyse effectuée par le système lors de la phase d'alignement avec l'ile cible peut être observé à la figure \ref{f:alignement_ile}. Le système calcule les ajustements nécessaires afin que le centre de l'ile se trouve dans la zone de dépôt sécuritaire une fois ces ajustements effectués par le robot.
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=0.4\textwidth]{fig/alignementtresor.png}
+   \caption{Traitement fait lors de l'alignement avec l'ile}
+   \label{f:alignement_ile}
+\end{figure}
+
+
+\subsection{Recharge du condensateur}
+La phase d'alignement avec la station de recharge est une étape cruciale dans le déroulement de la routine. En effet, un mauvais alignement aura comme conséquence un plus long temps de recharge ou aucune recharge dans le pire des cas. Il est donc indispensable que le robot soit parfaitement aligné avec la station de recharge afin que la recharge à induction soit optimale. 
+\medbreak
+Lorsque le robot est mené à la station de recharge à l'aide de la station de base, celle-ci enverra une commande d'alignement au robot. La caméra se positionne face à la station de recharge et analyse la position d'une forme cible, qui se trouve au dessus de la bobine d'induction. Suite à l'analyse de l'image, l'aire de cette forme est comparée à une aire de référence établie à une distance connue, la distance entre le robot et la station de base est calculée. Un ajustement latéral est aussi calculé selon la position du centre de la forme cible. 
+\medbreak
+Précédant l'exécution des ajustements, la charge du condensateur est activée. La tension du condensateur est monitorée tout au long de la recharge, car dès que celle-ci dépasse 4.7V, on désactive la charge du condensateur et le robot se sépare par la suite du la station de recharge.
+\medbreak
+\textit{Suite à une modification de la station de recharge, l'implémentation du traitement visuel n'est que partiellement codé. Toutefois, les méthodes expliquées seront celles utilisées dans l'implémentation.}

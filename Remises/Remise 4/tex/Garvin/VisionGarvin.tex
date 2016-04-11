@@ -1,0 +1,26 @@
+
+
+\section{Diagramme de classe}
+
+Puisque la taille du diagramme de classe est très grande, celui-ci peut être retrouvé à l'intérieur du dossier /fig inclut avec la remise. Une brève description du flot d'exécution de la routine suivra afin de mieux comprendre l'utilité des classes principales.
+\medbreak
+
+Du côté de la station de base, l'interface est d'abord initialisée par le main. Ensuite, les boutons peuvent être utilisés afin de démarrer une certaine routine en initialisant la classe StationBase avec la table de jeux utilisée et la routine voulue. Ce thread est le contrôleur de la station et est celui qui initialise par la suite les threads suivants: 
+\begin{enumerate}
+\item \textbf{StationServeur :} Initialise une connexion TCP avec le robot (avec TCPServeur). Il est en charge d'envoyer et de traiter toute communication entre la station de base et le robot. La communication est effectuée sous forme d'envoie de fichier JSON qui sont créés par la classe RequeteJSON.
+\item \textbf{FeedVideoStation :} Ce thread ne fait que lire les images de la caméra world afin qu'elles soient analysées par la suite.
+\item \textbf{AnalyseImageWorld :} Repère les iles, les trésors et le robot avec l'aide de plusieurs classes de détection. Pour la détection des éléments, les intervalles de couleur sont celles correspondantes à la table actuelle définit lors de l'initialisation de la station de base. Une fois trouvés, tous les éléments cartographiques sont ajouté à la classe Carte.
+\item \textbf{ImageVirtuelle :} Ce thread est en charge de dessiner sur l'image obtenue, afin de l'afficher dans l'interface. Les informations telles que la trajectoire prévue, la position réelle du robot et les autres éléments cartographiques détectés. Cette classe représente donc tout simplement la carte virtuelle.
+\end{enumerate}
+Suite à l'initialisation de StationBase, Interface initialise un dernier thread (AfficherImageVirtuelle). Celui-ci ne fait que mettre à jour le feed vidéo (ImageVirtuelle) dans l'interface.  
+\medbreak
+Dès le début de l'exécution, la classe StationBase initialise la classe Trajectoire avec GrilleCellule. Celle-ci représente la matrice de position où le robot peut être positionné. Lors de la demande d'un trajet, Trajectoire appelle AlgorithmeTrajectoire avec la grille de cellule. Cette classe trouvera la trajectoire demandée selon le contenu des cellules. 
+\medbreak
+Finalement, la classe RedirigeurTexte sert tout simplement à rediriger les impressions consoles dans la boite de texte de l'interface.\bigbreak
+Du coté du robot, le contrôleur est la classe Robot. La communication se déroule comme avec la station de base avec les classes (RequeteJSON, RobotClient, TCPClient). La classe UARTDriver est utilisée pour envoyer des commandes par UART, tandis que la classe LectureUART est utilisée pour lire et traiter les données envoyées par le UART.
+\medbreak
+Lorsque le robot entre en phase d'alignement, il se sert de AnalyseImageEmbarquee et de la classe de détection correspondante afin de trouver les ajustements requis. Les ajustements sont ensuite transmis au robot et sont envoyées au UART afin de terminer la phase d'alignement.
+\medbreak
+La classe RobotService est utilisée pour effectuer du traitement d'information. Elle est utilisée pour effectuer la requête au serveur des iles, grâce au code Manchester préalablement décodé. Ensuite, elle traite la réponse pour obtenir l'indice sur l'ile cible.
+\bigbreak
+Finalement, la classe ConfigPath est utilisée afin de transformer les adresses locales en adresses absolues. 

@@ -1,0 +1,61 @@
+
+
+\section{Station de recharge}
+\label{s:Recharge}
+
+La figure \ref{f:StationRecharge} présente le circuit installé sur la station de recharge. le PIC est utilisé pour générer une horloge nécessaire au Manchester et une autre pour le hachage du signal de charge. Les signaux d'horloge ainsi que le code Manchester sont transmis au module Xbee pour ensuite être transmis au robot.
+
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=1\textwidth]{fig/StationRecharge.png}
+   \caption{Schéma électrique de la station de recharge}
+   \label{f:StationRecharge}
+\end{figure}
+
+\pagebreak
+
+\section{Circuit de charge et de décharge du condensateur}
+\label{s:Condensateur}
+
+La figure \ref{f:Condensateur} présente le circuit de charge et de décharge du condensateur. Le MOSFET et utilisé en envoyant un PWM à sa base afin de réduire l'effet de l'induction rémanente à l'électroaimant. Un interrupteur permet aussi de connecter une résistance permettant de décharger les condensateurs.
+
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=1\textwidth]{fig/Condensateur.png}
+   \caption{Schéma électrique de la charge et la décharge du condensateur}
+   \label{f:Condensateur}
+\end{figure}
+
+\pagebreak
+
+\section{Circuit de connexions pour les moteurs}
+\label{Connexions}
+
+\subsection{Connexions moteurs et pont en H}
+\label{Moteurs}
+
+La figure \ref{f:Connexions} présente le circuit de connexion utilisé pour les connections des encodeurs des moteurs et du pont en H. On utilise ce circuit situé sous le robot afin d'éviter de rallonger les fils des moteurs et de mieux organiser les fils.
+
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=1\textwidth]{fig/Connections.png}
+   \caption{Schéma électrique du circuit de connexions des moteurs}
+   \label{f:Connexions}
+\end{figure}
+
+\pagebreak
+
+\subsection{Connexions sur l'Arduino}
+\label{Arduino}
+
+La figure \ref{f:Arduino} présente les connexions de tout les systèmes sur l'Arduino.
+
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=1\textwidth]{fig/Arduino.png}
+   \caption{Schéma des connexions sur l'Arduino Mega}
+   \label{f:Arduino}
+\end{figure}
+
+
+\pagebreak

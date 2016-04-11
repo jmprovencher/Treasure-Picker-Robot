@@ -65,10 +65,8 @@ class UARTDriver:
         time.sleep(1)
         self.sendCommand('backward', 1)
         time.sleep(1)
-        self.sendCommand('backward', 1)
-        time.sleep(1)
         self.sendCommand('backward', 2)
-        time.sleep(3)
+        time.sleep(1)
         self.monterPrehenseur()
         time.sleep(6)
         self.desactiverAimant()
@@ -107,9 +105,9 @@ class UARTDriver:
     def executionTerminee(self):
         for j in range(0, 6):
             self.cameraPositionFace()
-            time.sleep(0.2)
+            time.sleep(0.1)
             self.cameraPositionDepot()
-            time.sleep(0.2)
+            time.sleep(0.1)
 
     def sendCommand(self, command, parameter):
         parameter = chr(parameter)

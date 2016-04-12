@@ -45,8 +45,8 @@ class DetectionTresor(object):
         return centre_x, centre_y
 
     def _detecterContoursForme(self, intervalleCouleur):
-        intervalleJaune = np.array([0, 0, 0]), np.array([255, 255, 255]), "Jaune"
-        intervalleFonce, intervalleClair, couleurForme = intervalleJaune
+        #intervalleJaune = np.array([0, 0, 0]), np.array([255, 255, 255]), "Jaune"
+        intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         #kernel = np.ones((5, 5), np.uint8)
         #closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
@@ -54,6 +54,9 @@ class DetectionTresor(object):
 
         cv2.imshow("Tresor", masqueCouleur)
         cv2.waitKey(0)
+
+
+
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         #kernel = np.ones((5, 5), np.uint8)

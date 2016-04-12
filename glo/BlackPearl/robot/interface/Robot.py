@@ -77,6 +77,7 @@ class Robot(Thread):
 
         self._demarrerAnalyseVideo('tresor')
         self.uartDriver.preAlignementTresor()
+        self.uartDriver.cameraPositionFace()
         self._executerAlignement()
 
         self.uartDriver.postAlignementTresor()

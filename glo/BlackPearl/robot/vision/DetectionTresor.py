@@ -72,7 +72,9 @@ class DetectionTresor(object):
             print("Aucun tresor")
             return None
         else:
-            return contoursCouleur[0]
+            contoursCouleur.sort()
+            index = len(contoursCouleur)
+            return contoursCouleur[index-1]
 
     def _definirIntervallesCouleurs(self):
         self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"

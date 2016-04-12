@@ -75,9 +75,11 @@ class DetectionIle(object):
         self.intervalleBleu = np.array([100, 100, 0]), np.array([190, 170, 80]), "Bleu"
         self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
         self.intervalleVert = np.array([50, 120, 40]), np.array([100, 170, 80]), "Vert"
-        self.intervalleVertTable5 = (np.array([0, 70, 0]), np.array([100, 200, 80])), "Vert2"
-        self.intervalleRougeTable5 = (np.array([15, 0, 75]), np.array([100, 65, 200])), "Rouge2"
-        self.intervalleJauneTable5 = (np.array([0, 50, 50]), np.array([50, 255, 255])), "Jaune2"
+
+        self.intervalleVertTable5 = np.array([0, 60, 0]), np.array([100, 200, 80]), "Vert2"
+
+        self.intervalleRougeTable5 = np.array([15, 0, 75]), np.array([100, 65, 200]), "Rouge2"
+        self.intervalleJauneTable5 = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune2"
 
     def _afficherFeed(self):
         cv2.imshow("Image", self.imageCamera)

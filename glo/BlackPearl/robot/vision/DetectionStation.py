@@ -8,7 +8,7 @@ from robot.alignement.AlignementStation import AlignementStation
 KNOWN_DISTANCE = 6
 KNOWN_WIDTH = 3
 FOCAL_LENGTH = 1119
-RATIO_PIXEL_CM = 90
+RATIO_PIXEL_CM = 95
 
 
 class DetectionStation(object):
@@ -32,7 +32,7 @@ class DetectionStation(object):
             self._dessinerZoneCible()
             cv2.imshow("image", self.imageCamera)
             cv2.waitKey(0)
-            
+
     def _trouverDistanceStation(self, contoursCible):
         zoneTresor = cv2.minAreaRect(contoursCible)
         # focalLength = (zoneTresor[1][0] * KNOWN_DISTANCE) / KNOWN_WIDTH

@@ -28,8 +28,11 @@ class DetectionStation(object):
             print("DIstance: ", distance_y)
             distance_x = self._trouverOffsetLateral(contoursCible)
             self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y)
-            # self._dessinerInformations(contoursCible, distance_y)
-
+            self._dessinerInformations(contoursCible, distance_y)
+            self._dessinerZoneCible()
+            cv2.imshow("image", self.imageCamera)
+            cv2.waitKey(0)
+            
     def _trouverDistanceStation(self, contoursCible):
         zoneTresor = cv2.minAreaRect(contoursCible)
         # focalLength = (zoneTresor[1][0] * KNOWN_DISTANCE) / KNOWN_WIDTH
@@ -72,8 +75,7 @@ class DetectionStation(object):
         cv2.putText(self.imageCamera, "%.2f cm" % (distanceStation),
                     (self.imageCamera.shape[1] - 300, self.imageCamera.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX, 2.0,
                     (0, 255, 0), 3)
-        # cv2.imshow("image", self.imageCamera)
-        # cv2.waitKey(0)
+
 
     def _trouverCentreForme(self, contoursForme):
         MatriceCentreMasse = cv2.moments(contoursForme)

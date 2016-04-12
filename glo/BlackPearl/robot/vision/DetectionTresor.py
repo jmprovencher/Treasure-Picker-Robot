@@ -91,6 +91,6 @@ class DetectionTresor(object):
         cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)
 
     def _definirIntervallesCouleurs(self):
-        self.intervalleJaune = np.array([20, 120, 120]), np.array([255, 255, 255]), "Jaune"
+        self.intervalleJaune = np.array([0, 0, 0]), np.array([255, 255, 255]), "Jaune"
         #self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"
 

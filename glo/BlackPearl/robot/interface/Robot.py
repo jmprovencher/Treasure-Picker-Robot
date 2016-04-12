@@ -72,8 +72,6 @@ class Robot(Thread):
         self.alignementEnCours = True
         self.uartDriver.cameraPositionDepot()
         self.threadVideo.demarrerCapture()
-        self.uartDriver.cameraPositionFace()
-
         self._demarrerAnalyseVideo('orientation')
         self._executerAlignement()
 
@@ -151,7 +149,7 @@ class Robot(Thread):
 
     def _demarrerConnectionTCP(self):
         self.robotClient = RobotClient(self, self.adresseIP)
-        time.sleep(1)
+        time.sleep(2)
         self.robotClient.start()
 
     def _demarrerLectureUART(self):

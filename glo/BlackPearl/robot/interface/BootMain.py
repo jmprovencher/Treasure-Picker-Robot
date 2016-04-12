@@ -10,7 +10,7 @@ def main():
     #robot.start()
 
     prefixPort = '/dev/ttyACM'
-    
+
     for j in range(0, 20):
         try:
             port = prefixPort + str(j)

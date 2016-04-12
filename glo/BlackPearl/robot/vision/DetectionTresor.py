@@ -22,8 +22,9 @@ class DetectionTresor(object):
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
         if (contoursTresor is not None):
             distance_x, distance_y = self._trouverDistance(contoursTresor)
-            ajustementsXY = self.alignementTresor.calculerAjustement(distance_x, distance_y)
-            self.ajustements.append(ajustementsXY);
+            self.ajustements= self.alignementTresor.calculerAjustement(distance_x, distance_y)
+
+            print("Ajustement alignement tresor calculer")
 
     def _trouverDistance(self, contoursTresor):
         positionZone_x, positionZone_y = self.positionZone
@@ -74,4 +75,5 @@ class DetectionTresor(object):
 
     def _definirIntervallesCouleurs(self):
         self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"
+        #self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"
 

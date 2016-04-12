@@ -31,6 +31,7 @@ bool stateManchester = 0;
 bool bitDecode = 0;
 bool complete = false;
 bool slow = false;
+bool readyToBegin = false;
 int compteur = 0;
 int nombreDeSuite = 1;
 
@@ -75,9 +76,9 @@ PID pidList[4] = {firstPID, secondPID, thirdPID, fourthPID};
 void setup() {
   Serial.begin(115200);
   Serial2.begin(9600);
+  TCCR3B = TCCR3B & 0b11111000 | 0x04;
 
   Timer1.initialize(2000000);
-  Timer1.attachInterrupt(readCapacitor); // readCapacitor runs every second
 
   pinMode(pinClock, INPUT);
   pinMode(pinManchester, INPUT);
@@ -99,7 +100,7 @@ void setup() {
     pidList[i].SetSampleTime(15);
   }
   
-  analogWrite(pinElectroAimant, 184);
+  analogWrite(pinElectroAimant, 166);
   
   attachInterrupt(digitalPinToInterrupt(20), decrementDuration, FALLING);
   attachInterrupt(digitalPinToInterrupt(21), decrementDuration, FALLING);
@@ -184,6 +185,11 @@ void writeString(String stringData) { // Used to serially push out a String with
 
 void serialEvent(){
     // read the incoming byte:
+    if(readyToBegin == false){
+      Timer1.restart();
+      readyToBegin == true;
+      Timer1.attachInterrupt(readCapacitor); // readCapacitor runs every second
+    }
     Timer1.detachInterrupt();
     incomingByte = Serial.read();
     
@@ -193,11 +199,31 @@ void serialEvent(){
         stopWheels();
         manchesterRead();
       }
+      else if(incomingByte == 73){
+        action = "Moving forward slowly ";
+        Setpoint[0] = 1400; Setpoint[1] = 1400; Setpoint[2] = 3000; Setpoint[3] = 3000;
+        for(int i = 0; i<8; i++){
+          spdWheels[i] = straightAhead[i];
+        }
+        slow = false;
+        rotation = false;
+        mode = true;
+      }
       else if(incomingByte == 56){
         action = "Moving forward ";
         Setpoint[0] = 800; Setpoint[1] = 800; Setpoint[2] = 3000; Setpoint[3] = 3000;
         for(int i = 0; i<8; i++){
           spdWheels[i] = straightAhead[i];
+        }
+        slow = false;
+        rotation = false;
+        mode = true;
+      }
+      else if(incomingByte == 75){
+        action = "Moving backwards slowly ";
+        Setpoint[0] = 1400; Setpoint[1] = 1400; Setpoint[2] = 3000; Setpoint[3] = 3000;
+        for(int i = 0; i<8; i++){
+          spdWheels[i] = backwardsMov[i];
         }
         slow = false;
         rotation = false;
@@ -253,11 +279,31 @@ void serialEvent(){
         rotation = false;
         mode = true;
       }
+      else if(incomingByte == 74){
+        action = "Turning left slowly";
+        Setpoint[2] = 1500; Setpoint[3] = 1500; Setpoint[0] = 1500; Setpoint[1] = 1500;
+        for(int i = 0; i<8; i++){
+          spdWheels[i] = turnLeft[i];
+        }
+        slow = false;
+        rotation = true;
+        mode = true;
+      }
       else if(incomingByte == 55){
         action = "Turning left ";
         Setpoint[2] = 1200; Setpoint[3] = 1200; Setpoint[0] = 1200; Setpoint[1] = 1200;
         for(int i = 0; i<8; i++){
           spdWheels[i] = turnLeft[i];
+        }
+        slow = false;
+        rotation = true;
+        mode = true;
+      }
+      else if(incomingByte == 76){
+        action = "Turning right slowly";
+        Setpoint[2] = 1500; Setpoint[3] = 1500; Setpoint[0] = 1500; Setpoint[1] = 1500;
+        for(int i = 0; i<8; i++){
+          spdWheels[i] = turnRight[i];
         }
         slow = false;
         rotation = true;
@@ -366,6 +412,11 @@ void serialEvent(){
       }
     }
     else if(mode){
+      for(int i = 0; i < 4; i++){
+        pidList[i].SetOutputLimits(0, 1);
+        pidList[i].SetOutputLimits(-1, 0);
+        pidList[i].SetOutputLimits(0, 120);
+      }
       for(int i = 0; i < 4; i++){
         Output[i] = 0;
       }

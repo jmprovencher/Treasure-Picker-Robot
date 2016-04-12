@@ -5,9 +5,9 @@ from robot.interface.Robot import Robot
 
 
 def main():
-    # monUART = None
-    # robot = Robot(monUART)
-    # robot.start()
+    #monUART = None
+    #robot = Robot(monUART)
+    #robot.start()
 
     prefixPort = '/dev/ttyACM'
 

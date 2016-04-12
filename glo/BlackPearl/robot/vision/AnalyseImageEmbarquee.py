@@ -3,6 +3,7 @@ import ConfigPath
 from robot.vision.DetectionIle import DetectionIle
 from robot.vision.DetectionStation import DetectionStation
 from robot.vision.DetectionTresor import DetectionTresor
+from robot.vision.DetectionOrientation import DetectionOrientation
 from threading import Thread
 import time
 
@@ -39,17 +40,29 @@ class AnalyseImageEmbarquee(Thread):
             self.evaluerPositionTresor()
         elif (parametre == 'station'):
             self.evaluerPositionStation()
+        elif (parametre == 'orientation'):
+            self.evaluerOrientation()
         else:
             print("CRITICAL ERROR")
 
-    def evaluerPositionTresor(self):
-        self.detectionTresor = DetectionTresor(self.imageCamera)
-        self.ajustements = self.detectionTresor.ajustements
+    def evaluerOrientation(self):
+        self.detectionOrientation = DetectionOrientation(self.imageCamera)
+        self.detectionOrientation.calculerAjustementOrientation()
+        self.ajustements = self.detectionOrientation.ajustements
 
         if (self.ajustements != []):
             print("Ajustement calculer, analyse termine")
             self.ajustementsCalcules = True
 
+    def evaluerPositionTresor(self):
+        self.detectionTresor = DetectionTresor(self.imageCamera)
+        self.detectionTresor.calculerAjustements()
+        self.ajustements = self.detectionTresor.ajustements
+        print("Nombre ajustement tresor: %d" %len(self.ajustements))
+
+        if (self.ajustements != []):
+            print("Ajustement calculer, analyse termine")
+            self.ajustementsCalcules = True
 
     def evaluerPositionStation(self):
         self.detectionStation = DetectionStation(self.imageCamera)
@@ -77,7 +90,7 @@ class AnalyseImageEmbarquee(Thread):
 
     def _chargerImage(self):
         self.imageCamera = self.robot.threadVideo.getImageCapture()
-        #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('image1.png'))
+        #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('horizon.jpg'))
         self._estomperImage()
 
     def _attendreFeedVideo(self):

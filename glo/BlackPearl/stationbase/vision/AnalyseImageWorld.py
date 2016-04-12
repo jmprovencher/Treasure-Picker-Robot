@@ -18,6 +18,7 @@ class AnalyseImageWorld(Thread):
         self.imageCropper = None
         self.cntRobotPerdu = 0
         self.detectionPrimaireFini = False
+        self.debuterDetectionTresors = False
 
     def run(self):
         self.stationBase.attendreFeed()
@@ -28,6 +29,8 @@ class AnalyseImageWorld(Thread):
         while 1:
             self.chargerImage()
             self.trouverRobot()
+            if self.debuterDetectionTresors:
+                self.trouverTresors()
             time.sleep(0.01)
 
     def chargerImage(self):
@@ -53,12 +56,11 @@ class AnalyseImageWorld(Thread):
             self.chargerImage()
             self.trouverRobot()
         print 'le robot est trouve.'
-        self.trouverElementsCartographiques()
+        self.trouverIles()
 
-    def trouverElementsCartographiques(self):
-        print("\nDetection des iles et tresors...")
+    def trouverIles(self):
+        print("\nDetection des iles...")
         detectionMultipleIles = []
-        detectionMultipleTresors = []
 
         for i in range(50):
             print 'detection: %d sur 50' % i
@@ -67,15 +69,26 @@ class AnalyseImageWorld(Thread):
             detectionIles.detecter()
             listIles = self.eliminerContoursProcheRobot(detectionIles.getIlesIdentifiees())
             detectionMultipleIles.append(listIles)
+            time.sleep(0.01)
+
+        listIles = self.resultatPlusCommun(detectionMultipleIles)
+        self.stationBase.carte.setIles(listIles)
+
+    def trouverTresors(self):
+        print("\nDetection des tresors...")
+        detectionMultipleTresors = []
+
+        for i in range(50):
+            print 'detection: %d sur 50' % i
+            self.chargerImage()
             detectionTresors = DetectionTresors(self.image, self.stationBase.getNumTable())
             detectionTresors.detecter()
             detectionMultipleTresors.append(detectionTresors.getTresorsIdentifies())
             time.sleep(0.01)
 
-        listIles = self.resultatPlusCommun(detectionMultipleIles)
-        self.stationBase.carte.setIles(listIles)
         listTresors = self.resultatPlusCommun(detectionMultipleTresors)
         self.stationBase.carte.setTresors(listTresors)
+        self.debuterDetectionTresors = False
 
     def resultatPlusCommun(self, detectionMultiple):
         tmpList = []

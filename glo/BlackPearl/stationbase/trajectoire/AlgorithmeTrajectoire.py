@@ -1,6 +1,8 @@
 from __future__ import division
 import heapq
 from stationbase.trajectoire.Cellule import Cellule
+import copy
+import math
 
 
 class AlgorithmeTrajectoire:
@@ -20,8 +22,8 @@ class AlgorithmeTrajectoire:
     def trouverTrajet(self, depart, arriver):
         self.trajet = []
         self.departBuffer = depart
-        depart = self.trouverDebutBuffer(depart)
-        self.setDepart(depart)
+        depart2 = self.trouverDebutBuffer(depart)
+        self.setDepart(depart2)
         self.setArriver(arriver)
         heapq.heappush(self.heapOuvert, (self.depart.priorite, self.depart))
 
@@ -32,7 +34,7 @@ class AlgorithmeTrajectoire:
                 self.simplifierTrajet()
                 self.sectionnerTrajet()
                 return self.trajet
-            elif (self.cellulePlusPres is None) and (self.distanceBufferAcceptee(cellule)):
+            elif self.cellulePlusPres is None:
                 self.cellulePlusPres = cellule
             elif self.distanceArriverCarre(cellule) < self.distanceArriverCarre(self.cellulePlusPres):
                 self.cellulePlusPres = cellule
@@ -48,8 +50,19 @@ class AlgorithmeTrajectoire:
                         heapq.heappush(self.heapOuvert, (adj.priorite, adj))
 
         self.arriver = self.cellulePlusPres
-        self.simplifierTrajet()
-        self.sectionnerTrajet()
+        print 'arrivee:', self.arriver.x, self.arriver.y
+        while self.grilleCellule.distanceAuCarre(self.arriver.x, self.arriver.y, arriver[0], arriver[1]) >= 35**2:
+            print 'nouvelle teration'
+            self.grilleCellule.rayonBuffer -= 1
+            print self.grilleCellule.rayonBuffer
+            self.grilleCellule.initGrilleCellule(self.grilleCellule.listeIles)
+            print 'nouvelle grille cellule'
+            self.trouverTrajet(depart, arriver)
+        if self.trajet is not None:
+            self.simplifierTrajet()
+            self.ajouterSecurite()
+            self.enleverPointIdentique()
+            self.sectionnerTrajet()
         return self.trajet
 
     def distanceBufferAcceptee(self, cellule):
@@ -64,9 +77,22 @@ class AlgorithmeTrajectoire:
         while i < len(self.trajet)-1:
             debut = self.trajet[i]
             fin = self.trajet[i+1]
-            if self.distanceAuCarre(debut[0], debut[1], fin[0], fin[1]) > 900:
+            if self.distanceAuCarre(debut[0], debut[1], fin[0], fin[1]) > 1600:
                 point = self.trouverPointMilieu(debut, fin)
                 self.trajet = self.trajet[:i+1] + [point] + self.trajet[i+1:]
+            else:
+                i += 1
+
+    def enleverPointIdentique(self):
+        i = 0
+        while i < len(self.trajet)-3:
+            debut1 = self.trajet[i]
+            fin1 = self.trajet[i+1]
+            debut2 = self.trajet[i+2]
+            fin2 = self.trajet[i+3]
+            if (debut1[0] == debut2[0] and fin1[0] == fin2[0] and debut1[1] == debut2[1] and fin1[1] == fin2[1]) or \
+                    (debut1[0] == fin2[0] and fin1[0] == debut2[0] and debut1[1] == fin2[1] and fin1[1] == debut2[1]):
+                self.trajet = self.trajet[:i+2] + self.trajet[i+4:]
             else:
                 i += 1
 
@@ -140,7 +166,65 @@ class AlgorithmeTrajectoire:
         distCarre = dx*dx + dy*dy
 
         return distCarre < (int(round(self.grilleCellule.rayonBuffer * (
-            self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0])))**2 #TODO: ajouter un plus gros buffer lors des corrections ?
+            self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0])))**2
+
+    def ajouterSecurite(self):
+        i = 0
+        while i < len(self.trajet)-1:
+            point = self.trajet[i]
+            ile1, ile2 = self.trouver2IlesPlusPres(point)
+            if (self.distanceAuCarre(point[0], point[1], ile1.centre_x, ile1.centre_y) <= 30**2) and \
+                    (self.distanceAuCarre(point[0], point[1], ile2.centre_x, ile2.centre_y) <= 30**2) and \
+                    (self.distanceAuCarre(ile2.centre_x, ile2.centre_y, ile1.centre_x, ile1.centre_y) >= 30**2):
+                point1, point2 = self.trouverNouveauPoint((ile1.centre_x, ile1.centre_y), (ile2.centre_x, ile2.centre_y))
+                point1, point2 = self.ordonnerPointAjoute(point1, point2, self.trajet[i-1])
+                self.trajet = self.trajet[:i] + [point1] + [point2] + self.trajet[i+1:]
+                i += 2
+            else:
+                i += 1
+
+    def ordonnerPointAjoute(self, point1, point2, pointP):
+        distance1 = self.distanceAuCarre(point1[0], point1[1], pointP[0], pointP[1])
+        distance2 = self.distanceAuCarre(point2[0], point2[1], pointP[0], pointP[1])
+        if distance1 < distance2:
+            return point1, point2
+        else:
+            return point2, point1
+
+    def trouver2IlesPlusPres(self, point):
+        ile1 = None
+        ile2 = None
+        distance1 = 1000000
+        distance2 = 1000000
+        for ile in self.grilleCellule.listeIles:
+            distance = self.distanceAuCarre(point[0], point[1], ile.centre_x, ile.centre_y)
+            if distance < distance1:
+                distance1 = distance
+                ile1 = copy.deepcopy(ile)
+            elif distance < distance2:
+                distance2 = distance
+                ile2 = copy.deepcopy(ile)
+        return ile1, ile2
+
+    def trouverNouveauPoint(self, point1, point2):
+        facteur = 16
+        MilieuX = int(round((point2[0] + point1[0])/2))
+        MilieuY = int(round((point2[1] + point1[1])/2))
+        deltaY = point2[1] - point1[1]
+        deltaX = point2[0] - point1[0]
+        if deltaX == 0:
+            pointFinal1 = (MilieuX + self.grilleCellule.depCentimetreXAPixel(facteur), MilieuY)
+            pointFinal2 = (MilieuX - self.grilleCellule.depCentimetreXAPixel(facteur), MilieuY)
+        elif deltaY == 0:
+            pointFinal1 = (MilieuX, MilieuY + self.grilleCellule.depCentimetreYAPixel(facteur))
+            pointFinal2 = (MilieuX, MilieuY - self.grilleCellule.depCentimetreYAPixel(facteur))
+        else:
+            penteInit = deltaY/deltaX
+            penteInverse = -1/penteInit
+            teta = math.atan(penteInverse)
+            pointFinal1 = (MilieuX + self.grilleCellule.depCentimetreXAPixel((facteur*math.cos(teta))), MilieuY + self.grilleCellule.depCentimetreYAPixel((facteur*math.sin(teta))))
+            pointFinal2 = (MilieuX - self.grilleCellule.depCentimetreXAPixel((facteur*math.cos(teta))), MilieuY - self.grilleCellule.depCentimetreYAPixel((facteur*math.sin(teta))))
+        return pointFinal1, pointFinal2
 
     def trouverDebutBuffer(self, depart):
         depart_x, depart_y = depart

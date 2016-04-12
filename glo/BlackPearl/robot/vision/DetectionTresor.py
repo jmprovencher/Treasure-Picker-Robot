@@ -18,13 +18,13 @@ class DetectionTresor(object):
         self.alignementTerminer = False
         self.ajustements = []
 
-        self.calculerAjustements()
-
     def calculerAjustements(self):
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
         if (contoursTresor is not None):
             distance_x, distance_y = self._trouverDistance(contoursTresor)
-            self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
+            self.ajustements= self.alignementTresor.calculerAjustement(distance_x, distance_y)
+
+            print("Ajustement alignement tresor calculer")
 
     def _trouverDistance(self, contoursTresor):
         positionZone_x, positionZone_y = self.positionZone
@@ -46,13 +46,13 @@ class DetectionTresor(object):
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         kernel = np.ones((5, 5), np.uint8)
         closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
-        contoursTresor = []
         _, contoursCouleur, _ = cv2.findContours(closing, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         if (len(contoursCouleur) > 0):
             contoursTresor = self._obtenirFormeInteret(contoursCouleur)
-            if(contoursTresor is not None):
+            if (contoursTresor is not None):
                 aire = cv2.contourArea(contoursTresor)
+                print("Aire tresor : ", aire)
                 return contoursTresor
             print("Plusieurs contours detectee")
         else:
@@ -75,3 +75,5 @@ class DetectionTresor(object):
 
     def _definirIntervallesCouleurs(self):
         self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"
+        #self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"
+

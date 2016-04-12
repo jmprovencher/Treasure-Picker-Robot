@@ -29,6 +29,7 @@ class RobotClient(Thread):
             if self.robot.pretEnvoyerLettre:
                 print("Envoie de la lettre...")
                 self.robot.indiceObtenu = self.robot.service.obtenirCible(self.robot.lettreObtenue)
+                print("Indice obtenu: %s" % self.robot.indiceObtenu)
                 self.envoyerLettre()
                 time.sleep(0.5)
                 self.envoyerIndice()

@@ -157,6 +157,7 @@ class Robot(Thread):
         self.threadLecture.start()
 
     def _demarrerAnalyseVideo(self, type):
+        print("Demarrage analyse %s", type)
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
         self.analyseImageEmbarquee.definirType(type)
         self.analyseImageEmbarquee.start()

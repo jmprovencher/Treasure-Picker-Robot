@@ -1,7 +1,7 @@
 import cv2
 from threading import Thread
 import time
-
+import numpy as np
 
 class FeedVideoRobot(Thread):
     def __init__(self):
@@ -32,6 +32,15 @@ class FeedVideoRobot(Thread):
         while (self.connecter):
             #print ("Streaming...")
             _, self.imageCapture = self.video.read()
+            intervalleJaune = np.array([20, 90, 90]), np.array([80, 255, 255]), "Jaune"
+            intervalleFonce, intervalleClair, couleurForme = intervalleJaune
+            masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
+            #kernel = np.ones((5, 5), np.uint8)
+            #closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
+            _, contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+            cv2.imshow("Tresor", masqueCouleur)
+        cv2.waitKey(0)
             #self.afficherFeed()
 
     def afficherFeed(self):

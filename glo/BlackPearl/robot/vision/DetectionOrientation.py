@@ -10,7 +10,7 @@ class DetectionOrientation:
 
     def calculerAjustementOrientation(self):
         orientation = self.trouverOrientation()
-        if (abs(orientation) > 1):
+        if (abs(orientation) >= 2):
             ajustementOrientation = self.alignementMur.ajusterOrientation(orientation)
             print(ajustementOrientation)
             self.ajustements.append(ajustementOrientation)

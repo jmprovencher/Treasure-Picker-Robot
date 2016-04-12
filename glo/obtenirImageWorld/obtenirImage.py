@@ -26,12 +26,12 @@ print("Taking image...")
 # Take the actual image we want to keep
 camera_capture = get_image()
 intervalleJaune = np.array([0, 0, 0]), np.array([255, 255, 255]), "Jaune"
-intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
+intervalleFonce, intervalleClair, couleurForme = intervalleJaune
 masqueCouleur = cv2.inRange(camera_capture, intervalleFonce, intervalleClair)
 file = "image1.png"
 # A nice feature of the imwrite method is that it will automatically choose the
 # correct format based on the file extension you provide. Convenient!
-cv2.imwrite(file, masqueCouleur)
+cv2.imwrite(file, camera_capture)
  
 # You'll want to release the camera, otherwise you won't be able to create a new
 # capture object until your script exits

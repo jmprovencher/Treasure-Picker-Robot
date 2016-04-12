@@ -65,6 +65,7 @@ class Robot(Thread):
 
     def _attendreManchester(self):
         while self.lettreObtenue is None:
+            print("Attente decodage lettre")
             time.sleep(0.5)
 
     def demarrerAlignementTresor(self):

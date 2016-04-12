@@ -31,4 +31,4 @@ class AlignementIle():
         elif (distance_y > 0):
             commande = 'forward'
 
-        return commande, (distance_y / RATIOPIXEL_CM)
+        return commande, abs(distance_y / RATIOPIXEL_CM)

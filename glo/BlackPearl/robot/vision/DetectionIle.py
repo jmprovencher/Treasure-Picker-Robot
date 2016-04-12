@@ -25,6 +25,9 @@ class DetectionIle(object):
         if (contoursIle is not None):
             distance_x, distance_y = self._evaluerEmplacement(contoursIle)
             self.ajustements = self.alignementIle.calculerAjustement(distance_x, distance_y)
+        else:
+            self.ajustements.append(('backward', 5))
+            self.detecterIle(self.couleurIle)
 
     def _detecterCouleur(self, couleur):
         if (self.couleurIle == "vert"):
@@ -47,12 +50,15 @@ class DetectionIle(object):
     def detecterFormeCouleur(self, intervalleCouleur):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
+        #cv2.imshow("IMage", masqueCouleur)
+        #cv2.waitKey(0)
 
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
+            print("Aire ile: ", aire)
             if ((aire < 50000) or (aire > 170000)):
                 contoursNegligeable.append(contours)
 
@@ -75,9 +81,11 @@ class DetectionIle(object):
         self.intervalleBleu = np.array([100, 100, 0]), np.array([190, 170, 80]), "Bleu"
         self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
         self.intervalleVert = np.array([50, 120, 40]), np.array([100, 170, 80]), "Vert"
-        self.intervalleVertTable5 = (np.array([0, 70, 0]), np.array([100, 200, 80])), "Vert2"
-        self.intervalleRougeTable5 = (np.array([15, 0, 75]), np.array([100, 65, 200])), "Rouge2"
-        self.intervalleJauneTable5 = (np.array([0, 50, 50]), np.array([50, 255, 255])), "Jaune2"
+
+        self.intervalleVertTable5 = np.array([0, 60, 0]), np.array([100, 200, 80]), "Vert2"
+
+        self.intervalleRougeTable5 = np.array([15, 0, 75]), np.array([100, 65, 200]), "Rouge2"
+        self.intervalleJauneTable5 = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune2"
 
     def _afficherFeed(self):
         cv2.imshow("Image", self.imageCamera)

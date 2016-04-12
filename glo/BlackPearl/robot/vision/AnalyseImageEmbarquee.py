@@ -56,7 +56,9 @@ class AnalyseImageEmbarquee(Thread):
 
     def evaluerPositionTresor(self):
         self.detectionTresor = DetectionTresor(self.imageCamera)
+        self.detectionTresor.calculerAjustements()
         self.ajustements = self.detectionTresor.ajustements
+        print("Nombre ajustement tresor: %d" %len(self.ajustements))
 
         if (self.ajustements != []):
             print("Ajustement calculer, analyse termine")

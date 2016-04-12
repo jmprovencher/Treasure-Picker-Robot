@@ -37,5 +37,5 @@ class AlignementTresor():
         distance = abs(distance_y / RATIOPIXEL_CM)+1
         if (distance_y < 5):
             self.ajustements.append('backward', 5)
-            distance = distance + 5
+            distance = distance + 4
         return commande, abs(distance)

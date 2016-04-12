@@ -4,7 +4,6 @@ from robot.interface.FeedVideoRobot import FeedVideoRobot
 from robot.communication.LectureUART import LectureUART
 from threading import Thread
 import time
-# from robot.communication.ObtenirTension import ObtenirTension
 from robot.interface.RobotService import RobotService
 
 
@@ -24,8 +23,8 @@ class Robot(Thread):
 
         self.lettreObtenue = None
         self.indiceObtenu = None
-        # self.adresseIP = '192.168.0.45'
-        self.adresseIP = '10.248.209.220'
+        #self.adresseIP = '192.168.0.45'
+        self.adresseIP = '10.248.188.65'
         self.tensionCondensateur = 0
         self._demarrerFeedVideo()
         self._demarrerConnectionTCP()
@@ -66,6 +65,7 @@ class Robot(Thread):
 
     def _attendreManchester(self):
         while self.lettreObtenue is None:
+            print("Attente decodage lettre")
             time.sleep(0.5)
 
     def demarrerAlignementTresor(self):
@@ -73,13 +73,12 @@ class Robot(Thread):
         self.alignementEnCours = True
         self.uartDriver.cameraPositionDepot()
         self.threadVideo.demarrerCapture()
-        self.uartDriver.cameraPositionFace()
-
         self._demarrerAnalyseVideo('orientation')
         self._executerAlignement()
 
         self._demarrerAnalyseVideo('tresor')
         self.uartDriver.preAlignementTresor()
+        self.uartDriver.cameraPositionFace()
         self._executerAlignement()
 
         self.uartDriver.postAlignementTresor()
@@ -152,7 +151,7 @@ class Robot(Thread):
 
     def _demarrerConnectionTCP(self):
         self.robotClient = RobotClient(self, self.adresseIP)
-        time.sleep(1)
+        time.sleep(2)
         self.robotClient.start()
 
     def _demarrerLectureUART(self):
@@ -160,6 +159,7 @@ class Robot(Thread):
         self.threadLecture.start()
 
     def _demarrerAnalyseVideo(self, type):
+        print("Demarrage analyse %s", type)
         self.analyseImageEmbarquee = AnalyseImageEmbarquee(self)
         self.analyseImageEmbarquee.definirType(type)
         self.analyseImageEmbarquee.start()

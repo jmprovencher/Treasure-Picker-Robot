@@ -17,6 +17,7 @@ class DetectionTresor(object):
 
         self.alignementTerminer = False
         self.ajustements = []
+        self._dessinerZoneCible()
 
     def calculerAjustements(self):
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
@@ -45,9 +46,11 @@ class DetectionTresor(object):
     def _detecterContoursForme(self, intervalleCouleur):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        kernel = np.ones((5, 5), np.uint8)
-        closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
-        _, contoursCouleur, _ = cv2.findContours(closing, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        #kernel = np.ones((5, 5), np.uint8)
+        #closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
+        _, contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        cv2.imshow("Tresor", masqueCouleur)
+        cv2.waitKey(0)
 
         if (len(contoursCouleur) > 0):
             contoursTresor = self._obtenirFormeInteret(contoursCouleur)
@@ -68,6 +71,12 @@ class DetectionTresor(object):
             if ((aire < 1000) or (aire > 9000)):
                 contoursNegligeable.append(contours)
 
+            contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
+
+            _, position_y = self._trouverCentreForme(contours)
+            if (position_y > self.positionZone[1]):
+                contoursNegligeable.append(contours)
+
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
         if (len(contoursCouleur) == 0):
@@ -78,7 +87,10 @@ class DetectionTresor(object):
             index = len(contoursCouleur)
             return contoursCouleur[index-1]
 
+    def _dessinerZoneCible(self):
+        cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)
+
     def _definirIntervallesCouleurs(self):
-        self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"
+        self.intervalleJaune = np.array([0, 0, 0]), np.array([150, 255, 255]), "Jaune"
         #self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"
 

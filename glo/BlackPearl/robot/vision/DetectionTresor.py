@@ -49,8 +49,8 @@ class DetectionTresor(object):
         #kernel = np.ones((5, 5), np.uint8)
         #closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        #cv2.imshow("Tresor", masqueCouleur)
-        #cv2.waitKey(0)
+        cv2.imshow("Tresor", masqueCouleur)
+        cv2.waitKey(0)
 
         if (len(contoursCouleur) > 0):
             contoursTresor = self._obtenirFormeInteret(contoursCouleur)
@@ -72,7 +72,7 @@ class DetectionTresor(object):
                 contoursNegligeable.append(contours)
 
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
-            
+
             _, position_y = self._trouverCentreForme(contours)
             if (position_y > self.positionZone[1]):
                 contoursNegligeable.append(contours)

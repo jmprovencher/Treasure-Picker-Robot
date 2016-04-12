@@ -17,7 +17,7 @@ class DetectionTresor(object):
 
         self.alignementTerminer = False
         self.ajustements = []
-        self._dessinerZoneCible()
+        #self._dessinerZoneCible()
 
     def calculerAjustements(self):
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
@@ -48,7 +48,8 @@ class DetectionTresor(object):
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
         #kernel = np.ones((5, 5), np.uint8)
         #closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
-        _, contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        _, contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
         cv2.imshow("Tresor", masqueCouleur)
         cv2.waitKey(0)
 
@@ -91,6 +92,6 @@ class DetectionTresor(object):
         cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)
 
     def _definirIntervallesCouleurs(self):
-        self.intervalleJaune = np.array([0, 0, 0]), np.array([150, 255, 255]), "Jaune"
+        self.intervalleJaune = np.array([0, 0, 0]), np.array([255, 255, 255]), "Jaune"
         #self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"
 

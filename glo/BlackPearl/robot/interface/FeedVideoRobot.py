@@ -32,7 +32,7 @@ class FeedVideoRobot(Thread):
         while (self.connecter):
             #print ("Streaming...")
             _, self.imageCapture = self.video.read()
-            intervalleJaune = np.array([255, 255, 255]), np.array([0, 0, 0]), "Jaune"
+            intervalleJaune = np.array([255, 255, 255]), np.array([80, 255, 255]), "Jaune"
             intervalleFonce, intervalleClair, couleurForme = intervalleJaune
             masqueCouleur = cv2.inRange(self.imageCapture, intervalleFonce, intervalleClair)
             #kernel = np.ones((5, 5), np.uint8)

@@ -49,7 +49,7 @@ class DetectionTresor(object):
         kernel = np.ones((5, 5), np.uint8)
         closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
         _, contoursCouleur, _ = cv2.findContours(closing, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        cv2.imshow("Tresor", closing)
+        cv2.imshow("Tresor", masqueCouleur)
         cv2.waitKey(0)
 
         if (len(contoursCouleur) > 0):

@@ -3,6 +3,7 @@ import heapq
 from stationbase.trajectoire.Cellule import Cellule
 import copy
 import math
+from operator import itemgetter
 
 
 class AlgorithmeTrajectoire:
@@ -19,7 +20,7 @@ class AlgorithmeTrajectoire:
         self.arriver = None
         self.cellulePlusPres = None
 
-    def trouverTrajet(self, depart, arriver):
+    def trouverTrajet(self, depart, arriver, type):
         self.trajet = []
         self.departBuffer = depart
         depart2 = self.trouverDebutBuffer(depart)
@@ -30,6 +31,7 @@ class AlgorithmeTrajectoire:
         while len(self.heapOuvert):
             f, cellule = heapq.heappop(self.heapOuvert)
             self.fermer.add(cellule)
+            print self.distanceArriverCarre(cellule)
             if self.estArriver(cellule):
                 self.simplifierTrajet()
                 self.sectionnerTrajet()
@@ -38,6 +40,8 @@ class AlgorithmeTrajectoire:
                 self.cellulePlusPres = cellule
             elif self.distanceArriverCarre(cellule) < self.distanceArriverCarre(self.cellulePlusPres):
                 self.cellulePlusPres = cellule
+                if type == 'ILE' and self.distanceArriverCarre(cellule) < 900:
+                    break
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)
             for adj in cellulesAdjacentes:
@@ -57,7 +61,7 @@ class AlgorithmeTrajectoire:
             print self.grilleCellule.rayonBuffer
             self.grilleCellule.initGrilleCellule(self.grilleCellule.listeIles)
             print 'nouvelle grille cellule'
-            self.trouverTrajet(depart, arriver)
+            self.trouverTrajet(depart, arriver, type)
         if self.trajet is not None:
             self.simplifierTrajet()
             self.ajouterSecurite()
@@ -192,18 +196,15 @@ class AlgorithmeTrajectoire:
             return point2, point1
 
     def trouver2IlesPlusPres(self, point):
-        ile1 = None
-        ile2 = None
-        distance1 = 1000000
-        distance2 = 1000000
+        list = []
         for ile in self.grilleCellule.listeIles:
             distance = self.distanceAuCarre(point[0], point[1], ile.centre_x, ile.centre_y)
-            if distance < distance1:
-                distance1 = distance
-                ile1 = copy.deepcopy(ile)
-            elif distance < distance2:
-                distance2 = distance
-                ile2 = copy.deepcopy(ile)
+            list.append((distance, copy.deepcopy(ile)))
+        minimum = min(list, key=itemgetter(1))
+        _, ile1 = minimum
+        list.remove(minimum)
+        minimum = min(list, key=itemgetter(1))
+        _, ile2 = minimum
         return ile1, ile2
 
     def trouverNouveauPoint(self, point1, point2):
@@ -293,6 +294,9 @@ class AlgorithmeTrajectoire:
         xNonCorrige = centre[0]
         deltaX = xNonCorrige - self.coordonneeXMilieu
         xCorriger = int(round(self.coordonneeXMilieu + (deltaX * self.rapport)))
+        yNonCorrige = centre[1]
+        deltaY = yNonCorrige - self.coordonneeYMilieu
+        yCorriger = int(round(self.coordonneeYMilieu + (deltaY * self.rapport)))
 
-        return xCorriger, centre[1]
+        return xCorriger, yCorriger
 

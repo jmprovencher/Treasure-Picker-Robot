@@ -21,7 +21,7 @@ class Carte:
     def getIlesCorrespondantes(self, informationIleCible):
         retour = []
         for ile in self.listeIles:
-            if ile.couleur == informationIleCible or ile.forme == informationIleCible:
+            if ile.couleur.lower() == informationIleCible.lower() or ile.forme.lower() == informationIleCible.lower():
                 retour.append(ile)
         return retour
 

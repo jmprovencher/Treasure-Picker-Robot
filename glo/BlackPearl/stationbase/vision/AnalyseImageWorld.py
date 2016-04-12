@@ -62,8 +62,8 @@ class AnalyseImageWorld(Thread):
         print("\nDetection des iles...")
         detectionMultipleIles = []
 
-        for i in range(50):
-            print 'detection: %d sur 50' % i
+        for i in range(20):
+            print 'detection: %d sur 20' % i
             self.chargerImage()
             detectionIles = DetectionIles(self.image, self.stationBase.getNumTable())
             detectionIles.detecter()
@@ -78,8 +78,8 @@ class AnalyseImageWorld(Thread):
         print("\nDetection des tresors...")
         detectionMultipleTresors = []
 
-        for i in range(50):
-            print 'detection: %d sur 50' % i
+        for i in range(20):
+            print 'detection: %d sur 20' % i
             self.chargerImage()
             detectionTresors = DetectionTresors(self.image, self.stationBase.getNumTable())
             detectionTresors.detecter()

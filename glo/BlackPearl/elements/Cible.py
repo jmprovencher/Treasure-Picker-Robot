@@ -20,12 +20,14 @@ class Cible:
         for tresor in tresorsPossibles:
             print 'test sur tresor'
             print tresor.getCentre()
-            trajetTresor = self.carte.getTrajectoire().trouverTrajet(self.carte.getStationRecharge().getCentre(), tresor.getCentre())
+            trajetTresor = self.carte.getTrajectoire().trouverTrajet(self.carte.getStationRecharge().getCentre(), tresor.getCentre(), 'TRESORE')
             distanceTresor = self.carte.getTrajectoire().trouverLongueurTrajetCarre(trajetTresor)
             for ile in ilesPotentielle:
-                trajetIle = self.carte.getTrajectoire().trouverTrajet(tresor.getCentre(), ile.getCentre())
+                trajetIle = self.carte.getTrajectoire().trouverTrajet(tresor.getCentre(), ile.getCentre(), 'ILE')
                 distanceIle = self.carte.getTrajectoire().trouverLongueurTrajetCarre(trajetIle)
                 distanceTotale = distanceTresor + distanceIle
+                print 'Distance min', distanceMin
+                print 'Distance totale', distanceTotale
                 if distanceMin > distanceTotale:
                     distanceMin = distanceTotale
                     self.tresorChoisi = tresor

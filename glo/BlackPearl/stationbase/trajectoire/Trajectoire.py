@@ -10,9 +10,9 @@ class Trajectoire:
     def initGrilleCellule(self, listeIles):
         self.grilleCellule.initGrilleCellule(listeIles)
 
-    def trouverTrajet(self, depart, arriver):
+    def trouverTrajet(self, depart, arriver, type):
         algoTrajectoire = AlgorithmeTrajectoire(self.grilleCellule)
-        self.trajectoire = algoTrajectoire.trouverTrajet(depart, arriver)
+        self.trajectoire = algoTrajectoire.trouverTrajet(depart, arriver, type)
         return self.trajectoire
 
     def trouverLongueurTrajetCarre(self, trajet):

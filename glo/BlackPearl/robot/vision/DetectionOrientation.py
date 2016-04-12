@@ -19,7 +19,7 @@ class DetectionOrientation:
         imageGrise = cv2.cvtColor(self.imageCamera, cv2.COLOR_BGR2GRAY)
         blur = cv2.GaussianBlur(imageGrise, (3, 3), 0)
         filtreContours = cv2.Canny(blur, 225, 250)
-        _, contours, hier = cv2.findContours(filtreContours, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        _, contours, hier = cv2.findContours(filtreContours.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
         # cv2.imshow("Orientation", filtreContours)
         # cv2.waitKey(0)

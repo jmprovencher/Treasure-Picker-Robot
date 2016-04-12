@@ -25,6 +25,7 @@ class DetectionTresor(object):
             self.ajustements= self.alignementTresor.calculerAjustement(distance_x, distance_y)
 
             print("Ajustement alignement tresor calculer")
+        else: self.ajustements.append('backward', 5)
 
     def _trouverDistance(self, contoursTresor):
         positionZone_x, positionZone_y = self.positionZone

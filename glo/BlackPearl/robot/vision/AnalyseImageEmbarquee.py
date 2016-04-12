@@ -6,7 +6,7 @@ from robot.vision.DetectionTresor import DetectionTresor
 from robot.vision.DetectionOrientation import DetectionOrientation
 from threading import Thread
 import time
-
+import numpy as np
 class AnalyseImageEmbarquee(Thread):
     def __init__(self, robot):
         Thread.__init__(self)
@@ -94,6 +94,15 @@ class AnalyseImageEmbarquee(Thread):
 
     def _chargerImage(self):
         self.imageCamera = self.robot.threadVideo.getImageCapture()
+        intervalleJaune = np.array([0, 0, 0]), np.array([255, 255, 255]), "Jaune"
+        intervalleFonce, intervalleClair, couleurForme = intervalleJaune
+        masqueCouleur = cv2.inRange(self.imageCapture, intervalleFonce, intervalleClair)
+        #kernel = np.ones((5, 5), np.uint8)
+        #closing = cv2.morphologyEx(masqueCouleur, cv2.MORPH_CLOSE, kernel)
+        #_, contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+        cv2.imshow("Tresor", masqueCouleur)
+        cv2.waitKey(0)
         #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('horizon.jpg'))
         self._estomperImage()
 

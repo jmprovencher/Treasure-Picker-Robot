@@ -47,12 +47,14 @@ class DetectionIle(object):
     def detecterFormeCouleur(self, intervalleCouleur):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-
+        cv2.imshow("IMage", masqueCouleur)
+        cv2.imshow()
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
+            print("Aire ile: ", aire)
             if ((aire < 50000) or (aire > 170000)):
                 contoursNegligeable.append(contours)
 

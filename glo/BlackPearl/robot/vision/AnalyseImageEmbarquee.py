@@ -94,6 +94,7 @@ class AnalyseImageEmbarquee(Thread):
 
     def _chargerImage(self):
         self.imageCamera = self.robot.threadVideo.getImageCapture()
+        self._estomperImage()
         intervalleJaune = np.array([0, 0, 0]), np.array([255, 255, 255]), "Jaune"
         intervalleFonce, intervalleClair, couleurForme = intervalleJaune
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
@@ -104,7 +105,6 @@ class AnalyseImageEmbarquee(Thread):
         cv2.imshow("Tresor", masqueCouleur)
         cv2.waitKey(0)
         #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('horizon.jpg'))
-        self._estomperImage()
 
     def _attendreFeedVideo(self):
         while self.robot.threadVideo.getImageCapture() is None:

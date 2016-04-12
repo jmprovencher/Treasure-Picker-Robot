@@ -19,7 +19,9 @@ class DetectionTresors(Detection):
     def trouverContoursTresors(self):
         intervalleFonce, intervalleClair = InfoTable('Tresor', self.numeroTable).getIntervalle()
         masqueTresors = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        _, contoursTresors, _ = cv2.findContours(masqueTresors.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        kernel = np.ones((5, 5), np.uint8)
+        closing = cv2.morphologyEx(masqueTresors, cv2.MORPH_CLOSE, kernel)
+        _, contoursTresors, _ = cv2.findContours(closing, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         return contoursTresors
 

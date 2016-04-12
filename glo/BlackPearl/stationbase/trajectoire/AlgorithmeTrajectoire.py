@@ -32,7 +32,6 @@ class AlgorithmeTrajectoire:
         while len(self.heapOuvert):
             f, cellule = heapq.heappop(self.heapOuvert)
             self.fermer.add(cellule)
-            print self.distanceArriverCarre(cellule)
             if self.estArriver(cellule):
                 self.simplifierTrajet()
                 self.sectionnerTrajet()
@@ -56,7 +55,11 @@ class AlgorithmeTrajectoire:
 
         self.arriver = self.cellulePlusPres
         print 'arrivee:', self.arriver.x, self.arriver.y
-        while self.grilleCellule.distanceAuCarre(self.arriver.x, self.arriver.y, arriver[0], arriver[1]) >= 35**2:
+        if type == 'ILE':
+            tropLoin = 35
+        else:
+            tropLoin = 35
+        while self.grilleCellule.distanceAuCarre(self.arriver.x, self.arriver.y, arriver[0], arriver[1]) >= tropLoin**2:
             print 'nouvelle teration'
             self.grilleCellule.rayonBuffer -= 1
             print self.grilleCellule.rayonBuffer

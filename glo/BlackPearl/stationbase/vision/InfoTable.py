@@ -5,6 +5,7 @@ class InfoTable:
     def __init__(self, type, numeroTable):
         self.setIntervalle(type, numeroTable)
         self.setCrop(numeroTable)
+        #self.setCorrectionAngle(numeroTable)
         
     def setIntervalle(self, type, numeroTable):
 
@@ -61,7 +62,19 @@ class InfoTable:
 
     def setCrop(self, numeroTable):
         # La difference en y2 et y1 doit etre de 855 pixel
-        #seulement no 5 est teste pour l'instant
+        if numeroTable == 1:
+            self.crop = (190-35, 1045-35)
+        elif numeroTable == 2:
+            self.crop = (190-35, 1045-35)
+        elif numeroTable == 3:
+            self.crop = (190-40, 1045-40)
+        elif numeroTable == 5:
+            self.crop = (190, 1045)
+        elif numeroTable == 6:
+            self.crop = (190-57, 1045-57)
+
+    def setCorrectionAngle(self, numeroTable):
+        # La difference en y2 et y1 doit etre de 855 pixel
         if numeroTable == 1:
             self.crop = (190-35, 1045-35)
         elif numeroTable == 2:

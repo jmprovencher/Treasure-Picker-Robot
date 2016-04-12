@@ -26,6 +26,9 @@ class StationBase(Thread):
         self.descriptionIleCible = "?"
         self.manchester = "?"
         self.roundTerminee = False
+        self.rapport = 1.16
+        self.coordonneeXMilieu = 813
+        self.coordonneeYMilieu = 410
         self.carte = Carte()
         self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
@@ -37,7 +40,7 @@ class StationBase(Thread):
         self.initialisationTrajectoire()
         self.attendreRobotPret()
         self.choisirEtape(self.etape)
-        time.sleep(1000)
+        time.sleep(10)
 
     def choisirEtape(self, etape):
         if etape == 'routine complete':
@@ -77,7 +80,6 @@ class StationBase(Thread):
         self.deplacement('ILE')
         self.aligner("alignement_ile")
         self.roundTerminee = True
-        time.sleep(100000)
 
     def deplacement(self, type):
         print '\n--------------------------------------------------'
@@ -125,6 +127,7 @@ class StationBase(Thread):
         elif type == 'ILE':
             arriver = self.carte.getCible().getIleCible().getCentre()
             debut = self.getPositionRobot()
+            debut = self.correctionCentre(debut)
             self.angleDesire = self.trouverOrientationDesire(debut, arriver)
             self.orienter(type)
         self.trajectoirePrevue = None
@@ -363,6 +366,16 @@ class StationBase(Thread):
 
     def getNumTable(self):
         return self.numeroTable
+
+    def correctionCentre(self, centre):
+        xNonCorrige = centre[0]
+        deltaX = xNonCorrige - self.coordonneeXMilieu
+        xCorriger = int(round(self.coordonneeXMilieu + (deltaX * self.rapport)))
+        yNonCorrige = centre[1]
+        deltaY = yNonCorrige - self.coordonneeYMilieu
+        yCorriger = int(round(self.coordonneeYMilieu + (deltaY * self.rapport)))
+
+        return xCorriger, yCorriger
 
 
 

@@ -388,7 +388,7 @@ void serialEvent(){
       }
       else if(incomingByte == 99){
         action = "Camera Front ";
-        maestro.setTarget(1, 6000);
+        maestro.setTarget(1, 5925);
         maestro.setTarget(2,6400);
         positionCamera = 6400;
         writeString(commandComplete);
@@ -422,14 +422,14 @@ void serialEvent(){
       }
       if(rotation == false){
         if(slow == false){
-          duration = incomingByte*60;
+          duration = incomingByte*58;
         }
         else{
           duration = incomingByte*6;
         }
       }
       else{
-        duration = incomingByte*24;
+        duration = incomingByte*22;
       } 
       mode = false;
     }

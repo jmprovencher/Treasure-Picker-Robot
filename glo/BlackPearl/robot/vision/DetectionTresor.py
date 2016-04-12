@@ -63,7 +63,9 @@ class DetectionTresor(object):
         contoursNegligeable = []
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            if ((aire < 1000) or (aire > 7000)):
+            print("Aire tresor: %f" %aire)
+
+            if ((aire < 1000) or (aire > 9000)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):
@@ -72,7 +74,9 @@ class DetectionTresor(object):
             print("Aucun tresor")
             return None
         else:
-            return contoursCouleur[0]
+            contoursCouleur.sort()
+            index = len(contoursCouleur)
+            return contoursCouleur[index-1]
 
     def _definirIntervallesCouleurs(self):
         self.intervalleJaune = np.array([0, 90, 90]), np.array([60, 255, 255]), "Jaune"

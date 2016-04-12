@@ -59,6 +59,10 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionTresor.calculerAjustements()
         self.ajustements = self.detectionTresor.ajustements
         print("Nombre ajustement tresor: %d" %len(self.ajustements))
+        if self.ajustements is None:
+            self.robot.traiterCommande(('backward', 5))
+            self._chargerImage()
+            self.evaluerPositionTresor()
 
         if (self.ajustements != []):
             print("Ajustement calculer, analyse termine")

@@ -422,7 +422,7 @@ void serialEvent(){
       }
       if(rotation == false){
         if(slow == false){
-          duration = incomingByte*58;
+          duration = incomingByte*60;
         }
         else{
           duration = incomingByte*6;

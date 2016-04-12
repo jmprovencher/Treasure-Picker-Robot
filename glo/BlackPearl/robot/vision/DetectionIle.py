@@ -47,9 +47,9 @@ class DetectionIle(object):
     def detecterFormeCouleur(self, intervalleCouleur):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        cv2.imshow("IMage", masqueCouleur)
-        cv2.waitKey(0)
-        
+        #cv2.imshow("IMage", masqueCouleur)
+        #cv2.waitKey(0)
+
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 

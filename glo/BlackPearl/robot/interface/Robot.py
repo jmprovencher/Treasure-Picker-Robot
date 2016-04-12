@@ -4,7 +4,6 @@ from robot.interface.FeedVideoRobot import FeedVideoRobot
 from robot.communication.LectureUART import LectureUART
 from threading import Thread
 import time
-# from robot.communication.ObtenirTension import ObtenirTension
 from robot.interface.RobotService import RobotService
 
 
@@ -24,8 +23,8 @@ class Robot(Thread):
 
         self.lettreObtenue = None
         self.indiceObtenu = None
-        # self.adresseIP = '192.168.0.45'
-        self.adresseIP = '10.248.209.220'
+        #self.adresseIP = '192.168.0.45'
+        self.adresseIP = '10.248.188.65'
         self.tensionCondensateur = 0
         self._demarrerFeedVideo()
         self._demarrerConnectionTCP()

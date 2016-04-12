@@ -7,7 +7,7 @@ class GrilleCellule:
         self.listeCellules = []
         self.resolution = (1600, 1200)
         self.dimensionCrop = (1600, 855)
-        self.dimensionReel = (230, 115)
+        self.dimensionReel = (220, 115)
         self.incrementX = int((self.dimensionCrop[0]) / self.dimensionReel[0])
         self.incrementY = int((self.dimensionCrop[1]) / self.dimensionReel[1])
         self.rayonBuffer = 25

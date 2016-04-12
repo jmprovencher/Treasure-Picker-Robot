@@ -8,3 +8,4 @@ class Robot(ElementCartographique):
 
     def getOrientation(self):
         return self.orientation
+

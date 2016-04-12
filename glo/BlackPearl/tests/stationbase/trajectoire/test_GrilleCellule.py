@@ -1,15 +1,15 @@
 from unittest import TestCase
 from stationbase.vision.AnalyseImageWorld import AnalyseImageWorld
 from elements.Carte import Carte
-
+import math
 
 class GrilleCellule(TestCase):
     def setUp(self):
-        self.analyseImageWorld = AnalyseImageWorld()
+        #self.analyseImageWorld = AnalyseImageWorld()
         self.carte = Carte()
-        self.analyseImageWorld.chargerImage('images/table2/trajet2.png')
-        self.analyseImageWorld.trouverElementsCartographiques()
-        self.carte.ajouterElementCarto(self.analyseImageWorld.elementsCartographiques)
+        #self.analyseImageWorld.chargerImage('images/table2/trajet2.png')
+        #self.analyseImageWorld.trouverElementsCartographiques()
+        #self.carte.ajouterElementCarto(self.analyseImageWorld.elementsCartographiques)
         self.carte.trajectoire.initGrilleCellule(self.carte.listeIles)
 
     def test_initGrilleCellule(self):
@@ -44,7 +44,8 @@ class GrilleCellule(TestCase):
         self.assertEqual(len(listeAdj), 8)
 
     def test_distanceAuCarre(self):
-        dist = self.carte.trajectoire.distanceAuCarre(0, 0, 0, 1600)
+        dist = self.carte.trajectoire.distanceAuCarre(0, 0, 1600, 0)
+        print math.sqrt(dist)
         bool = 220**2 < dist < 230**2
 
         self.assertEqual(bool, True)

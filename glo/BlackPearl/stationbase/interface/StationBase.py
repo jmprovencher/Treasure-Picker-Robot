@@ -21,6 +21,8 @@ class StationBase(Thread):
         self.etape = etape
         self.trajectoireReel = None
         self.trajectoirePrevue = None
+        self.rapport = 1.16
+        self.coordonneeXMilieu = 813
         self.angleDesire = None
         self.tensionCondensateur = "0"
         self.descriptionIleCible = "?"
@@ -84,7 +86,7 @@ class StationBase(Thread):
         print 'Etape de deplacement : %s' % type
         print '--------------------------------------------------'
         destination = self.identifierDestination(type)
-        self.trouverTrajectoirePrevu(destination)
+        self.trouverTrajectoirePrevu(destination, type)
         while (self.trajectoireReel is not None) and (len(self.trajectoireReel) > 1):
             self.orienter('deplacement')
             self.deplacer()
@@ -110,10 +112,10 @@ class StationBase(Thread):
 
     def correctionsFinales(self, type):
         if type == 'RECHARGE':
-            self.angleDesire = 90
+            self.angleDesire = 88
             self.orienter(type)
             self.deplacementArriere(5)
-            self.deplacementDroit(7)
+            self.deplacementDroit(11)
         elif type == 'TRESOR':
             if self.carte.getCible().getTresorCible().getCentre()[1] < 500:
                 self.angleDesire = 90
@@ -121,6 +123,7 @@ class StationBase(Thread):
                 self.angleDesire = 270
                 print 'set :', self.angleDesire
             self.orienter(type)
+            self.deplacementArriere(3)
         elif type == 'ILE':
             arriver = self.carte.getCible().getIleCible().getCentre()
             debut = self.getPositionRobot()
@@ -135,6 +138,7 @@ class StationBase(Thread):
         int = 0
         if type == 'alignement_ile':
             couleur = self.carte.getCible().getIleCible().getCouleur()
+            #couleur = 'Bleu'
             if couleur == 'Vert':
                 int = 0
             elif couleur == 'Bleu':
@@ -151,9 +155,9 @@ class StationBase(Thread):
         print 'Allignement termine.'
         print '--------------------------------------------------'
 
-    def trouverTrajectoirePrevu(self, destination):
+    def trouverTrajectoirePrevu(self, destination, type):
         print '\nTrouve la trajectoire prevu...'
-        self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.getPositionRobot(), destination)
+        self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.getPositionRobot(), destination, type)
         if self.trajectoirePrevue is None:
             print 'erreur! Aucun trajet trouve.'
         else:
@@ -353,7 +357,9 @@ class StationBase(Thread):
         return self.trajectoirePrevue
 
     def getPositionRobot(self):
-        return copy.deepcopy(self.carte.getRobotValide().getCentre())
+        centre = copy.deepcopy(self.carte.getRobotValide().getCentre())
+        centre = self.correctionCentre(centre)
+        return centre
 
     def getOrientationRobot(self):
         return self.carte.getRobotValide().orientation
@@ -361,6 +367,14 @@ class StationBase(Thread):
     def getNumTable(self):
         return self.numeroTable
 
+    def corrigerCentre(self, centre):
+        xNonCorrige = centre[0]
+        deltaX = xNonCorrige - self.coordonneeXMilieu
+        xCorriger = int(round(self.coordonneeXMilieu + (deltaX * self.rapport)))
+        yNonCorrige = centre[1]
+        deltaY = yNonCorrige - self.coordonneeYMilieu
+        yCorriger = int(round(self.coordonneeYMilieu + (deltaY * self.rapport)))
 
+        return xCorriger, yCorriger
 
 

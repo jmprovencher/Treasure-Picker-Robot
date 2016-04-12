@@ -65,7 +65,7 @@ class Interface(QtGui.QWidget):
                     stringMinute = ' ' + str(int(minuteTotal))
                 else:
                     stringMinute = str(minuteTotal)
-                self.rechargerInfoCouleur(self.tempsDepuisDemarrer, stringMinute + ':' + stringSeconde, 'blue')
+                self.rechargerInfoCouleur(self.tempsDepuisDemarrer, '  ' + stringMinute + ':' + stringSeconde, 'blue')
             else:
                 if not self.infoTempsIndice:
                     self.infoTemps += default_timer() - self.threadStationBase.startTimer
@@ -80,7 +80,7 @@ class Interface(QtGui.QWidget):
         self.setAutoFillBackground(False)
         self.feed = QLabel(self)
         self.buffer = 25
-        self.numeroTable = 3
+        self.numeroTable = 5
         self.feed.setGeometry(5, self.hauteur-(600+self.buffer+5), 800, 600)
         self.threadAfficherImageVirtuelle = AfficherImageVirtuelle(self)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)

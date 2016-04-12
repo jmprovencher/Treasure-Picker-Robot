@@ -26,13 +26,13 @@ class RobotService:
 
         elif "couleur" in reponse:
             if "rouge" in reponse:
-                self.indiceObtenu = "Rouge"
+                self.indiceObtenu = "rouge"
             elif "bleu" in reponse:
-                self.indiceObtenu = "Bleu"
+                self.indiceObtenu = "bleu"
             elif "vert" in reponse:
-                self.indiceObtenu = "Vert"
+                self.indiceObtenu = "vert"
             elif "jaune" in reponse:
-                self.indiceObtenu = "Jaune"
+                self.indiceObtenu = "jaune"
             else:
                 print("Aucune cible determinee")
         else:

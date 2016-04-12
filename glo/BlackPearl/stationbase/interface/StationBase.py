@@ -21,8 +21,6 @@ class StationBase(Thread):
         self.etape = etape
         self.trajectoireReel = None
         self.trajectoirePrevue = None
-        self.rapport = 1.16
-        self.coordonneeXMilieu = 813
         self.angleDesire = None
         self.tensionCondensateur = "0"
         self.descriptionIleCible = "?"
@@ -112,7 +110,7 @@ class StationBase(Thread):
 
     def correctionsFinales(self, type):
         if type == 'RECHARGE':
-            self.angleDesire = 88
+            self.angleDesire = 90
             self.orienter(type)
             self.deplacementArriere(5)
             self.deplacementDroit(11)
@@ -358,7 +356,6 @@ class StationBase(Thread):
 
     def getPositionRobot(self):
         centre = copy.deepcopy(self.carte.getRobotValide().getCentre())
-        centre = self.correctionCentre(centre)
         return centre
 
     def getOrientationRobot(self):
@@ -367,14 +364,6 @@ class StationBase(Thread):
     def getNumTable(self):
         return self.numeroTable
 
-    def corrigerCentre(self, centre):
-        xNonCorrige = centre[0]
-        deltaX = xNonCorrige - self.coordonneeXMilieu
-        xCorriger = int(round(self.coordonneeXMilieu + (deltaX * self.rapport)))
-        yNonCorrige = centre[1]
-        deltaY = yNonCorrige - self.coordonneeYMilieu
-        yCorriger = int(round(self.coordonneeYMilieu + (deltaY * self.rapport)))
 
-        return xCorriger, yCorriger
 
 

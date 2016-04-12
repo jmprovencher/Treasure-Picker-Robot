@@ -14,6 +14,7 @@ class AlgorithmeTrajectoire:
         self.trajet = []
         self.rapport = 1.16
         self.coordonneeXMilieu = 813
+        self.coordonneeYMilieu = 410
         self.fermer = set()
         self.depart = None
         self.departBuffer = None
@@ -81,7 +82,7 @@ class AlgorithmeTrajectoire:
         while i < len(self.trajet)-1:
             debut = self.trajet[i]
             fin = self.trajet[i+1]
-            if self.distanceAuCarre(debut[0], debut[1], fin[0], fin[1]) > 1600:
+            if self.distanceAuCarre(debut[0], debut[1], fin[0], fin[1]) > 2500:
                 point = self.trouverPointMilieu(debut, fin)
                 self.trajet = self.trajet[:i+1] + [point] + self.trajet[i+1:]
             else:

@@ -55,4 +55,5 @@ class AlignementStation():
 
         distance_cm = math.ceil(abs(distance_y))
 
-        return commande, int(distance_cm)
+        # HARDCODE DISTANCE
+        return commande, int(distance_cm) + 1

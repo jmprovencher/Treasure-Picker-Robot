@@ -71,6 +71,8 @@ class DetectionTresor(object):
             if ((aire < 1000) or (aire > 9000)):
                 contoursNegligeable.append(contours)
 
+            contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
+            
             _, position_y = self._trouverCentreForme(contours)
             if (position_y > self.positionZone[1]):
                 contoursNegligeable.append(contours)

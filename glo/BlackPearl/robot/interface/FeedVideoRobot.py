@@ -40,7 +40,7 @@ class FeedVideoRobot(Thread):
             #_, contoursCouleur, _ = cv2.findContours(masqueCouleur, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
             cv2.imshow("Tresor", masqueCouleur)
-        cv2.waitKey(0)
+            cv2.waitKey(0)
             #self.afficherFeed()
 
     def afficherFeed(self):

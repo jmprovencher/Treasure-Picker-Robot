@@ -36,14 +36,17 @@ class RobotClient(Thread):
                 self.envoyerIndice()
                 self.robot.pretEnvoyerLettre = False
                 time.sleep(8)
+
             if (self.robot.tresorCapturer):
                 self.envoyerCaptureTresor()
                 time.sleep(0.5)
                 self.robot.tresorCapturer = False
+
             if (self.robot.tresorNonCapturer):
                 self.envoyerTresorAbsent()
                 time.sleep(0.5)
                 self.robot.tresorNonCapturer = False
+
             if self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()
                     time.sleep(0.5)

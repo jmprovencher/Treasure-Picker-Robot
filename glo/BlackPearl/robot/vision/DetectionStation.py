@@ -15,7 +15,7 @@ class DetectionStation(object):
     def __init__(self, image):
         self.alignementStation = AlignementStation()
         self.imageCamera = image
-        self.positionZone = (810, 730)
+        self.positionZone = (820, 730)
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
         # self._dessinerZoneCible()
@@ -29,9 +29,9 @@ class DetectionStation(object):
             distance_x = self._trouverOffsetLateral(contoursCible)
             self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y)
             #self._dessinerInformations(contoursCible, distance_y)
-            #self._dessinerZoneCible()
-            #cv2.imshow("image", self.imageCamera)
-            #cv2.waitKey(0)
+            self._dessinerZoneCible()
+            cv2.imshow("image", self.imageCamera)
+            cv2.waitKey(0)
 
     def _trouverDistanceStation(self, contoursCible):
         zoneTresor = cv2.minAreaRect(contoursCible)

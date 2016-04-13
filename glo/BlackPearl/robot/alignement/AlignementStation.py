@@ -30,18 +30,15 @@ class AlignementStation():
 
         if (distance_x>= 1):
             return commande, distance_cm
-        elif (distance_mm > 1) and (distance_x < 1):
+        elif (distance_mm > 5) and (distance_x < 1):
             self._ajusterPositionLaterale_MM(commande, distance_mm)
 
         return commande, distance_cm
 
 
     def _ajusterPositionLaterale_MM(self, commande, distance_mm):
-        if (distance_mm > 0):
-            commande = commande + 'P'
-        elif (distance_mm < 0):
-            commande = commande + 'P'
 
+        commande = commande + 'P'
         distance = abs(round(distance_mm))
 
         self.ajustements.append((commande, distance))

@@ -21,7 +21,7 @@ class Robot(Thread):
         self.commandeTerminee = False
         self.pretEnvoyerLettre = False
         self.tresorCapturer = False
-        self.tresorNonCapture = False
+        self.tresorNonCapturer = False
 
         self.lettreObtenue = None
         self.indiceObtenu = None

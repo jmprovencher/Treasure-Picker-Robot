@@ -28,6 +28,8 @@ class DetectionStation(object):
             print("DIstance: ", distance_y)
             distance_x = self._trouverOffsetLateral(contoursCible)
             self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y)
+        else:
+            self.ajustements = None
             #self._dessinerInformations(contoursCible, distance_y)
             #self._dessinerZoneCible()
             #cv2.imshow("image", self.imageCamera)
@@ -99,6 +101,7 @@ class DetectionStation(object):
 
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
+
         if (contoursCouleur is not None):
             return contoursCouleur[0]
         else:

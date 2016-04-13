@@ -23,7 +23,7 @@ class AlignementStation():
             commande = 'right'
         distance_x = abs(distance_x)
         #distance_cm = math.floor(abs(distance_x))
-        distance_cm = int(math.floor(distance_x, 0))
+        distance_cm = int(math.floor(distance_x))
         #ajustement_cm = int(round(distance_x,0))
         distance_mm = int(math.floor((abs(distance_x) - distance_cm) * 10))
         #print("Distance mm a bouger: %d" % distance_mm)

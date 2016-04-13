@@ -66,7 +66,7 @@ class UARTDriver:
         self.sendCommand('backward', 6)
         time.sleep(2)
         self.monterPrehenseur()
-        time.sleep(2)
+        time.sleep(4)
         self.desactiverAimant()
         time.sleep(2)
 

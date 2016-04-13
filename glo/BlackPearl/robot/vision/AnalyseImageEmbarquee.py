@@ -6,7 +6,7 @@ from robot.vision.DetectionTresor import DetectionTresor
 from robot.vision.DetectionOrientation import DetectionOrientation
 from threading import Thread
 import time
-import numpy as np
+
 class AnalyseImageEmbarquee(Thread):
     def __init__(self, robot):
         Thread.__init__(self)
@@ -26,6 +26,7 @@ class AnalyseImageEmbarquee(Thread):
             self.debuterAlignement(self.parametre)
             time.sleep(1)
         self._soumettreAjustements()
+
 
     def debuterAlignement(self, parametre):
         if (parametre == 0):
@@ -59,6 +60,7 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionTresor.calculerAjustements()
         self.ajustements = self.detectionTresor.ajustements
         print("Nombre ajustement tresor: %d" %len(self.ajustements))
+
         if self.ajustements is None:
             self.robot.traiterCommande(('backward', 5))
             self._chargerImage()

@@ -15,7 +15,7 @@ class DetectionStation(object):
     def __init__(self, image):
         self.alignementStation = AlignementStation()
         self.imageCamera = image
-        self.positionZone = (810, 730)
+        self.positionZone = (820, 730)
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
         # self._dessinerZoneCible()
@@ -29,9 +29,9 @@ class DetectionStation(object):
             distance_x = self._trouverOffsetLateral(contoursCible)
             self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y)
             #self._dessinerInformations(contoursCible, distance_y)
-            #self._dessinerZoneCible()
-            #cv2.imshow("image", self.imageCamera)
-            #cv2.waitKey(0)
+            self._dessinerZoneCible()
+            cv2.imshow("image", self.imageCamera)
+            cv2.waitKey(0)
 
     def _trouverDistanceStation(self, contoursCible):
         zoneTresor = cv2.minAreaRect(contoursCible)
@@ -58,6 +58,9 @@ class DetectionStation(object):
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
 
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        #cv2.imshow("Image", masqueCouleur)
+        #cv2.waitKey(0)
 
         if (len(contoursCouleur) > 0):
             contoursCible = self._obtenirFormeInteret(contoursCouleur)

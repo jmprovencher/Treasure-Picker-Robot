@@ -20,29 +20,24 @@ class Robot(Thread):
         self.tacheTerminee = False
         self.commandeTerminee = False
         self.pretEnvoyerLettre = False
+        self.tresorCapturer = False
 
         self.lettreObtenue = None
         self.indiceObtenu = None
         #self.adresseIP = '192.168.0.45'
-        #self.adresseIP = '10.248.188.65'
-        self.adresseIP = '10.248.69.236'
+        self.adresseIP = '10.248.208.42'
 
         self.tensionCondensateur = 0
         self._demarrerFeedVideo()
         self._demarrerConnectionTCP()
 
 
-
     def run(self):
         print("Run")
         self._demarrerLectureUART()
         time.sleep(2)
-        self.uartDriver.cameraPositionDepot()
-        time.sleep(0.5)
-        self.uartDriver.cameraPositionFace()
+        self.uartDriver.phaseInitialisation()
         self.robotClient.demarrageTermine = True
-        #self.uartDriver.phaseInitialisation()
-
 
     def demarrerAlignementStation(self):
         print("Demarre phase alignement station")
@@ -84,6 +79,7 @@ class Robot(Thread):
         self._executerAlignement()
 
         self.uartDriver.postAlignementTresor()
+        self.tresorCapturer = True
 
         self.alignementEnCours = False
 
@@ -158,7 +154,12 @@ class Robot(Thread):
 
     def _demarrerLectureUART(self):
         self.threadLecture = LectureUART(self)
+        self.flushUART()
         self.threadLecture.start()
+
+    def flushUART(self):
+        self.uartDriver.UART.flushInput()
+        time.sleep(1)
 
     def _demarrerAnalyseVideo(self, type):
         print("Demarrage analyse %s", type)

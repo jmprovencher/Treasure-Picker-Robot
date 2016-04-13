@@ -7,6 +7,9 @@ class Cible:
         self.carte = args[0]
         self.ileChoisie = None
         self.tresorChoisi = None
+        self.possibilite = None
+        self.tresorDansLeFond = False
+        self.conteur = 0
         if len(args) == 1:
             self.indice = 'Bleu'
         else:
@@ -17,6 +20,8 @@ class Cible:
         ilesPotentielle = self.carte.getIlesCorrespondantes(self.indice)
         distanceMin = 1000000000000
         tresorsPossibles = self.trouvertresorsPossibles()
+        if self.tresorDansLeFond:
+            self.possibilite = tresorsPossibles
         for tresor in tresorsPossibles:
             print 'test sur tresor'
             print tresor.getCentre()
@@ -25,12 +30,15 @@ class Cible:
             for ile in ilesPotentielle:
                 trajetIle = self.carte.getTrajectoire().trouverTrajet(tresor.getCentre(), ile.getCentre(), 'ILE')
                 distanceIle = self.carte.getTrajectoire().trouverLongueurTrajetCarre(trajetIle)
+                if distanceIle == -1:
+                    continue
                 distanceTotale = distanceTresor + distanceIle
                 print 'Distance min', distanceMin
                 print 'Distance totale', distanceTotale
                 if distanceMin > distanceTotale:
                     distanceMin = distanceTotale
-                    self.tresorChoisi = tresor
+                    if not self.tresorDansLeFond:
+                        self.tresorChoisi = tresor
                     self.ileChoisie = ile
 
         print 'Tresore choisie: ', self.tresorChoisi.centre_x, self.tresorChoisi.centre_y
@@ -56,10 +64,30 @@ class Cible:
                 print 'Tresor potentiel: ', tresor.centre_x, tresor.centre_y
 
         if not tresorPossible:
-            tresorPossible.append(Tresor((0, 427)))
-            print 'Aucun tresor possible... Tresor par defaut (0, 427)'
+            self.tresorDansLeFond = True
+            listeIle = self.carte.getIles()
+            listetresors = [Tresor((0, 215)), Tresor((0, 430)), Tresor((0, 645))]
+            for tresor in listetresors:
+                if self.pasDileProche(tresor):
+                    print 'Tresor potentiel: ', tresor.centre_x, tresor.centre_y
+                    tresorPossible.append(tresor)
 
         return tresorPossible
+
+    def pasDileProche(self, tresor):
+        xTresor, yTresor = tresor.getCentre()
+        accepte = True
+        for ile in self.carte.getIles():
+            xIle, yIle = ile.getCentre()
+            deltaXPix = abs(xTresor - xIle)
+            deltaYPix = abs(yTresor - yIle)
+            deltaX = self.carte.getTrajectoire().depPixelXACentimetre(deltaXPix)
+            deltaY = self.carte.getTrajectoire().depPixelYACentimetre(deltaYPix)
+            if deltaY < 30 and deltaX < 60:
+                accepte = False
+                break
+
+        return accepte
 
     def getIleCible(self):
         return self.ileChoisie

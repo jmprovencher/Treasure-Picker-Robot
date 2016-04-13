@@ -20,6 +20,7 @@ class Robot(Thread):
         self.tacheTerminee = False
         self.commandeTerminee = False
         self.pretEnvoyerLettre = False
+        self.tresorCapturer = False
 
         self.lettreObtenue = None
         self.indiceObtenu = None
@@ -78,6 +79,7 @@ class Robot(Thread):
         self._executerAlignement()
 
         self.uartDriver.postAlignementTresor()
+        self.tresorCapturer = True
 
         self.alignementEnCours = False
 

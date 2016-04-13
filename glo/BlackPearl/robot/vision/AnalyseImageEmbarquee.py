@@ -27,6 +27,7 @@ class AnalyseImageEmbarquee(Thread):
             time.sleep(1)
         self._soumettreAjustements()
 
+
     def debuterAlignement(self, parametre):
         if (parametre == 0):
             self.evaluerPositionDepot('vert')

@@ -79,7 +79,7 @@ class UARTDriver:
         self.activerAimant()
         time.sleep(1)
         self.descendrePrehenseur()
-        time.sleep(2)
+        time.sleep(3)
         self.desactiverAimant()
         time.sleep(6)
         self.brasserPrehenseur()

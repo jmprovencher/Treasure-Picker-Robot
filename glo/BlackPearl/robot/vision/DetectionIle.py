@@ -26,8 +26,8 @@ class DetectionIle(object):
             distance_x, distance_y = self._evaluerEmplacement(contoursIle)
             self.ajustements = self.alignementIle.calculerAjustement(distance_x, distance_y)
         else:
-            self.ajustements.append(('backward', 5))
-            self.detecterIle(self.couleurIle)
+            self.ajustements = None
+
 
     def _detecterCouleur(self, couleur):
         if (self.couleurIle == "vert"):

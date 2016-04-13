@@ -18,7 +18,6 @@ class DetectionTresor(object):
         self.alignementTerminer = False
         self.ajustements = []
         #self._dessinerZoneCible()
-        self._dessinerZoneCible()
 
     def calculerAjustements(self):
         #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('horizon.jpg'))
@@ -28,6 +27,8 @@ class DetectionTresor(object):
             distance_x, distance_y = self._trouverDistance(contoursTresor)
             self.ajustements= self.alignementTresor.calculerAjustement(distance_x, distance_y)
             print("Ajustement alignement tresor calculer")
+        else:
+            self.ajustements = None
 
     def _trouverDistance(self, contoursTresor):
         positionZone_x, positionZone_y = self.positionZone
@@ -47,6 +48,7 @@ class DetectionTresor(object):
     def _detecterContoursForme(self, intervalleCouleur):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
+
         kernel = np.ones((5, 5), np.uint8)
         closing = cv2.morphologyEx(masqueCouleur.copy(), cv2.MORPH_CLOSE, kernel)
         _, contoursCouleur, _ = cv2.findContours(closing.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -60,7 +62,9 @@ class DetectionTresor(object):
 
             if (contoursTresor is not None):
                 return contoursTresor
-            print("Plusieurs contours detectee")
+            else:
+                print("Plusieurs contours detectee")
+                return None
         else:
             return None
 
@@ -74,13 +78,11 @@ class DetectionTresor(object):
             if ((aire < 3000) or (aire > 9000)):
                 contoursNegligeable.append(contours)
 
-
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
-            #if (position_y > self.positionZone[1]):
-             #   contoursNegligeable.append(contours)
 
         print("Nombre de forme apres: %d" %len(contoursCouleur))
+
         #cv2.imshow("Tresor", self.imageCamera)
         #cv2.waitKey(0)
 

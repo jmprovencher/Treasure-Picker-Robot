@@ -26,8 +26,8 @@ class DetectionIle(object):
             distance_x, distance_y = self._evaluerEmplacement(contoursIle)
             self.ajustements = self.alignementIle.calculerAjustement(distance_x, distance_y)
         else:
-            self.ajustements.append(('backward', 5))
-            self.detecterIle(self.couleurIle)
+            self.ajustements = None
+
 
     def _detecterCouleur(self, couleur):
         if (self.couleurIle == "vert"):
@@ -59,7 +59,7 @@ class DetectionIle(object):
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
             print("Aire ile: ", aire)
-            if ((aire < 50000) or (aire > 170000)):
+            if ((aire < 50000) or (aire > 180000)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):

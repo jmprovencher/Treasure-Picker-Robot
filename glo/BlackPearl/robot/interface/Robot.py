@@ -21,6 +21,7 @@ class Robot(Thread):
         self.commandeTerminee = False
         self.pretEnvoyerLettre = False
         self.tresorCapturer = False
+        self.tresorNonCapturer = False
 
         self.lettreObtenue = None
         self.indiceObtenu = None
@@ -48,6 +49,7 @@ class Robot(Thread):
         self._demarrerAnalyseVideo('station')
 
         self.uartDriver.preAlignementStation()
+        time.sleep(2)
         self._executerAlignement()
         self._attendreChargeComplete()
         print("Charge complete")
@@ -64,6 +66,9 @@ class Robot(Thread):
         while self.lettreObtenue is None:
             print("Attente decodage lettre")
             time.sleep(0.5)
+        time.sleep(0.1)
+        self.pretEnvoyerLettre = True
+
 
     def demarrerAlignementTresor(self):
         print("Demarre phase alignement tresor")
@@ -79,7 +84,6 @@ class Robot(Thread):
         self._executerAlignement()
 
         self.uartDriver.postAlignementTresor()
-        self.tresorCapturer = True
 
         self.alignementEnCours = False
 
@@ -124,6 +128,7 @@ class Robot(Thread):
             print commande, parametre
             self.traiterCommande(commande, parametre)
             print("Commande envoyee a traiter commande")
+            time.sleep(1)
         self.instructions = []
 
     def attendreCommandeTerminee(self):

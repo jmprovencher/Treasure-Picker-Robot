@@ -49,7 +49,7 @@ class UARTDriver:
 
     def preAlignementTresor(self):
         self.descendrePrehenseur()
-        time.sleep(2)
+        time.sleep(4)
         self.activerAimant()
         time.sleep(0.5)
 
@@ -66,7 +66,7 @@ class UARTDriver:
         self.sendCommand('backward', 6)
         time.sleep(2)
         self.monterPrehenseur()
-        time.sleep(2)
+        time.sleep(4)
         self.desactiverAimant()
         time.sleep(2)
 
@@ -79,7 +79,7 @@ class UARTDriver:
         self.activerAimant()
         time.sleep(1)
         self.descendrePrehenseur()
-        time.sleep(2)
+        time.sleep(3)
         self.desactiverAimant()
         time.sleep(6)
         self.brasserPrehenseur()

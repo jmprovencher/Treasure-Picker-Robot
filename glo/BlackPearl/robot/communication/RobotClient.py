@@ -29,6 +29,7 @@ class RobotClient(Thread):
             if self.robot.pretEnvoyerLettre:
                 print("Envoie de la lettre...")
                 self.robot.indiceObtenu = self.robot.service.obtenirCible(self.robot.lettreObtenue)
+                time.sleep(0.5)
                 print("Indice obtenu: %s" % self.robot.indiceObtenu)
                 self.envoyerLettre()
                 time.sleep(0.5)
@@ -36,14 +37,25 @@ class RobotClient(Thread):
                 self.robot.pretEnvoyerLettre = False
                 time.sleep(8)
 
-            if (self.robot.tresorCapturer):
+            elif (self.robot.tresorCapturer):
                 self.envoyerCaptureTresor()
+                time.sleep(0.5)
                 self.robot.tresorCapturer = False
+                data = self.attendreCommande()
+                self.traiterCommande(data)
 
-            if self.robot.commandeTerminee and not self.robot.alignementEnCours:
+            elif (self.robot.tresorNonCapturer):
+                self.envoyerTresorAbsent()
+                time.sleep(0.5)
+                self.robot.tresorNonCapturer = False
+                data = self.attendreCommande()
+                self.traiterCommande(data)
+
+            elif self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()
                     time.sleep(0.5)
                     self.envoyerCommandeTerminee()
+                    time.sleep(0.5)
                     data = self.attendreCommande()
                     self.traiterCommande(data)
             else:
@@ -127,6 +139,25 @@ class RobotClient(Thread):
                 time.sleep(0.1)
                 self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
+
+        self.robot.commandeTerminee = False
+        self.termineeAEteEnvoyerAStation = True
+
+    def envoyerTresorAbsent(self):
+        RequeteJSON("absent", 0)
+        while 1:
+            try:
+                self.monClient.sendFile()
+                break
+            except Exception as e:
+                print e
+                print "Connection perdue... Tente de reconnecter..."
+                time.sleep(0.1)
+                self.monClient = TCPClient(self.adresseIP)
+                self.monClient._connectToServer()
+
+        self.robot.commandeTerminee = False
+        self.termineeAEteEnvoyerAStation = True
 
     def envoyerCommandeTerminee(self):
         RequeteJSON("termine", 0)

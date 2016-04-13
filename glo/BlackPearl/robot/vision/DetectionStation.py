@@ -28,10 +28,13 @@ class DetectionStation(object):
             print("DIstance: ", distance_y)
             distance_x = self._trouverOffsetLateral(contoursCible)
             self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y)
+        else:
+            self.ajustements = None
             #self._dessinerInformations(contoursCible, distance_y)
             #self._dessinerZoneCible()
             #cv2.imshow("image", self.imageCamera)
             #cv2.waitKey(0)
+
 
     def _trouverDistanceStation(self, contoursCible):
         zoneTresor = cv2.minAreaRect(contoursCible)
@@ -64,11 +67,12 @@ class DetectionStation(object):
 
         if (len(contoursCouleur) > 0):
             contoursCible = self._obtenirFormeInteret(contoursCouleur)
-            aire = cv2.contourArea(contoursCible)
-            print ("Aire: %d" % aire)
-            return contoursCible
-        else:
-            return None
+            if (contoursCible is not None):
+                aire = cv2.contourArea(contoursCible)
+                print ("Aire: %d" % aire)
+                return contoursCible
+            else:
+                return None
 
     def _dessinerInformations(self, contoursCible, distanceStation):
         zoneTresor = cv2.minAreaRect(contoursCible)
@@ -98,7 +102,11 @@ class DetectionStation(object):
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
 
-        return contoursCouleur[0]
+        if (contoursCouleur is not None):
+            return contoursCouleur[0]
+        else:
+            return None
+
 
     def _definirIntervallesCouleurs(self):
         self.intervalleBleuMarin = np.array([120, 80, 40]), np.array([180, 150, 100]), "Bleu"

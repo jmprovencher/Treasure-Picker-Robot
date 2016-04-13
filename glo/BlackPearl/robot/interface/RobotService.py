@@ -23,6 +23,7 @@ class RobotService:
                 self.indiceObtenu = "triangle"
             else:
                 print("Aucune cible determinee")
+            print reponse
 
         elif "couleur" in reponse:
             if "rouge" in reponse:
@@ -35,6 +36,7 @@ class RobotService:
                 self.indiceObtenu = "jaune"
             else:
                 print("Aucune cible determinee")
+            print reponse
         else:
             print("Erreur reponse du serveur")
         return self.indiceObtenu

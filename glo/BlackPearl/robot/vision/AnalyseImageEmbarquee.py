@@ -15,6 +15,7 @@ class AnalyseImageEmbarquee(Thread):
         self.ajustementsCalcules = False
         self.ajustements = []
         self.parametre = None
+        self.nombreDetection = 0
 
     def definirType(self, parametre):
         self.parametre = parametre
@@ -26,7 +27,6 @@ class AnalyseImageEmbarquee(Thread):
             self.debuterAlignement(self.parametre)
             time.sleep(1)
         self._soumettreAjustements()
-
 
     def debuterAlignement(self, parametre):
         if (parametre == 0):
@@ -59,21 +59,31 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionTresor = DetectionTresor(self.imageCamera)
         self.detectionTresor.calculerAjustements()
         self.ajustements = self.detectionTresor.ajustements
-        print("Nombre ajustement tresor: %d" %len(self.ajustements))
 
-        if self.ajustements is None:
-            self.robot.traiterCommande(('backward', 5))
+        while self.ajustements is None and self.nombreDetection < 5:
+            self.robot.traiterCommande('backward', 1)
             self._chargerImage()
             self.evaluerPositionTresor()
+            self.nombreDetection+1
+
+        if (self.ajustements is None) and self.nombreDetection == 5:
+            self.robot.tresorNonCapturer = True
 
         if (self.ajustements != []):
-            print("Ajustement calculer, analyse termine")
+            print("Nombre ajustement tresor: %d" % len(self.ajustements))
             self.ajustementsCalcules = True
+            self.robot.tresorCapturer = True
 
     def evaluerPositionStation(self):
         self.detectionStation = DetectionStation(self.imageCamera)
         self.detectionStation.trouverAjustements()
         self.ajustements = self.detectionStation.ajustements
+
+        while self.ajustements is None and self.nombreDetection < 5:
+            self.robot.traiterCommande('right', 1)
+            self._chargerImage()
+            self.evaluerPositionStation()
+            self.nombreDetection + 1
 
         if (self.ajustements != []):
             self.ajustementsCalcules = True
@@ -82,6 +92,12 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionIle = DetectionIle(self.imageCamera)
         self.detectionIle.detecterIle(couleurIleCible)
         self.ajustements = self.detectionIle.ajustements
+
+        while self.ajustements is None and self.nombreDetection < 3:
+            self.robot.traiterCommande('forward', 1)
+            self._chargerImage()
+            self.evaluerPositionStation()
+            self.nombreDetection + 1
 
         if (self.ajustements != []):
             self.ajustementsCalcules = True

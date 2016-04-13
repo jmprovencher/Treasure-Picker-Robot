@@ -23,17 +23,17 @@ class AlignementStation():
             commande = 'right'
         distance_x = abs(distance_x)
         #distance_cm = math.floor(abs(distance_x))
-        distance_cm = int(round(distance_x, 0))
+        distance_cm = int(math.floor(distance_x, 0))
         #ajustement_cm = int(round(distance_x,0))
         distance_mm = int(math.floor((abs(distance_x) - distance_cm) * 10))
         #print("Distance mm a bouger: %d" % distance_mm)
 
-        if (distance_x>= 1):
-            return commande, distance_cm
-        elif (distance_mm > 3) and (distance_x < 1):
-            self._ajusterPositionLaterale_MM(commande, distance_mm)
 
-        return commande, distance_cm
+        if (distance_mm > 3):
+            self._ajusterPositionLaterale_MM(commande, distance_mm)
+            return commande, distance_cm
+        else:
+            return commande, distance_cm
 
 
     def _ajusterPositionLaterale_MM(self, commande, distance_mm):

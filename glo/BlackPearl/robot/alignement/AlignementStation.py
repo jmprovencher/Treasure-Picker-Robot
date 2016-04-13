@@ -54,6 +54,6 @@ class AlignementStation():
 
         # HARDCODE DISTANCE
         if (distance_cm > 15):
-            return commande, int(distance_cm) + 2
+            return commande, int(distance_cm) + 1
         else:
             return commande, int(distance_cm) + 1

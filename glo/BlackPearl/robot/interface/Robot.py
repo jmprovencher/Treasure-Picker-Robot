@@ -24,7 +24,9 @@ class Robot(Thread):
         self.lettreObtenue = None
         self.indiceObtenu = None
         #self.adresseIP = '192.168.0.45'
-        self.adresseIP = '10.248.188.65'
+        #self.adresseIP = '10.248.188.65'
+        self.adresseIP = '10.248.69.236'
+
         self.tensionCondensateur = 0
         self._demarrerFeedVideo()
         self._demarrerConnectionTCP()

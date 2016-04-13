@@ -2,8 +2,6 @@ import urllib2
 import ssl
 import time
 
-
-
 def islandServerRequest(adresseIP, codeManchester):
     reseau = adresseIP
     gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)

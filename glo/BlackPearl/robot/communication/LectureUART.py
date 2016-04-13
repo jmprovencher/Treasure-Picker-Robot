@@ -24,6 +24,5 @@ class LectureUART(Thread):
             self.robot.lettreObtenue = lettre_manchester
             print(self.robot.lettreObtenue)
             print("robot pret a envoyer lettre")
-            self.robot.pretEnvoyerLettre = True
         else:
             self.robot.tensionCondensateur = info

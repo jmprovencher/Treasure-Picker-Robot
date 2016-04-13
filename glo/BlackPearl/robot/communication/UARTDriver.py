@@ -16,8 +16,9 @@ class UARTDriver:
 
     def phaseInitialisation(self):
         self.monterPrehenseur()
-        time.sleep(2)
+        time.sleep(3)
         self.cameraPositionDepot()
+        time.sleep(0.2)
         self.cameraPositionFace()
 
     def cameraPositionDepot(self):

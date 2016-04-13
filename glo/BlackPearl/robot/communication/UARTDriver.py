@@ -13,7 +13,7 @@ class UARTDriver:
 
     def phaseInitialisation(self):
         self.monterPrehenseur()
-        time.sleep(3)
+        time.sleep(2)
         self.cameraPositionDepot()
         time.sleep(0.2)
         self.cameraPositionFace()
@@ -49,13 +49,13 @@ class UARTDriver:
 
     def preAlignementTresor(self):
         self.descendrePrehenseur()
-        time.sleep(3)
+        time.sleep(2)
         self.activerAimant()
         time.sleep(0.5)
 
     def preAlignementStation(self):
         self.monterPrehenseur()
-        time.sleep(3)
+        time.sleep(2)
         self.chargerCondensateur()
         time.sleep(1)
 
@@ -66,7 +66,7 @@ class UARTDriver:
         self.sendCommand('backward', 6)
         time.sleep(2)
         self.monterPrehenseur()
-        time.sleep(3)
+        time.sleep(2)
         self.desactiverAimant()
         time.sleep(2)
 
@@ -79,13 +79,13 @@ class UARTDriver:
         self.activerAimant()
         time.sleep(1)
         self.descendrePrehenseur()
-        time.sleep(3)
+        time.sleep(2)
         self.desactiverAimant()
         time.sleep(6)
         self.brasserPrehenseur()
         time.sleep(2)
         self.monterPrehenseur()
-        time.sleep(3)
+        time.sleep(2)
         self.sendCommand('backward', 5)
         time.sleep(3)
         self.executionTerminee()

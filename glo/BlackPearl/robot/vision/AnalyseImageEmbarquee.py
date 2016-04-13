@@ -66,6 +66,7 @@ class AnalyseImageEmbarquee(Thread):
             self._chargerImage()
             self.evaluerPositionTresor()
             self.nombreDetection+1
+            
         if (self.ajustements is None) and self.nombreDetection <= 5:
             self.robot.tresorNonCapturer = True
 

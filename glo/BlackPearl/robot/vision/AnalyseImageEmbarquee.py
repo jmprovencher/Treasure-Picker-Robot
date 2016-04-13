@@ -62,11 +62,11 @@ class AnalyseImageEmbarquee(Thread):
         print("Nombre ajustement tresor: %d" %len(self.ajustements))
 
         while self.ajustements is None and self.nombreDetection < 5:
-            self.robot.traiterCommande(('backward', 1))
+            self.robot.traiterCommande('backward', 1)
             self._chargerImage()
             self.evaluerPositionTresor()
             self.nombreDetection+1
-            
+
         if (self.ajustements is None) and self.nombreDetection <= 5:
             self.robot.tresorNonCapturer = True
 
@@ -81,7 +81,7 @@ class AnalyseImageEmbarquee(Thread):
         self.ajustements = self.detectionStation.ajustements
 
         while self.ajustements is None and self.nombreDetection < 5:
-            self.robot.traiterCommande(('right', 1))
+            self.robot.traiterCommande('right', 1)
             self._chargerImage()
             self.evaluerPositionStation()
             self.nombreDetection + 1
@@ -95,7 +95,7 @@ class AnalyseImageEmbarquee(Thread):
         self.ajustements = self.detectionIle.ajustements
 
         while self.ajustements is None and self.nombreDetection < 3:
-            self.robot.traiterCommande(('forward', 1))
+            self.robot.traiterCommande('forward', 1)
             self._chargerImage()
             self.evaluerPositionStation()
             self.nombreDetection + 1

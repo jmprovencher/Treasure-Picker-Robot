@@ -30,7 +30,7 @@ class AlignementStation():
 
         if (distance_x>= 1):
             return commande, distance_cm
-        elif (distance_mm > 5) and (distance_x < 1):
+        elif (distance_mm > 3) and (distance_x < 1):
             self._ajusterPositionLaterale_MM(commande, distance_mm)
 
         return commande, distance_cm

@@ -48,6 +48,7 @@ class RobotClient(Thread):
                     self.envoyerTension()
                     time.sleep(0.5)
                     self.envoyerCommandeTerminee()
+                    time.sleep(0.5)
                     data = self.attendreCommande()
                     self.traiterCommande(data)
             else:

@@ -59,7 +59,6 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionTresor = DetectionTresor(self.imageCamera)
         self.detectionTresor.calculerAjustements()
         self.ajustements = self.detectionTresor.ajustements
-        print("Nombre ajustement tresor: %d" %len(self.ajustements))
 
         while self.ajustements is None and self.nombreDetection < 5:
             self.robot.traiterCommande('backward', 1)
@@ -71,7 +70,7 @@ class AnalyseImageEmbarquee(Thread):
             self.robot.tresorNonCapturer = True
 
         if (self.ajustements != []):
-            print("Ajustement calculer, analyse termine")
+            print("Nombre ajustement tresor: %d" % len(self.ajustements))
             self.ajustementsCalcules = True
             self.robot.tresorCapturer = True
 

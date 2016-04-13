@@ -6,7 +6,7 @@ from robot.vision.DetectionTresor import DetectionTresor
 from robot.vision.DetectionOrientation import DetectionOrientation
 from threading import Thread
 import time
-import numpy as np
+
 class AnalyseImageEmbarquee(Thread):
     def __init__(self, robot):
         Thread.__init__(self)
@@ -15,6 +15,7 @@ class AnalyseImageEmbarquee(Thread):
         self.ajustementsCalcules = False
         self.ajustements = []
         self.parametre = None
+        self.nombreDetection = 0
 
     def definirType(self, parametre):
         self.parametre = parametre
@@ -59,19 +60,30 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionTresor.calculerAjustements()
         self.ajustements = self.detectionTresor.ajustements
         print("Nombre ajustement tresor: %d" %len(self.ajustements))
-        if self.ajustements is None:
-            self.robot.traiterCommande(('backward', 5))
+
+        while self.ajustements is None and self.nombreDetection < 5:
+            self.robot.traiterCommande(('backward', 1))
             self._chargerImage()
             self.evaluerPositionTresor()
+            self.nombreDetection+1
+        if (self.ajustements is None) and self.nombreDetection <= 5:
+            self.robot.tresorNonCapturer = True
 
         if (self.ajustements != []):
             print("Ajustement calculer, analyse termine")
             self.ajustementsCalcules = True
+            self.robot.tresorCapturer = True
 
     def evaluerPositionStation(self):
         self.detectionStation = DetectionStation(self.imageCamera)
         self.detectionStation.trouverAjustements()
         self.ajustements = self.detectionStation.ajustements
+
+        while self.ajustements is None and self.nombreDetection < 5:
+            self.robot.traiterCommande(('right', 1))
+            self._chargerImage()
+            self.evaluerPositionStation()
+            self.nombreDetection + 1
 
         if (self.ajustements != []):
             self.ajustementsCalcules = True

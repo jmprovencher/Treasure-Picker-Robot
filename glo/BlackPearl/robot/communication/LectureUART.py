@@ -8,8 +8,10 @@ class LectureUART(Thread):
         Thread.__init__(self)
         self.robot = robot
 
+
     def run(self):
         while 1:
+
             info = self.robot.uartDriver.UART.read(4)
             self.analyserLecture(info)
 
@@ -22,6 +24,5 @@ class LectureUART(Thread):
             self.robot.lettreObtenue = lettre_manchester
             print(self.robot.lettreObtenue)
             print("robot pret a envoyer lettre")
-            self.robot.pretEnvoyerLettre = True
         else:
             self.robot.tensionCondensateur = info

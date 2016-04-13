@@ -80,7 +80,7 @@ class Interface(QtGui.QWidget):
         self.setAutoFillBackground(False)
         self.feed = QLabel(self)
         self.buffer = 25
-        self.numeroTable = 2
+        self.numeroTable = 5
         self.feed.setGeometry(5, self.hauteur-(600+self.buffer+5), 800, 600)
         self.threadAfficherImageVirtuelle = AfficherImageVirtuelle(self)
         self.feed.setPixmap(self.threadAfficherImageVirtuelle.imageConvertie)
@@ -95,7 +95,7 @@ class Interface(QtGui.QWidget):
         self.robotPretAffiche = self.afficherInitInfoCouleur(444, 142, 660, 170, 'Non Connecte', 'red')
         self.tempsDepuisDemarrerStatic = self.afficherInitInfo(380, 172, 640, 200, 'Temps : ')
         self.tempsDepuisDemarrerStatic.setFont(QtGui.QFont("Times", 24, QtGui.QFont.Bold))
-        self.tempsDepuisDemarrer = self.afficherInitInfo(474, 172, 720, 200, '  ?')
+        self.tempsDepuisDemarrer = self.afficherInitInfo(474, 172, 720, 200, '    0:00')
         self.tempsDepuisDemarrer.setFont(QtGui.QFont("Times", 24, QtGui.QFont.Bold))
 
     def initButtons(self):

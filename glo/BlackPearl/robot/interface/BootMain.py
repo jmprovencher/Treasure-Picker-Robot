@@ -2,7 +2,7 @@ import sys
 sys.path.append('/home/design3/Desktop/design3/glo/BlackPearl')
 from robot.communication.UARTDriver import UARTDriver
 from robot.interface.Robot import Robot
-
+import time
 
 def main():
     #monUART = None
@@ -10,7 +10,7 @@ def main():
     #robot.start()
 
     prefixPort = '/dev/ttyACM'
-
+    time.sleep(5)
     for j in range(0, 20):
         try:
             port = prefixPort + str(j)

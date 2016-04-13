@@ -59,6 +59,8 @@ class AlgorithmeTrajectoire:
             tropLoin = 35
         else:
             tropLoin = 35
+        if self.grilleCellule.rayonBuffer <= 21:
+            return [(-1, -1)]
         while self.grilleCellule.distanceAuCarre(self.arriver.x, self.arriver.y, arriver[0], arriver[1]) >= tropLoin**2:
             print 'nouvelle teration'
             self.grilleCellule.rayonBuffer -= 1

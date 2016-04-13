@@ -10,6 +10,7 @@ class StationServeur(Thread):
         self.stationBase = stationBase
         self.pretEnvoyerCommande = False
         self.robotEstPret = False
+        self.tresorTrouve = False
         self.attenteDuRobot = False
         self.monServeur = TCPServer()
 
@@ -69,12 +70,16 @@ class StationServeur(Thread):
             indice = commande[7:]
             print ("L'indice: %s" % indice)
             self.stationBase.carte.setCible(Cible([self.stationBase.carte, indice]))
-
         elif commande.startswith("man "):
             self.stationBase.manchester = commande[-1]
             print ("Code manchester: %s" % self.stationBase.getManchester())
         elif commande == "termine":
             print 'Commande termine.'
+            self.attenteDuRobot = False
+        elif commande == 'present':
+            self.tresorTrouve = True
+            self.attenteDuRobot = False
+        elif commande == 'absent':
             self.attenteDuRobot = False
 
     def attendreWakeUpRobot(self):

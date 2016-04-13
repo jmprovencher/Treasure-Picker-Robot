@@ -75,8 +75,10 @@ class StationBase(Thread):
         self.trouverTresorEtCible()
         self.attendreRobot()
         self.attendreThreadCible()
-        self.deplacement('TRESOR')
-        self.aligner("alignement_tresor")
+        while not self.threadCommunication.tresorTrouve:
+            self.deplacement('TRESOR')
+            self.aligner("alignement_tresor")
+            time.sleep(0.01)
         self.deplacement('ILE')
         self.aligner("alignement_ile")
         self.roundTerminee = True
@@ -101,7 +103,11 @@ class StationBase(Thread):
         if etape == 'RECHARGE':
             destination = self.carte.getStationRecharge().getCentre()
         elif etape == 'TRESOR':
-            destination = self.carte.cible.tresorChoisi.getCentre()
+            if not self.carte.cible.tresorDansLeFond:
+                destination = self.carte.cible.tresorChoisi.getCentre()
+            else:
+                destination = self.carte.cible.possibilite[self.carte.cible.conteur].getCentre()
+                self.carte.cible.conteur += 1
             print 'identifier destination tresor'
             print destination
         elif etape == 'ILE':
@@ -112,7 +118,7 @@ class StationBase(Thread):
 
     def correctionsFinales(self, type):
         if type == 'RECHARGE':
-            self.angleDesire = 90
+            self.angleDesire = 88
             self.orienter(type)
             self.deplacementArriere(5)
             self.deplacementDroit(11)
@@ -127,7 +133,7 @@ class StationBase(Thread):
         elif type == 'ILE':
             arriver = self.carte.getCible().getIleCible().getCentre()
             debut = self.getPositionRobot()
-            debut = self.correctionCentre(debut)
+            #debut = self.correctionCentre(debut)
             self.angleDesire = self.trouverOrientationDesire(debut, arriver)
             self.orienter(type)
         self.trajectoirePrevue = None

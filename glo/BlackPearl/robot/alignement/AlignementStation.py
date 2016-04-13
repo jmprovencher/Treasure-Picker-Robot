@@ -23,25 +23,22 @@ class AlignementStation():
             commande = 'right'
         distance_x = abs(distance_x)
         #distance_cm = math.floor(abs(distance_x))
-        distance_cm = int(round(distance_x, 0))
+        distance_cm = int(math.floor(distance_x))
         #ajustement_cm = int(round(distance_x,0))
         distance_mm = int(math.floor((abs(distance_x) - distance_cm) * 10))
         #print("Distance mm a bouger: %d" % distance_mm)
 
-        if (distance_x>= 1):
-            return commande, distance_cm
-        elif (distance_mm > 1) and (distance_x < 1):
-            self._ajusterPositionLaterale_MM(commande, distance_mm)
 
-        return commande, distance_cm
+        if (distance_mm > 3) and distance_cm > 2:
+            self._ajusterPositionLaterale_MM(commande, distance_mm)
+            return commande, distance_cm
+        else:
+            return commande, int(math.floor(distance_x))
 
 
     def _ajusterPositionLaterale_MM(self, commande, distance_mm):
-        if (distance_mm > 0):
-            commande = commande + 'P'
-        elif (distance_mm < 0):
-            commande = commande + 'P'
 
+        commande = commande + 'P'
         distance = abs(round(distance_mm))
 
         self.ajustements.append((commande, distance))
@@ -57,6 +54,6 @@ class AlignementStation():
 
         # HARDCODE DISTANCE
         if (distance_cm > 15):
-            return commande, int(distance_cm) + 2
+            return commande, int(distance_cm) + 1
         else:
             return commande, int(distance_cm) + 1

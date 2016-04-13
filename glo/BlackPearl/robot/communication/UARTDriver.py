@@ -1,8 +1,5 @@
 import serial
 import time
-import struct
-
-
 class UARTDriver:
     def __init__(self, comPort, baudRate):
         self.comPort = comPort

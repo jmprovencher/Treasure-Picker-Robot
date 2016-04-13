@@ -31,15 +31,12 @@ class Robot(Thread):
         self._demarrerConnectionTCP()
 
 
-
     def run(self):
         print("Run")
         self._demarrerLectureUART()
         time.sleep(2)
         self.uartDriver.phaseInitialisation()
         self.robotClient.demarrageTermine = True
-
-
 
     def demarrerAlignementStation(self):
         print("Demarre phase alignement station")
@@ -155,7 +152,12 @@ class Robot(Thread):
 
     def _demarrerLectureUART(self):
         self.threadLecture = LectureUART(self)
+        self.flushUART()
         self.threadLecture.start()
+
+    def flushUART(self):
+        self.uartDriver.UART.flushInput()
+        time.sleep(1)
 
     def _demarrerAnalyseVideo(self, type):
         print("Demarrage analyse %s", type)

@@ -8,8 +8,10 @@ class LectureUART(Thread):
         Thread.__init__(self)
         self.robot = robot
 
+
     def run(self):
         while 1:
+
             info = self.robot.uartDriver.UART.read(4)
             self.analyserLecture(info)
 

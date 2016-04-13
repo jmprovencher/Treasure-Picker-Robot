@@ -49,6 +49,7 @@ class Robot(Thread):
         self._demarrerAnalyseVideo('station')
 
         self.uartDriver.preAlignementStation()
+        time.sleep(2)
         self._executerAlignement()
         self._attendreChargeComplete()
         print("Charge complete")
@@ -124,6 +125,7 @@ class Robot(Thread):
             print commande, parametre
             self.traiterCommande(commande, parametre)
             print("Commande envoyee a traiter commande")
+            time.sleep(1)
         self.instructions = []
 
     def attendreCommandeTerminee(self):

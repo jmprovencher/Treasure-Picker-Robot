@@ -65,11 +65,12 @@ class DetectionStation(object):
 
         if (len(contoursCouleur) > 0):
             contoursCible = self._obtenirFormeInteret(contoursCouleur)
-            aire = cv2.contourArea(contoursCible)
-            print ("Aire: %d" % aire)
-            return contoursCible
-        else:
-            return None
+            if (contoursCible is not None):
+                aire = cv2.contourArea(contoursCible)
+                print ("Aire: %d" % aire)
+                return contoursCible
+            else:
+                return None
 
     def _dessinerInformations(self, contoursCible, distanceStation):
         zoneTresor = cv2.minAreaRect(contoursCible)
@@ -98,8 +99,11 @@ class DetectionStation(object):
 
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
+        if (contoursCouleur is not None):
+            return contoursCouleur[0]
+        else:
+            return None
 
-        return contoursCouleur[0]
 
     def _definirIntervallesCouleurs(self):
         self.intervalleBleuMarin = np.array([120, 80, 40]), np.array([180, 150, 100]), "Bleu"

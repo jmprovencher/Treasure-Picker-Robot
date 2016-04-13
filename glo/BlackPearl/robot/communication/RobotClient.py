@@ -39,7 +39,9 @@ class RobotClient(Thread):
             if (self.robot.tresorCapturer):
                 self.envoyerCaptureTresor()
                 self.robot.tresorCapturer = False
-
+            if (self.robot.tresorNonCapturer):
+                self.envoyerTresorAbsent()
+                self.robot.tresorNonCapturer = False
             if self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()
                     time.sleep(0.5)
@@ -117,6 +119,19 @@ class RobotClient(Thread):
 
     def envoyerCaptureTresor(self):
         RequeteJSON("present", 0)
+        while 1:
+            try:
+                self.monClient.sendFile()
+                break
+            except Exception as e:
+                print e
+                print "Connection perdue... Tente de reconnecter..."
+                time.sleep(0.1)
+                self.monClient = TCPClient(self.adresseIP)
+                self.monClient._connectToServer()
+
+    def envoyerTresorAbsent(self):
+        RequeteJSON("absent", 0)
         while 1:
             try:
                 self.monClient.sendFile()

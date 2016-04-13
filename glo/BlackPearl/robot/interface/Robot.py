@@ -79,7 +79,6 @@ class Robot(Thread):
         self._executerAlignement()
 
         self.uartDriver.postAlignementTresor()
-        self.tresorCapturer = True
 
         self.alignementEnCours = False
 

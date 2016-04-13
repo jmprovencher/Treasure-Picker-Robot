@@ -33,7 +33,7 @@ class AlignementStation():
             self._ajusterPositionLaterale_MM(commande, distance_mm)
             return commande, distance_cm
         else:
-            return commande, distance_cm
+            return commande, int(round(distance_x, 0))
 
 
     def _ajusterPositionLaterale_MM(self, commande, distance_mm):

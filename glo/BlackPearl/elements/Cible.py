@@ -1,5 +1,6 @@
 import copy
 from elements.Tresor import Tresor
+import time
 
 
 class Cible:
@@ -19,16 +20,20 @@ class Cible:
         print 'Trouver ile cible...'
         ilesPotentielle = self.carte.getIlesCorrespondantes(self.indice)
         distanceMin = 1000000000000
+        time.sleep(10)
         tresorsPossibles = self.trouvertresorsPossibles()
-        if self.tresorDansLeFond:
-            self.possibilite = tresorsPossibles
-        for tresor in tresorsPossibles:
+        self.possibilite = tresorsPossibles
+        tmp = self.possibilite
+        print 'init list'
+        print self.possibilite
+        print self.conteur
+        for i in range(len(tresorsPossibles)):
             print 'test sur tresor'
-            print tresor.getCentre()
-            trajetTresor = self.carte.getTrajectoire().trouverTrajet(self.carte.getStationRecharge().getCentre(), tresor.getCentre(), 'TRESORE')
+            print tresorsPossibles[i].getCentre()
+            trajetTresor = self.carte.getTrajectoire().trouverTrajet(self.carte.getStationRecharge().getCentre(), tresorsPossibles[i].getCentre(), 'TRESORE')
             distanceTresor = self.carte.getTrajectoire().trouverLongueurTrajetCarre(trajetTresor)
             for ile in ilesPotentielle:
-                trajetIle = self.carte.getTrajectoire().trouverTrajet(tresor.getCentre(), ile.getCentre(), 'ILE')
+                trajetIle = self.carte.getTrajectoire().trouverTrajet(tresorsPossibles[i].getCentre(), ile.getCentre(), 'ILE')
                 distanceIle = self.carte.getTrajectoire().trouverLongueurTrajetCarre(trajetIle)
                 if distanceIle == -1:
                     continue
@@ -37,26 +42,33 @@ class Cible:
                 print 'Distance totale', distanceTotale
                 if distanceMin > distanceTotale:
                     distanceMin = distanceTotale
-                    if not self.tresorDansLeFond:
-                        self.tresorChoisi = tresor
-                    self.ileChoisie = ile
-
-        print 'Tresore choisie: ', self.tresorChoisi.centre_x, self.tresorChoisi.centre_y
+                    tresorChoisi = tresorsPossibles[i]
+                    self.possibilite = [tresorChoisi] +tmp[:i] + tmp[i+1:]
+                    self.ileChoisie = copy.deepcopy(ile)
+                    print 'changement 1'
+                    print self.possibilite
+                    print self.conteur
+        if self.ileChoisie is None:
+            self.ileChoisie = ilesPotentielle[0]
+        print 'Tresore choisie: ', self.possibilite[0].centre_x, self.possibilite[0].centre_y
         print 'Ile choisie: ', self.ileChoisie.forme, self.ileChoisie.couleur
         print 'Ile cible trouve'
 
     def trouvertresorsPossibles(self):
         tresorPossible = []
+        print len(self.carte.getTresors())
         for tresor in self.carte.getTresors():
             xTresor, yTresor = tresor.getCentre()
             accepte = True
             for ile in self.carte.getIles():
+                print 'tresor normal'
                 xIle, yIle = ile.getCentre()
                 deltaXPix = abs(xTresor - xIle)
                 deltaYPix = abs(yTresor - yIle)
                 deltaX = self.carte.getTrajectoire().depPixelXACentimetre(deltaXPix)
                 deltaY = self.carte.getTrajectoire().depPixelYACentimetre(deltaYPix)
-                if deltaY < 60 and deltaX < 30:
+                if deltaY < 30 and deltaX < 30:
+                    print 'tresor normal accepter'
                     accepte = False
                     break
             if accepte:
@@ -64,6 +76,7 @@ class Cible:
                 print 'Tresor potentiel: ', tresor.centre_x, tresor.centre_y
 
         if not tresorPossible:
+            print 'Tresor potentie'
             self.tresorDansLeFond = True
             listeIle = self.carte.getIles()
             listetresors = [Tresor((0, 215)), Tresor((0, 430)), Tresor((0, 645))]
@@ -71,6 +84,7 @@ class Cible:
                 if self.pasDileProche(tresor):
                     print 'Tresor potentiel: ', tresor.centre_x, tresor.centre_y
                     tresorPossible.append(tresor)
+            print 'fond : ', len(tresorPossible)
 
         return tresorPossible
 
@@ -93,7 +107,10 @@ class Cible:
         return self.ileChoisie
 
     def getTresorCible(self):
-        return self.tresorChoisi
+        print self.conteur
+        print self.possibilite[self.conteur].getCentre()[0]
+        print self.possibilite[self.conteur].getCentre()[1]
+        return self.possibilite[self.conteur]
 
     def getIndice(self):
         return self.indice

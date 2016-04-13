@@ -102,7 +102,7 @@ class AnalyseImageWorld(Thread):
 
         for i in range(len(listIles)):
             xIle, yIle = listIles[i].getCentre()
-            if self.stationBase.getCarte().getTrajectoire().distanceAuCarre(xRobot, yRobot, xIle, yIle) <= 900:
+            if self.stationBase.getCarte().getTrajectoire().distanceAuCarre(xRobot, yRobot, xIle, yIle) <= 400:
                 ileImpossible.append(i)
 
         if len(listIles) == len(ileImpossible):

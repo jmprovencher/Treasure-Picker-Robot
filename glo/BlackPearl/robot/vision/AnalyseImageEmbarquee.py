@@ -79,6 +79,12 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionStation.trouverAjustements()
         self.ajustements = self.detectionStation.ajustements
 
+        while self.ajustements is None and self.nombreDetection < 5:
+            self.robot.traiterCommande(('right', 1))
+            self._chargerImage()
+            self.evaluerPositionStation()
+            self.nombreDetection + 1
+
         if (self.ajustements != []):
             self.ajustementsCalcules = True
 

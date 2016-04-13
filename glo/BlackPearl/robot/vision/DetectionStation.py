@@ -33,6 +33,7 @@ class DetectionStation(object):
             #cv2.imshow("image", self.imageCamera)
             #cv2.waitKey(0)
 
+
     def _trouverDistanceStation(self, contoursCible):
         zoneTresor = cv2.minAreaRect(contoursCible)
         # focalLength = (zoneTresor[1][0] * KNOWN_DISTANCE) / KNOWN_WIDTH

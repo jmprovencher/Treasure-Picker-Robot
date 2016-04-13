@@ -41,11 +41,15 @@ class RobotClient(Thread):
                 self.envoyerCaptureTresor()
                 time.sleep(0.5)
                 self.robot.tresorCapturer = False
+                data = self.attendreCommande()
+                self.traiterCommande(data)
 
             elif (self.robot.tresorNonCapturer):
                 self.envoyerTresorAbsent()
                 time.sleep(0.5)
                 self.robot.tresorNonCapturer = False
+                data = self.attendreCommande()
+                self.traiterCommande(data)
 
             elif self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()
@@ -136,6 +140,9 @@ class RobotClient(Thread):
                 self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
 
+        self.robot.commandeTerminee = False
+        self.termineeAEteEnvoyerAStation = True
+
     def envoyerTresorAbsent(self):
         RequeteJSON("absent", 0)
         while 1:
@@ -148,6 +155,9 @@ class RobotClient(Thread):
                 time.sleep(0.1)
                 self.monClient = TCPClient(self.adresseIP)
                 self.monClient._connectToServer()
+
+        self.robot.commandeTerminee = False
+        self.termineeAEteEnvoyerAStation = True
 
     def envoyerCommandeTerminee(self):
         RequeteJSON("termine", 0)

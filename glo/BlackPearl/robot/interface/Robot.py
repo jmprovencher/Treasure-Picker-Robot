@@ -66,7 +66,7 @@ class Robot(Thread):
         while self.lettreObtenue is None:
             print("Attente decodage lettre")
             time.sleep(0.5)
-        self.pretEnvoyerLettre = True
+
 
     def demarrerAlignementTresor(self):
         print("Demarre phase alignement tresor")

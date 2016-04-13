@@ -62,7 +62,9 @@ class DetectionTresor(object):
 
             if (contoursTresor is not None):
                 return contoursTresor
-            print("Plusieurs contours detectee")
+            else:
+                print("Plusieurs contours detectee")
+                return None
         else:
             return None
 

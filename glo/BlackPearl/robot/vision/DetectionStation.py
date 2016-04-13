@@ -29,9 +29,9 @@ class DetectionStation(object):
             distance_x = self._trouverOffsetLateral(contoursCible)
             self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y)
             #self._dessinerInformations(contoursCible, distance_y)
-            self._dessinerZoneCible()
-            cv2.imshow("image", self.imageCamera)
-            cv2.waitKey(0)
+            #self._dessinerZoneCible()
+            #cv2.imshow("image", self.imageCamera)
+            #cv2.waitKey(0)
 
     def _trouverDistanceStation(self, contoursCible):
         zoneTresor = cv2.minAreaRect(contoursCible)

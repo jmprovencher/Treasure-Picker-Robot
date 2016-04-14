@@ -26,18 +26,18 @@ class AlignementTresor():
 
         distance = abs(distance_x / RATIOPIXEL_CM)
 
-        distance_cm = int(math.floor(distance_x))
+        distance_cm = int(math.floor(distance))
         # ajustement_cm = int(round(distance_x,0))
-        distance_mm = int(math.floor((abs(distance) - distance_cm) * 10))
+        distance_mm = int(math.floor(((distance) - distance_cm) * 10))
         # print("Distance mm a bouger: %d" % distance_mm)
 
         if (distance_mm > 3) and distance_cm <= 1:
             self._ajusterPositionLaterale_MM(commande, distance_mm)
             return commande, distance_cm
         elif distance_cm <= 2:
-            return commande, int(round(distance_x, 0))
+            return commande, int(round(distance, 0))
         else:
-            return commande, int(math.floor(distance_x))
+            return commande, distance_cm
 
 
     def _ajusterPositionLaterale_MM(self, commande, distance_mm):

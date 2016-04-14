@@ -21,20 +21,24 @@ class DetectionTresor(object):
     def calculerAjustements(self, imageCamera):
         self.nombreDetection+1
         self.imageCamera = imageCamera
-        contoursMur = self._detecterContoursMur(self.intervalleMur)
+        #contoursMur = self._detecterContoursMur(self.intervalleMur)
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
 
         if (contoursTresor) is not None:
-            coinTresor = self.trouverCoinSuperieurTresor(contoursTresor)
-            self._dessinerZoneCible()
-            self.evaluerPositionTresor(contoursMur, coinTresor)
-
-        if (self.tresorValide):
+            #coinTresor = self.trouverCoinSuperieurTresor(contoursTresor)
+            #self._dessinerZoneCible()
+            #self.evaluerPositionTresor(contoursMur, coinTresor)
             distance_x, distance_y = self._trouverDistance(contoursTresor)
             self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
             print("Ajustement alignement tresor calculer")
         else:
             self.ajustements = None
+
+        # if (self.tresorValide):
+        #     distance_x, distance_y = self._trouverDistance(contoursTresor)
+        #     self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
+        #     print("Ajustement alignement tresor calculer")
+
 
     def evaluerPositionTresor(self, contoursMur, coinTresor):
         zoneMur = cv2.minAreaRect(contoursMur)

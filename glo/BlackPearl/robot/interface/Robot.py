@@ -45,7 +45,7 @@ class Robot(Thread):
         self.uartDriver.cameraPositionFace()
         self.threadVideo.demarrerCapture()
 
-        self.uartDriver.sendCommand('forward', 5)
+        self.uartDriver.sendCommand('forward', 3)
         time.sleep(1)
         self._demarrerAnalyseVideo('station_final')
         time.sleep(1)

@@ -38,7 +38,8 @@ class DetectionStation(object):
             #cv2.imshow("image", self.imageCamera)
             #cv2.waitKey(0)
 
-    def trouverAjustementsFinaux(self):
+    def trouverAjustementsFinaux(self, image):
+        self.imageCamera = image
         contoursCible = self._detecterFormeCouleur(self.intervalleOrange)
         if (contoursCible is not None):
             distance_y = self._trouverDistanceStation(contoursCible, KNOWN_WIDTH_ORANGE)

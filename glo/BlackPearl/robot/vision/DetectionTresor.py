@@ -40,8 +40,6 @@ class DetectionTresor(object):
 
     def evaluerPositionTresor(self, contoursMur, coinTresor):
         zoneMur = cv2.minAreaRect(contoursMur)
-        print("ZONE MUR")
-        # print(zoneMur)
         boiteMur = np.int0(cv2.boxPoints(zoneMur))
         cv2.drawContours(self.imageCamera, [boiteMur], -1, (0, 255, 0), 2)
 
@@ -51,7 +49,6 @@ class DetectionTresor(object):
         coin_superieur = 1200
 
         zoneTresor = cv2.minAreaRect(contoursTresor)
-        print("ZONE TRESOR")
         boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
         cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
         for points in boiteTresor:

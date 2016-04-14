@@ -69,7 +69,6 @@ class AnalyseImageEmbarquee(Thread):
             self._chargerImage()
             self.detectionTresor.calculerAjustements(self.imageCamera)
             self.ajustements = self.detectionTresor.ajustements
-            self.nombreDetection =+1
             print("Nombre detection", self.nombreDetection)
 
         if (self.ajustements is None) and self.nombreDetection == 5:
@@ -95,8 +94,8 @@ class AnalyseImageEmbarquee(Thread):
             self.ajustementsCalcules = True
 
     def evaluerPositionStationFinal(self):
-        self.detectionStation = DetectionStation(self.imageCamera)
-        self.detectionStation.trouverAjustementsFinaux()
+        self.detectionStation = DetectionStation()
+        self.detectionStation.trouverAjustementsFinaux(self.imageCamera)
         self.ajustements = self.detectionStation.ajustements
 
         while self.ajustements is None and self.nombreDetection < 5:

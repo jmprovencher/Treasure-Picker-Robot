@@ -103,11 +103,7 @@ class StationBase(Thread):
         if etape == 'RECHARGE':
             destination = self.carte.getStationRecharge().getCentre()
         elif etape == 'TRESOR':
-            if not self.carte.cible.tresorDansLeFond:
-                destination = self.carte.cible.tresorChoisi.getCentre()
-            else:
-                destination = self.carte.cible.possibilite[self.carte.cible.conteur].getCentre()
-                self.carte.cible.conteur += 1
+            destination = self.carte.cible.possibilite[self.carte.cible.conteur].getCentre()
             print 'identifier destination tresor'
             print destination
         elif etape == 'ILE':
@@ -121,13 +117,14 @@ class StationBase(Thread):
             self.angleDesire = 88
             self.orienter(type)
             self.deplacementArriere(5)
-            self.deplacementDroit(11)
+            self.deplacementDroit(13)
         elif type == 'TRESOR':
             if self.carte.getCible().getTresorCible().getCentre()[1] < 500:
                 self.angleDesire = 90
-            elif self.carte.getCible().getTresorCible().getCentre()[1] > 500:
+                self.carte.cible.conteur += 1
+            else:
                 self.angleDesire = 270
-                print 'set :', self.angleDesire
+                self.carte.cible.conteur += 1
             self.orienter(type)
             self.deplacementArriere(3)
         elif type == 'ILE':
@@ -195,6 +192,7 @@ class StationBase(Thread):
                 RequeteJSON("rotateAntiClockwise", abs(angle))
             print 'Signaler que la comande est prete a envoyer.'
             self.threadCommunication.signalerEnvoyerCommande()
+            time.sleep(0.5)
             self.attendreRobot()
             if type == 'deplacement':
                 self.angleDesire = None
@@ -266,6 +264,13 @@ class StationBase(Thread):
         print '\nDeplacer'
         print 'deplacement: ', dep
         RequeteJSON("backward", dep)
+        self.threadCommunication.signalerEnvoyerCommande()
+        self.attendreRobot()
+
+    def deplacementAvant(self, dep):
+        print '\nDeplacer'
+        print 'deplacement: ', dep
+        RequeteJSON("forward", dep)
         self.threadCommunication.signalerEnvoyerCommande()
         self.attendreRobot()
 

@@ -23,11 +23,11 @@ class AnalyseImageEmbarquee(Thread):
 
     def run(self):
         while not (self.ajustementsCalcules) and (self.parametre is not None):
-            time.sleep(2)
+            time.sleep(1)
             self._chargerImage()
             self.debuterAlignement(self.parametre)
-        if (self.ajustements is not None):
-            self._soumettreAjustements()
+            time.sleep(1)
+        self._soumettreAjustements()
 
     def debuterAlignement(self, parametre):
         if (parametre == 0):
@@ -59,24 +59,17 @@ class AnalyseImageEmbarquee(Thread):
             self.ajustementsCalcules = True
 
     def evaluerPositionTresor(self):
-        self.detectionTresor = DetectionTresor()
-        self.detectionTresor.calculerAjustements(self.imageCamera)
+        self.detectionTresor = DetectionTresor(self.imageCamera)
+        self.detectionTresor.calculerAjustements()
         self.ajustements = self.detectionTresor.ajustements
+        print("Nombre ajustement tresor: %d" % len(self.ajustements))
 
-        # while self.ajustements is None and self.detectionTresor.nombreDetection < 3:
-        #     self.robot.traiterCommande('backward', 1)
-        #     time.sleep(2)
-        #     self._chargerImage()
-        #     self.detectionTresor.calculerAjustements(self.imageCamera)
-        #     self.ajustements = self.detectionTresor.ajustements
-        #     print(self.ajustements)
-        #     print("Ajustement #%d" %self.detectionTresor.nombreDetection)
         if (self.ajustements is not None):
-            print("Nombre ajustement tresor: %d" % len(self.ajustements))
+            print("Ajustement calculer, analyse termine")
             self.ajustementsCalcules = True
             self.robot.tresorCapturer = True
 
-        elif (self.ajustements is None):
+        else:
             self.robot.tresorNonCapturer = True
             self.ajustementsCalcules = True
 

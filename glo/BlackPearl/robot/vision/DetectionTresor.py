@@ -8,7 +8,7 @@ RATIOPIXEL_CM = 40
 
 
 class DetectionTresor(object):
-    def __init__(self, image):
+    def __init__(self):
         self.alignementTresor = AlignementTresor()
         self.positionZone = (800, 950)
         self.rayonZone = 20

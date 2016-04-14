@@ -13,7 +13,7 @@ RATIO_PIXEL_CM = 95
 
 
 class DetectionStation(object):
-    def __init__(self, image):
+    def __init__(self):
         self.alignementStation = AlignementStation()
 
         self.positionZone = (820, 730)

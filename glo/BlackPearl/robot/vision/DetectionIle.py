@@ -5,7 +5,7 @@ from robot.alignement.AlignementIle import AlignementIle
 
 
 class DetectionIle(object):
-    def __init__(self, image):
+    def __init__(self):
         self.alignementIle = AlignementIle()
         self.alignementTerminer = False
         self.ajustements = []

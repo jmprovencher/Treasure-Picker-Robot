@@ -23,6 +23,7 @@ class DetectionTresor(object):
         contoursMur = self._detecterContoursMur(self.intervalleMur)
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
 
+
         if (contoursTresor) is not None:
             coinTresor = self.trouverCoinSuperieurTresor(contoursTresor)
             self._dessinerZoneCible()
@@ -35,6 +36,9 @@ class DetectionTresor(object):
             print("Ajustement alignement tresor calculer")
         else:
             self.ajustements = None
+
+    def filtrerContourTresor(self, contoursTresor):
+
 
     def evaluerPositionTresor(self, contoursMur, coinTresor):
         zoneMur = cv2.minAreaRect(contoursMur)
@@ -138,6 +142,8 @@ class DetectionTresor(object):
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
             print("Aire tresor: %f" % aire)
+            perimetre = cv2.arcLength(contoursCouleur[contours])
+            print ("Perimetre: ", perimetre)
 
             if ((aire < 3000) or (aire > 9000)):
                 contoursNegligeable.append(contours)

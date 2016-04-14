@@ -68,6 +68,7 @@ class AnalyseImageEmbarquee(Thread):
 
         if (self.ajustements is not None):
             print("Ajustement calculer, analyse termine")
+            self.robot.tresorCapturer = True
         self.ajustementsCalcules = True
             #self.robot.tresorCapturer = True
 

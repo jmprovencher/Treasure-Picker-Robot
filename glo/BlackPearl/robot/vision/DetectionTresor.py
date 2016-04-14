@@ -17,29 +17,6 @@ class DetectionTresor(object):
         self.alignementTerminer = False
         self.ajustements = []
 
-    def trouverCoinSuperieurTresor(self, contoursTresor):
-        coin_superieur = 1200
-
-        zoneTresor = cv2.minAreaRect(contoursTresor)
-        print("ZONE TRESOR")
-        boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
-        cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
-        for points in boiteTresor:
-            x, y = points
-            if (y < coin_superieur):
-                coin_superieur = y
-                point_superieur = x, coin_superieur
-        print("Coin gauche ", point_superieur)
-        return point_superieur
-
-    def evaluerPositionTresor(self, contoursMur, coinTresor):
-        zoneMur = cv2.minAreaRect(contoursMur)
-        print("ZONE MUR")
-        print(zoneMur)
-        boiteMur = np.int0(cv2.boxPoints(zoneMur))
-        cv2.drawContours(self.imageCamera, [boiteMur], -1, (0, 255, 0), 2)
-
-        self.tresorValide = cv2.pointPolygonTest(boiteMur, coinTresor, measureDist=False)
 
     def calculerAjustements(self, imageCamera):
         self.imageCamera = imageCamera
@@ -59,6 +36,30 @@ class DetectionTresor(object):
             print("Ajustement alignement tresor calculer")
         else:
             self.ajustements = None
+
+    def evaluerPositionTresor(self, contoursMur, coinTresor):
+        zoneMur = cv2.minAreaRect(contoursMur)
+        print("ZONE MUR")
+        # print(zoneMur)
+        boiteMur = np.int0(cv2.boxPoints(zoneMur))
+        cv2.drawContours(self.imageCamera, [boiteMur], -1, (0, 255, 0), 2)
+
+        self.tresorValide = cv2.pointPolygonTest(boiteMur, coinTresor, measureDist=False)
+
+    def trouverCoinSuperieurTresor(self, contoursTresor):
+        coin_superieur = 1200
+
+        zoneTresor = cv2.minAreaRect(contoursTresor)
+        print("ZONE TRESOR")
+        boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
+        cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
+        for points in boiteTresor:
+            x, y = points
+            if (y < coin_superieur):
+                coin_superieur = y
+                point_superieur = x, coin_superieur
+        print("Coin gauche ", point_superieur)
+        return point_superieur
 
     def _trouverDistance(self, contoursTresor):
         positionZone_x, positionZone_y = self.positionZone

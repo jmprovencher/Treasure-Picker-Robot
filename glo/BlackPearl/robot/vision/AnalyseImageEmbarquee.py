@@ -69,6 +69,7 @@ class AnalyseImageEmbarquee(Thread):
             self._chargerImage()
             self.detectionTresor.calculerAjustements(self.imageCamera)
             self.ajustements = self.detectionTresor.ajustements
+            print(self.ajustements)
             print("Ajustement #%d" %self.detectionTresor.nombreDetection)
 
         if (self.ajustements is None) and self.detectionTresor.nombreDetection == 5:

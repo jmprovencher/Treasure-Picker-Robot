@@ -145,7 +145,7 @@ class DetectionTresor(object):
 
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            # print("Aire tresor: %f" % aire)
+            print("Aire tresor: %f" % aire)
 
             if ((aire < 3000) or (aire > 9000)):
                 contoursNegligeable.append(contours)

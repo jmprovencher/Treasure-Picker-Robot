@@ -63,16 +63,16 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionTresor.calculerAjustements(self.imageCamera)
         self.ajustements = self.detectionTresor.ajustements
 
-        while self.ajustements is None and self.detectionTresor.nombreDetection < 3:
-            self.robot.traiterCommande('backward', 1)
-            time.sleep(2)
-            self._chargerImage()
-            self.detectionTresor.calculerAjustements(self.imageCamera)
-            self.ajustements = self.detectionTresor.ajustements
-            print(self.ajustements)
-            print("Ajustement #%d" %self.detectionTresor.nombreDetection)
+        # while self.ajustements is None and self.detectionTresor.nombreDetection < 3:
+        #     self.robot.traiterCommande('backward', 1)
+        #     time.sleep(2)
+        #     self._chargerImage()
+        #     self.detectionTresor.calculerAjustements(self.imageCamera)
+        #     self.ajustements = self.detectionTresor.ajustements
+        #     print(self.ajustements)
+        #     print("Ajustement #%d" %self.detectionTresor.nombreDetection)
 
-        if (self.ajustements is None) and self.detectionTresor.nombreDetection == 5:
+        if (self.ajustements is None):
             self.robot.tresorNonCapturer = True
 
         if (self.ajustements is not None):

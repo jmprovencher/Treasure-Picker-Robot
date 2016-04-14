@@ -14,8 +14,8 @@ class RobotService:
 
     def determinerCible(self, reponse):
         if "forme" in reponse:
-            if "carre" in reponse:
-                self.indiceObtenu = "carre"
+            if "rectangle" in reponse:
+                self.indiceObtenu = "rectangle"
             elif "pentagone" in reponse:
                 self.indiceObtenu = "pentagone"
             elif "cercle" in reponse:

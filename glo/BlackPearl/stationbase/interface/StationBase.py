@@ -127,7 +127,7 @@ class StationBase(Thread):
                 self.angleDesire = 270
                 self.carte.cible.conteur += 1
             self.orienter(type)
-            self.deplacementArriere(4)
+            self.deplacementArriere(5)
         elif type == 'ILE':
             arriver = self.carte.getCible().getIleCible().getCentre()
             debut = self.getPositionRobot()

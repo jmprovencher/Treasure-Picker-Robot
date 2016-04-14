@@ -39,6 +39,8 @@ class Robot(Thread):
         self.uartDriver.phaseInitialisation()
         self.robotClient.demarrageTermine = True
 
+        self._demarrerAnalyseVideo('tresor')
+
     def demarrerAlignementStation(self):
         print("Demarre phase alignement station")
         self.alignementEnCours = True

@@ -97,7 +97,7 @@ class DetectionTresor(object):
         print("NBR CONTOUR")
         print(len(contoursCouleur))
 
-        if (len(contoursCouleur) > 0) and len(contoursCouleur) < 200:
+        if (len(contoursCouleur) > 0):
             print("Va filtrer %d forme: " % len(contoursCouleur))
             contoursInteret = self._obtenirFormeTresor(contoursCouleur)
 

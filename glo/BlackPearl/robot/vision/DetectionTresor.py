@@ -174,6 +174,6 @@ class DetectionTresor(object):
 
     def _definirIntervallesCouleurs(self):
         # self.intervalleJaune = np.array([0, 0, 0]), np.array([255, 255, 255]), "Jaune"
-        self.intervalleJaune = np.array([20, 90, 90]), np.array([90, 255, 255]), "Jaune"
-        # self.intervalleJaune = np.array([0, 90, 90]), np.array([80, 255, 255]), "Jaune"
+        #self.intervalleJaune = np.array([20, 90, 90]), np.array([90, 255, 255]), "Jaune"
+        self.intervalleJaune = np.array([0, 90, 90]), np.array([80, 255, 255]), "Jaune"
         self.intervalleMur = np.array([0, 0, 0]), np.array([90, 90, 90]), "Noir"

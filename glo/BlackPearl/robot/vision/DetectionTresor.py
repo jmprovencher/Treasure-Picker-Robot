@@ -22,12 +22,6 @@ class DetectionTresor(object):
         self.imageCamera = imageCamera
         contoursMur = self._detecterContoursMur(self.intervalleMur)
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
-        zoneTresor = cv2.minAreaRect(contoursTresor)
-        print("ZONE TRESOR")
-        boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
-        cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
-        cv2.imshow("Tresor", self.imageCamera)
-        cv2.waitKey(0)
 
         if (contoursTresor) is not None:
             coinTresor = self.trouverCoinSuperieurTresor(contoursTresor)
@@ -89,8 +83,8 @@ class DetectionTresor(object):
         closing = cv2.morphologyEx(masqueCouleur.copy(), cv2.MORPH_CLOSE, kernel)
         _, contoursCouleur, _ = cv2.findContours(closing.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-        #cv2.imshow("Tresor", closing)
-        #cv2.waitKey(0)
+        cv2.imshow("Tresor", closing)
+        cv2.waitKey(0)
 
         if (len(contoursCouleur) > 0):
             print("Va filtrer %d forme: " % len(contoursCouleur))

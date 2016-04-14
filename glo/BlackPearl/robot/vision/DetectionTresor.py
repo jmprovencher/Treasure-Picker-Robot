@@ -37,8 +37,6 @@ class DetectionTresor(object):
         else:
             self.ajustements = None
 
-    def filtrerContourTresor(self, contoursTresor):
-
 
     def evaluerPositionTresor(self, contoursMur, coinTresor):
         zoneMur = cv2.minAreaRect(contoursMur)

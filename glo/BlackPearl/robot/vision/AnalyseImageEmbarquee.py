@@ -23,6 +23,7 @@ class AnalyseImageEmbarquee(Thread):
 
     def run(self):
         while not (self.ajustementsCalcules) and (self.parametre is not None):
+            time.sleep(2)
             self._chargerImage()
             self.debuterAlignement(self.parametre)
         if (self.ajustements is not None):

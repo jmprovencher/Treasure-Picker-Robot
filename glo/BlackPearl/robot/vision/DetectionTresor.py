@@ -140,7 +140,7 @@ class DetectionTresor(object):
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
             print("Aire tresor: %f" % aire)
-            perimetre = cv2.arcLength(contoursCouleur[contours])
+            perimetre = cv2.arcLength(contoursCouleur[contours], True)
             print ("Perimetre: ", perimetre)
 
             if ((aire < 3000) or (aire > 9000)):

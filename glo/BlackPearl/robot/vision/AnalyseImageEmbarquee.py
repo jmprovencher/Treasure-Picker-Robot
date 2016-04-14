@@ -63,7 +63,7 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionTresor.calculerAjustements(self.imageCamera)
         self.ajustements = self.detectionTresor.ajustements
 
-        while self.ajustements is None and self.detectionTresor.nombreDetection < 5:
+        while self.ajustements is None and self.detectionTresor.nombreDetection < 3:
             self.robot.traiterCommande('backward', 1)
             time.sleep(2)
             self._chargerImage()

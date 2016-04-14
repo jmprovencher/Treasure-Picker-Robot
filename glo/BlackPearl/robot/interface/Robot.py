@@ -45,14 +45,11 @@ class Robot(Thread):
         self.uartDriver.cameraPositionFace()
         self.threadVideo.demarrerCapture()
 
-        self._demarrerAnalyseVideo('station')
+        self.uartDriver.sendCommand('forward', 5)
         time.sleep(1)
-        self._executerAlignement()
-
         self._demarrerAnalyseVideo('station_final')
         time.sleep(1)
         self.uartDriver.preAlignementStation()
-
         self._executerAlignement()
 
         self._attendreChargeComplete()

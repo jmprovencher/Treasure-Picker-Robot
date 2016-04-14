@@ -15,7 +15,7 @@ class DetectionTresor(object):
         self._definirIntervallesCouleurs()
         self.tresorValide = False
         self.alignementTerminer = False
-        self.ajustements = []
+        self.ajustements = None
         self.nombreDetection = 0
 
     def calculerAjustements(self, imageCamera):
@@ -29,12 +29,15 @@ class DetectionTresor(object):
             #self._dessinerZoneCible()
             #self.evaluerPositionTresor(contoursMur, coinTresor)
             distance_x, distance_y = self._trouverDistance(contoursTresor)
+
             if(distance_y < 0):
                 self.ajustements = None
+
             else:
                 self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
                 print("Ajustement alignement tresor calculer")
         else:
+            print("Aucun tresor trouver....")
             self.ajustements = None
 
         # if (self.tresorValide):
@@ -65,6 +68,7 @@ class DetectionTresor(object):
         return point_superieur
 
     def _trouverDistance(self, contoursTresor):
+        print("Analyse distance")
         positionZone_x, positionZone_y = self.positionZone
         position_x, position_y = self._trouverCentreForme(contoursTresor)
         distance_x = (position_x - positionZone_x)

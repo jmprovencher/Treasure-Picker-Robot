@@ -39,7 +39,6 @@ class AlignementTresor():
         else:
             return commande, distance_cm
 
-
     def _ajusterPositionLaterale_MM(self, commande, distance_mm):
 
         commande = commande + 'P'
@@ -54,7 +53,7 @@ class AlignementTresor():
         elif (distance_y > 0):
             commande = 'forward'
 
-        distance = abs(distance_y / RATIOPIXEL_CM)+1
+        distance = abs(distance_y / RATIOPIXEL_CM) + 2
         if (distance_y < 5):
             self.ajustements.append(('backward', 5))
             distance = distance + 4

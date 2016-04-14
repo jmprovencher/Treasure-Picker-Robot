@@ -96,7 +96,7 @@ class AnalyseImageEmbarquee(Thread):
         while self.ajustements is None and self.nombreDetection < 3:
             self.robot.traiterCommande('forward', 1)
             self._chargerImage()
-            self.evaluerPositionStation()
+            self.evaluerPositionDepot()
             self.nombreDetection + 1
 
         if (self.ajustements != []):

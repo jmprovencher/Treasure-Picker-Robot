@@ -70,6 +70,7 @@ class AnalyseImageEmbarquee(Thread):
             self.detectionTresor.calculerAjustements(self.imageCamera)
             self.ajustements = self.detectionTresor.ajustements
             self.nombreDetection + 1
+            print("Nombre detection", self.nombreDetection)
 
         if (self.ajustements is None) and self.nombreDetection == 5:
             self.robot.tresorNonCapturer = True

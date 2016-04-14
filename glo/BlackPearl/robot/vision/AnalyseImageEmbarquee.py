@@ -25,7 +25,8 @@ class AnalyseImageEmbarquee(Thread):
         while not (self.ajustementsCalcules) and (self.parametre is not None):
             self._chargerImage()
             self.debuterAlignement(self.parametre)
-        self._soumettreAjustements()
+        if (self.ajustements is not None):
+            self._soumettreAjustements()
 
     def debuterAlignement(self, parametre):
         if (parametre == 0):

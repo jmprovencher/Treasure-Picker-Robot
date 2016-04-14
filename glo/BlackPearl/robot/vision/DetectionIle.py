@@ -5,19 +5,19 @@ from robot.alignement.AlignementIle import AlignementIle
 
 
 class DetectionIle(object):
-    def __init__(self, image):
+    def __init__(self):
         self.alignementIle = AlignementIle()
         self.alignementTerminer = False
-        self.imageCamera = image
         self.ajustements = []
 
-        self.positionZone = (800, 850)
+        self.positionZone = (810, 850)
         self.rayonZone = 100
 
         self._definirIntervallesCouleurs()
         #self._dessinerZoneCible()
 
-    def detecterIle(self, couleurIleCible):
+    def detecterIle(self, couleurIleCible, image):
+        self.imageCamera = image
         self.couleurIle = couleurIleCible
 
         contoursIle = self._detecterCouleur(self.couleurIle)
@@ -59,7 +59,7 @@ class DetectionIle(object):
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
             print("Aire ile: ", aire)
-            if ((aire < 50000) or (aire > 180000)):
+            if ((aire < 30000) or (aire > 180000)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):

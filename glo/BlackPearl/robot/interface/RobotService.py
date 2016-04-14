@@ -8,12 +8,13 @@ class RobotService:
 
     def obtenirCible(self, lettre):
         indice = self._effectuerRequeteServeur(lettre)
+        print("INDICE OBTENU: %s" %indice)
         cible = self.determinerCible(indice)
         return cible
 
     def determinerCible(self, reponse):
         if "forme" in reponse:
-            if "carre" in reponse:
+            if "rectangle" in reponse:
                 self.indiceObtenu = "carre"
             elif "pentagone" in reponse:
                 self.indiceObtenu = "pentagone"

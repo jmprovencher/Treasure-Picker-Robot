@@ -32,35 +32,35 @@ class RobotClient(Thread):
                 time.sleep(0.5)
                 print("Indice obtenu: %s" % self.robot.indiceObtenu)
                 self.envoyerLettre()
-                time.sleep(0.5)
+                time.sleep(2)
                 self.envoyerIndice()
+                time.sleep(4)
                 self.robot.pretEnvoyerLettre = False
-                time.sleep(8)
 
             elif (self.robot.tresorCapturer):
                 self.envoyerCaptureTresor()
-                time.sleep(0.5)
+                time.sleep(0.2)
                 self.robot.tresorCapturer = False
                 data = self.attendreCommande()
                 self.traiterCommande(data)
 
             elif (self.robot.tresorNonCapturer):
                 self.envoyerTresorAbsent()
-                time.sleep(0.5)
+                time.sleep(0.2)
                 self.robot.tresorNonCapturer = False
                 data = self.attendreCommande()
                 self.traiterCommande(data)
 
             elif self.robot.commandeTerminee and not self.robot.alignementEnCours:
                     self.envoyerTension()
-                    time.sleep(0.5)
+                    time.sleep(0.2)
                     self.envoyerCommandeTerminee()
-                    time.sleep(0.5)
+                    time.sleep(0.2)
                     data = self.attendreCommande()
                     self.traiterCommande(data)
             else:
                 self.envoyerTension()
-                time.sleep(0.5)
+                time.sleep(0.2)
 
     def attendreCommande(self):
         data = -1

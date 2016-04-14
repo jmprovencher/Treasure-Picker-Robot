@@ -32,7 +32,6 @@ class Robot(Thread):
         self._demarrerFeedVideo()
         self._demarrerConnectionTCP()
 
-
     def run(self):
         print("Run")
         self._demarrerLectureUART()
@@ -47,10 +46,15 @@ class Robot(Thread):
         self.threadVideo.demarrerCapture()
 
         self._demarrerAnalyseVideo('station')
-
-        self.uartDriver.preAlignementStation()
-        time.sleep(2)
+        time.sleep(1)
         self._executerAlignement()
+
+        self._demarrerAnalyseVideo('station_final')
+        time.sleep(1)
+        self.uartDriver.preAlignementStation()
+
+        self._executerAlignement()
+
         self._attendreChargeComplete()
         print("Charge complete")
         self.uartDriver.stopCondensateur()
@@ -67,16 +71,12 @@ class Robot(Thread):
             print("Attente decodage lettre")
             time.sleep(0.5)
         time.sleep(0.1)
-        self.pretEnvoyerLettre = True
 
 
     def demarrerAlignementTresor(self):
         print("Demarre phase alignement tresor")
         self.alignementEnCours = True
         self.uartDriver.cameraPositionDepot()
-        self.threadVideo.demarrerCapture()
-        #self._demarrerAnalyseVideo('orientation')
-        #self._executerAlignement()
 
         self._demarrerAnalyseVideo('tresor')
         self.uartDriver.preAlignementTresor()
@@ -140,6 +140,8 @@ class Robot(Thread):
     def _decoderManchester(self):
         self.uartDriver.lireManchester()
         self._attendreManchester()
+        self.indiceObtenu = self.service.obtenirCible(self.lettreObtenue)
+        self.pretEnvoyerLettre = True
 
     def _attendreChargeComplete(self):
         while (float(self.tensionCondensateur) < 4.60):
@@ -172,5 +174,4 @@ class Robot(Thread):
         self.analyseImageEmbarquee.definirType(type)
         self.analyseImageEmbarquee.start()
         self.analyseImageEmbarquee.join()
-        # self.threadVideo.suspendreCapture()
 

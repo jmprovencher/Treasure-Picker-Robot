@@ -7,6 +7,7 @@ from robot.vision.DetectionOrientation import DetectionOrientation
 from threading import Thread
 import time
 
+
 class AnalyseImageEmbarquee(Thread):
     def __init__(self, robot):
         Thread.__init__(self)
@@ -41,6 +42,8 @@ class AnalyseImageEmbarquee(Thread):
             self.evaluerPositionTresor()
         elif (parametre == 'station'):
             self.evaluerPositionStation()
+        elif (parametre == 'station_final'):
+            self.evaluerPositionStationFinal()
         elif (parametre == 'orientation'):
             self.evaluerOrientation()
         else:
@@ -56,50 +59,65 @@ class AnalyseImageEmbarquee(Thread):
             self.ajustementsCalcules = True
 
     def evaluerPositionTresor(self):
-        self.detectionTresor = DetectionTresor(self.imageCamera)
-        self.detectionTresor.calculerAjustements()
+        self.detectionTresor = DetectionTresor()
+        self.detectionTresor.calculerAjustements(self.imageCamera)
         self.ajustements = self.detectionTresor.ajustements
 
-        while self.ajustements is None and self.nombreDetection < 5:
+        while self.ajustements is None and self.detectionTresor.nombreDetection < 3:
             self.robot.traiterCommande('backward', 1)
+            time.sleep(2)
             self._chargerImage()
-            self.evaluerPositionTresor()
-            self.nombreDetection+1
+            self.detectionTresor.calculerAjustements(self.imageCamera)
+            self.ajustements = self.detectionTresor.ajustements
+            print(self.ajustements)
+            print("Ajustement #%d" %self.detectionTresor.nombreDetection)
 
-        if (self.ajustements is None) and self.nombreDetection == 5:
+        if (self.ajustements is None) and self.detectionTresor.nombreDetection == 5:
             self.robot.tresorNonCapturer = True
 
-        if (self.ajustements != []):
+        if (self.ajustements is not None):
             print("Nombre ajustement tresor: %d" % len(self.ajustements))
             self.ajustementsCalcules = True
             self.robot.tresorCapturer = True
 
     def evaluerPositionStation(self):
-        self.detectionStation = DetectionStation(self.imageCamera)
-        self.detectionStation.trouverAjustements()
+        self.detectionStation = DetectionStation()
+        self.detectionStation.trouverAjustements(self.imageCamera)
         self.ajustements = self.detectionStation.ajustements
 
-        while self.ajustements is None and self.nombreDetection < 5:
+        while self.ajustements is None and self.detectionStation.nombreDetection < 3:
             self.robot.traiterCommande('right', 1)
             self._chargerImage()
-            self.evaluerPositionStation()
-            self.nombreDetection + 1
+            self.detectionStation.trouverAjustements(self.imageCamera)
 
-        if (self.ajustements != []):
+        if (self.ajustements is not None):
+            self.ajustementsCalcules = True
+
+    def evaluerPositionStationFinal(self):
+        self.detectionStation = DetectionStation()
+        self.detectionStation.trouverAjustementsFinaux(self.imageCamera)
+        self.ajustements = self.detectionStation.ajustements
+
+        while self.ajustements is None and self.detectionStation.nombreDetection < 3:
+            self.robot.traiterCommande('backward', 1)
+            self._chargerImage()
+            self.detectionStation.trouverAjustementsFinaux(self.imageCamera)
+
+        if (self.ajustements is not None):
             self.ajustementsCalcules = True
 
     def evaluerPositionDepot(self, couleurIleCible):
-        self.detectionIle = DetectionIle(self.imageCamera)
-        self.detectionIle.detecterIle(couleurIleCible)
+        self.detectionIle = DetectionIle()
+        self.detectionIle.detecterIle(couleurIleCible, self.imageCamera)
         self.ajustements = self.detectionIle.ajustements
 
         while self.ajustements is None and self.nombreDetection < 3:
             self.robot.traiterCommande('forward', 1)
             self._chargerImage()
-            self.evaluerPositionStation()
+            self.evaluerPositionDepot()
             self.nombreDetection + 1
 
-        if (self.ajustements != []):
+        if (self.ajustements is not None):
             self.ajustementsCalcules = True
 
     def _soumettreAjustements(self):
@@ -112,6 +130,7 @@ class AnalyseImageEmbarquee(Thread):
 
     def _chargerImage(self):
         self.imageCamera = self.robot.threadVideo.getImageCapture()
+        #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('image1.png'))
         self._estomperImage()
 
     def _attendreFeedVideo(self):

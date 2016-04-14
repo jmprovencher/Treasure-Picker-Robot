@@ -59,15 +59,16 @@ class AnalyseImageEmbarquee(Thread):
             self.ajustementsCalcules = True
 
     def evaluerPositionTresor(self):
-        self.detectionTresor = DetectionTresor(self.imageCamera)
-        self.detectionTresor.calculerAjustements()
+        self.detectionTresor = DetectionTresor()
+        self.detectionTresor.calculerAjustements(self.imageCamera)
         self.ajustements = self.detectionTresor.ajustements
 
         while self.ajustements is None and self.nombreDetection < 5:
             self.robot.traiterCommande('backward', 1)
             time.sleep(1)
             self._chargerImage()
-            self.evaluerPositionTresor()
+            self.detectionTresor.calculerAjustements(self.imageCamera)
+            self.ajustements = self.detectionTresor.ajustements
             self.nombreDetection + 1
 
         if (self.ajustements is None) and self.nombreDetection == 5:
@@ -79,8 +80,8 @@ class AnalyseImageEmbarquee(Thread):
             self.robot.tresorCapturer = True
 
     def evaluerPositionStation(self):
-        self.detectionStation = DetectionStation(self.imageCamera)
-        self.detectionStation.trouverAjustements()
+        self.detectionStation = DetectionStation()
+        self.detectionStation.trouverAjustements(self.imageCamera)
         self.ajustements = self.detectionStation.ajustements
 
         while self.ajustements is None and self.nombreDetection < 5:

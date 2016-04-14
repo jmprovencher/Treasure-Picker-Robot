@@ -15,14 +15,16 @@ RATIO_PIXEL_CM = 95
 class DetectionStation(object):
     def __init__(self, image):
         self.alignementStation = AlignementStation()
-        self.imageCamera = image
+
         self.positionZone = (820, 730)
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
         # self._dessinerZoneCible()
         self.ajustements = []
 
-    def trouverAjustements(self):
+    def trouverAjustements(self, image):
+        self.imageCamera = image
+
         contoursCible = self._detecterFormeCouleur(self.intervalleBleuMarin)
         if (contoursCible is not None):
             distance_y = self._trouverDistanceStation(contoursCible, KNOWN_WIDTH_BLUE)

@@ -10,14 +10,13 @@ RATIOPIXEL_CM = 40
 class DetectionTresor(object):
     def __init__(self, image):
         self.alignementTresor = AlignementTresor()
-        self.imageCamera = image
         self.positionZone = (800, 950)
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
         self.tresorValide = False
         self.alignementTerminer = False
         self.ajustements = []
-        # self._dessinerZoneCible()
+        self._dessinerZoneCible()
 
     def trouverCoinSuperieurTresor(self, contoursTresor):
         coin_superieur = 1200
@@ -43,8 +42,8 @@ class DetectionTresor(object):
 
         self.tresorValide = cv2.pointPolygonTest(boiteMur, coinTresor, measureDist=False)
 
-    def calculerAjustements(self):
-
+    def calculerAjustements(self, imageCamera):
+        self.imageCamera = imageCamera
         contoursMur = self._detecterContoursMur(self.intervalleMur)
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
         coinTresor = self.trouverCoinSuperieurTresor(contoursTresor)
@@ -84,8 +83,8 @@ class DetectionTresor(object):
         closing = cv2.morphologyEx(masqueCouleur.copy(), cv2.MORPH_CLOSE, kernel)
         _, contoursCouleur, _ = cv2.findContours(closing.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-        # cv2.imshow("Tresor", closing)
-        # cv2.waitKey(0)
+        cv2.imshow("Tresor", closing)
+        cv2.waitKey(0)
 
         if (len(contoursCouleur) > 0):
             print("Va filtrer %d forme: " % len(contoursCouleur))

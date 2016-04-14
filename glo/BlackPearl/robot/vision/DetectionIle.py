@@ -8,7 +8,6 @@ class DetectionIle(object):
     def __init__(self, image):
         self.alignementIle = AlignementIle()
         self.alignementTerminer = False
-        self.imageCamera = image
         self.ajustements = []
 
         self.positionZone = (800, 850)
@@ -17,7 +16,8 @@ class DetectionIle(object):
         self._definirIntervallesCouleurs()
         #self._dessinerZoneCible()
 
-    def detecterIle(self, couleurIleCible):
+    def detecterIle(self, couleurIleCible, image):
+        self.imageCamera = image
         self.couleurIle = couleurIleCible
 
         contoursIle = self._detecterCouleur(self.couleurIle)

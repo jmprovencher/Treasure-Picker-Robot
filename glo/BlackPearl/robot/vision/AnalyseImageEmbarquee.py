@@ -43,7 +43,7 @@ class AnalyseImageEmbarquee(Thread):
         elif (parametre == 'station'):
             self.evaluerPositionStation()
         elif (parametre == 'station_final'):
-            self.evaluerPositionStation()
+            self.evaluerPositionStationFinal()
         elif (parametre == 'orientation'):
             self.evaluerOrientation()
         else:
@@ -129,8 +129,8 @@ class AnalyseImageEmbarquee(Thread):
         cv2.waitKey(0)
 
     def _chargerImage(self):
-        self.imageCamera = self.robot.threadVideo.getImageCapture()
-        # self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('Cropped.png'))
+        #self.imageCamera = self.robot.threadVideo.getImageCapture()
+        self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('image1.png'))
         self._estomperImage()
 
     def _attendreFeedVideo(self):

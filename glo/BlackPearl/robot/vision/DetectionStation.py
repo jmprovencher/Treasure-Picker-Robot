@@ -6,7 +6,8 @@ import math
 from robot.alignement.AlignementStation import AlignementStation
 
 KNOWN_DISTANCE = 6
-KNOWN_WIDTH = 3
+KNOWN_WIDTH_BLUE = 3
+KNOWN_WIDTH_ORANGE = 1
 FOCAL_LENGTH = 1119
 RATIO_PIXEL_CM = 95
 
@@ -24,7 +25,7 @@ class DetectionStation(object):
     def trouverAjustements(self):
         contoursCible = self._detecterFormeCouleur(self.intervalleBleuMarin)
         if (contoursCible is not None):
-            distance_y = self._trouverDistanceStation(contoursCible)
+            distance_y = self._trouverDistanceStation(contoursCible, KNOWN_WIDTH_BLUE)
             print("DIstance: ", distance_y)
             distance_x = self._trouverOffsetLateral(contoursCible)
             self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y/2)
@@ -36,9 +37,9 @@ class DetectionStation(object):
             #cv2.waitKey(0)
 
     def trouverAjustementsFinaux(self):
-        contoursCible = self._detecterFormeCouleur(self.intervalleBleuMarin)
+        contoursCible = self._detecterFormeCouleur(self.intervalleOrange)
         if (contoursCible is not None):
-            distance_y = self._trouverDistanceStation(contoursCible)
+            distance_y = self._trouverDistanceStation(contoursCible, KNOWN_WIDTH_ORANGE)
             print("DIstance: ", distance_y)
             distance_x = self._trouverOffsetLateral(contoursCible)
             self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y)
@@ -49,11 +50,11 @@ class DetectionStation(object):
             # cv2.imshow("image", self.imageCamera)
             # cv2.waitKey(0)
 
-    def _trouverDistanceStation(self, contoursCible):
+    def _trouverDistanceStation(self, contoursCible, largeurConnue):
         zoneTresor = cv2.minAreaRect(contoursCible)
         # focalLength = (zoneTresor[1][0] * KNOWN_DISTANCE) / KNOWN_WIDTH
         # print("Focal length: %d" % focalLength)
-        distance_y = self._calculerDistanceCamera(KNOWN_WIDTH, FOCAL_LENGTH, zoneTresor[1][0]) * 2.54
+        distance_y = self._calculerDistanceCamera(largeurConnue, FOCAL_LENGTH, zoneTresor[1][0]) * 2.54
         print("Distance calculee: %d", distance_y)
 
         return distance_y
@@ -75,8 +76,8 @@ class DetectionStation(object):
 
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        #cv2.imshow("Image", masqueCouleur)
-        #cv2.waitKey(0)
+        cv2.imshow("Image", masqueCouleur)
+        cv2.waitKey(0)
 
         if (len(contoursCouleur) > 0):
             contoursCible = self._obtenirFormeInteret(contoursCouleur)
@@ -109,7 +110,7 @@ class DetectionStation(object):
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
             print ("Aire: %d" % aire)
-            if ((aire < 80000)):
+            if ((aire < 60000)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):
@@ -123,6 +124,7 @@ class DetectionStation(object):
 
     def _definirIntervallesCouleurs(self):
         self.intervalleBleuMarin = np.array([120, 80, 40]), np.array([180, 150, 100]), "Bleu"
+        self.intervalleOrange = np.array([0, 50, 140]), np.array([60, 150, 255]), "Orange"
 
     def _dessinerZoneCible(self):
         cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)

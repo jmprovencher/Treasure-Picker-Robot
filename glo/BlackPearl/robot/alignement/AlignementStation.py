@@ -29,7 +29,7 @@ class AlignementStation():
         #print("Distance mm a bouger: %d" % distance_mm)
 
 
-        if (distance_mm > 3) and distance_cm <=1:
+        if (distance_mm > 1) and distance_cm <=1:
             self._ajusterPositionLaterale_MM(commande, distance_mm)
             return commande, distance_cm
         elif distance_cm <= 2:

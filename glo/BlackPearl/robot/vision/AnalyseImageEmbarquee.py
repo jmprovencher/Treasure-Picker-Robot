@@ -14,7 +14,7 @@ class AnalyseImageEmbarquee(Thread):
         self.robot = robot
         self.imageCamera = None
         self.ajustementsCalcules = False
-        self.ajustements = []
+        self.ajustements = None
         self.parametre = None
         self.nombreDetection = 0
 
@@ -27,7 +27,9 @@ class AnalyseImageEmbarquee(Thread):
             self._chargerImage()
             self.debuterAlignement(self.parametre)
             time.sleep(1)
-        self._soumettreAjustements()
+        if (self.ajustements is not None):
+            print("Ajout ajustement")
+            self._soumettreAjustements()
 
     def debuterAlignement(self, parametre):
         if (parametre == 0):
@@ -66,52 +68,40 @@ class AnalyseImageEmbarquee(Thread):
 
         if (self.ajustements is not None):
             print("Ajustement calculer, analyse termine")
-            self.ajustementsCalcules = True
             self.robot.tresorCapturer = True
+        self.ajustementsCalcules = True
 
-        else:
-            self.robot.tresorNonCapturer = True
-            self.ajustementsCalcules = True
+            #self.robot.tresorCapturer = True
 
     def evaluerPositionStation(self):
         self.detectionStation = DetectionStation()
         self.detectionStation.trouverAjustements(self.imageCamera)
         self.ajustements = self.detectionStation.ajustements
 
-        while self.ajustements is None and self.detectionStation.nombreDetection < 3:
-            self.robot.traiterCommande('right', 1)
-            self._chargerImage()
-            self.detectionStation.trouverAjustements(self.imageCamera)
-
         if (self.ajustements is not None):
             self.ajustementsCalcules = True
+        else:
+            print("FUCKED UP")
 
     def evaluerPositionStationFinal(self):
         self.detectionStation = DetectionStation()
         self.detectionStation.trouverAjustementsFinaux(self.imageCamera)
         self.ajustements = self.detectionStation.ajustements
 
-        while self.ajustements is None and self.detectionStation.nombreDetection < 3:
-            self.robot.traiterCommande('backward', 1)
-            self._chargerImage()
-            self.detectionStation.trouverAjustementsFinaux(self.imageCamera)
-
         if (self.ajustements is not None):
             self.ajustementsCalcules = True
+        else:
+            print("FUCKED UP")
 
     def evaluerPositionDepot(self, couleurIleCible):
         self.detectionIle = DetectionIle()
         self.detectionIle.detecterIle(couleurIleCible, self.imageCamera)
         self.ajustements = self.detectionIle.ajustements
 
-        while self.ajustements is None and self.nombreDetection < 3:
-            self.robot.traiterCommande('forward', 1)
-            self._chargerImage()
-            self.evaluerPositionDepot()
-            self.nombreDetection + 1
-
         if (self.ajustements is not None):
             self.ajustementsCalcules = True
+        else:
+            print("FUCKED UP")
 
     def _soumettreAjustements(self):
         for instructions in self.ajustements:

@@ -3,7 +3,8 @@ from robot.communication.islandServerRequest import islandServerRequest
 
 class RobotService:
     def __init__(self):
-        self.adresseIPServeur = '132.203.14.228'
+        #self.adresseIPServeur = '132.203.14.228'
+        self.adresseIPServeur = '192.168.0.2'
         self.indiceObtenu = None
 
     def obtenirCible(self, lettre):

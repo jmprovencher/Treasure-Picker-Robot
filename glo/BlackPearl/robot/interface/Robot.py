@@ -25,8 +25,8 @@ class Robot(Thread):
 
         self.lettreObtenue = None
         self.indiceObtenu = None
-        #self.adresseIP = '192.168.0.45'
-        self.adresseIP = '10.248.208.42'
+        self.adresseIP = '192.168.0.45'
+        #self.adresseIP = '10.248.208.42'
 
         self.tensionCondensateur = 0
         self._demarrerFeedVideo()
@@ -43,16 +43,13 @@ class Robot(Thread):
         print("Demarre phase alignement station")
         self.alignementEnCours = True
         self.uartDriver.cameraPositionFace()
-        self.threadVideo.demarrerCapture()
+        #self.threadVideo.demarrerCapture()
 
-        self._demarrerAnalyseVideo('station')
+        self.uartDriver.sendCommand('forward', 4)
         time.sleep(1)
-        self._executerAlignement()
-
         self._demarrerAnalyseVideo('station_final')
         time.sleep(1)
         self.uartDriver.preAlignementStation()
-
         self._executerAlignement()
 
         self._attendreChargeComplete()

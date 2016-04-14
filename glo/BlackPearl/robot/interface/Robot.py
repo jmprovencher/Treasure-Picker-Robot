@@ -85,8 +85,7 @@ class Robot(Thread):
             self.uartDriver.preAlignementTresor()
             self.uartDriver.cameraPositionFace()
             self._executerAlignement()
-
-        self.uartDriver.postAlignementTresor()
+            self.uartDriver.postAlignementTresor()
 
         self.alignementEnCours = False
 

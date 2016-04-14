@@ -10,7 +10,7 @@ class DetectionIle(object):
         self.alignementTerminer = False
         self.ajustements = []
 
-        self.positionZone = (800, 850)
+        self.positionZone = (810, 850)
         self.rayonZone = 100
 
         self._definirIntervallesCouleurs()

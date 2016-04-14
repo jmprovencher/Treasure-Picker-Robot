@@ -29,8 +29,11 @@ class DetectionTresor(object):
             #self._dessinerZoneCible()
             #self.evaluerPositionTresor(contoursMur, coinTresor)
             distance_x, distance_y = self._trouverDistance(contoursTresor)
-            self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
-            print("Ajustement alignement tresor calculer")
+            if(distance_y < 0):
+                self.ajustements = None
+            else:
+                self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
+                print("Ajustement alignement tresor calculer")
         else:
             self.ajustements = None
 

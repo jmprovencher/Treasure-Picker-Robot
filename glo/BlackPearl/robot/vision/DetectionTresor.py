@@ -22,13 +22,18 @@ class DetectionTresor(object):
         self.imageCamera = imageCamera
         contoursMur = self._detecterContoursMur(self.intervalleMur)
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
+        zoneTresor = cv2.minAreaRect(contoursTresor)
+        print("ZONE TRESOR")
+        boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
+        cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
+        cv2.imshow("Tresor", self.imageCamera)
+        cv2.waitKey(0)
 
         if (contoursTresor) is not None:
             coinTresor = self.trouverCoinSuperieurTresor(contoursTresor)
             self._dessinerZoneCible()
             self.evaluerPositionTresor(contoursMur, coinTresor)
-            cv2.imshow("Tresor", self.imageCamera)
-            cv2.waitKey(0)
+
 
         if (self.tresorValide):
             distance_x, distance_y = self._trouverDistance(contoursTresor)

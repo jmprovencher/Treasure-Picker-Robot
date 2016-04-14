@@ -26,7 +26,6 @@ class AnalyseImageEmbarquee(Thread):
             time.sleep(1)
             self._chargerImage()
             self.debuterAlignement(self.parametre)
-            time.sleep(1)
         self._soumettreAjustements()
 
     def debuterAlignement(self, parametre):

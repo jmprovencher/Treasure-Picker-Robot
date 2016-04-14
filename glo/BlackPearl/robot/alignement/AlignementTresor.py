@@ -55,8 +55,8 @@ class AlignementTresor():
 
         distance = abs(distance_y / RATIOPIXEL_CM)
 
-        if (distance_y < 5):
-            self.ajustements.append(('backward', 5))
+        if (abs(distance_y) < 5):
+            self.ajustements.append(('backward', 2))
             print("AJUSTEMENT DISTANCE ALIGNEMENT TRESOR")
-            distance = distance + 4
-        return commande, abs(distance)
+            distance = distance + 2
+        return commande, distance

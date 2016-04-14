@@ -123,7 +123,7 @@ class DetectionTresor(object):
         aireMaximale = 0
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            print("Aire mur: %f" % aire)
+            #print("Aire mur: %f" % aire)
             if (aire > aireMaximale):
                 aireMaximale = aire
                 contoursMur = contoursCouleur[contours]
@@ -136,9 +136,7 @@ class DetectionTresor(object):
 
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            print("Aire tresor: %f" % aire)
-            perimetre = cv2.arcLength(contoursCouleur[contours], True)
-            print ("Perimetre: ", perimetre)
+            #print("Aire tresor: %f" % aire)
 
             if ((aire < 3000) or (aire > 9000)):
                 contoursNegligeable.append(contours)

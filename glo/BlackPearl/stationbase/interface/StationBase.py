@@ -66,6 +66,7 @@ class StationBase(Thread):
             self.carte.cible = Cible([self.carte])
             self.deplacement('ILE')
         elif etape == 'alignement ile':
+            self.carte.cible = Cible([self.carte])
             self.aligner("alignement_ile")
         elif etape == 'decoder manchester':
             self.decoderManchester()
@@ -104,7 +105,7 @@ class StationBase(Thread):
         if etape == 'RECHARGE':
             destination = self.carte.getStationRecharge().getCentre()
         elif etape == 'TRESOR':
-            destination = self.carte.cible.possibilite[self.carte.cible.conteur].getCentre()
+            destination = self.carte.cible.tresorChoisi.getCentre()
             print 'identifier destination tresor'
             print destination
         elif etape == 'ILE':

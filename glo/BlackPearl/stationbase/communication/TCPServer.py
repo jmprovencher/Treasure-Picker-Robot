@@ -45,7 +45,12 @@ class TCPServer:
         data = self.connection.recv(1024)
         print data
         print('requete recu.')
-        jsonObject = json.loads(data)
+        while 1:
+            try:
+                jsonObject = json.loads(data)
+                break
+            except Exception as e:
+                print e
         print 'requete decode.'
         return jsonObject
 

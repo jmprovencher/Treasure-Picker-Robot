@@ -12,7 +12,7 @@ class Cible:
         self.tresorDansLeFond = False
         self.conteur = 0
         if len(args) == 1:
-            self.indice = 'Rouge'
+            self.indice = 'Bleu'
             self.ileChoisie = self.carte.getIlesCorrespondantes(self.indice)[0]
         else:
             self.indice = args[1]
@@ -43,15 +43,15 @@ class Cible:
                 print 'Distance totale', distanceTotale
                 if distanceMin > distanceTotale:
                     distanceMin = distanceTotale
-                    tresorChoisi = tresorsPossibles[i]
-                    self.possibilite = [tresorChoisi] +tmp[:i] + tmp[i+1:]
+                    tresorChoisi = copy.deepcopy(tresorsPossibles[i])
+                    self.tresorChoisi = tresorChoisi
                     self.ileChoisie = copy.deepcopy(ile)
                     print 'changement 1'
                     print self.possibilite
                     print self.conteur
         if self.ileChoisie is None:
             self.ileChoisie = ilesPotentielle[0]
-        print 'Tresore choisie: ', self.possibilite[0].centre_x, self.possibilite[0].centre_y
+        print 'Tresore choisie: ', self.tresorChoisi.centre_x, self.tresorChoisi.centre_y
         print 'Ile choisie: ', self.ileChoisie.forme, self.ileChoisie.couleur
         print 'Ile cible trouve'
 
@@ -68,7 +68,7 @@ class Cible:
                 deltaYPix = abs(yTresor - yIle)
                 deltaX = self.carte.getTrajectoire().depPixelXACentimetre(deltaXPix)
                 deltaY = self.carte.getTrajectoire().depPixelYACentimetre(deltaYPix)
-                if deltaY < 30 and deltaX < 30:
+                if deltaY < 50 and deltaX < 30:
                     print 'tresor normal accepter'
                     accepte = False
                     break
@@ -108,10 +108,10 @@ class Cible:
         return self.ileChoisie
 
     def getTresorCible(self):
-        print self.conteur
-        print self.possibilite[self.conteur].getCentre()[0]
-        print self.possibilite[self.conteur].getCentre()[1]
-        return self.possibilite[self.conteur]
+        #print self.conteur
+        #print self.possibilite[self.conteur].getCentre()[0]
+        #print self.possibilite[self.conteur].getCentre()[1]
+        return self.tresorChoisi
 
     def getIndice(self):
         return self.indice

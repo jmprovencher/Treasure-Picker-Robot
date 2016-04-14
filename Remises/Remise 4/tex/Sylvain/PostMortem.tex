@@ -1,33 +1,35 @@
-%\section{Points forts du robot}
-%\label{s:PointsForts}
+\section{Points forts du robot}
+\label{s:PointsForts}
 
 %L'algorithme A* de trajectoire, l'analyse itérée de plus d'une image de la Caméra Monde pour s'assurer du bon nombre de trésors et d'îles rendant la détection de ceux cis  la plus constant possible, les calibrations pour déterminer les couleurs s à détecter sur chaque table et le choix des couleurs, formes et calibrations pour les différents objets ajouter par l'équipe pour détecter le robot, la station de base rendent certainement le robot robuste contre les erreurs diverses.
 
-%\pagebreak
+Dès le début de la session, l'équipe s'est mise d'accord sur l'importance de simplifier le design du robot le plus possible et donc de minimiser la quantité de problèmes possibles ainsi que de faciliter le débogage. Ceci est démontré par la simplicité d'implantation de la station de recharge, présentée à la section \ref{f:StationRecharge}, en effet le circuit est très simple et est donc facile d'implantation tout en étant très efficace et permettant de rechargé le condensateur à la tension voulue en environ 1 minute. Un autre point fort du robot est son préhenseur qui avec son servomoteur permet de soulever le trésor et de la placer dans un petit compartiment où celui-ci est pris. Cette astuce permet donc de couper l'électroaimant durant les déplacements et d'ainsi économiser la charge du condensateur ce qui limite la nécessité de se recharger entre les rondes. Un autre des points forts du robot est l'analyse de la table de jeu à partir de plusieurs photos, ce qui permet de s'assurer du nombre et du positionnement des trésors ainsi que la couleur, la forme et la position des îles. La communication du code Manchester par modules \textit{Xbee} ainsi que l'algorithme de décodage assurent un taux de réussite de 100\% pour la transmission et le décodage. De plus, l'utilisation du \textit{Xbee} ne demande pas d'alignement pour assurer la réception du code et celui-ci peut donc être reçu dès l'entrée dans la zone de la station de recharge.
 
-%\section{Améliorations potentielles}
-%\label{s:Amelioration}
 
-%Bien que l'équipe a choisi une démarche simple dans la conception de l'asservissement et l'implémentation des déplacements en général, il y a des ajustements envisageables qui changeraient la rapidité d'exécution. Pour l'instant, le robot tourne sur lui-même d'abord pour obtenir une orientation et se déplace ensuite vers l'avant, vers l'arrière, vers la gauche et vers la droite. Par contre, il ne peut pas se déplacer en oblique ou en diagonale. La figure \ref{f:DeplacementDevantCirculaire} suivante démontre le type de déplacement que le robot effectue :
+\section{Améliorations potentielles}
+\label{s:Amelioration}
 
-%\begin{figure}[htp]
-%   \centering
-%   \includegraphics[width=1\textwidth]{fig/AvancementCirculaireEtAvant.png}
-%   \caption{Déplacement du robot présentement}
-%   \label{f:DeplacementDevantCirculaire}
-%\end{figure}
+Bien que l'équipe a choisi une démarche simple dans la conception de l'asservissement et l'implémentation des déplacements en général, il y a des ajustements envisageables qui augmenterait la rapidité d'exécution. Pour l'instant, le robot tourne sur lui-même d'abord pour obtenir une orientation et se déplace ensuite vers l'avant, vers l'arrière, vers la gauche et vers la droite. Par contre, il ne peut pas se déplacer en diagonale . La figure \ref{f:DeplacementDevantCirculaire} illustre le type de déplacement que le robot effectue.
 
-%\pagebreak
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=1\textwidth]{fig/AvancementCirculaireEtAvant.png}
+   \caption{Déplacement du robot présentement}
+   \label{f:DeplacementDevantCirculaire}
+\end{figure}
 
-%Comme amélioration, le robot pourrait se déplacer en diagonale également. Il pourrait se déplacer avec des commandes "x, y" peu importe l'orientation du robot. Par exemple, si le robot a une position (100, 100), peu importe son orientation, voulant se déplacer vers la position (200, 200) et qu'il n'y a pas la présence d'obstacle, il devrait simplement se déplacer en ligne droite sans avoir à changer son orientation. La figure \ref{f:AvancementDeCote} suivante présente la trajectoire améliorée envisageable du robot. On remarque que le robot serait plus rapide passant de 4 tâches à 2 dans ce cas ci :
 
-%\begin{figure}[htp]
-%   \centering
-%   \includegraphics[width=1\textwidth]{fig/AvancementDeCote.png}
-%   \caption{Déplacement du robot permettant les directions diagonales}
-%   \label{f:AvancementDeCote}
-%\end{figure}
+Comme amélioration, le robot pourrait se déplacer en diagonale également. Il pourrait se déplacer avec des commandes "x, y" peu importe l'orientation du robot. Par exemple, si le robot se trouve à une position (100, 100), ceci peu importe son orientation et devant se déplacer vers la position (200, 200) sans obstacles sur son chemin, il devrait simplement se déplacer en ligne droite sans avoir à faire face à son objectif. La figure \ref{f:AvancementDeCote} suivante présente la trajectoire améliorée envisageable du robot. On remarque que le robot serait plus rapide passant de 4 tâches à 2 dans ce cas ci.
 
-%Un aspect un peu négatif du robot se situe par rapport à ses déplacements courts. Ne pas faire d'erreurs sur la trajectoire était l'objectif, c'est pourquoi même sur des lignes droites, le robot avance sur de plus courtes distances afin de s'assurer d'envoyer une correction plus rapidement pour les prochains points à atteindre. Avec un meilleur asservissement et une meilleur certitude sur l’alignement par rapport à la trajectoire, il faudrait prôner de plus grandes distances sur les différents déplacements, surtout en ligne droite.
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=1\textwidth]{fig/AvancementDeCote.png}
+   \caption{Déplacement du robot permettant les directions diagonales}
+   \label{f:AvancementDeCote}
+\end{figure}
 
-%Également, L'algorithme de trajectoire trouve le chemin le plus court pour l'instant, mais il pourrait trouver le chemin le plus sécuritaire, c'est à dire passer le plus loin des îles, des murs, des trésors, etc. Il y a déjà un petit ajustement afin de passer entre deux îles de façon plus sécuritairement, mais il 
+Un aspect un peu négatif du robot se situe par rapport à ses déplacements courts. Ne pas faire d'erreurs sur la trajectoire était l'objectif, c'est pourquoi même sur des lignes droites, le robot avance sur de plus courtes distances afin de s'assurer d'envoyer une correction plus rapidement pour les prochains points à atteindre. Le problème vient du fait que le robot est asservit en vitesse et pas en position, ce qui complique l'implémentation d'un asservissement de ce genre. L'asservissement présent permet au robot de parcourir de manière précise la distance demandée par l'algorithme de trajectoire, mais ne permet pas de correction de déviation durant ce déplacement. L'ajustement s'effectue par la suite à l'aide d'une rotation si besoin est. Un des principaux points d'amélioration du robot serait donc d'implanter un asservissement de position.
+\medbreak
+Également, L'algorithme de trajectoire trouve le chemin le plus court pour l'instant, mais il pourrait trouver le chemin le plus sécuritaire, c'est à dire passer le plus loin des îles, des murs, des trésors, etc. Il y a déjà un petit ajustement afin de passer entre deux îles de façon sécuritaire, mais il ne fait pas la différence entre un chemin présentant des trajectoires risquées où des trajectoires moins dangereuses.
+\medbreak
+Un des points à améliorer au niveau électrique serait d'installer des convertisseurs buck plus petits, en effet, ceux installés présentent un affichage 7 segments intéressant pour choisir le niveau de tension de sortie, mais ils sont très gros. Installer des convertisseurs moins imposants permettrait de réduire l'espace occupé par le circuit d'alimentation et donc de placer tout les circuits électriques sur le même étage au lieu d'en avoir un seul situé sur le dessus du robot. Cette amélioration permettrait aussi de mieux disposer le filage du robot et le rendre moins apparent et donc permettre un suivi simplifié des connections.

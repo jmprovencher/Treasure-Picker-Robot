@@ -59,7 +59,8 @@ class AlgorithmeTrajectoire:
             tropLoin = 35
         else:
             tropLoin = 35
-        if self.grilleCellule.rayonBuffer <= 18:
+        if self.grilleCellule.rayonBuffer < 18:
+            print 'introuvable'
             return [(-1, -1)]
         while self.grilleCellule.distanceAuCarre(self.arriver.x, self.arriver.y, arriver[0], arriver[1]) >= tropLoin**2:
             print 'nouvelle teration'
@@ -67,12 +68,14 @@ class AlgorithmeTrajectoire:
             print self.grilleCellule.rayonBuffer
             self.grilleCellule.initGrilleCellule(self.grilleCellule.listeIles)
             print 'nouvelle grille cellule'
-            self.trouverTrajet(depart, arriver, type)
+            self.trajet = self.trouverTrajet(depart, arriver, type)
         if self.trajet is not None:
             self.simplifierTrajet()
-            self.ajouterSecurite()
+            self.ajouterSecurite(type)
             self.enleverPointIdentique()
             self.sectionnerTrajet()
+        print 'retour'
+        print self.trajet
         return self.trajet
 
     def distanceBufferAcceptee(self, cellule):
@@ -178,9 +181,11 @@ class AlgorithmeTrajectoire:
         return distCarre < (int(round(self.grilleCellule.rayonBuffer * (
             self.grilleCellule.dimensionCrop[0]) / self.grilleCellule.dimensionReel[0])))**2
 
-    def ajouterSecurite(self):
+    def ajouterSecurite(self, type):
+        print 'ajouter securite'
         i = 0
-        while i < len(self.trajet)-1:
+        longueurTrajet = len(self.trajet)-1
+        while i < longueurTrajet:
             print self.trajet
             point = self.trajet[i]
             ile1, ile2 = self.trouver2IlesPlusPres(point)
@@ -189,16 +194,33 @@ class AlgorithmeTrajectoire:
                     (self.distanceAuCarre(ile2.centre_x, ile2.centre_y, ile1.centre_x, ile1.centre_y) >= 30**2):
                 point1, point2 = self.trouverNouveauPoint((ile1.centre_x, ile1.centre_y), (ile2.centre_x, ile2.centre_y))
                 point1, point2 = self.ordonnerPointAjoute(point1, point2, self.trajet[i-1])
+                debut = self.trajet[0]
+                fin = self.trajet[-1]
+                self.trajet = []
+                trajet1 = copy.deepcopy(self.trouverTrajet(debut, point1, type))
+                self.trajet = []
+                trajet2 = copy.deepcopy(self.trouverTrajet(point2, fin, type))
+                self.trajet = []
+                self.trajet = trajet1 + trajet2
+                i = longueurTrajet
+
+                '''
                 print '1:', len(self.trajet)
                 self.trajet = self.trajet[:i] + [point1] + [point2] + self.trajet[i+1:]
                 print '2:', len(self.trajet)
+                print self.trajet
                 pointASup = self.trouverCoordonneesSup(point1[0], point1[1])
+                print 'enlever 1:'
                 for p in pointASup:
                     self.trajet.remove(p)
+                print self.trajet
                 pointASup = self.trouverCoordonneesSup(point2[0], point2[1])
                 for p in pointASup:
                     self.trajet.remove(p)
+                print 'enlever 2:'
+                print self.trajet
                 i = 0
+                '''
             else:
                 i += 1
 
@@ -343,7 +365,7 @@ class AlgorithmeTrajectoire:
     def trouverCoordonneesSup(self, x, y):
         pointASup = []
         for point in self.trajet:
-            if self.distanceAuCarre(x, y, point[0], point[1]) <= 15 and (point != (x, y)):
+            if self.distanceAuCarre(x, y, point[0], point[1]) <= 30 and (point != (x, y)):
                 pointASup.append(point)
         return pointASup
 

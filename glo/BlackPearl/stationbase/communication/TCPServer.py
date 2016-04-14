@@ -43,6 +43,7 @@ class TCPServer:
     def receiveFile(self):
         print('\nEn attente de requete...')
         data = self.connection.recv(1024)
+        print data
         print('requete recu.')
         jsonObject = json.loads(data)
         print 'requete decode.'

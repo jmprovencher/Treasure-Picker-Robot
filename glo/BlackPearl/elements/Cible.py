@@ -12,7 +12,8 @@ class Cible:
         self.tresorDansLeFond = False
         self.conteur = 0
         if len(args) == 1:
-            self.indice = 'Bleu'
+            self.indice = 'Rouge'
+            self.ileChoisie = self.carte.getIlesCorrespondantes(self.indice)[0]
         else:
             self.indice = args[1]
 
@@ -33,7 +34,7 @@ class Cible:
             trajetTresor = self.carte.getTrajectoire().trouverTrajet(self.carte.getStationRecharge().getCentre(), tresorsPossibles[i].getCentre(), 'TRESORE')
             distanceTresor = self.carte.getTrajectoire().trouverLongueurTrajetCarre(trajetTresor)
             for ile in ilesPotentielle:
-                trajetIle = self.carte.getTrajectoire().trouverTrajet(tresorsPossibles[i].getCentre(), ile.getCentre(), 'ILE')
+                trajetIle = self.carte.getTrajectoire().trouverTrajet(tresorsPossibles[i].getCentre(), copy.deepcopy(ile.getCentre()), 'ILE')
                 distanceIle = self.carte.getTrajectoire().trouverLongueurTrajetCarre(trajetIle)
                 if distanceIle == -1:
                     continue

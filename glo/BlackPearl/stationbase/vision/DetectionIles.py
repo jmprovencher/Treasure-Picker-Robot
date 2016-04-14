@@ -63,6 +63,8 @@ class DetectionIles(Detection):
             if precision < 0.1:
                 centre = self.trouverCentre(contour)
                 self.ilesIdentifiees.append(Ile(centre, couleur, nomForme))
+                print couleur
+                print centre
 
     def getIlesIdentifiees(self):
         return self.ilesIdentifiees

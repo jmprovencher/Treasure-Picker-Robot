@@ -11,6 +11,7 @@ from stationbase.communication.RequeteJSON import RequeteJSON
 import copy
 from timeit import default_timer
 from stationbase.vision.TrouverTresorEtCible import TrouverTresorEtCible
+from elements.Cible import Cible
 
 
 class StationBase(Thread):
@@ -26,9 +27,9 @@ class StationBase(Thread):
         self.descriptionIleCible = "?"
         self.manchester = "?"
         self.roundTerminee = False
-        self.rapport = 1.16
-        self.coordonneeXMilieu = 813
-        self.coordonneeYMilieu = 410
+        self.rapport = 0.84
+        self.coordonneeXMilieu = 787
+        self.coordonneeYMilieu = 419
         self.carte = Carte()
         self.demarrerConnectionTCP()
         self.demarrerFeedVideo()
@@ -62,7 +63,7 @@ class StationBase(Thread):
         elif etape == 'alignement tresor':
             self.aligner("alignement_tresor")
         elif etape == 'deplacement ile':
-            self.carte.getCible().trouverIleCible()
+            self.carte.cible = Cible([self.carte])
             self.deplacement('ILE')
         elif etape == 'alignement ile':
             self.aligner("alignement_ile")
@@ -114,10 +115,10 @@ class StationBase(Thread):
 
     def correctionsFinales(self, type):
         if type == 'RECHARGE':
-            self.angleDesire = 88
+            self.angleDesire = 90
             self.orienter(type)
             self.deplacementArriere(5)
-            self.deplacementDroit(13)
+            self.deplacementDroit(10)
         elif type == 'TRESOR':
             if self.carte.getCible().getTresorCible().getCentre()[1] < 500:
                 self.angleDesire = 90
@@ -126,12 +127,16 @@ class StationBase(Thread):
                 self.angleDesire = 270
                 self.carte.cible.conteur += 1
             self.orienter(type)
-            self.deplacementArriere(3)
+            self.deplacementArriere(4)
         elif type == 'ILE':
             arriver = self.carte.getCible().getIleCible().getCentre()
             debut = self.getPositionRobot()
-            #debut = self.correctionCentre(debut)
-            self.angleDesire = self.trouverOrientationDesire(debut, arriver)
+            print 'arrive: ', arriver
+            print 'robot: ', debut
+            debut2 = self.correctionCentre(debut)
+            print 'robot2: ', debut2
+            self.angleDesire = self.trouverOrientationDesire(debut2, arriver)
+            print self.angleDesire
             self.orienter(type)
         self.trajectoirePrevue = None
 
@@ -161,7 +166,7 @@ class StationBase(Thread):
 
     def trouverTrajectoirePrevu(self, destination, type):
         print '\nTrouve la trajectoire prevu...'
-        self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.getPositionRobot(), destination, type)
+        self.trajectoirePrevue = self.carte.trajectoire.trouverTrajet(self.getPositionRobot(), copy.deepcopy(destination), type)
         if self.trajectoirePrevue is None:
             print 'erreur! Aucun trajet trouve.'
         else:
@@ -369,7 +374,7 @@ class StationBase(Thread):
         return self.trajectoirePrevue
 
     def getPositionRobot(self):
-        centre = copy.deepcopy(self.carte.getRobotValide().getCentre())
+        centre = self.carte.getRobotValide().getCentre()
         return centre
 
     def getOrientationRobot(self):

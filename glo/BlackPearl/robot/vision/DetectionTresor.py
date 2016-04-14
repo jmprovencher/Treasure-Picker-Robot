@@ -16,7 +16,7 @@ class DetectionTresor(object):
         self._definirIntervallesCouleurs()
 
         self.alignementTerminer = False
-        self.ajustements = []
+        self.ajustements = None
         #self._dessinerZoneCible()
 
     def calculerAjustements(self):

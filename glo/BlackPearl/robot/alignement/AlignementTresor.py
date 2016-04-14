@@ -53,7 +53,8 @@ class AlignementTresor():
         elif (distance_y > 0):
             commande = 'forward'
 
-        distance = abs(distance_y / RATIOPIXEL_CM) + 2
+        distance = abs(distance_y / RATIOPIXEL_CM) + 1
+
         if (distance_y < 5):
             self.ajustements.append(('backward', 5))
             distance = distance + 4

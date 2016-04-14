@@ -16,7 +16,6 @@ class DetectionTresor(object):
         self.tresorValide = False
         self.alignementTerminer = False
         self.ajustements = []
-        self._dessinerZoneCible()
 
     def trouverCoinSuperieurTresor(self, contoursTresor):
         coin_superieur = 1200
@@ -47,6 +46,7 @@ class DetectionTresor(object):
         contoursMur = self._detecterContoursMur(self.intervalleMur)
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
         coinTresor = self.trouverCoinSuperieurTresor(contoursTresor)
+        self._dessinerZoneCible()
 
         self.evaluerPositionTresor(contoursMur, coinTresor)
 

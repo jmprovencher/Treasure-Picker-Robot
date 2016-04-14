@@ -28,6 +28,7 @@ class AnalyseImageEmbarquee(Thread):
             self.debuterAlignement(self.parametre)
             time.sleep(1)
         if (self.ajustements is not None):
+            print("Ajout ajustement")
             self._soumettreAjustements()
 
     def debuterAlignement(self, parametre):

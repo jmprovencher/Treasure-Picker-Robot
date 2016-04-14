@@ -66,6 +66,7 @@ class DetectionTresor(object):
                 print("Plusieurs contours detectee")
                 return None
         else:
+            print("FUCKED UP")
             return None
 
     def _obtenirFormeInteret(self, contoursCouleur):

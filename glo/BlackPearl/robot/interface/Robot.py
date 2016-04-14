@@ -79,7 +79,7 @@ class Robot(Thread):
         self.alignementEnCours = True
         self.uartDriver.cameraPositionDepot()
         self.threadVideo.demarrerCapture()
-
+        
         self._demarrerAnalyseVideo('tresor')
         self.uartDriver.preAlignementTresor()
         self.uartDriver.cameraPositionFace()

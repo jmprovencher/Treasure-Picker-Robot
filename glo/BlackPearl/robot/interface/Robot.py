@@ -77,13 +77,15 @@ class Robot(Thread):
         print("Demarre phase alignement tresor")
         self.alignementEnCours = True
         self.uartDriver.cameraPositionDepot()
+        #self.threadVideo.demarrerCapture()
 
         self._demarrerAnalyseVideo('tresor')
-        self.uartDriver.preAlignementTresor()
-        self.uartDriver.cameraPositionFace()
-        self._executerAlignement()
 
-        self.uartDriver.postAlignementTresor()
+        if (self.tresorCapturer):
+            self.uartDriver.preAlignementTresor()
+            self.uartDriver.cameraPositionFace()
+            self._executerAlignement()
+            self.uartDriver.postAlignementTresor()
 
         self.alignementEnCours = False
 

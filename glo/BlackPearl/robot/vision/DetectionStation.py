@@ -27,7 +27,7 @@ class DetectionStation(object):
             distance_y = self._trouverDistanceStation(contoursCible)
             print("DIstance: ", distance_y)
             distance_x = self._trouverOffsetLateral(contoursCible)
-            self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y)
+            self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y/2)
         else:
             self.ajustements = None
             #self._dessinerInformations(contoursCible, distance_y)
@@ -35,6 +35,19 @@ class DetectionStation(object):
             #cv2.imshow("image", self.imageCamera)
             #cv2.waitKey(0)
 
+    def trouverAjustementsFinaux(self):
+        contoursCible = self._detecterFormeCouleur(self.intervalleBleuMarin)
+        if (contoursCible is not None):
+            distance_y = self._trouverDistanceStation(contoursCible)
+            print("DIstance: ", distance_y)
+            distance_x = self._trouverOffsetLateral(contoursCible)
+            self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y)
+        else:
+            self.ajustements = None
+            # self._dessinerInformations(contoursCible, distance_y)
+            # self._dessinerZoneCible()
+            # cv2.imshow("image", self.imageCamera)
+            # cv2.waitKey(0)
 
     def _trouverDistanceStation(self, contoursCible):
         zoneTresor = cv2.minAreaRect(contoursCible)

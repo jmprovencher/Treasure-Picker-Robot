@@ -8,6 +8,7 @@ class RobotService:
 
     def obtenirCible(self, lettre):
         indice = self._effectuerRequeteServeur(lettre)
+        print("INDICE OBTENU: %s" %indice)
         cible = self.determinerCible(indice)
         return cible
 

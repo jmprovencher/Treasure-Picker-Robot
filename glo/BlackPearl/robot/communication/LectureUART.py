@@ -8,7 +8,6 @@ class LectureUART(Thread):
         Thread.__init__(self)
         self.robot = robot
 
-
     def run(self):
         while 1:
 

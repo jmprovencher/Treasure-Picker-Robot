@@ -32,7 +32,7 @@ class RobotClient(Thread):
                 time.sleep(0.5)
                 print("Indice obtenu: %s" % self.robot.indiceObtenu)
                 self.envoyerLettre()
-                time.sleep(0.5)
+                time.sleep(2)
                 self.envoyerIndice()
                 self.robot.pretEnvoyerLettre = False
                 time.sleep(8)

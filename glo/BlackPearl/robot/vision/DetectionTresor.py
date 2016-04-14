@@ -14,18 +14,49 @@ class DetectionTresor(object):
         self.positionZone = (800, 950)
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
-
+        self.tresorValide = False
         self.alignementTerminer = False
         self.ajustements = []
-        #self._dessinerZoneCible()
+        # self._dessinerZoneCible()
+
+    def trouverCoinSuperieurTresor(self, contoursTresor):
+        coin_superieur = 1200
+
+        zoneTresor = cv2.minAreaRect(contoursTresor)
+        print("ZONE TRESOR")
+        boiteTresor = np.int0(cv2.boxPoints(zoneTresor))
+        cv2.drawContours(self.imageCamera, [boiteTresor], -1, (0, 255, 0), 2)
+        for points in boiteTresor:
+            x, y = points
+            if (y < coin_superieur):
+                coin_superieur = y
+                point_superieur = x, coin_superieur
+        print("Coin gauche ", point_superieur)
+        return point_superieur
+
+    def evaluerPositionTresor(self, contoursMur, coinTresor):
+        zoneMur = cv2.minAreaRect(contoursMur)
+        print("ZONE MUR")
+        print(zoneMur)
+        boiteMur = np.int0(cv2.boxPoints(zoneMur))
+        cv2.drawContours(self.imageCamera, [boiteMur], -1, (0, 255, 0), 2)
+
+        self.tresorValide = cv2.pointPolygonTest(boiteMur, coinTresor, measureDist=False)
 
     def calculerAjustements(self):
-        #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('horizon.jpg'))
-        contoursTresor = self._detecterContoursForme(self.intervalleJaune)
 
-        if (contoursTresor is not None):
+        contoursMur = self._detecterContoursMur(self.intervalleMur)
+        contoursTresor = self._detecterContoursForme(self.intervalleJaune)
+        coinTresor = self.trouverCoinSuperieurTresor(contoursTresor)
+
+        self.evaluerPositionTresor(contoursMur, coinTresor)
+
+        cv2.imshow("Tresor", self.imageCamera)
+        cv2.waitKey(0)
+
+        if (contoursTresor is not None and self.tresorValide):
             distance_x, distance_y = self._trouverDistance(contoursTresor)
-            self.ajustements= self.alignementTresor.calculerAjustement(distance_x, distance_y)
+            self.ajustements = self.alignementTresor.calculerAjustement(distance_x, distance_y)
             print("Ajustement alignement tresor calculer")
         else:
             self.ajustements = None
@@ -53,27 +84,61 @@ class DetectionTresor(object):
         closing = cv2.morphologyEx(masqueCouleur.copy(), cv2.MORPH_CLOSE, kernel)
         _, contoursCouleur, _ = cv2.findContours(closing.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-        #cv2.imshow("Tresor", closing)
-        #cv2.waitKey(0)
+        # cv2.imshow("Tresor", closing)
+        # cv2.waitKey(0)
 
         if (len(contoursCouleur) > 0):
-            print("Va filtrer %d forme: " %len(contoursCouleur))
-            contoursTresor = self._obtenirFormeInteret(contoursCouleur)
+            print("Va filtrer %d forme: " % len(contoursCouleur))
+            contoursInteret = self._obtenirFormeTresor(contoursCouleur)
 
-            if (contoursTresor is not None):
-                return contoursTresor
+            if (contoursInteret is not None):
+                return contoursInteret
             else:
                 print("Plusieurs contours detectee")
                 return None
         else:
             return None
 
-    def _obtenirFormeInteret(self, contoursCouleur):
+    def _detecterContoursMur(self, intervalleCouleur):
+        intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
+        masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
+
+        kernel = np.ones((5, 5), np.uint8)
+        closing = cv2.morphologyEx(masqueCouleur.copy(), cv2.MORPH_CLOSE, kernel)
+        _, contoursCouleur, _ = cv2.findContours(closing.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+        # cv2.imshow("Tresor", closing)
+        # cv2.waitKey(0)
+
+        if (len(contoursCouleur) > 0):
+            print("Va filtrer %d forme: " % len(contoursCouleur))
+            contoursInteret = self._obtenirFormeMur(contoursCouleur)
+            if (contoursInteret is not None):
+                return contoursInteret
+            else:
+                print("Plusieurs contours detectee")
+                return None
+        else:
+            return None
+
+    def _obtenirFormeMur(self, contoursCouleur):
+        aireMaximale = 0
+        for contours in range(len(contoursCouleur)):
+            aire = cv2.contourArea(contoursCouleur[contours])
+            print("Aire mur: %f" % aire)
+            if (aire > aireMaximale):
+                aireMaximale = aire
+                contoursMur = contoursCouleur[contours]
+
+        print("Contour cible: %f" % aireMaximale)
+        return contoursMur
+
+    def _obtenirFormeTresor(self, contoursCouleur):
         contoursNegligeable = []
 
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            #print("Aire tresor: %f" %aire)
+            print("Aire tresor: %f" % aire)
 
             if ((aire < 3000) or (aire > 9000)):
                 contoursNegligeable.append(contours)
@@ -81,10 +146,10 @@ class DetectionTresor(object):
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)
 
-        print("Nombre de forme apres: %d" %len(contoursCouleur))
+        print("Nombre de forme apres: %d" % len(contoursCouleur))
 
-        #cv2.imshow("Tresor", self.imageCamera)
-        #cv2.waitKey(0)
+        # cv2.imshow("Tresor", self.imageCamera)
+        # cv2.waitKey(0)
 
         if (len(contoursCouleur) == 0):
             print("Aucun tresor")
@@ -92,13 +157,13 @@ class DetectionTresor(object):
         else:
             contoursCouleur.sort()
             index = len(contoursCouleur)
-            return contoursCouleur[index-1]
+            return contoursCouleur[index - 1]
 
     def _dessinerZoneCible(self):
         cv2.circle(self.imageCamera, self.positionZone, self.rayonZone, (0, 255, 0), 2)
 
     def _definirIntervallesCouleurs(self):
-        #self.intervalleJaune = np.array([0, 0, 0]), np.array([255, 255, 255]), "Jaune"
-        #self.intervalleJaune = np.array([20, 90, 90]), np.array([80, 255, 255]), "Jaune"
+        # self.intervalleJaune = np.array([0, 0, 0]), np.array([255, 255, 255]), "Jaune"
+        # self.intervalleJaune = np.array([20, 90, 90]), np.array([80, 255, 255]), "Jaune"
         self.intervalleJaune = np.array([0, 90, 90]), np.array([80, 255, 255]), "Jaune"
-
+        self.intervalleMur = np.array([0, 0, 0]), np.array([90, 90, 90]), "Noir"

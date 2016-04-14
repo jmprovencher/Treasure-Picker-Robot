@@ -94,7 +94,10 @@ class DetectionTresor(object):
         cv2.imshow("Tresor", closing)
         cv2.waitKey(0)
 
-        if (len(contoursCouleur) > 0) and len(contoursCouleur) < 80:
+        print("NBR CONTOUR")
+        print(len(contoursCouleur))
+
+        if (len(contoursCouleur) > 0) and len(contoursCouleur) < 100:
             print("Va filtrer %d forme: " % len(contoursCouleur))
             contoursInteret = self._obtenirFormeTresor(contoursCouleur)
 

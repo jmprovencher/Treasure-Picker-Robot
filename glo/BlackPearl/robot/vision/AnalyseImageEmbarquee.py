@@ -14,7 +14,7 @@ class AnalyseImageEmbarquee(Thread):
         self.robot = robot
         self.imageCamera = None
         self.ajustementsCalcules = False
-        self.ajustements = []
+        self.ajustements = None
         self.parametre = None
         self.nombreDetection = 0
 

@@ -71,7 +71,7 @@ class AnalyseImageEmbarquee(Thread):
             self.ajustements = self.detectionTresor.ajustements
             print("Nombre ajustement fait: %d" %self.detectionTresor.nombreDetection)
 
-        if (self.ajustements is None) and self.nombreDetection == 5:
+        if (self.ajustements is None) and self.detectionTresor.nombreDetection == 5:
             self.robot.tresorNonCapturer = True
 
         if (self.ajustements is not None):

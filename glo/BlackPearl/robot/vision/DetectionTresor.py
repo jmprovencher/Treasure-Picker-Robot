@@ -77,6 +77,7 @@ class DetectionTresor(object):
 
             if ((aire < 3000) or (aire > 9000)):
                 contoursNegligeable.append(contours)
+            if()
 
         if (len(contoursNegligeable) > 0):
             contoursCouleur = np.delete(contoursCouleur, contoursNegligeable)

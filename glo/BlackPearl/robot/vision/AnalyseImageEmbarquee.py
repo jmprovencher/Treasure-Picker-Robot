@@ -27,7 +27,8 @@ class AnalyseImageEmbarquee(Thread):
             self._chargerImage()
             self.debuterAlignement(self.parametre)
             time.sleep(1)
-        self._soumettreAjustements()
+        if (self.ajustements is not None):
+            self._soumettreAjustements()
 
     def debuterAlignement(self, parametre):
         if (parametre == 0):
@@ -66,12 +67,9 @@ class AnalyseImageEmbarquee(Thread):
 
         if (self.ajustements is not None):
             print("Ajustement calculer, analyse termine")
-            self.ajustementsCalcules = True
-            self.robot.tresorCapturer = True
+        self.ajustementsCalcules = True
+            #self.robot.tresorCapturer = True
 
-        else:
-            self.robot.tresorNonCapturer = True
-            self.ajustementsCalcules = True
 
     def evaluerPositionStation(self):
         self.detectionStation = DetectionStation()

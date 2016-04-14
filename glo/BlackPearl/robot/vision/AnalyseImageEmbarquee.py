@@ -108,8 +108,8 @@ class AnalyseImageEmbarquee(Thread):
             self.ajustementsCalcules = True
 
     def evaluerPositionDepot(self, couleurIleCible):
-        self.detectionIle = DetectionIle(self.imageCamera)
-        self.detectionIle.detecterIle(couleurIleCible)
+        self.detectionIle = DetectionIle()
+        self.detectionIle.detecterIle(couleurIleCible, self.imageCamera)
         self.ajustements = self.detectionIle.ajustements
 
         while self.ajustements is None and self.nombreDetection < 3:

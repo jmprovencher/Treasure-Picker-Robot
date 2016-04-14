@@ -34,8 +34,8 @@ class RobotClient(Thread):
                 self.envoyerLettre()
                 time.sleep(2)
                 self.envoyerIndice()
-                self.robot.pretEnvoyerLettre = False
                 time.sleep(8)
+                self.robot.pretEnvoyerLettre = False
 
             elif (self.robot.tresorCapturer):
                 self.envoyerCaptureTresor()
@@ -60,7 +60,7 @@ class RobotClient(Thread):
                     self.traiterCommande(data)
             else:
                 self.envoyerTension()
-                time.sleep(0.5)
+                time.sleep(1)
 
     def attendreCommande(self):
         data = -1

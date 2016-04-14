@@ -43,9 +43,9 @@ class Robot(Thread):
         print("Demarre phase alignement station")
         self.alignementEnCours = True
         self.uartDriver.cameraPositionFace()
-        self.threadVideo.demarrerCapture()
+        #self.threadVideo.demarrerCapture()
 
-        self.uartDriver.sendCommand('forward', 3)
+        self.uartDriver.sendCommand('forward', 4)
         time.sleep(1)
         self._demarrerAnalyseVideo('station_final')
         time.sleep(1)

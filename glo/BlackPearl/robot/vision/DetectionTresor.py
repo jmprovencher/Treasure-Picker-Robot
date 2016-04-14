@@ -11,7 +11,7 @@ class DetectionTresor(object):
     def __init__(self, image):
         self.alignementTresor = AlignementTresor()
         self.imageCamera = image
-        self.positionZone = (800, 950)
+        self.positionZone = (805, 950)
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
 

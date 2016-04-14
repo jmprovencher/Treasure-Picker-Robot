@@ -24,7 +24,7 @@ class DetectionStation(object):
         self.nombreDetection = 0
 
     def trouverAjustements(self, image):
-        self.nombreDetection = +1
+        self.nombreDetection + 1
         self.imageCamera = image
 
         contoursCible = self._detecterFormeCouleur(self.intervalleBleuMarin)

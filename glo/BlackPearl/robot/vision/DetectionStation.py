@@ -21,8 +21,10 @@ class DetectionStation(object):
         self._definirIntervallesCouleurs()
         # self._dessinerZoneCible()
         self.ajustements = []
+        self.nombreDetection = 0
 
     def trouverAjustements(self, image):
+        self.nombreDetection = +1
         self.imageCamera = image
 
         contoursCible = self._detecterFormeCouleur(self.intervalleBleuMarin)
@@ -30,15 +32,16 @@ class DetectionStation(object):
             distance_y = self._trouverDistanceStation(contoursCible, KNOWN_WIDTH_BLUE)
             print("DIstance: ", distance_y)
             distance_x = self._trouverOffsetLateral(contoursCible)
-            self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y/2)
+            self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y / 2)
         else:
             self.ajustements = None
-            #self._dessinerInformations(contoursCible, distance_y)
-            #self._dessinerZoneCible()
-            #cv2.imshow("image", self.imageCamera)
-            #cv2.waitKey(0)
+            # self._dessinerInformations(contoursCible, distance_y)
+            # self._dessinerZoneCible()
+            # cv2.imshow("image", self.imageCamera)
+            # cv2.waitKey(0)
 
     def trouverAjustementsFinaux(self, image):
+        self.nombreDetection = +1
         self.imageCamera = image
         contoursCible = self._detecterFormeCouleur(self.intervalleOrange)
         if (contoursCible is not None):
@@ -79,8 +82,8 @@ class DetectionStation(object):
 
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        #cv2.imshow("Image", masqueCouleur)
-        #cv2.waitKey(0)
+        # cv2.imshow("Image", masqueCouleur)
+        # cv2.waitKey(0)
 
         if (len(contoursCouleur) > 0):
             contoursCible = self._obtenirFormeInteret(contoursCouleur)
@@ -99,7 +102,6 @@ class DetectionStation(object):
         cv2.putText(self.imageCamera, "%.2f cm" % (distanceStation),
                     (self.imageCamera.shape[1] - 300, self.imageCamera.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX, 2.0,
                     (0, 255, 0), 3)
-
 
     def _trouverCentreForme(self, contoursForme):
         MatriceCentreMasse = cv2.moments(contoursForme)
@@ -123,7 +125,6 @@ class DetectionStation(object):
             return contoursCouleur[0]
         else:
             return None
-
 
     def _definirIntervallesCouleurs(self):
         self.intervalleBleuMarin = np.array([120, 80, 40]), np.array([180, 150, 100]), "Bleu"

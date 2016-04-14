@@ -63,13 +63,12 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionTresor.calculerAjustements(self.imageCamera)
         self.ajustements = self.detectionTresor.ajustements
 
-        while self.ajustements is None and self.nombreDetection < 5:
+        while self.ajustements is None and self.detectionTresor.nombreDetection < 5:
             self.robot.traiterCommande('backward', 1)
             time.sleep(1)
             self._chargerImage()
             self.detectionTresor.calculerAjustements(self.imageCamera)
             self.ajustements = self.detectionTresor.ajustements
-            print("Nombre detection", self.nombreDetection)
 
         if (self.ajustements is None) and self.nombreDetection == 5:
             self.robot.tresorNonCapturer = True
@@ -84,11 +83,10 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionStation.trouverAjustements(self.imageCamera)
         self.ajustements = self.detectionStation.ajustements
 
-        while self.ajustements is None and self.nombreDetection < 5:
+        while self.ajustements is None and self.detectionStation.nombreDetection < 3:
             self.robot.traiterCommande('right', 1)
             self._chargerImage()
-            self.evaluerPositionStation()
-            self.nombreDetection + 1
+            self.detectionStation.trouverAjustements(self.imageCamera)
 
         if (self.ajustements is not None):
             self.ajustementsCalcules = True
@@ -98,11 +96,10 @@ class AnalyseImageEmbarquee(Thread):
         self.detectionStation.trouverAjustementsFinaux(self.imageCamera)
         self.ajustements = self.detectionStation.ajustements
 
-        while self.ajustements is None and self.nombreDetection < 5:
+        while self.ajustements is None and self.detectionStation.nombreDetection < 3:
             self.robot.traiterCommande('backward', 1)
             self._chargerImage()
-            self.evaluerPositionStation()
-            self.nombreDetection + 1
+            self.detectionStation.trouverAjustementsFinaux(self.imageCamera)
 
         if (self.ajustements is not None):
             self.ajustementsCalcules = True

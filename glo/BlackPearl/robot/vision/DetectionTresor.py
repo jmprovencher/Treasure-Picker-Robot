@@ -16,19 +16,18 @@ class DetectionTresor(object):
         self.tresorValide = False
         self.alignementTerminer = False
         self.ajustements = []
-
+        self.nombreDetection = 0
 
     def calculerAjustements(self, imageCamera):
+        self.nombreDetection = +1
         self.imageCamera = imageCamera
         contoursMur = self._detecterContoursMur(self.intervalleMur)
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)
-
 
         if (contoursTresor) is not None:
             coinTresor = self.trouverCoinSuperieurTresor(contoursTresor)
             self._dessinerZoneCible()
             self.evaluerPositionTresor(contoursMur, coinTresor)
-
 
         if (self.tresorValide):
             distance_x, distance_y = self._trouverDistance(contoursTresor)
@@ -36,7 +35,6 @@ class DetectionTresor(object):
             print("Ajustement alignement tresor calculer")
         else:
             self.ajustements = None
-
 
     def evaluerPositionTresor(self, contoursMur, coinTresor):
         zoneMur = cv2.minAreaRect(contoursMur)
@@ -82,10 +80,10 @@ class DetectionTresor(object):
         closing = cv2.morphologyEx(masqueCouleur.copy(), cv2.MORPH_CLOSE, kernel)
         _, contoursCouleur, _ = cv2.findContours(closing.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-        #cv2.imshow("Tresor", closing)
-        #cv2.waitKey(0)
+        # cv2.imshow("Tresor", closing)
+        # cv2.waitKey(0)
 
-        if (len(contoursCouleur) > 0) and len(contoursCouleur) < 100:
+        if (len(contoursCouleur) > 0) and len(contoursCouleur) < 80:
             print("Va filtrer %d forme: " % len(contoursCouleur))
             contoursInteret = self._obtenirFormeTresor(contoursCouleur)
 
@@ -123,7 +121,7 @@ class DetectionTresor(object):
         aireMaximale = 0
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            #print("Aire mur: %f" % aire)
+            # print("Aire mur: %f" % aire)
             if (aire > aireMaximale):
                 aireMaximale = aire
                 contoursMur = contoursCouleur[contours]
@@ -136,7 +134,7 @@ class DetectionTresor(object):
 
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            #print("Aire tresor: %f" % aire)
+            # print("Aire tresor: %f" % aire)
 
             if ((aire < 3000) or (aire > 9000)):
                 contoursNegligeable.append(contours)
@@ -163,5 +161,5 @@ class DetectionTresor(object):
     def _definirIntervallesCouleurs(self):
         # self.intervalleJaune = np.array([0, 0, 0]), np.array([255, 255, 255]), "Jaune"
         self.intervalleJaune = np.array([20, 90, 90]), np.array([80, 255, 255]), "Jaune"
-        #self.intervalleJaune = np.array([0, 90, 90]), np.array([80, 255, 255]), "Jaune"
+        # self.intervalleJaune = np.array([0, 90, 90]), np.array([80, 255, 255]), "Jaune"
         self.intervalleMur = np.array([0, 0, 0]), np.array([90, 90, 90]), "Noir"

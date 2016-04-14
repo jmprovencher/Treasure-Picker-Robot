@@ -85,10 +85,10 @@ class DetectionTresor(object):
         closing = cv2.morphologyEx(masqueCouleur.copy(), cv2.MORPH_CLOSE, kernel)
         _, contoursCouleur, _ = cv2.findContours(closing.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-        cv2.imshow("Tresor", closing)
-        cv2.waitKey(0)
+        #cv2.imshow("Tresor", closing)
+        #cv2.waitKey(0)
 
-        if (len(contoursCouleur) > 0):
+        if (len(contoursCouleur) > 0) and len(contoursCouleur) < 100:
             print("Va filtrer %d forme: " % len(contoursCouleur))
             contoursInteret = self._obtenirFormeTresor(contoursCouleur)
 

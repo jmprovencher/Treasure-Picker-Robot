@@ -19,7 +19,7 @@ class DetectionTresor(object):
         self.nombreDetection = 0
 
     def calculerAjustements(self, imageCamera):
-        self.nombreDetection+1
+        self.nombreDetection = self.nombreDetection + 1
         self.imageCamera = imageCamera
         #contoursMur = self._detecterContoursMur(self.intervalleMur)
         contoursTresor = self._detecterContoursForme(self.intervalleJaune)

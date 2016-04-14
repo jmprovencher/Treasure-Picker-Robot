@@ -68,7 +68,7 @@ class Cible:
                 deltaYPix = abs(yTresor - yIle)
                 deltaX = self.carte.getTrajectoire().depPixelXACentimetre(deltaXPix)
                 deltaY = self.carte.getTrajectoire().depPixelYACentimetre(deltaYPix)
-                if deltaY < 50 and deltaX < 30:
+                if deltaY < 45 and deltaX < 30:
                     print 'tresor normal accepter'
                     accepte = False
                     break

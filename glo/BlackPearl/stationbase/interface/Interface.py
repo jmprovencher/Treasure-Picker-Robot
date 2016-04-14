@@ -95,7 +95,7 @@ class Interface(QtGui.QWidget):
         self.robotPretAffiche = self.afficherInitInfoCouleur(444, 142, 660, 170, 'Non Connecte', 'red')
         self.tempsDepuisDemarrerStatic = self.afficherInitInfo(380, 172, 640, 200, 'Temps : ')
         self.tempsDepuisDemarrerStatic.setFont(QtGui.QFont("Times", 24, QtGui.QFont.Bold))
-        self.tempsDepuisDemarrer = self.afficherInitInfo(474, 172, 720, 200, '    0:00')
+        self.tempsDepuisDemarrer = self.afficherInitInfo(494, 172, 740, 200, '    0:00')
         self.tempsDepuisDemarrer.setFont(QtGui.QFont("Times", 24, QtGui.QFont.Bold))
 
     def initButtons(self):

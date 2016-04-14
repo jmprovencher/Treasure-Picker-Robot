@@ -38,7 +38,7 @@ class Robot(Thread):
         time.sleep(2)
         self.uartDriver.phaseInitialisation()
         self.robotClient.demarrageTermine = True
-
+        self.uartDriver.cameraPositionTresor()
         self._demarrerAnalyseVideo('tresor')
 
     def demarrerAlignementStation(self):

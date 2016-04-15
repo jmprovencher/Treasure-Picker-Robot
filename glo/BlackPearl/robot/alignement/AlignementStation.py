@@ -1,5 +1,7 @@
 import math
 
+POSITION_LAT = 2
+POSITION_LAT_MIN = 1
 
 class AlignementStation():
     def __init__(self):
@@ -22,18 +24,15 @@ class AlignementStation():
         elif (distance_x < 0):
             commande = 'right'
         distance_x = abs(distance_x)
-        #distance_cm = math.floor(abs(distance_x))
         distance_cm = int(math.floor(distance_x))
-        #ajustement_cm = int(round(distance_x,0))
         distance_mm = int(math.floor((abs(distance_x) - distance_cm) * 10))
-        #print("Distance mm a bouger: %d" % distance_mm)
 
-        if (int(round(distance_x, 0)) == 2):
-            return commande, 2
-        if (distance_mm > 2) and distance_cm <=1:
+        if (int(round(distance_x, 0)) == POSITION_LAT):
+            return commande, POSITION_LAT
+        if (distance_mm > POSITION_LAT) and distance_cm <= POSITION_LAT_MIN:
             self._ajusterPositionLaterale_MM(commande, distance_mm)
             return commande, distance_cm
-        elif distance_cm <= 2:
+        elif distance_cm <= POSITION_LAT:
             return commande, int(math.floor(distance_x))
         else:
             return commande, int(math.floor(distance_x))

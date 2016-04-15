@@ -203,24 +203,6 @@ class AlgorithmeTrajectoire:
                 self.trajet = []
                 self.trajet = trajet1 + trajet2
                 i = longueurTrajet
-
-                '''
-                print '1:', len(self.trajet)
-                self.trajet = self.trajet[:i] + [point1] + [point2] + self.trajet[i+1:]
-                print '2:', len(self.trajet)
-                print self.trajet
-                pointASup = self.trouverCoordonneesSup(point1[0], point1[1])
-                print 'enlever 1:'
-                for p in pointASup:
-                    self.trajet.remove(p)
-                print self.trajet
-                pointASup = self.trouverCoordonneesSup(point2[0], point2[1])
-                for p in pointASup:
-                    self.trajet.remove(p)
-                print 'enlever 2:'
-                print self.trajet
-                i = 0
-                '''
             else:
                 i += 1
 

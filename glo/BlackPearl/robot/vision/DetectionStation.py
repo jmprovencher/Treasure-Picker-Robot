@@ -10,6 +10,7 @@ KNOWN_WIDTH_BLUE = 3
 KNOWN_WIDTH_ORANGE = 1
 FOCAL_LENGTH = 1119
 RATIO_PIXEL_CM = 95
+MAX_AIRE_SIGNE_STATON = 60000
 
 
 class DetectionStation(object):
@@ -19,7 +20,6 @@ class DetectionStation(object):
         self.positionZone = (820, 730)
         self.rayonZone = 20
         self._definirIntervallesCouleurs()
-        # self._dessinerZoneCible()
         self.ajustements = []
         self.nombreDetection = 0
 
@@ -35,10 +35,6 @@ class DetectionStation(object):
             self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y / 2)
         else:
             self.ajustements = None
-            # self._dessinerInformations(contoursCible, distance_y)
-            # self._dessinerZoneCible()
-            # cv2.imshow("image", self.imageCamera)
-            # cv2.waitKey(0)
 
     def trouverAjustementsFinaux(self, image):
         self.nombreDetection = +1
@@ -51,15 +47,9 @@ class DetectionStation(object):
             self.ajustements = self.alignementStation.calculerAjustement(distance_x, distance_y)
         else:
             self.ajustements = None
-            # self._dessinerInformations(contoursCible, distance_y)
-            # self._dessinerZoneCible()
-            # cv2.imshow("image", self.imageCamera)
-            # cv2.waitKey(0)
 
     def _trouverDistanceStation(self, contoursCible, largeurConnue):
         zoneTresor = cv2.minAreaRect(contoursCible)
-        # focalLength = (zoneTresor[1][0] * KNOWN_DISTANCE) / KNOWN_WIDTH
-        # print("Focal length: %d" % focalLength)
         distance_y = self._calculerDistanceCamera(largeurConnue, FOCAL_LENGTH, zoneTresor[1][0]) * 2.54
         print("Distance calculee: %d", distance_y)
 
@@ -81,9 +71,6 @@ class DetectionStation(object):
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
 
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-        # cv2.imshow("Image", masqueCouleur)
-        # cv2.waitKey(0)
 
         if (len(contoursCouleur) > 0):
             contoursCible = self._obtenirFormeInteret(contoursCouleur)
@@ -115,7 +102,7 @@ class DetectionStation(object):
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
             print ("Aire: %d" % aire)
-            if ((aire < 60000)):
+            if ((aire < MAX_AIRE_SIGNE_STATON)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):

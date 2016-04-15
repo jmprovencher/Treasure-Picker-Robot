@@ -6,6 +6,11 @@ from threading import Thread
 import time
 from robot.interface.RobotService import RobotService
 
+COMMANDE_ILE = 'alignement_ile'
+COMMANDE_TRESOR = 'alignement_tresor'
+COMMANDE_STATION = 'alignement_station'
+COMMANDE_MANCHESTER = "decoderManchester"
+MAX_TENSION_CONDENSATEUR = 4.60
 
 class Robot(Thread):
     def __init__(self, uartDriver):
@@ -74,8 +79,6 @@ class Robot(Thread):
         print("Demarre phase alignement tresor")
         self.alignementEnCours = True
         self.uartDriver.cameraPositionDepot()
-        #self.threadVideo.demarrerCapture()
-
         self._demarrerAnalyseVideo('tresor')
 
         if (self.tresorCapturer):
@@ -103,13 +106,13 @@ class Robot(Thread):
         self.instructions.append(instructions)
 
     def traiterCommande(self, commande, parametre):
-        if commande == 'alignement_ile':
+        if commande == COMMANDE_ILE:
             self.demarrerAlignementIle(parametre)
-        elif commande == 'alignement_tresor':
+        elif commande == COMMANDE_TRESOR:
             self.demarrerAlignementTresor()
-        elif commande == 'alignement_station':
+        elif commande == COMMANDE_STATION:
             self.demarrerAlignementStation()
-        elif commande == "decoderManchester":
+        elif commande == COMMANDE_MANCHESTER:
             self._decoderManchester()
         else:
             self.commandeTerminee = False
@@ -143,7 +146,7 @@ class Robot(Thread):
         self.pretEnvoyerLettre = True
 
     def _attendreChargeComplete(self):
-        while (float(self.tensionCondensateur) < 4.60):
+        while (float(self.tensionCondensateur) < MAX_TENSION_CONDENSATEUR ):
             print(self.tensionCondensateur)
             self.robotClient.envoyerTension()
             time.sleep(0.5)

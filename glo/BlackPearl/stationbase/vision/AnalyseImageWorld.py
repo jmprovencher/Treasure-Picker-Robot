@@ -9,6 +9,10 @@ import copy
 import numpy as np
 from stationbase.vision.InfoTable import InfoTable
 
+MAX_CNT_ROBOT_PERDU = 10
+MIN_AIRE_ILE = 400
+NB_DETECTION_TOT = 20
+
 
 class AnalyseImageWorld(Thread):
     def __init__(self, stationBase):
@@ -51,7 +55,7 @@ class AnalyseImageWorld(Thread):
         print 'trouver le robot...'
         self.trouverRobot()
         while self.stationBase.getCarte().getRobot() is None:
-            print 'robot pas detecte'
+            print 'robot non detecte'
             time.sleep(0.05)
             self.chargerImage()
             self.trouverRobot()
@@ -62,7 +66,7 @@ class AnalyseImageWorld(Thread):
         print("\nDetection des iles...")
         detectionMultipleIles = []
 
-        for i in range(20):
+        for i in range(NB_DETECTION_TOT):
             print 'detection: %d sur 20' % i
             self.chargerImage()
             detectionIles = DetectionIles(self.image, self.stationBase.getNumTable())
@@ -78,7 +82,7 @@ class AnalyseImageWorld(Thread):
         print("\nDetection des tresors...")
         detectionMultipleTresors = []
 
-        for i in range(20):
+        for i in range(NB_DETECTION_TOT):
             print 'detection: %d sur 20' % i
             self.chargerImage()
             detectionTresors = DetectionTresors(self.image, self.stationBase.getNumTable())
@@ -102,7 +106,7 @@ class AnalyseImageWorld(Thread):
 
         for i in range(len(listIles)):
             xIle, yIle = listIles[i].getCentre()
-            if self.stationBase.getCarte().getTrajectoire().distanceAuCarre(xRobot, yRobot, xIle, yIle) <= 400:
+            if self.stationBase.getCarte().getTrajectoire().distanceAuCarre(xRobot, yRobot, xIle, yIle) <= MIN_AIRE_ILE:
                 ileImpossible.append(i)
 
         if len(listIles) == len(ileImpossible):
@@ -116,18 +120,18 @@ class AnalyseImageWorld(Thread):
         detectionRobot = DetectionRobot(self.image, self.stationBase.getNumTable())
         detectionRobot.detecter()
         robot = detectionRobot.getRobot()
-        if robot is not None:
+        if robot is not None :
             if self.stationBase.getCarte().getRobot() is None:
                 self.stationBase.getCarte().setRobot(robot)
             elif self.deplacementPlausible(robot.getCentre()):
                 self.stationBase.getCarte().setRobot(robot)
                 self.cntRobotPerdu = 0
-            elif self.cntRobotPerdu > 10:
+            elif self.cntRobotPerdu > MAX_CNT_ROBOT_PERDU:
                 self.cntRobotPerdu = 0
                 self.stationBase.getCarte().setRobot(None)
             else:
                 self.cntRobotPerdu += 1
-        elif self.cntRobotPerdu > 10:
+        elif self.cntRobotPerdu > MAX_CNT_ROBOT_PERDU:
                 self.stationBase.getCarte().setRobot(None)
                 self.cntRobotPerdu = 0
         else:

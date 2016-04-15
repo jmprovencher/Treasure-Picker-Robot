@@ -7,6 +7,15 @@ from robot.vision.DetectionOrientation import DetectionOrientation
 from threading import Thread
 import time
 
+PARAMETRE_VERT = 0
+PARAMETRE_BLEU = 1
+PARAMETRE_JAUNE = 2
+PARAMETRE_ROUGE = 3
+PARAMETRE_TRESOR = 'tresor'
+PARAMETRE_STATION = 'station'
+PARAMETRE_STATION_FINAL = 'station_final'
+PARAMETRE_ORIENTATION = 'orientation'
+
 
 class AnalyseImageEmbarquee(Thread):
     def __init__(self, robot):
@@ -32,21 +41,21 @@ class AnalyseImageEmbarquee(Thread):
             self._soumettreAjustements()
 
     def debuterAlignement(self, parametre):
-        if (parametre == 0):
+        if (parametre == PARAMETRE_VERT):
             self.evaluerPositionDepot('vert')
-        elif (parametre == 1):
+        elif (parametre == PARAMETRE_BLEU):
             self.evaluerPositionDepot('bleu')
-        elif (parametre == 2):
+        elif (parametre == PARAMETRE_JAUNE):
             self.evaluerPositionDepot('jaune')
-        elif (parametre == 3):
+        elif (parametre == PARAMETRE_ROUGE):
             self.evaluerPositionDepot('rouge')
-        elif (parametre == 'tresor'):
+        elif (parametre == PARAMETRE_TRESOR):
             self.evaluerPositionTresor()
-        elif (parametre == 'station'):
+        elif (parametre == PARAMETRE_STATION):
             self.evaluerPositionStation()
-        elif (parametre == 'station_final'):
+        elif (parametre == PARAMETRE_STATION_FINAL):
             self.evaluerPositionStationFinal()
-        elif (parametre == 'orientation'):
+        elif (parametre == PARAMETRE_ORIENTATION):
             self.evaluerOrientation()
         else:
             print("CRITICAL ERROR")
@@ -113,7 +122,6 @@ class AnalyseImageEmbarquee(Thread):
 
     def _chargerImage(self):
         self.imageCamera = self.robot.threadVideo.getImageCapture()
-        #self.imageCamera = cv2.imread(ConfigPath.Config().appendToProjectPath('image1.png'))
         self._estomperImage()
 
     def _attendreFeedVideo(self):

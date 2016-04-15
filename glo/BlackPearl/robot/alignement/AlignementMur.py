@@ -1,11 +1,14 @@
 import math
 
+MAX_ORIENTATION = 10
+MIN_ORIENTATION = 1
+
 class AlignementMur():
     def __init__(self):
         self.ajustements = []
 
     def calculerAjustementRotation(self, orientation):
-        if (abs(orientation) < 1) or (abs(orientation) > 10):
+        if (abs(orientation) < MIN_ORIENTATION) or (abs(orientation) > MAX_ORIENTATION):
             return None
         else:
             ajustement_orientation = self.ajusterOrientation(orientation)

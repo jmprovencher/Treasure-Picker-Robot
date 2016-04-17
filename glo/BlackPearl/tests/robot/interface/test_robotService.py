@@ -15,3 +15,8 @@ class TestRobotService(TestCase):
         reponse = "{'couleur': 'rouge'}"
         self.robotService.determinerCible(reponse)
         self.assertEqual(self.robotService.indiceObtenu, 'rouge')
+
+    def test_cible_non_determinee_avec_message_erronne(self):
+        reponse = "{'couleur': 'showtime'}"
+        self.robotService.determinerCible(reponse)
+        self.assertIsNone(self.robotService.indiceObtenu)

@@ -3,16 +3,14 @@ import cv2
 import numpy as np
 from robot.alignement.AlignementIle import AlignementIle
 
-AIRE_MINIMALE = 30000
-AIRE_MAXIMALE = 180000
 
 class DetectionIle(object):
     def __init__(self):
         self.alignementIle = AlignementIle()
         self.alignementTerminer = False
-        self.ajustements = []
         self.positionZone = (810, 850)
         self.rayonZone = 100
+        self.ajustements = None
         self._definirIntervallesCouleurs()
 
     def detecterIle(self, couleurIleCible, image):
@@ -26,7 +24,6 @@ class DetectionIle(object):
             self.ajustements = self.alignementIle.calculerAjustement(distance_x, distance_y)
         else:
             self.ajustements = None
-
 
     def _detecterCouleur(self, couleur):
         if (self.couleurIle == "vert"):
@@ -55,8 +52,7 @@ class DetectionIle(object):
 
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            print("Aire ile: ", aire)
-            if ((aire < AIRE_MINIMALE) or (aire > AIRE_MAXIMALE)):
+            if ((aire < 30000) or (aire > 180000)):
                 contoursNegligeable.append(contours)
 
         if (len(contoursNegligeable) > 0):
@@ -78,7 +74,9 @@ class DetectionIle(object):
         self.intervalleBleu = np.array([100, 100, 0]), np.array([190, 170, 80]), "Bleu"
         self.intervalleJaune = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune"
         self.intervalleVert = np.array([50, 120, 40]), np.array([100, 170, 80]), "Vert"
+
         self.intervalleVertTable5 = np.array([0, 60, 0]), np.array([100, 200, 80]), "Vert2"
+
         self.intervalleRougeTable5 = np.array([15, 0, 75]), np.array([100, 65, 200]), "Rouge2"
         self.intervalleJauneTable5 = np.array([0, 50, 50]), np.array([50, 255, 255]), "Jaune2"
 

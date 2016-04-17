@@ -3,6 +3,12 @@ import time
 import cv2
 import copy
 
+MIN_ANCIENNE_POSITION_ROBOT = 2
+MIN_TRAJECTOIRE = 1
+COULEUR_ROUGE = 'Rouge'
+COULEUR_JAUNE = 'Jaune'
+COULEUR_VERT = 'Vert'
+COULEUR_BLEU = 'Bleu'
 
 class ImageVirtuelle(Thread):
     def __init__(self, stationBase):
@@ -38,7 +44,7 @@ class ImageVirtuelle(Thread):
         if self.stationBase.getCarte().getRobot() is not None:
             position = (self.stationBase.getCarte().getRobot().getX(), self.stationBase.getCarte().getRobot().getY())
             self.anciennePosRobot.append(position)
-            if len(self.anciennePosRobot) >= 2:
+            if len(self.anciennePosRobot) >= MIN_ANCIENNE_POSITION_ROBOT:
                 for i in reversed(range(len(self.anciennePosRobot)-1)):
                     cv2.arrowedLine(self.imageVirtuelle, self.anciennePosRobot[i],
                                     self.anciennePosRobot[i+1], (0, 0, 0), 2)
@@ -46,7 +52,7 @@ class ImageVirtuelle(Thread):
             self.anciennePosRobot = []
 
     def dessinerTrajetPrevu(self):
-        if len(self.stationBase.getTrajectoirePrevue()) > 1:
+        if len(self.stationBase.getTrajectoirePrevue()) > MIN_TRAJECTOIRE:
             pointInitial = None
             for pointFinal in self.stationBase.getTrajectoirePrevue():
                 if pointInitial is None:
@@ -59,13 +65,13 @@ class ImageVirtuelle(Thread):
                         (0, 0, 0), 1, cv2.LINE_AA)
 
     def getColor(self, couleur):
-        if couleur == 'Rouge':
+        if couleur == COULEUR_ROUGE:
             return 0, 0, 255
-        elif couleur == 'Jaune':
+        elif couleur == COULEUR_JAUNE:
             return 0, 255, 255
-        elif couleur == 'Vert':
+        elif couleur == COULEUR_VERT:
             return 0, 255, 0
-        elif couleur == 'Bleu':
+        elif couleur == COULEUR_BLEU:
             return 255, 0, 0
         return 0, 0, 0
 

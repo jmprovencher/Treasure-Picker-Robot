@@ -8,6 +8,11 @@ from stationbase.vision.InfoTable import InfoTable
 from stationbase.vision.Detection import Detection
 from elements.Robot import Robot
 
+MIN_AIRE_CONTOUR = 500
+MAX_AIRE_CONTOUR = 10000
+MAX_PRECISION = 0.5
+MIN_AIRE_TROU = 10
+MAX_AIRE_TROU = 2000
 
 class DetectionRobot(Detection):
     def __init__(self, image, numeroTable):
@@ -38,9 +43,9 @@ class DetectionRobot(Detection):
             else:
                 aireTrouContour = 0
                 
-            if (aireContour < 500) or (aireContour > 10000):
+            if (aireContour < MIN_AIRE_CONTOUR) or (aireContour > MAX_AIRE_CONTOUR):
                 contoursNegligeables.append(i)
-            elif (aireTrouContour < 10) or (aireTrouContour > 2000):
+            elif (aireTrouContour < MIN_AIRE_TROU) or (aireTrouContour > MAX_AIRE_TROU):
                 contoursNegligeables.append(i)
                 
         if len(contoursRobot) == len(contoursNegligeables):
@@ -63,7 +68,7 @@ class DetectionRobot(Detection):
             meilleurMatch = min(resultatsMatch)
             precision, contour, position = meilleurMatch
 
-            if precision < 0.5:
+            if precision < MAX_PRECISION:
                 if (position == 'Droite') and (precision < precisionDroite):
                     precisionDroite = precision
                     contourDroit = copy.deepcopy(contour)

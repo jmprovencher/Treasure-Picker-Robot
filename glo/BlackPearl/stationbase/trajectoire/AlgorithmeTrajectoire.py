@@ -5,6 +5,11 @@ import copy
 import math
 from operator import itemgetter
 
+TYPE_ILE = 'ILe'
+MAX_POINT_SUP = 30
+MAX_RAYON_BUFFER = 18
+MAX_AU_CARRE_ARRIVEE = 961
+MAX_TRAJET = 2500
 
 class AlgorithmeTrajectoire:
     def __init__(self, grilleCellule):
@@ -40,7 +45,7 @@ class AlgorithmeTrajectoire:
                 self.cellulePlusPres = cellule
             elif self.distanceArriverCarre(cellule) < self.distanceArriverCarre(self.cellulePlusPres):
                 self.cellulePlusPres = cellule
-                if type == 'ILE' and self.distanceArriverCarre(cellule) < 961:
+                if type == 'ILE' and self.distanceArriverCarre(cellule) < MAX_AIRE_ARRIVEE:
                     break
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)
@@ -55,11 +60,11 @@ class AlgorithmeTrajectoire:
 
         self.arriver = self.cellulePlusPres
         print 'arrivee:', self.arriver.x, self.arriver.y
-        if type == 'ILE':
+        if type == TYPE_ILE:
             tropLoin = 35
         else:
             tropLoin = 35
-        if self.grilleCellule.rayonBuffer < 18:
+        if self.grilleCellule.rayonBuffer < MAX_RAYON_BUFFER:
             print 'introuvable'
             return [(-1, -1)]
         while self.grilleCellule.distanceAuCarre(self.arriver.x, self.arriver.y, arriver[0], arriver[1]) >= tropLoin**2:
@@ -90,7 +95,7 @@ class AlgorithmeTrajectoire:
         while i < len(self.trajet)-1:
             debut = self.trajet[i]
             fin = self.trajet[i+1]
-            if self.distanceAuCarre(debut[0], debut[1], fin[0], fin[1]) > 2500:
+            if self.distanceAuCarre(debut[0], debut[1], fin[0], fin[1]) > MAX_TRAJET:
                 point = self.trouverPointMilieu(debut, fin)
                 self.trajet = self.trajet[:i+1] + [point] + self.trajet[i+1:]
             else:
@@ -259,15 +264,15 @@ class AlgorithmeTrajectoire:
         depart4 = depart
         listDepart = [depart1, depart2, depart3, depart4]
         while not depart.atteignable:
-            if not listDepart[0].x >= 1600-25:
-                if not listDepart[0].y >= 1200-25:
+            if not listDepart[0].x >= 1575:
+                if not listDepart[0].y >= 1175:
                     listDepart[0] = self.grilleCellule.getCellule(
                         listDepart[0].x+self.grilleCellule.incrementX, listDepart[0].y+self.grilleCellule.incrementY)
                 if not listDepart[1].y <= 25:
                     listDepart[1] = self.grilleCellule.getCellule(
                         listDepart[1].x+self.grilleCellule.incrementX, listDepart[1].y-self.grilleCellule.incrementY)
             if not listDepart[2].x <= 25:
-                if not listDepart[2].y >= 1200-25:
+                if not listDepart[2].y >= 1175:
                     listDepart[2] = self.grilleCellule.getCellule(
                         listDepart[2].x-self.grilleCellule.incrementX, listDepart[2].y+self.grilleCellule.incrementY)
                 if not listDepart[3].y <= 25:
@@ -326,7 +331,6 @@ class AlgorithmeTrajectoire:
             pente = deltaY/deltaX
         else:
             return 180
-
         if deltaY == 0 and deltaX < 0:
             angle = 180
         elif deltaY == 0 and deltaX > 0:
@@ -347,7 +351,7 @@ class AlgorithmeTrajectoire:
     def trouverCoordonneesSup(self, x, y):
         pointASup = []
         for point in self.trajet:
-            if self.distanceAuCarre(x, y, point[0], point[1]) <= 30 and (point != (x, y)):
+            if self.distanceAuCarre(x, y, point[0], point[1]) <= MAX_POINT_SUP and (point != (x, y)):
                 pointASup.append(point)
         return pointASup
 

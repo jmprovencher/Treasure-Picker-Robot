@@ -13,6 +13,24 @@ from timeit import default_timer
 from stationbase.vision.TrouverTresorEtCible import TrouverTresorEtCible
 from elements.Cible import Cible
 
+ETAPE_ROUTINE_COMPLETE = 'routine complete'
+ETAPE_DEPLACEMENT_STATION = 'deplacement station'
+ETAPE_ALIGNEMENT_STATION = 'alignement station'
+ETAPE_DEPLACEMENT_TRESOR = 'deplacement tresor'
+ETAPE_ALIGNEMENT_TRESOR = 'alignement tresor'
+ETAPE_DEPLACEMENT_ILE = 'deplacement ile'
+ETAPE_ALIGNEMENT_ILE = 'alignement ile'
+ETAPE_MANCHESTER = 'alignement ile''decoder manchester'
+ETAPE_RECHARGE = 'RECHARGE'
+ETAPE_TRESOR = 'TRESOR'
+ETAPE_ILE = 'ILE'
+COULEUR_VERT = 'Vert'
+COULEUR_BLEU = 'Bleu'
+COULEUR_JAUNE = 'Jaune'
+COULEUR_ROUGE = 'Rouge'
+MAX_CENTRE_TRESOR = 500
+MIN_TRAJECTOIRE = 1
+
 
 class StationBase(Thread):
     def __init__(self, etape, numeroTable):
@@ -44,45 +62,45 @@ class StationBase(Thread):
         time.sleep(10)
 
     def choisirEtape(self, etape):
-        if etape == 'routine complete':
+        if etape == ETAPE_ROUTINE_COMPLETE:
             self.demarerRoutine()
             self.roundTerminee = True
-        elif etape == 'deplacement station':
-            self.deplacement('RECHARGE')
-        elif etape == 'alignement station':
-            self.aligner("alignement_station")
+        elif etape == ETAPE_DEPLACEMENT_STATION:
+            self.deplacement(ETAPE_RECHARGE)
+        elif etape == ETAPE_ALIGNEMENT_STATION:
+            self.aligner(ETAPE_ALIGNEMENT_STATION)
             self.trouverTresorEtCible()
             self.attendreRobot()
-        elif etape == 'deplacement tresor':
+        elif etape == ETAPE_DEPLACEMENT_TRESOR:
             self.trouverTresorEtCible()
             self.attendreRobot()
             self.attendreThreadCible()
-            self.deplacement('TRESOR')
+            self.deplacement(ETAPE_TRESOR)
             RequeteJSON("cameraTreasure", 0)
             self.threadCommunication.signalerEnvoyerCommande()
-        elif etape == 'alignement tresor':
-            self.aligner("alignement_tresor")
-        elif etape == 'deplacement ile':
+        elif etape == ETAPE_ALIGNEMENT_TRESOR:
+            self.aligner(ETAPE_ALIGNEMENT_TRESOR)
+        elif etape == ETAPE_DEPLACEMENT_ILE:
             self.carte.cible = Cible([self.carte])
-            self.deplacement('ILE')
-        elif etape == 'alignement ile':
+            self.deplacement(ETAPE_ILE)
+        elif etape == ETAPE_ALIGNEMENT_ILE:
             self.carte.cible = Cible([self.carte])
-            self.aligner("alignement_ile")
-        elif etape == 'decoder manchester':
+            self.aligner(ETAPE_ALIGNEMENT_ILE)
+        elif etape == ETAPE_MANCHESTER:
             self.decoderManchester()
 
     def demarerRoutine(self):
-        self.deplacement('RECHARGE')
-        self.aligner("alignement_station")
+        self.deplacement(ETAPE_RECHARGE)
+        self.aligner(ETAPE_ALIGNEMENT_STATION)
         self.trouverTresorEtCible()
         self.attendreRobot()
         self.attendreThreadCible()
         while not self.threadCommunication.tresorTrouve:
-            self.deplacement('TRESOR')
-            self.aligner("alignement_tresor")
+            self.deplacement(ETAPE_TRESOR)
+            self.aligner(ETAPE_ALIGNEMENT_TRESOR)
             time.sleep(0.01)
-        self.deplacement('ILE')
-        self.aligner("alignement_ile")
+        self.deplacement(ETAPE_ILE)
+        self.aligner(ETAPE_ALIGNEMENT_ILE)
         self.roundTerminee = True
 
     def deplacement(self, type):
@@ -91,7 +109,7 @@ class StationBase(Thread):
         print '--------------------------------------------------'
         destination = self.identifierDestination(type)
         self.trouverTrajectoirePrevu(destination, type)
-        while (self.trajectoireReel is not None) and (len(self.trajectoireReel) > 1):
+        while (self.trajectoireReel is not None) and (len(self.trajectoireReel) > MIN_TRAJECTOIRE):
             self.orienter('deplacement')
             self.deplacer()
         self.correctionsFinales(type)
@@ -102,26 +120,26 @@ class StationBase(Thread):
     def identifierDestination(self, etape):
         print '\nIndentifier destination'
         destination = None
-        if etape == 'RECHARGE':
+        if etape == ETAPE_RECHARGE:
             destination = self.carte.getStationRecharge().getCentre()
-        elif etape == 'TRESOR':
+        elif etape == ETAPE_TRESOR:
             destination = self.carte.cible.tresorChoisi.getCentre()
             print 'identifier destination tresor'
             print destination
-        elif etape == 'ILE':
+        elif etape == ETAPE_ILE:
             destination = self.carte.cible.ileChoisie.getCentre()
         if destination is None:
             print 'erreur! Aucune destination trouvee.'
         return destination
 
     def correctionsFinales(self, type):
-        if type == 'RECHARGE':
+        if type == ETAPE_RECHARGE:
             self.angleDesire = 90
             self.orienter(type)
             self.deplacementArriere(5)
             self.deplacementDroit(10)
-        elif type == 'TRESOR':
-            if self.carte.getCible().getTresorCible().getCentre()[1] < 500:
+        elif type == ETAPE_TRESOR:
+            if self.carte.getCible().getTresorCible().getCentre()[1] < MAX_CENTRE_TRESOR:
                 self.angleDesire = 90
                 self.carte.cible.conteur += 1
             else:
@@ -129,7 +147,7 @@ class StationBase(Thread):
                 self.carte.cible.conteur += 1
             self.orienter(type)
             self.deplacementArriere(7)
-        elif type == 'ILE':
+        elif type == ETAPE_ILE:
             arriver = self.carte.getCible().getIleCible().getCentre()
             debut = self.getPositionRobot()
             print 'arrive: ', arriver
@@ -148,14 +166,13 @@ class StationBase(Thread):
         int = 0
         if type == 'alignement_ile':
             couleur = self.carte.getCible().getIleCible().getCouleur()
-            #couleur = 'Bleu'
-            if couleur == 'Vert':
+            if couleur == COULEUR_VERT:
                 int = 0
-            elif couleur == 'Bleu':
+            elif couleur == COULEUR_BLEU:
                 int = 1
-            elif couleur == 'Jaune':
+            elif couleur == COULEUR_JAUNE:
                 int = 2
-            elif couleur == 'Rouge':
+            elif couleur == COULEUR_ROUGE:
                 int = 3
         RequeteJSON(type, int)
         self.threadCommunication.signalerEnvoyerCommande()

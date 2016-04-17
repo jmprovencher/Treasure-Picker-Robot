@@ -10,7 +10,7 @@ from stationbase.interface.RedirigeurTexte import RedirigeurTexte
 from timeit import default_timer
 import math
 
-# do stuff
+MAX_TEMPS = 10
 
 duration = default_timer()
 
@@ -40,7 +40,6 @@ class Interface(QtGui.QWidget):
             self.rechargerInfo(self.position, 'Position du robot : ' +
                                str(self.threadStationBase.getCarte().getRobot().getX()) + 'x ' +
                                str(self.threadStationBase.getCarte().getRobot().getY()) + 'y')
-        if self.threadStationBase.getCarte().getRobot() is not None:
             self.rechargerInfo(self.orientation, 'Orientation du robot : ' +
                                str(self.threadStationBase.getCarte().getRobot().getOrientation()) + '\xb0')
         self.rechargerInfo(self.tensionCondensateur, 'Tension condensateur : ' +
@@ -55,13 +54,13 @@ class Interface(QtGui.QWidget):
                 tempsTotal = self.infoTemps + default_timer() - self.threadStationBase.startTimer
                 secondeTotal = math.floor(tempsTotal - math.floor(tempsTotal/60)*60)
                 minuteTotal = math.floor(tempsTotal/60)
-                if secondeTotal < 10:
+                if secondeTotal < MAX_TEMPS:
                     stringSeconde = '0' + str(int(secondeTotal))
                 else:
                     stringSeconde = str(int(secondeTotal))
                 if minuteTotal == 0:
                     stringMinute = ' 0'
-                elif minuteTotal < 10:
+                elif minuteTotal < MAX_TEMPS:
                     stringMinute = ' ' + str(int(minuteTotal))
                 else:
                     stringMinute = str(minuteTotal)
@@ -132,8 +131,8 @@ class Interface(QtGui.QWidget):
         self.text.setPalette(pal)
         self.text.setTextColor(QtCore.Qt.white)
         self.text.insertPlainText('Black Pearl\n')
-        #sys.stdout = RedirigeurTexte(self.text, "stdout")
-        #sys.stderr = RedirigeurTexte(self.text, "stderr")
+        sys.stdout = RedirigeurTexte(self.text, "stdout")
+        sys.stderr = RedirigeurTexte(self.text, "stderr")
 
     def rechargerInfo(self, label, texte):
         label.setText(QString(texte))

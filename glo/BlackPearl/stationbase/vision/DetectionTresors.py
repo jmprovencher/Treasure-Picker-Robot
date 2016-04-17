@@ -3,6 +3,9 @@ import numpy as np
 from stationbase.vision.InfoTable import InfoTable
 from stationbase.vision.Detection import Detection
 from elements.Tresor import Tresor
+LIMITE_INF_TABLE_1_Y = 45
+LIMITE_SUP_TABLE_1_Y = 750
+LIMITE_SUP_TABLE_1_X = 1342
 
 
 class DetectionTresors(Detection):
@@ -52,7 +55,7 @@ class DetectionTresors(Detection):
         for i in range(len(self.tresorIdentifies)):
             x, y = self.tresorIdentifies[i].getCentre()
             if self.numeroTable == 1:
-                if (45 < y < 750) or (x > 1342):
+                if (LIMITE_INF_TABLE_1_Y < y < LIMITE_SUP_TABLE_1_Y) or (x > LIMITE_SUP_TABLE_1_X):
                     tresorsImpossible.append(i)
             elif self.numeroTable == 2:
                 if (45 < y < 810) or (x > 1350):

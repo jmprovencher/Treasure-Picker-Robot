@@ -5,6 +5,10 @@ from stationbase.vision.InfoTable import InfoTable
 from stationbase.vision.Detection import Detection
 from elements.Ile import Ile
 
+AIRE_MIN = 2000
+AIRE_MAX = 6000
+MAX_PRECISION = 0.1
+MIN_AIRE_TROU = 50
 
 class DetectionIles(Detection):
     def __init__(self, image, numeroTable):
@@ -38,9 +42,9 @@ class DetectionIles(Detection):
             else:
                 aireTrouContour = 0
                 
-            if (aireContour < 2000) or (aireContour > 6000):
+            if (aireContour < AIRE_MIN) or (aireContour > AIRE_MAX):
                 contoursNegligeables.append(i)
-            elif aireTrouContour > 50:
+            elif aireTrouContour > MIN_AIRE_TROU:
                 contoursNegligeables.append(i)
 
         if len(contoursIles) == len(contoursNegligeables):
@@ -60,7 +64,7 @@ class DetectionIles(Detection):
             meilleurMatch = min(resultatsMatch)
             precision, contour, nomForme = meilleurMatch
 
-            if precision < 0.1:
+            if precision < MAX_PRECISION:
                 centre = self.trouverCentre(contour)
                 self.ilesIdentifiees.append(Ile(centre, couleur, nomForme))
                 print couleur

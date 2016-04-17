@@ -1,26 +1,5 @@
 import serial
 import time
-
-COMMANDE_FORWARD = 'forward'
-COMMANDE_BACKWARD = 'backward'
-COMMANDE_LEFT = 'left'
-COMMANDE_RIGHT = 'right'
-COMMANDE_LEFT_P = 'leftP'
-COMMANDE_RIGHT_P = 'rightP'
-COMMANDE_PICKUP = 'pickup'
-COMMANDE_DROP = 'drop'
-COMMANDE_CHARGE_CONDENSATEUR = 'chargeCondensateur'
-COMMANDE_STOP_CONDENSATEUR = 'stopCondensateur'
-COMMANDE_ROTATE_CLOCKWISE = 'rotateClockwise'
-COMMANDE_ROTATE_ANTI_CLOCKWISE = 'rotateAntiClockwise'
-COMMANDE_CAMERA_RIGHT = 'cameraRight'
-COMMANDE_CAMERA_LEFT = 'cameraLeft'
-COMMANDE_CAMERA_FRONT = 'cameraFront'
-COMMANDE_CAMERA_TREASURE = 'cameraTreasure'
-COMMANDE_READ_MANCHESTER = 'readManchester'
-COMMANDE_CHECK_CAPACITY = 'checkCapacity'
-
-
 class UARTDriver:
     def __init__(self, comPort, baudRate):
         self.comPort = comPort
@@ -79,7 +58,6 @@ class UARTDriver:
         time.sleep(1)
 
     def postAlignementTresor(self):
-        time.sleep(1)
         self.sendCommand('backward', 6)
         time.sleep(2)
         self.monterPrehenseur()
@@ -90,7 +68,6 @@ class UARTDriver:
     def postAlignementStation(self):
         self.sendCommand('rotateAntiClockwise', 90)
         time.sleep(1)
-
 
     def postAlignementIle(self):
         self.activerAimant()
@@ -115,7 +92,6 @@ class UARTDriver:
 
     def lireManchester(self):
         self.sendCommand('readManchester', 0)
-        print("Commande readManchester envoyee au UART")
 
     def executionTerminee(self):
         for j in range(0, 6):
@@ -127,66 +103,66 @@ class UARTDriver:
     def sendCommand(self, command, parameter):
         parameter = chr(parameter)
 
-        if command == COMMANDE_FORWARD:
+        if command == 'forward':
             self.UART.write(b'8'.encode())
             self.UART.write(parameter)
 
-        elif command == COMMANDE_BACKWARD:
+        elif command == 'backward':
             self.UART.write(b'2'.encode())
             self.UART.write(str(parameter).encode())
 
-        elif command == COMMANDE_LEFT:
+        elif command == 'left':
             self.UART.write(b'4'.encode())
             self.UART.write(str(parameter).encode())
 
-        elif command == COMMANDE_RIGHT:
+        elif command == 'right':
             self.UART.write(b'6'.encode())
             self.UART.write(str(parameter).encode())
 
-        elif command == COMMANDE_LEFT_P:
+        elif command == 'leftP':
             self.UART.write(b'1'.encode())
             self.UART.write(str(parameter).encode())
 
-        elif command == COMMANDE_RIGHT_P:
+        elif command == 'rightP':
             self.UART.write(b'3'.encode())
             self.UART.write(str(parameter).encode())
 
-        elif command == COMMANDE_PICKUP:
+        elif command == 'pickup':
             self.UART.write(b'g'.encode())
 
-        elif command == COMMANDE_DROP:
+        elif command == 'drop':
             self.UART.write(b'h'.encode())
 
-        elif command == COMMANDE_CHARGE_CONDENSATEUR:
+        elif command == 'chargeCondensateur':
             self.UART.write(b'e'.encode())
 
-        elif command == COMMANDE_STOP_CONDENSATEUR:
+        elif command == 'stopCondensateur':
             self.UART.write(b'f'.encode())
 
-        elif command == COMMANDE_ROTATE_CLOCKWISE:
+        elif command == 'rotateClockwise':
             self.UART.write(b'9'.encode())
             self.UART.write(parameter)
 
-        elif command == COMMANDE_ROTATE_ANTI_CLOCKWISE:
+        elif command == 'rotateAntiClockwise':
             self.UART.write(b'7'.encode())
             self.UART.write(parameter)
 
-        elif command == COMMANDE_CAMERA_RIGHT:
+        elif command == 'cameraRight':
             self.UART.write(b'a'.encode())
 
-        elif command == COMMANDE_CAMERA_LEFT:
+        elif command == 'cameraLeft':
             self.UART.write(b'b'.encode())
 
-        elif command == COMMANDE_CAMERA_FRONT:
+        elif command == 'cameraFront':
             self.UART.write(b'c'.encode())
 
-        elif command == COMMANDE_CAMERA_TREASURE:
+        elif command == 'cameraTreasure':
             self.UART.write(b'd'.encode())
 
-        elif command == COMMANDE_READ_MANCHESTER:
+        elif command == 'readManchester':
             self.UART.write(b'z'.encode())
 
-        elif command == COMMANDE_CHECK_CAPACITY:
+        elif command == 'checkCapacity':
             self.UART.write(b'k'.encode())
 
         return 1

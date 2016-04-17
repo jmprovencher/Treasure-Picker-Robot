@@ -1,15 +1,5 @@
 from robot.communication.islandServerRequest import islandServerRequest
 
-REPONSE_RECTANGLE = "rectangle"
-REPONSE_PENTAGONE = "pentagone"
-REPONSE_CERCLE = "cercle"
-REPONSE_TRIANGLE = "triangle"
-REPONSE_COULEUR = "couleur"
-REPONSE_ROUGE = "rouge"
-REPONSE_BLEU = "bleu"
-REPONSE_VERT = "vert"
-REPONSE_JAUNE = "jaune"
-
 
 class RobotService:
     def __init__(self):
@@ -18,36 +8,33 @@ class RobotService:
 
     def obtenirCible(self, lettre):
         indice = self._effectuerRequeteServeur(lettre)
-        print("INDICE OBTENU: %s" %indice)
         cible = self.determinerCible(indice)
         return cible
 
     def determinerCible(self, reponse):
         if "forme" in reponse:
-            if REPONSE_RECTANGLE in reponse:
+            if "rectangle" in reponse:
                 self.indiceObtenu = "carre"
-            elif REPONSE_PENTAGONE in reponse:
-                self.indiceObtenu = REPONSE_PENTAGONE
-            elif REPONSE_CERCLE in reponse:
-                self.indiceObtenu = REPONSE_CERCLE
-            elif REPONSE_TRIANGLE in reponse:
-                self.indiceObtenu = REPONSE_TRIANGLE
+            elif "pentagone" in reponse:
+                self.indiceObtenu = "pentagone"
+            elif "cercle" in reponse:
+                self.indiceObtenu = "cercle"
+            elif "triangle" in reponse:
+                self.indiceObtenu = "triangle"
             else:
                 print("Aucune cible determinee")
-            print reponse
 
-        elif REPONSE_COULEUR in reponse:
-            if REPONSE_ROUGE in reponse:
-                self.indiceObtenu = REPONSE_ROUGE
-            elif REPONSE_BLEU in reponse:
-                self.indiceObtenu = REPONSE_BLEU
-            elif REPONSE_VERT in reponse:
-                self.indiceObtenu = REPONSE_VERT
-            elif REPONSE_JAUNE in reponse:
-                self.indiceObtenu = REPONSE_JAUNE
+        elif "couleur" in reponse:
+            if "rouge" in reponse:
+                self.indiceObtenu = "rouge"
+            elif "bleu" in reponse:
+                self.indiceObtenu = "bleu"
+            elif "vert" in reponse:
+                self.indiceObtenu = "vert"
+            elif "jaune" in reponse:
+                self.indiceObtenu = "jaune"
             else:
                 print("Aucune cible determinee")
-            print reponse
         else:
             print("Erreur reponse du serveur")
         return self.indiceObtenu

@@ -21,14 +21,11 @@ class RobotClient(Thread):
         while not self.demarrageTermine:
             time.sleep(0.5)
             print("Attends demarrage...")
-        print("Demarrage est terminee, envoie pret a station")
         self.envoyerPretAStation()
         data = self.attendreCommande()
         self.traiterCommande(data)
         while 1:
             if self.robot.pretEnvoyerLettre:
-                print("Envoie de la lettre...")
-                print("Indice obtenu: %s" % self.robot.indiceObtenu)
                 self.envoyerLettre()
                 time.sleep(2)
                 self.envoyerIndice()

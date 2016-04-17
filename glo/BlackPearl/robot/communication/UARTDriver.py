@@ -58,9 +58,6 @@ class UARTDriver:
         time.sleep(1)
 
     def postAlignementTresor(self):
-        time.sleep(1)
-        #self.sendCommand('backward', 1)
-        #time.sleep(1)
         self.sendCommand('backward', 6)
         time.sleep(2)
         self.monterPrehenseur()
@@ -71,7 +68,6 @@ class UARTDriver:
     def postAlignementStation(self):
         self.sendCommand('rotateAntiClockwise', 90)
         time.sleep(1)
-
 
     def postAlignementIle(self):
         self.activerAimant()
@@ -96,7 +92,6 @@ class UARTDriver:
 
     def lireManchester(self):
         self.sendCommand('readManchester', 0)
-        print("Commande readManchester envoyee au UART")
 
     def executionTerminee(self):
         for j in range(0, 6):

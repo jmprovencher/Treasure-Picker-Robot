@@ -8,13 +8,10 @@ class DetectionIle(object):
     def __init__(self):
         self.alignementIle = AlignementIle()
         self.alignementTerminer = False
-        self.ajustements = []
-
         self.positionZone = (810, 850)
         self.rayonZone = 100
-
+        self.ajustements = None
         self._definirIntervallesCouleurs()
-        #self._dessinerZoneCible()
 
     def detecterIle(self, couleurIleCible, image):
         self.imageCamera = image
@@ -27,7 +24,6 @@ class DetectionIle(object):
             self.ajustements = self.alignementIle.calculerAjustement(distance_x, distance_y)
         else:
             self.ajustements = None
-
 
     def _detecterCouleur(self, couleur):
         if (self.couleurIle == "vert"):
@@ -50,15 +46,12 @@ class DetectionIle(object):
     def detecterFormeCouleur(self, intervalleCouleur):
         intervalleFonce, intervalleClair, couleurForme = intervalleCouleur
         masqueCouleur = cv2.inRange(self.imageCamera, intervalleFonce, intervalleClair)
-        #cv2.imshow("IMage", masqueCouleur)
-        #cv2.waitKey(0)
 
         _, contoursCouleur, _ = cv2.findContours(masqueCouleur.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contoursNegligeable = []
 
         for contours in range(len(contoursCouleur)):
             aire = cv2.contourArea(contoursCouleur[contours])
-            print("Aire ile: ", aire)
             if ((aire < 30000) or (aire > 180000)):
                 contoursNegligeable.append(contours)
 

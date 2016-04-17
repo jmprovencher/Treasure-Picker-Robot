@@ -9,7 +9,6 @@ class RobotService:
 
     def obtenirCible(self, lettre):
         indice = self._effectuerRequeteServeur(lettre)
-        print("INDICE OBTENU: %s" %indice)
         cible = self.determinerCible(indice)
         return cible
 
@@ -25,7 +24,6 @@ class RobotService:
                 self.indiceObtenu = "triangle"
             else:
                 print("Aucune cible determinee")
-            print reponse
 
         elif "couleur" in reponse:
             if "rouge" in reponse:
@@ -38,7 +36,6 @@ class RobotService:
                 self.indiceObtenu = "jaune"
             else:
                 print("Aucune cible determinee")
-            print reponse
         else:
             print("Erreur reponse du serveur")
         return self.indiceObtenu

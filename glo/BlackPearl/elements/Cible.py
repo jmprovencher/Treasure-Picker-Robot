@@ -101,7 +101,7 @@ class Cible:
             deltaYPix = abs(yTresor - yIle)
             deltaX = self.carte.getTrajectoire().depPixelXACentimetre(deltaXPix)
             deltaY = self.carte.getTrajectoire().depPixelYACentimetre(deltaYPix)
-            if deltaY < 30 and deltaX < 60:
+            if deltaY < MAX_DELTA_Y and deltaX < MAX_DELTA_X:
                 accepte = False
                 break
 

@@ -45,7 +45,7 @@ class AlgorithmeTrajectoire:
                 self.cellulePlusPres = cellule
             elif self.distanceArriverCarre(cellule) < self.distanceArriverCarre(self.cellulePlusPres):
                 self.cellulePlusPres = cellule
-                if type == 'ILE' and self.distanceArriverCarre(cellule) < MAX_AIRE_ARRIVEE:
+                if type == TYPE_ILE and self.distanceArriverCarre(cellule) < MAX_AIRE_ARRIVEE:
                     break
 
             cellulesAdjacentes = self.grilleCellule.getCelluleAdjacentes(cellule)

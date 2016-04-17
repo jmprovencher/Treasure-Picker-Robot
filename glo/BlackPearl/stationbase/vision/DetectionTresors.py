@@ -18,7 +18,8 @@ LIMITE_SUP_TABLE_5_X = 1350
 LIMITE_INF_TABLE_6_Y = 100
 LIMITE_SUP_TABLE_6_Y = 75
 LIMITE_SUP_TABLE_6_X = 1345
-
+MIN_AIRE_TRESOR = 30
+MAX_AIRE_TRESOR = 300
 
 class DetectionTresors(Detection):
     def __init__(self, image, numeroTable):
@@ -45,7 +46,7 @@ class DetectionTresors(Detection):
 
         for i in range(len(contoursTresors)):
             aire = cv2.contourArea(contoursTresors[i])
-            if aire < 30 or aire > 300:
+            if aire < MIN_AIRE_TRESOR or aire > MAX_AIRE_TRESOR:
                 contoursNegligeables.append(i)
 
         if len(contoursTresors) == len(contoursNegligeables):
@@ -79,7 +80,7 @@ class DetectionTresors(Detection):
                 if (LIMITE_INF_TABLE_5_Y < y < LIMITE_SUP_TABLE_5_Y) or (x > LIMITE_SUP_TABLE_5_X):
                     tresorsImpossible.append(i)
             elif self.numeroTable == 6:
-                if (100 < y < 750) or (x > 1345):
+                if (LIMITE_INF_TABLE_6_Y < y < LIMITE_SUP_TABLE_6_Y) or (x > LIMITE_SUP_TABLE_6_X):
                     tresorsImpossible.append(i)
 
         if len(self.tresorIdentifies) == len(tresorsImpossible):

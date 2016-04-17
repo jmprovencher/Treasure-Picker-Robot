@@ -17,7 +17,7 @@ class TestAnalyseImageEmbarquee(TestCase):
     def test_parametre_couleur_demarre_analyse_depot(self):
         self.analyseImage = AnalyseImageEmbarquee(self.robot)
         self.analyseImage.evaluerPositionDepot = MagicMock()
-        self.analyseImage.debuterAlignement(3)
+        self.analyseImage.debuterAlignement('rouge')
         self.assertTrue(self.analyseImage.evaluerPositionDepot.called)
 
     def test_parametre_station_demarre_analyse_station(self):
@@ -25,4 +25,3 @@ class TestAnalyseImageEmbarquee(TestCase):
         self.analyseImage.evaluerPositionStation = MagicMock()
         self.analyseImage.debuterAlignement('station')
         self.assertTrue(self.analyseImage.evaluerPositionStation.called)
-

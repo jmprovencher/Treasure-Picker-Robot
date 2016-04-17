@@ -2,6 +2,9 @@ import copy
 from elements.Tresor import Tresor
 import time
 
+MAX_DELTA_Y = 45
+MAX_DELTA_X = 30
+
 
 class Cible:
     def __init__(self, args):
@@ -68,7 +71,7 @@ class Cible:
                 deltaYPix = abs(yTresor - yIle)
                 deltaX = self.carte.getTrajectoire().depPixelXACentimetre(deltaXPix)
                 deltaY = self.carte.getTrajectoire().depPixelYACentimetre(deltaYPix)
-                if deltaY < 45 and deltaX < 30:
+                if MAX_DELTA_Y < 45 and MAX_DELTA_X < 30:
                     print 'tresor normal accepter'
                     accepte = False
                     break
@@ -108,9 +111,6 @@ class Cible:
         return self.ileChoisie
 
     def getTresorCible(self):
-        #print self.conteur
-        #print self.possibilite[self.conteur].getCentre()[0]
-        #print self.possibilite[self.conteur].getCentre()[1]
         return self.tresorChoisi
 
     def getIndice(self):

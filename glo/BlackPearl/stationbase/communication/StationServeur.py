@@ -3,6 +3,14 @@ import time
 from stationbase.communication.TCPServer import TCPServer
 from elements.Cible import Cible
 
+COMMANDE_TENSION = "tension"
+COMMANDE_ROBOT_PRET = "robotPret"
+COMMANDE_INDICE = "indice "
+COMMANDE_MAN = "man "
+COMMANDE_TERMINE = "termine"
+COMMANDE_PRESENT = 'present'
+COMMANDE_ABSENT = 'absent'
+
 
 class StationServeur(Thread):
     def __init__(self, stationBase):
@@ -54,32 +62,31 @@ class StationServeur(Thread):
                 self.monServeur = TCPServer()
                 self.monServeur.connection = self.monServeur.establishConnection()
                 print 'connection retablite.'
-
         return data
 
     def traiterInfoRobot(self, data):
         commande = data['commande']
         parametre = data['parametre']
-        if commande == "tension":
+        if commande == COMMANDE_TENSION:
             self.stationBase.setTensionCondensateur(parametre)
             print "Tension: %s" % parametre
-        elif commande == "robotPret":
+        elif commande == COMMANDE_ROBOT_PRET:
             self.robotEstPret = True
             print "Le robot est pret."
-        elif commande.startswith("indice "):
+        elif commande.startswith(COMMANDE_INDICE):
             indice = commande[7:]
             print ("L'indice: %s" % indice)
             self.stationBase.carte.setCible(Cible([self.stationBase.carte, indice]))
-        elif commande.startswith("man "):
+        elif commande.startswith(COMMANDE_MAN):
             self.stationBase.manchester = commande[-1]
             print ("Code manchester: %s" % self.stationBase.getManchester())
-        elif commande == "termine":
+        elif commande == COMMANDE_TERMINE:
             print 'Commande termine.'
             self.attenteDuRobot = False
-        elif commande == 'present':
+        elif commande == COMMANDE_PRESENT:
             self.tresorTrouve = True
             self.attenteDuRobot = False
-        elif commande == 'absent':
+        elif commande == COMMANDE_ABSENT:
             self.attenteDuRobot = False
 
     def attendreWakeUpRobot(self):
@@ -87,7 +94,7 @@ class StationServeur(Thread):
             try:
                 data = self.monServeur.receiveFile()
                 commande = data['commande']
-                if commande == "robotPret":
+                if commande == COMMANDE_ROBOT_PRET:
                     self.robotEstPret = True
                     break
             except Exception as e:

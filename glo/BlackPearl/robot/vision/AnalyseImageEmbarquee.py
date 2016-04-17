@@ -3,6 +3,7 @@ import ConfigPath
 from robot.vision.DetectionIle import DetectionIle
 from robot.vision.DetectionStation import DetectionStation
 from robot.vision.DetectionTresor import DetectionTresor
+from robot.vision.DetectionOrientation import DetectionOrientation
 from threading import Thread
 import time
 
@@ -12,6 +13,7 @@ PARAMETRE_JAUNE = 2
 PARAMETRE_ROUGE = 3
 PARAMETRE_TRESOR = 'tresor'
 PARAMETRE_STATION = 'station'
+PARAMETRE_STATION_FINAL = 'station_final'
 PARAMETRE_ORIENTATION = 'orientation'
 
 
@@ -35,6 +37,7 @@ class AnalyseImageEmbarquee(Thread):
             self.debuterAlignement(self.parametre)
             time.sleep(1)
         if (self.ajustements is not None):
+            print("Ajout ajustement")
             self._soumettreAjustements()
 
     def debuterAlignement(self, parametre):
@@ -50,20 +53,32 @@ class AnalyseImageEmbarquee(Thread):
             self.evaluerPositionTresor()
         elif (parametre == PARAMETRE_STATION):
             self.evaluerPositionStation()
+        elif (parametre == PARAMETRE_STATION_FINAL):
+            self.evaluerPositionStationFinal()
         elif (parametre == PARAMETRE_ORIENTATION):
             self.evaluerOrientation()
         else:
             print("CRITICAL ERROR")
 
+    def evaluerOrientation(self):
+        self.detectionOrientation = DetectionOrientation(self.imageCamera)
+        self.detectionOrientation.calculerAjustementOrientation()
+        self.ajustements = self.detectionOrientation.ajustements
+
+        if (self.ajustements != []):
+            print("Ajustement calculer, analyse termine")
+            self.ajustementsCalcules = True
+
     def evaluerPositionTresor(self):
         self.detectionTresor = DetectionTresor(self.imageCamera)
         self.detectionTresor.calculerAjustements()
         self.ajustements = self.detectionTresor.ajustements
+        print("Nombre ajustement tresor: %d" % len(self.ajustements))
 
         if (self.ajustements is not None):
+            print("Ajustement calculer, analyse termine")
             self.robot.tresorCapturer = True
         self.ajustementsCalcules = True
-
 
     def evaluerPositionStation(self):
         self.detectionStation = DetectionStation()
@@ -72,6 +87,18 @@ class AnalyseImageEmbarquee(Thread):
 
         if (self.ajustements is not None):
             self.ajustementsCalcules = True
+        else:
+            print("FUCKED UP")
+
+    def evaluerPositionStationFinal(self):
+        self.detectionStation = DetectionStation()
+        self.detectionStation.trouverAjustementsFinaux(self.imageCamera)
+        self.ajustements = self.detectionStation.ajustements
+
+        if (self.ajustements is not None):
+            self.ajustementsCalcules = True
+        else:
+            print("FUCKED UP")
 
     def evaluerPositionDepot(self, couleurIleCible):
         self.detectionIle = DetectionIle()
@@ -80,11 +107,16 @@ class AnalyseImageEmbarquee(Thread):
 
         if (self.ajustements is not None):
             self.ajustementsCalcules = True
+        else:
+            print("FUCKED UP")
 
     def _soumettreAjustements(self):
         for instructions in self.ajustements:
             self.robot.ajouterDirectives(instructions)
 
+    def _afficherFeed(self):
+        cv2.imshow("Analyse", self.imageCamera)
+        cv2.waitKey(0)
 
     def _chargerImage(self):
         self.imageCamera = self.robot.threadVideo.getImageCapture()
@@ -93,7 +125,7 @@ class AnalyseImageEmbarquee(Thread):
     def _attendreFeedVideo(self):
         while self.robot.threadVideo.getImageCapture() is None:
             time.sleep(0.5)
-            print("En attente de la camera")
+            print("Problem here....")
 
     def _estomperImage(self):
         blur = cv2.GaussianBlur(self.imageCamera, (5, 5), 0)

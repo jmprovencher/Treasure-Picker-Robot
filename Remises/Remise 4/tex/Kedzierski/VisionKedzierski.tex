@@ -43,10 +43,15 @@ Un exemple de l'analyse effectuée par le système lors de la phase d'alignement a
 
 
 \subsection{Recharge du condensateur}
-La phase d'alignement avec la station de recharge est une étape cruciale dans le déroulement de la routine. En effet, un mauvais alignement aura comme conséquence un plus long temps de recharge ou aucune recharge dans le pire des cas. Il est donc indispensable que le robot soit parfaitement aligné avec la station de recharge afin que la recharge à induction soit optimale. 
+La phase d'alignement avec la station de recharge est une étape cruciale dans le déroulement de la routine. En effet, un mauvais alignement aura comme conséquence un plus long temps de recharge ou aucune recharge dans le pire des cas. Il est donc indispensable que le robot soit parfaitement aligné avec la station de recharge afin que la recharge à induction soit optimale. Nous avons choisis de placer au dessus de la station de recharge un carré bleu avec un plus petit carré orange à l'intérieur (voir figure \ref{f:alignement_station}). 
+\begin{figure}[htp]
+   \centering
+   \includegraphics[width=0.4\textwidth]{fig/stationrecharge.png}
+   \caption{Image au dessus de la station de recharge}
+   \label{f:alignement_station}
+\end{figure}
 \medbreak
-Lorsque le robot est mené à la station de recharge à l'aide de la station de base, celle-ci enverra une commande d'alignement au robot. La caméra se positionne face à la station de recharge et analyse la position d'une forme cible, qui se trouve au dessus de la bobine d'induction. Suite à l'analyse de l'image, l'aire de cette forme est comparée à une aire de référence établie à une distance connue, la distance entre le robot et la station de base est calculée. Un ajustement latéral est aussi calculé selon la position du centre de la forme cible. 
+Lorsque le robot est mené à la station de recharge à l'aide de la station de base, celle-ci enverra une commande d'alignement au robot. La caméra se positionne face à la station de recharge. Une photo est prise et est filtrée avec un masque de couleur bleu. Le robot analyse par la suite la position du carré bleu (en éléminant les contours ayant une aire trops grande ou trop petite), qui se trouve au dessus de la bobine d'induction. Suite à l'analyse de l'image, l'aire de cette forme est comparée à une aire de référence établie à une distance connue, la distance entre le robot et la station de base est calculée. Un ajustement latéral est aussi calculé selon la position du centre de la forme cible. L'ajustement latéral est donc effectué suivis de l'ajustement en ligne droite. Par contre, on soustrait quelque centimètre au dernier ajustement. Ceci nous permet de prendre une nouvelle photo très près de la station de recharge. On refait donc les même étapde, mais avec un filtre de couleur orange pour détecter le carré orange. Les alignements calculé par ce dernier sera donc l'alignement final.  
 \medbreak
-Précédant l'exécution des ajustements, la charge du condensateur est activée. La tension du condensateur est monitorée tout au long de la recharge, car dès que celle-ci dépasse 4.7V, on désactive la charge du condensateur et le robot se sépare par la suite du la station de recharge.
-\medbreak
-\textit{Suite à une modification de la station de recharge, l'implémentation du traitement visuel n'est que partiellement codé. Toutefois, les méthodes expliquées seront celles utilisées dans l'implémentation.}
+Précédant l'exécution des ajustements, la charge du condensateur est activée. La tension du condensateur est monitorée tout au long de la recharge, car dès que celle-ci dépasse 4.7V, on désactive la charge du condensateur et le robot se sépare par la suite du la station de recharge en reculant de quelque centimètre.
+

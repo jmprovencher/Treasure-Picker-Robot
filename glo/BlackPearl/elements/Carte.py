@@ -10,7 +10,6 @@ class Carte:
         self.listeIles = []
         self.listeTresors = []
         self.robot = None
-        #self.cible = Cible([self])
         self.cible = None
         self.stationRecharge = StationRecharge()
         self.trajectoire = Trajectoire()

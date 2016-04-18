@@ -103,7 +103,7 @@ class Interface(QtGui.QWidget):
         self.btnTable3 = self.afficherInitBouttons(240, 10, 100, 27, 'Table 3', self.setTable3)
         self.btnTable5 = self.afficherInitBouttons(340, 10, 100, 27, 'Table 5', self.setTable5)
         self.btnTable6 = self.afficherInitBouttons(440, 10, 100, 27, 'Table 6', self.setTable6)
-        self.btnDemarer = self.afficherInitBouttons(40, 40, 200, 27, 'Debuter', self.demarerRoutineComplete)
+        self.btnDemarer = self.afficherInitBouttons(40, 40, 200, 27, 'Debuter', self.demarerRoutine)
 
     def initTextBox(self):
         self.text = QtGui.QTextEdit(self)
@@ -175,11 +175,8 @@ class Interface(QtGui.QWidget):
         self.numeroTable = 6
         print('Vous avez choisi la Table ' + str(self.numeroTable))
 
-    def demarerRoutineComplete(self):
-        self.demarerRoutine('routine complete')
-
-    def demarerRoutine(self, string):
-        self.threadStationBase = StationBase(string, self.numeroTable)
+    def demarerRoutine(self):
+        self.threadStationBase = StationBase(self.numeroTable)
         self.threadStationBase.start()
         self.infoTempsIndice = False
         self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)

@@ -13,7 +13,6 @@ from timeit import default_timer
 from stationbase.vision.TrouverTresorEtCible import TrouverTresorEtCible
 from elements.Cible import Cible
 
-ETAPE_ROUTINE_COMPLETE = 'routine complete'
 ETAPE_DEPLACEMENT_STATION = 'deplacement station'
 ETAPE_ALIGNEMENT_STATION = 'alignement station'
 ETAPE_DEPLACEMENT_TRESOR = 'deplacement tresor'
@@ -33,11 +32,10 @@ MIN_TRAJECTOIRE = 1
 
 
 class StationBase(Thread):
-    def __init__(self, etape, numeroTable):
+    def __init__(self, numeroTable):
         Thread.__init__(self)
         self.startTimer = default_timer()
         self.numeroTable = numeroTable
-        self.etape = etape
         self.trajectoireReel = None
         self.trajectoirePrevue = None
         self.angleDesire = None
@@ -58,36 +56,8 @@ class StationBase(Thread):
         self.attendreFinDeDetectionPrimaire()
         self.initialisationTrajectoire()
         self.attendreRobotPret()
-        self.choisirEtape(self.etape)
+        self.demarerRoutine()
         time.sleep(10)
-
-    def choisirEtape(self, etape):
-        if etape == ETAPE_ROUTINE_COMPLETE:
-            self.demarerRoutine()
-            self.roundTerminee = True
-        elif etape == ETAPE_DEPLACEMENT_STATION:
-            self.deplacement(ETAPE_RECHARGE)
-        elif etape == ETAPE_ALIGNEMENT_STATION:
-            self.aligner(ETAPE_ALIGNEMENT_STATION)
-            self.trouverTresorEtCible()
-            self.attendreRobot()
-        elif etape == ETAPE_DEPLACEMENT_TRESOR:
-            self.trouverTresorEtCible()
-            self.attendreRobot()
-            self.attendreThreadCible()
-            self.deplacement(ETAPE_TRESOR)
-            RequeteJSON("cameraTreasure", 0)
-            self.threadCommunication.signalerEnvoyerCommande()
-        elif etape == ETAPE_ALIGNEMENT_TRESOR:
-            self.aligner(ETAPE_ALIGNEMENT_TRESOR)
-        elif etape == ETAPE_DEPLACEMENT_ILE:
-            self.carte.cible = Cible([self.carte])
-            self.deplacement(ETAPE_ILE)
-        elif etape == ETAPE_ALIGNEMENT_ILE:
-            self.carte.cible = Cible([self.carte])
-            self.aligner(ETAPE_ALIGNEMENT_ILE)
-        elif etape == ETAPE_MANCHESTER:
-            self.decoderManchester()
 
     def demarerRoutine(self):
         self.deplacement(ETAPE_RECHARGE)
@@ -164,7 +134,7 @@ class StationBase(Thread):
         print 'Debuter l''alignement.'
         print '--------------------------------------------------'
         int = 0
-        if type == 'alignement_ile':
+        if type == ETAPE_ALIGNEMENT_ILE:
             couleur = self.carte.getCible().getIleCible().getCouleur()
             if couleur == COULEUR_VERT:
                 int = 0
@@ -176,7 +146,7 @@ class StationBase(Thread):
                 int = 3
         RequeteJSON(type, int)
         self.threadCommunication.signalerEnvoyerCommande()
-        if not type == 'alignement_station':
+        if not type == ETAPE_ALIGNEMENT_STATION:
             self.attendreRobot()
         print '\n--------------------------------------------------'
         print 'Allignement termine.'

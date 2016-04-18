@@ -104,13 +104,6 @@ class Interface(QtGui.QWidget):
         self.btnTable5 = self.afficherInitBouttons(340, 10, 100, 27, 'Table 5', self.setTable5)
         self.btnTable6 = self.afficherInitBouttons(440, 10, 100, 27, 'Table 6', self.setTable6)
         self.btnDemarer = self.afficherInitBouttons(40, 40, 200, 27, 'Debuter', self.demarerRoutineComplete)
-        self.btnDepStation = self.afficherInitBouttons(40, 70, 200, 27, 'Deplacement station', self.demarerDepStation)
-        self.btnAliStation = self.afficherInitBouttons(40, 100, 200, 27, 'Alignement station', self.demarerAlignementStation)
-        self.btnDepTresor = self.afficherInitBouttons(40, 130, 200, 27, 'Deplacement tresor', self.demarerDepTresor)
-        self.btnAliTresor = self.afficherInitBouttons(40, 160, 200, 27, 'Alignement tresor', self.demarerAlignementTresor)
-        self.btnDepIle = self.afficherInitBouttons(40, 190, 200, 27, 'Deplacement ile', self.demarerDepIle)
-        self.btnAliIle = self.afficherInitBouttons(40, 220, 200, 27, 'Alignement ile', self.demarerAlignementIle)
-        self.btnDecode = self.afficherInitBouttons(40, 250, 200, 27, 'Decoder manchester', self.decoderManchester)
 
     def initTextBox(self):
         self.text = QtGui.QTextEdit(self)
@@ -185,29 +178,8 @@ class Interface(QtGui.QWidget):
     def demarerRoutineComplete(self):
         self.demarerRoutine('routine complete')
 
-    def demarerDepStation(self):
-        self.demarerRoutine('deplacement station')
-
-    def demarerAlignementStation(self):
-        self.demarerRoutine('alignement station')
-
-    def demarerDepTresor(self):
-        self.demarerRoutine('deplacement tresor')
-
-    def demarerAlignementTresor(self):
-        self.demarerRoutine('alignement tresor')
-
-    def demarerDepIle(self):
-        self.demarerRoutine('deplacement ile')
-
-    def demarerAlignementIle(self):
-        self.demarerRoutine('alignement ile')
-
     def demarerRoutine(self, string):
         self.threadStationBase = StationBase(string, self.numeroTable)
         self.threadStationBase.start()
         self.infoTempsIndice = False
         self.connect(self.threadAfficherImageVirtuelle, QtCore.SIGNAL("update()"), self.update_gui)
-
-    def decoderManchester(self):
-        self.demarerRoutine('decoder manchester')

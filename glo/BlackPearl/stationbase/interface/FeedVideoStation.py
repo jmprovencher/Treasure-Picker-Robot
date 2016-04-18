@@ -1,8 +1,6 @@
 from threading import Thread
 import cv2
 
-RANGE_CAMERA_BAS = 1
-RANGE_CAMERA_HAUT = 10
 
 class FeedVideoStation(Thread):
     def __init__(self):
@@ -16,7 +14,7 @@ class FeedVideoStation(Thread):
             success, self.captureTable = self.video.read()
 
     def initVideo(self):
-        for camera_index in range(RANGE_CAMERA_BAS, RANGE_CAMERA_HAUT):
+        for camera_index in range(1, 10):
             try:
                 self.video = cv2.VideoCapture(camera_index)
                 self.video.set(3, 1600)

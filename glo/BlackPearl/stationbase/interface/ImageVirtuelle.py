@@ -3,6 +3,7 @@ import time
 import cv2
 import copy
 
+
 class ImageVirtuelle(Thread):
     def __init__(self, stationBase):
         Thread.__init__(self)

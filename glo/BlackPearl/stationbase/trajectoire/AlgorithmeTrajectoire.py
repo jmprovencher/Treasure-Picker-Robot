@@ -34,7 +34,7 @@ class AlgorithmeTrajectoire:
         self.setDepart(depart2)
         self.setArriver(arriver)
         heapq.heappush(self.heapOuvert, (self.depart.priorite, self.depart))
-        self.monceauOuvert()
+        self.AStarAlgo()
         self.arriver = self.cellulePlusPres
         print 'arrivee:', self.arriver.x, self.arriver.y
         if self.grilleCellule.rayonBuffer < MAX_RAYON_BUFFER:
@@ -50,7 +50,7 @@ class AlgorithmeTrajectoire:
             self.sectionnerTrajet()
         return self.trajet
 
-    def monceauOuvert(self):
+    def AStarAlgo(self):
         while len(self.heapOuvert):
             f, cellule = heapq.heappop(self.heapOuvert)
             self.fermer.add(cellule)
@@ -239,8 +239,10 @@ class AlgorithmeTrajectoire:
             penteInit = deltaY/deltaX
             penteInverse = -1/penteInit
             teta = math.atan(penteInverse)
-            pointFinal1 = (MilieuX + self.grilleCellule.depCentimetreXAPixel((facteur*math.cos(teta))), MilieuY + self.grilleCellule.depCentimetreYAPixel((facteur*math.sin(teta))))
-            pointFinal2 = (MilieuX - self.grilleCellule.depCentimetreXAPixel((facteur*math.cos(teta))), MilieuY - self.grilleCellule.depCentimetreYAPixel((facteur*math.sin(teta))))
+            pointFinal1 = (MilieuX + self.grilleCellule.depCentimetreXAPixel((facteur*math.cos(teta))), MilieuY +
+                           self.grilleCellule.depCentimetreYAPixel((facteur*math.sin(teta))))
+            pointFinal2 = (MilieuX - self.grilleCellule.depCentimetreXAPixel((facteur*math.cos(teta))), MilieuY -
+                           self.grilleCellule.depCentimetreYAPixel((facteur*math.sin(teta))))
         return pointFinal1, pointFinal2
 
     def trouverDebutBuffer(self, depart):

@@ -10,6 +10,7 @@ MAX_POINT_SUP = 30
 MAX_RAYON_BUFFER = 18
 MAX_AU_CARRE_ARRIVEE = 961
 MAX_TRAJET = 2500
+MAX_POINT_LOIN = 35
 
 class AlgorithmeTrajectoire:
     def __init__(self, grilleCellule):
@@ -33,7 +34,23 @@ class AlgorithmeTrajectoire:
         self.setDepart(depart2)
         self.setArriver(arriver)
         heapq.heappush(self.heapOuvert, (self.depart.priorite, self.depart))
+        self.monceauOuvert()
+        self.arriver = self.cellulePlusPres
+        print 'arrivee:', self.arriver.x, self.arriver.y
+        if self.grilleCellule.rayonBuffer < MAX_RAYON_BUFFER:
+            return [(-1, -1)]
+        while self.grilleCellule.distanceAuCarre(self.arriver.x, self.arriver.y, arriver[0], arriver[1]) >= MAX_POINT_LOIN**2:
+            self.grilleCellule.rayonBuffer -= 1
+            self.grilleCellule.initGrilleCellule(self.grilleCellule.listeIles)
+            self.trajet = self.trouverTrajet(depart, arriver, type)
+        if self.trajet is not None:
+            self.simplifierTrajet()
+            self.ajouterSecurite(type)
+            self.enleverPointIdentique()
+            self.sectionnerTrajet()
+        return self.trajet
 
+    def monceauOuvert(self):
         while len(self.heapOuvert):
             f, cellule = heapq.heappop(self.heapOuvert)
             self.fermer.add(cellule)
@@ -57,31 +74,6 @@ class AlgorithmeTrajectoire:
                     else:
                         self.rafraichirCellule(adj, cellule)
                         heapq.heappush(self.heapOuvert, (adj.priorite, adj))
-
-        self.arriver = self.cellulePlusPres
-        print 'arrivee:', self.arriver.x, self.arriver.y
-        if type == TYPE_ILE:
-            tropLoin = 35
-        else:
-            tropLoin = 35
-        if self.grilleCellule.rayonBuffer < MAX_RAYON_BUFFER:
-            print 'introuvable'
-            return [(-1, -1)]
-        while self.grilleCellule.distanceAuCarre(self.arriver.x, self.arriver.y, arriver[0], arriver[1]) >= tropLoin**2:
-            print 'nouvelle teration'
-            self.grilleCellule.rayonBuffer -= 1
-            print self.grilleCellule.rayonBuffer
-            self.grilleCellule.initGrilleCellule(self.grilleCellule.listeIles)
-            print 'nouvelle grille cellule'
-            self.trajet = self.trouverTrajet(depart, arriver, type)
-        if self.trajet is not None:
-            self.simplifierTrajet()
-            self.ajouterSecurite(type)
-            self.enleverPointIdentique()
-            self.sectionnerTrajet()
-        print 'retour'
-        print self.trajet
-        return self.trajet
 
     def distanceBufferAcceptee(self, cellule):
         return (self.distanceAuCarre(cellule.x, cellule.y, self.arriver.x, self.arriver.y) >=

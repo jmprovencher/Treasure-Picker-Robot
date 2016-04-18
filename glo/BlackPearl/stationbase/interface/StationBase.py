@@ -195,7 +195,6 @@ class StationBase(Thread):
         print '\nOrienter'
         conteur = 0
         while 1:
-            reduction = 0
             if self.angleDesire is None:
                 arriver = self.trajectoireReel[-2]
                 debut = self.getPositionRobot()
